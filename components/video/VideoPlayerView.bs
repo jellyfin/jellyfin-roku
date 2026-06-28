@@ -11,6 +11,7 @@ import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
+import "pkg:/source/enums/TransportCommand.bs"
 import "pkg:/source/enums/VideoControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
@@ -76,6 +77,7 @@ sub init()
     m.chapterContent = m.top.findNode("chapterContent")
     m.osd = m.top.findNode("osd")
     m.osd.observeField("action", "onOSDAction")
+    m.castPopup = m.top.findNode("castPopup")
     m.clock = m.osd.findNode("clock")
     if isValid(m.clock)
         m.clockTimer = m.clock.findNode("currentTimeTimer")
@@ -104,6 +106,8 @@ sub init()
 
     ' Custom Caption Function
     m.top.observeField("allowCaptions", "onAllowCaptionsChange")
+    ' Voice/transport command observer (Alexa, Roku voice remote)
+    m.top.observeField("voiceCommand", "onVoiceCommand")
 
     m.playbackTimer.observeField("fire", "ReportPlayback")
     m.bufferPercentage = 0 ' Track whether content is being loaded
@@ -446,6 +450,16 @@ sub handleShowVideoOverviewPopupAction()
     m.global.sceneManager.callFunc("standardDialog", overviewPopupTitle, { data: ["<p>" + m.overview + "</p>"] })
 end sub
 
+sub handleShowCastCrewPopupAction()
+    if not isValidAndNotEmpty(m.castPeople)
+        m.global.sceneManager.callFunc("standardDialog", tr("Cast & Crew"), { data: ["<p>" + tr("No cast data available.") + "</p>"] })
+        return
+    end if
+
+    handleHideAction(false)
+    m.castPopup.callFunc("showCast", m.castPeople)
+end sub
+
 ' onOSDAction: Process action events from OSD to their respective handlers
 '
 sub onOSDAction()
@@ -498,6 +512,11 @@ sub onOSDAction()
 
     if isStringEqual(action, "showvideooverviewpopup")
         handleShowVideoOverviewPopupAction()
+        return
+    end if
+
+    if isStringEqual(action, "showcastcrewpopup")
+        handleShowCastCrewPopupAction()
         return
     end if
 
@@ -723,6 +742,7 @@ sub onVideoContentLoaded()
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
     m.overview = videoContent[0].overview
+    m.castPeople = videoContent[0].people
     m.trickplay = videoContent[0].trickplay
     m.top.showID = videoContent[0].showID
     m.mediaSegments = videoContent[0].mediaSegments
@@ -1044,6 +1064,9 @@ sub hideSegmentSkipButton()
     m.skipSegmentButton.text = string.EMPTY
     m.skipSegmentButton.setFocus(false)
     m.skipSegmentButton.focus = false
+
+    ' Notify that no skippable segment is active
+    m.top.hasActiveSegment = false
     hideNextItem()
     m.top.setFocus(true)
 end sub
@@ -1051,6 +1074,9 @@ end sub
 sub displaySegmentSkipButton(segmentType as string, endticks as double)
     m.currentSegmentEndTicks = endticks
     m.currentSegmentType = segmentType
+
+    ' Notify that a skippable segment is active
+    m.top.hasActiveSegment = true
 
     if isValidAndNotEmpty(m.mediaSegmentDismissed) and m.mediaSegmentDismissed.DoesExist(m.currentSegmentType) then return
 
@@ -1067,6 +1093,8 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
             return
         end if
     end if
+
+    if m.castPopup.visible then return
 
     ' Check if button is already showing
     if isStringEqual(m.skipSegmentButton.text, tr(`Skip ${segmentType}`)) then return
@@ -1140,6 +1168,14 @@ end sub
 
 sub checkSegmentSkipButton(position as double)
     if not isValidAndNotEmpty(m.mediaSegments) then return
+    if m.castPopup.visible and m.skipSegmentButton.visible
+        m.skipSegmentButton.visible = false
+        m.skipSegmentButton.text = string.EMPTY
+        m.skipSegmentButton.setFocus(false)
+        m.skipSegmentButton.focus = false
+        hideNextItem()
+    end if
+
     matchFound = false
 
     currentPositionTicks = int(position) * 10000000&
@@ -1627,6 +1663,9 @@ sub skipCurrentSegment()
     startSpinnerWithPercent(0)
     m.top.seek = seekPosition
     m.osd.isSeeking = false
+
+    if m.castPopup.visible then return
+
     handleHideAction(false)
 end sub
 
@@ -1718,6 +1757,13 @@ sub changeSubtitleTimeOffset(offsetAmount as integer)
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
+    if m.castPopup.visible
+        if press and m.castPopup.callFunc("handleKey", key)
+            if not m.castPopup.visible then m.top.setFocus(true)
+        end if
+        return true
+    end if
+
     if m.subtitleTimingButtons.visible
         if m.subtitleTimingButtons.isInFocusChain()
             if not press then return false
@@ -2360,5 +2406,49 @@ sub setSkipSegmentButtonFocus()
     if m.skipSegmentButton.visible
         m.skipSegmentButton.setFocus(true)
         m.skipSegmentButton.focus = true
+    end if
+end sub
+
+' onVoiceCommand: Handles voice/transport commands from Alexa or Roku voice remote.
+' Receives an assocarray with keys "type" and "position" (in seconds).
+' Types handled: "play", "pause", "playpause", "seek"
+'
+sub onVoiceCommand()
+    cmd = m.top.voiceCommand
+    if not isChainValid(cmd, "type") then return
+
+    cmdType = LCase(cmd.type)
+
+    if isStringEqual(cmdType, TransportCommand.PLAY)
+        stopFastforwardOrRewind()
+        if m.previewPos > 0
+            m.top.seek = m.previewPos
+            setVideoEndingTime(m.previewPos)
+        end if
+        m.top.control = VideoControl.RESUME
+        return
+    end if
+
+    if isStringEqual(cmdType, TransportCommand.PAUSE)
+        stopFastforwardOrRewind()
+        m.top.control = VideoControl.PAUSE
+        return
+    end if
+
+    if isStringEqual(cmdType, TransportCommand.PLAYPAUSE)
+        stopFastforwardOrRewind()
+        handleVideoPlayPauseAction()
+        return
+    end if
+
+    if isStringEqual(cmdType, TransportCommand.SEEK) and isValid(cmd.position)
+        m.top.seek = cmd.position
+        setVideoEndingTime(cmd.position)
+        return
+    end if
+
+    if isStringEqual(cmdType, TransportCommand.SKIP)
+        skipCurrentSegment()
+        return
     end if
 end sub

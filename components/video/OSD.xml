@@ -17,6 +17,7 @@
     <ButtonGroup id="optionControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="left" translation="[103,120]">
       <IconButton id="showVideoInfoPopup" padding="16" icon="pkg:/images/icons/videoInfo.png" height="65" width="100" />
       <IconButton id="showVideoOverviewPopup" padding="25" icon="pkg:/images/icons/info.png" height="65" width="100" />
+      <IconButton id="showCastCrewPopup" padding="16" icon="pkg:/images/icons/userGroup.png" height="65" width="100" />
       <IconButton id="chapterList" padding="16" icon="pkg:/images/icons/numberList.png" height="65" width="100" />
       <IconButton id="showSubtitleMenu" padding="0" icon="pkg:/images/icons/subtitle.png" height="65" width="100" />
       <IconButton id="showAudioMenu" padding="27" icon="pkg:/images/icons/musicNote.png" height="65" width="100" />
@@ -105,7 +106,6 @@
     <field id="previousItemTitleText" type="string" />
     <field id="nextItemIcon" type="string" />
     <field id="nextItemTitleText" type="string" />
-    <field id="inactiveTimeout" type="integer" />
     <field id="playbackSpeed" type="float" />
     <field id="progressPercentage" type="float" />
     <field id="positionTime" type="float" />

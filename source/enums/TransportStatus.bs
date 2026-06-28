@@ -1,0 +1,15 @@
+' TransportStatus: Enum for Roku transport command response status values.
+' Used by handleTransportCommand() in ViewCreator.bs to respond to voice/transport events.
+' Status values follow Roku's EventResponse spec:
+'   success           - command handled successfully
+'   success.seek-start - seek clamped to start of content
+'   success.seek-end   - seek clamped to end of content
+'   unhandled         - command not handled, Roku OS will execute default behavior
+'   error.generic     - command not available in current context
+enum TransportStatus
+    SUCCESS = "success"
+    SUCCESS_SEEK_START = "success.seek-start"
+    SUCCESS_SEEK_END = "success.seek-end"
+    UNHANDLED = "unhandled"
+    ERROR_GENERIC = "error.generic"
+end enum

@@ -18,11 +18,15 @@
     <Animation id="gridMoveAnimation" duration="1" repeat="false" easeFunction="outQuad">
       <Vector2DFieldInterpolator id="gridMoveAnimationPosition" key="[0.0, 0.5]" fieldToInterp="scheduleGrid.translation" />
     </Animation>
+    <!-- Drives background expansion of the loaded EPG time window after first paint -->
+    <Timer id="bgExpandTimer" repeat="true" duration="0.5" />
   </children>
   <interface>
+    <function name="dispose" />
     <field id="watchChannel" type="node" alwaysNotify="false" />
     <field id="focusedChannel" type="node" alwaysNotify="false" />
     <field id="filter" type="string" value="" onChange="onFilterSet" />
     <field id="searchTerm" type="string" value="" onChange="onSearchTermSet" />
+    <function name="loadChannelList" />
   </interface>
 </component>

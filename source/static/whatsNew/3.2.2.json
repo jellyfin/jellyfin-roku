@@ -1,6 +1,6 @@
 [
   {
-    "description": "Split the home Favorites section into type-specific rows",
+    "description": "Separate favorites on the home screen into type specific rows",
     "author": "VX-101"
   }
 ]

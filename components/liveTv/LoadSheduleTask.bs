@@ -30,8 +30,6 @@ sub loadSchedule()
         return
     end if
 
-    results = []
-
     for each item in data.Items
         program = createObject("roSGNode", "ScheduleProgramData")
         program.json = item
@@ -43,7 +41,6 @@ sub loadSchedule()
         end if
         results.push(program)
     end for
-
 
     m.top.schedule = results
 

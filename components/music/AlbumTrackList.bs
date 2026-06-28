@@ -76,6 +76,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if isStringEqual(key, KeyCode.PLAY)
+        m.top.selectionSource = KeyCode.PLAY
         m.top.itemSelected = m.top.itemFocused
         return true
     end if
