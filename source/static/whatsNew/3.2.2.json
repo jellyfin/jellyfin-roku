@@ -2,5 +2,9 @@
   {
     "description": "Separate favorites on the home screen into type specific rows",
     "author": "VX-101"
+  },
+  {
+    "description": "Prevent the mini-player from covering short music album song lists",
+    "author": "VX-101"
   }
 ]
