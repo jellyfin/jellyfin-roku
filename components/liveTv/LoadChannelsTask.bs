@@ -76,7 +76,7 @@ sub loadChannels()
         channel.deferPoster = true
         channel.json = item
 
-        if isChainValid(item, "UserData.IsFavorite") and item.UserData.IsFavorite
+        if chainLookupReturn(item, "UserData.IsFavorite", false)
             channel.favorite = true
         end if
 
