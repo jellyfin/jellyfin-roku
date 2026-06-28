@@ -924,7 +924,7 @@ sub CreateRadioStation(stationData as object)
     if isStringEqual(chainLookup(stationData, "id"), "mostplayed")
         apiData = api.items.Get({
             userid: m.global.session.user.id,
-            SortBy: "PlayCount,SortName",
+            SortBy: "PlayCount",
             recursive: true,
             SortOrder: "Descending",
             limit: 250,
@@ -940,10 +940,10 @@ sub CreateRadioStation(stationData as object)
     if isStringEqual(chainLookup(stationData, "id"), "leastplayed")
         apiData = api.items.Get({
             userid: m.global.session.user.id,
-            SortBy: "PlayCount,SortName",
+            SortBy: "PlayCount",
             recursive: true,
             SortOrder: "Ascending",
-            limit: 500,
+            limit: 250,
             includeItemTypes: ItemType.AUDIO,
             EnableTotalRecordCount: false
         })
