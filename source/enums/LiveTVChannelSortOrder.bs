@@ -1,0 +1,4 @@
+enum LiveTVChannelSortOrder
+    NUMBER = "number"
+    DATEPLAYED = "dateplayed"
+end enum

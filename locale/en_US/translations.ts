@@ -181,6 +181,10 @@
             <translation>Video</translation>
         </message>
         <message>
+            <source>Videos</source>
+            <translation>Videos</translation>
+        </message>
+        <message>
             <source>Audio</source>
             <translation>Audio</translation>
         </message>
@@ -253,6 +257,11 @@
             <comment>Name or Title field of media item</comment>
             <source>TITLE</source>
             <translation>Name</translation>
+        </message>
+        <message>
+            <comment>Last played time of media item</comment>
+            <source>RECENTLY_WATCHED</source>
+            <translation>Recently Watched</translation>
         </message>
         <message>
             <source>IMDB_RATING</source>
