@@ -228,7 +228,7 @@
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation>Valoració de IMDb</translation>
+        <translation>Valoració de l&apos;IMDb</translation>
     </message>
     <message>
         <source>Community Rating</source>
@@ -2433,6 +2433,15 @@
     <message>
         <source>Playback Controls Inactivity Timeout</source>
         <translation>Temps d&apos;espera d&apos;inactivitat dels controls de reproducció</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Mirat recentment</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Vídeos</translation>
     </message>
 </context>
 </TS>
