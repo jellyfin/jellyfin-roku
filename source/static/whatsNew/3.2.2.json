@@ -1,5 +1,13 @@
 [
   {
+    "description": "Separate favorites on the home screen into type specific rows",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix crash when changing live TV view from schedule to channels",
+    "author": "1hitsong"
+  },
+  {
     "description": "Create radio station home row type",
     "author": "1hitsong"
   }

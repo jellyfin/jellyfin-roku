@@ -2138,11 +2138,11 @@
     </message>
     <message>
         <source>Add To Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>اضف إلى المفضلة</translation>
     </message>
     <message>
         <source>Remove From Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>احذف من المفضلة</translation>
     </message>
     <message>
         <source>Play Normally</source>
@@ -2469,6 +2469,14 @@
     <message>
         <source>Roku thought it could direct play this media, but playback never started.</source>
         <translation>يظن Ruko انه يمكن تشغيل الوسيطة مباشرة, لكن التشغيل لم يبدأ ابدا.</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>فيديوات</translation>
+    </message>
+    <message>
+        <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+        <translation>حدد طول الوقت بالثواني ليكون متحكم التشغيل ظاهرا عندما لا يكون هناك ازرة مضغوطة. حدد كـ 0 للتثبيط.</translation>
     </message>
 </context>
 </TS>

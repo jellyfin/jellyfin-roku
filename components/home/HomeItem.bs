@@ -103,6 +103,11 @@ sub itemContentChanged()
     m.itemPoster.width = itemData.imageWidth
     m.itemPoster.loadDisplayMode = "scaleToZoom"
 
+    m.showProgressBarAnimation.control = AnimationControl.STOP
+    m.itemProgressBackground.width = itemData.imageWidth
+    m.itemProgressBackground.visible = false
+    m.itemProgress.width = 0
+
     m.itemTextExtra.maxWidth = itemData.imageWidth
     m.itemTextExtra.visible = true
     m.itemTextExtra.text = ""
@@ -149,7 +154,7 @@ sub itemContentChanged()
         return
     end if
 
-    if itemDataType = ItemType.BOXSET
+    if inArray([ItemType.BOXSET, ItemType.PLAYLIST], itemDataType)
         displayBoxsetInfo(itemData)
         return
     end if

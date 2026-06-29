@@ -447,6 +447,9 @@ sub optionsClosed()
     end if
 
     if reload
+        if isValid(m.scheduleGrid)
+            m.scheduleGrid.getParent().callFunc("loadChannelList")
+        end if
         m.loadedRows = 0
         m.loadedItems = 0
         m.data = CreateObject("roSGNode", "ContentNode")
