@@ -564,7 +564,7 @@ sub createRadioStationsRow()
             sortBy: station.LookupCI("sortBy"),
             sortOrder: station.LookupCI("sortOrder"),
             limit: station.LookupCI("limit"),
-            filter: station.LookupCI("filter")
+            filters: station.LookupCI("filters")
         }
 
         row.appendChild(item)
