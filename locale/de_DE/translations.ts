@@ -2474,6 +2474,15 @@
         <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
         <translation>Roku ging davon aus, dass es diese Medien direkt abspielen könnte, aber die Wiedergabedauer war falsch.</translation>
     </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Kürzlich angesehen</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Videos</translation>
+    </message>
 </context>
 <context>
     <name></name>
