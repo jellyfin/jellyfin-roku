@@ -2496,5 +2496,10 @@
         <source>Videos</source>
         <translation>Wideo</translation>
     </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Ostatnio oglądane</translation>
+    </message>
 </context>
 </TS>
