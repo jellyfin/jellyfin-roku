@@ -921,37 +921,19 @@ sub CreateRadioStation(stationData as object)
 
     radioStationData = []
 
-    if isStringEqual(chainLookup(stationData, "id"), "mostplayed")
-        apiData = api.items.Get({
-            userid: m.global.session.user.id,
-            SortBy: "PlayCount",
-            recursive: true,
-            SortOrder: "Descending",
-            limit: 250,
-            includeItemTypes: ItemType.AUDIO,
-            EnableTotalRecordCount: false
-        })
+    apiData = api.items.Get({
+        userid: m.global.session.user.id,
+        SortBy: chainLookup(stationData, "json.sortby"),
+        recursive: true,
+        SortOrder: chainLookup(stationData, "json.sortorder"),
+        limit: chainLookup(stationData, "json.limit"),
+        includeItemTypes: ItemType.AUDIO,
+        EnableTotalRecordCount: false
+    })
 
-        if not isChainValid(apiData, "items") then return
+    if not isChainValid(apiData, "items") then return
 
-        radioStationData = chainLookup(apiData, "items")
-    end if
-
-    if isStringEqual(chainLookup(stationData, "id"), "leastplayed")
-        apiData = api.items.Get({
-            userid: m.global.session.user.id,
-            SortBy: "PlayCount",
-            recursive: true,
-            SortOrder: "Ascending",
-            limit: 250,
-            includeItemTypes: ItemType.AUDIO,
-            EnableTotalRecordCount: false
-        })
-
-        if not isChainValid(apiData, "items") then return
-
-        radioStationData = chainLookup(apiData, "items")
-    end if
+    radioStationData = chainLookup(apiData, "items")
 
     if not isValidAndNotEmpty(radioStationData) then return
 

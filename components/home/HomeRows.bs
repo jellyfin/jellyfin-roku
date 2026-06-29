@@ -506,47 +506,69 @@ end sub
 ' createRadioStationsRow: Creates a row displaying radio stations
 '
 sub createRadioStationsRow()
+    radioStationList = chainLookupReturn(m.global.session, "user.settings.radioStations", "no value")
+
+    ' If there is no value, set to defaults
+    if isStringEqual(radioStationList, "no value")
+        defaultRadioStations = [
+            {
+                id: "mostplayed",
+                posterURL: "pkg:/images/icons/mostplayed.png",
+                name: tr("Most Played Tracks"),
+                subtitle: tr("Shuffle play your most played tracks"),
+                sortBy: "PlayCount",
+                sortOrder: "Descending",
+                limit: 250,
+                filter: ""
+            },
+            {
+                id: "leastplayed",
+                posterURL: "pkg:/images/icons/leastplayed.png",
+                name: tr("Least Played Tracks"),
+                subtitle: tr("Shuffle play your least played tracks"),
+                sortBy: "PlayCount",
+                sortOrder: "Ascending",
+                limit: 250,
+                filter: ""
+            }
+        ]
+
+        set_user_setting(`radioStations`, FormatJson(defaultRadioStations))
+        radioStationList = defaultRadioStations
+    else
+        radioStationList = ParseJSON(radioStationList)
+    end if
+
     m.processedRowCount++
     sectionName = tr("Radio Stations")
-
     row = m.top.content.CreateChild("HomeRow")
     row.title = sectionName
     row.imageWidth = homeRowItemSizes.MUSIC_ALBUM[0]
     row.cursorSize = homeRowItemSizes.MUSIC_ALBUM
 
-    item = CreateObject("roSGNode", "HomeData")
-    item.id = "mostplayed"
-    item.posterURL = "pkg:/images/icons/mostplayed.png"
-    item.type = ItemType.RADIOSTATION
-    item.usePoster = false
-    item.imageWidth = row.imageWidth
-    item.json = {
-        id: "mostplayed",
-        PlaylistID: "mostplayed",
-        IsFolder: true,
-        Name: tr("Most Played Tracks"),
-        Subtitle: tr("Shuffle play your most played tracks"),
-        Type: ItemType.RADIOSTATION,
-        CollectionType: "radioStation"
-    }
-    row.appendChild(item)
+    for each station in radioStationList
+        item = CreateObject("roSGNode", "HomeData")
+        item.id = station.LookupCI("id")
+        item.posterURL = station.LookupCI("posterURL")
+        item.type = ItemType.RADIOSTATION
+        item.usePoster = false
+        item.imageWidth = row.imageWidth
+        item.json = {
+            id: station.LookupCI("id"),
+            PlaylistID: station.LookupCI("id"),
+            IsFolder: true,
+            Name: station.LookupCI("name"),
+            Subtitle: station.LookupCI("subtitle"),
+            Type: ItemType.RADIOSTATION,
+            CollectionType: "radioStation",
+            sortBy: station.LookupCI("sortBy"),
+            sortOrder: station.LookupCI("sortOrder"),
+            limit: station.LookupCI("limit"),
+            filter: station.LookupCI("filter")
+        }
 
-    item = CreateObject("roSGNode", "HomeData")
-    item.id = "leastplayed"
-    item.posterURL = "pkg:/images/icons/leastplayed.png"
-    item.type = ItemType.RADIOSTATION
-    item.usePoster = false
-    item.imageWidth = row.imageWidth
-    item.json = {
-        id: "leastplayed",
-        PlaylistID: "leastplayed",
-        IsFolder: true,
-        Name: tr("Least Played Tracks"),
-        Subtitle: tr("Shuffle play your least played tracks"),
-        Type: ItemType.RADIOSTATION,
-        CollectionType: "radioStation"
-    }
-    row.appendChild(item)
+        row.appendChild(item)
+    end for
 
     if sectionExists(sectionName)
         m.top.content.replaceChild(row, getSectionIndex(sectionName))
