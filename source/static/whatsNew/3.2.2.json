@@ -14,5 +14,9 @@
   {
     "description": "Reduce music library album view load time",
     "author": "ferezvi"
+  },
+  {
+    "description": "Add quickplay support to the TV season grid",
+    "author": "michaelcresswell"
   }
 ]
