@@ -4,31 +4,44 @@
     <Rectangle width="1920" height="1080" color="#000000" opacity="0.75" />
     <Group translation="[100,100]">
       <Poster width="1720" height="880" uri="pkg:/images/dialog.9.png" />
-      <LayoutGroup horizAlignment="center" translation="[860,50]" itemSpacings="[50]">
-        <JFButtons id="buttons" />
-        <Group>
-          <RadiobuttonList id="subtitleMenu" itemspacing="[0,10]" opacity="1" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
-          <RadiobuttonList id="audioMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
-          <RadiobuttonList id="videoMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
-          <RadiobuttonList id="optionMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8">
-            <ContentNode role="content">
-              <ContentNode title="Play Normally" id="playNormally" />
-              <ContentNode title="Force Transcode (Allow Remux)" id="forceTranscodeAllowRemux" />
-              <ContentNode title="Force Transcode (Remux Disabled)" id="forceTranscodeDisableRemux" />
-            </ContentNode>
-          </RadiobuttonList>
-        </Group>
+      <LayoutGroup horizAlignment="center" translation="[860,90]" itemSpacings="[60]">
+        <Label id="optionsHeader" text="Options" horizAlign="center" font="font:LargeSystemFont" />
+        <MarkupList
+          id="optionsMenu"
+          itemComponentName="OptionsRow"
+          itemSize="[1500, 80]"
+          itemSpacing="[0, 20]"
+          numRows="4"
+          vertFocusAnimationStyle="floatingFocus"
+          focusBitmapUri="pkg:/images/white.9.png"
+          focusFootprintBitmapUri="" />
       </LayoutGroup>
     </Group>
-
-    <Animation id="fadeAnim" duration="0.5" repeat="false">
-      <FloatFieldInterpolator id="outOpacity" key="[0.0, 0.5, 1.0]" keyValue="[ 1, 0, 0 ]" fieldToInterp="focus.opacity" />
-      <FloatFieldInterpolator id="inOpacity" key="[0.0, 0.5, 1.0]" keyValue="[ 0, 0, 1 ]" fieldToInterp="focus.opacity" />
-    </Animation>
+    
+    <Group id="detailPopup" visible="false">
+      <Rectangle width="1920" height="1080" color="#000000" opacity="0.75" />
+      <Group translation="[210,150]">
+        <Poster width="1500" height="780" uri="pkg:/images/dialog.9.png" />
+        <LayoutGroup horizAlignment="center" translation="[750,60]" itemSpacings="[40]">
+          <Label id="detailTitle" horizAlign="center" font="font:LargeSystemFont" />
+          <Group>
+            <RadiobuttonList id="subtitleMenu" itemspacing="[0,10]" opacity="1" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1300, 70]" numRows="8" />
+            <RadiobuttonList id="audioMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1300, 70]" numRows="8" />
+            <RadiobuttonList id="videoMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1300, 70]" numRows="8" />
+            <RadiobuttonList id="optionMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1300, 70]" numRows="8">
+              <ContentNode role="content">
+                <ContentNode title="Play Normally" id="playNormally" />
+                <ContentNode title="Force Transcode (Allow Remux)" id="forceTranscodeAllowRemux" />
+                <ContentNode title="Force Transcode (Remux Disabled)" id="forceTranscodeDisableRemux" />
+              </ContentNode>
+            </RadiobuttonList>
+          </Group>
+        </LayoutGroup>
+      </Group>
+    </Group>
 
   </children>
   <interface>
-    <field id="buttons" type="nodearray" />
     <field id="options" type="assocarray" onChange="optionsSet" />
     <field id="videoStreamId" type="string" />
     <field id="video_codec" type="string" />

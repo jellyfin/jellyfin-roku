@@ -14,5 +14,9 @@
   {
     "description": "Reduce music library album view load time",
     "author": "ferezvi"
+  },
+  {
+    "description": "Revamped the Options menu for movies, showing all options in a single list instead of a tabbed view",
+    "author": "CarsonKompon"
   }
 ]
