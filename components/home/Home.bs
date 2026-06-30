@@ -85,7 +85,12 @@ sub OnScreenShown()
     end if
 
     if not m.isFirstRun
-        refresh()
+        if m.homeRows.callFunc("isFocusOnFavoriteRow")
+            m.homeRows.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+            m.homeRows.callFunc("reloadFavorites")
+        else
+            refresh()
+        end if
     end if
 
     ' post the device profile the first time this screen is loaded

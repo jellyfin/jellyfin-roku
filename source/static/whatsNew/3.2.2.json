@@ -2,5 +2,9 @@
   {
     "description": "Separate favorites on the home screen into type specific rows",
     "author": "VX-101"
+  },
+  {
+    "description": "Preserve home Favorites focus after returning from an item",
+    "author": "VX-101"
   }
 ]
