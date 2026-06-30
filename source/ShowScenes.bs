@@ -919,7 +919,20 @@ end function
 sub CreateRadioStation(stationData as object)
     if not isChainValid(stationData, "id") then return
 
+    startLoadingSpinner()
+
     radioStationData = []
+
+    if isValidAndNotEmpty(chainLookup(stationData, "json.action"))
+        action = chainLookup(stationData, "json.action")
+
+        if isStringEqual(action, "createstation")
+            group = CreateObject("roSGNode", "CreateRadioStationView")
+            m.global.sceneManager.callFunc("pushScene", group)
+            stopLoadingSpinner()
+            return
+        end if
+    end if
 
     params = {
         userid: m.global.session.user.id,

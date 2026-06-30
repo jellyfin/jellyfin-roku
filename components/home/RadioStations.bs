@@ -1,0 +1,37 @@
+import "pkg:/source/utils/misc.bs"
+
+function getListOfRadioStations()
+    radioStationList = chainLookupReturn(m.global.session, "user.settings.radioStations", "no value")
+
+    ' If user has a setting value, return it
+    if not isStringEqual(radioStationList, "no value")
+        return ParseJSON(radioStationList)
+    end if
+
+    ' User has no setting value, return defaults
+    defaultRadioStations = [
+        {
+            id: "mostplayed",
+            posterURL: "pkg:/images/icons/mostplayed.png",
+            name: tr("Most Played Tracks"),
+            subtitle: tr("Shuffle play your most played tracks"),
+            sortBy: "PlayCount",
+            sortOrder: "Descending",
+            limit: 250,
+            filter: ""
+        },
+        {
+            id: "leastplayed",
+            posterURL: "pkg:/images/icons/leastplayed.png",
+            name: tr("Least Played Tracks"),
+            subtitle: tr("Shuffle play your least played tracks"),
+            sortBy: "PlayCount",
+            sortOrder: "Ascending",
+            limit: 250,
+            filter: ""
+        }
+    ]
+
+    set_user_setting(`radioStations`, FormatJson(defaultRadioStations))
+    return defaultRadioStations
+end function

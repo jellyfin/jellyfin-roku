@@ -1716,6 +1716,28 @@ sub onDataReturnedEvent(msg)
         return
     end if
 
+    if isStringEqual(selectedPopupID, "nameButton")
+        radioStationName = chainLookup(popupNode, "returndata.text")
+        if not isValid(radioStationName) then return
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        activeScene.radioStationName = radioStationName
+        return
+    end if
+
+    if isStringEqual(selectedPopupID, "subtitleButton")
+        radioStationSubtitle = chainLookup(popupNode, "returndata.text")
+        if not isValid(radioStationSubtitle) then return
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        activeScene.radioStationSubtitle = radioStationSubtitle
+        return
+    end if
+
     if isStringEqual(selectedPopupID, "libraryitem")
         if not isValid(itemID) then return
         if not isString(selectedPopupButton) then return

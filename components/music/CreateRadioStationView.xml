@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="CreateRadioStationView" extends="JFScreen">
+  <children>
+    <LayoutGroup id="toplevel" layoutDirection="vert" translation="[100, 100]" itemSpacings="[50]">
+      <Text id="sortBy" font="font:LargeBoldSystemFont" text="Create Radio Station" />
+
+      <LayoutGroup layoutDirection="horiz" itemSpacings="[100]">
+        <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+          <Text id="name" font="font:smallBoldSystemFont" text="Station Name" />
+          <TextButton id="nameButton" iconSide="right" fontSize="35" padding="35" text="" height="75" width="500" />
+        </LayoutGroup>
+
+        <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+          <Text id="subtitle" font="font:smallBoldSystemFont" text="Subtitle" />
+          <TextButton id="subtitleButton" iconSide="right" fontSize="35" padding="35" text="" height="75" width="500" />
+        </LayoutGroup>
+      </LayoutGroup>
+
+      <LayoutGroup layoutDirection="horiz" itemSpacings="[100]">
+        <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+          <Text id="years" font="font:smallBoldSystemFont" text="Years" />
+          <TextButton id="yearsButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="500" />
+        </LayoutGroup>
+
+        <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+          <Text id="genres" font="font:smallBoldSystemFont" text="Genres" />
+          <TextButton id="genresButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="500" />
+        </LayoutGroup>
+      </LayoutGroup>
+
+      <LayoutGroup layoutDirection="horiz" itemSpacings="[100]">
+        <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+          <Text id="sortBy" font="font:smallBoldSystemFont" text="Sort By" />
+          <TextButton id="sortByButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="500" />
+        </LayoutGroup>
+
+        <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+          <Text id="sortOrder" font="font:smallBoldSystemFont" text="Sort Order" />
+          <TextButton id="sortOrderButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="500" />
+        </LayoutGroup>
+      </LayoutGroup>
+
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Text id="limit" font="font:smallBoldSystemFont" text="Maximum Number of Items to Load" />
+        <TextButton id="limitButton" iconSide="right" fontSize="35" padding="35" text="" height="75" width="250" />
+      </LayoutGroup>
+
+      <StandardButton
+        id="createStationButton"
+        text="Create Station"
+        height="85"
+        width="250" />
+
+    </LayoutGroup>
+  </children>
+  <interface>
+    <field id="radioStationName" type="string" alwaysNotify="true" onChange="onRadioStationNameChange" />
+    <field id="radioStationSubtitle" type="string" alwaysNotify="true" onChange="onRadioStationSubtitleChange" />
+    <field id="radioStationLimit" type="string" alwaysNotify="true" onChange="onRadioStationLimitChange" />
+    <field id="radioStationSortBy" type="string" alwaysNotify="true" onChange="onRadioStationSortByChange" />
+    <field id="radioStationSortOrder" type="string" alwaysNotify="true" onChange="onRadioStationSortOrderChange" />
+  </interface>
+</component>

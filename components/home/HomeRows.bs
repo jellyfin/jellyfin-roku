@@ -1,3 +1,4 @@
+import "pkg:/components/home/RadioStations.bs"
 import "pkg:/source/constants/HomeRowItemSizes.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
@@ -506,45 +507,22 @@ end sub
 ' createRadioStationsRow: Creates a row displaying radio stations
 '
 sub createRadioStationsRow()
-    radioStationList = chainLookupReturn(m.global.session, "user.settings.radioStations", "no value")
-
-    ' If there is no value, set to defaults
-    if isStringEqual(radioStationList, "no value")
-        defaultRadioStations = [
-            {
-                id: "mostplayed",
-                posterURL: "pkg:/images/icons/mostplayed.png",
-                name: tr("Most Played Tracks"),
-                subtitle: tr("Shuffle play your most played tracks"),
-                sortBy: "PlayCount",
-                sortOrder: "Descending",
-                limit: 250,
-                filter: ""
-            },
-            {
-                id: "leastplayed",
-                posterURL: "pkg:/images/icons/leastplayed.png",
-                name: tr("Least Played Tracks"),
-                subtitle: tr("Shuffle play your least played tracks"),
-                sortBy: "PlayCount",
-                sortOrder: "Ascending",
-                limit: 250,
-                filter: ""
-            }
-        ]
-
-        set_user_setting(`radioStations`, FormatJson(defaultRadioStations))
-        radioStationList = defaultRadioStations
-    else
-        radioStationList = ParseJSON(radioStationList)
-    end if
-
     m.processedRowCount++
     sectionName = tr("Radio Stations")
     row = m.top.content.CreateChild("HomeRow")
     row.title = sectionName
     row.imageWidth = homeRowItemSizes.MUSIC_ALBUM[0]
     row.cursorSize = homeRowItemSizes.MUSIC_ALBUM
+
+    radioStationList = getListOfRadioStations()
+
+    radioStationList.push({
+        id: "createstation",
+        posterURL: "pkg:/images/icons/leastplayed.png",
+        name: tr("Create Station"),
+        subtitle: tr("Choose options for a new radio station"),
+        action: "createstation"
+    })
 
     for each station in radioStationList
         item = CreateObject("roSGNode", "HomeData")
@@ -564,7 +542,8 @@ sub createRadioStationsRow()
             sortBy: station.LookupCI("sortBy"),
             sortOrder: station.LookupCI("sortOrder"),
             limit: station.LookupCI("limit"),
-            filters: station.LookupCI("filters")
+            filters: station.LookupCI("filters"),
+            action: station.LookupCI("action")
         }
 
         row.appendChild(item)

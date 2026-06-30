@@ -1,0 +1,289 @@
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    overhang = m.top.getScene().findNode("overhang")
+    overhang.isVisible = false
+
+    m.nameButton = m.top.findNode("nameButton")
+    m.subtitleButton = m.top.findNode("subtitleButton")
+    m.yearsButton = m.top.findNode("yearsButton")
+    m.genresButton = m.top.findNode("genresButton")
+    m.sortByButton = m.top.findNode("sortByButton")
+    m.sortOrderButton = m.top.findNode("sortOrderButton")
+    m.limitButton = m.top.findNode("limitButton")
+    m.buttonList = [m.nameButton, m.subtitleButton, m.yearsButton, m.genresButton, m.sortByButton, m.sortOrderButton, m.limitButton]
+    setButtonColors()
+
+    m.buttonCount = m.buttonList.count()
+    m.totalRows = div_ceiling(m.buttonCount, 2)
+
+    m.createStationButton = m.top.findNode("createStationButton")
+    m.createStationButton.background = ColorPalette.LIGHTBLUE
+    m.createStationButton.color = ColorPalette.DARKGREY
+    m.createStationButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.createStationButton.focusColor = ColorPalette.WHITE
+
+    m.nameButton.focus = true
+    m.nameButton.setFocus(true)
+
+    m.focusButtonIndex = 0
+end sub
+
+sub setButtonColors()
+    for each button in m.buttonList
+        button.textColor = ColorPalette.DARKGREY
+        button.focusTextColor = ColorPalette.WHITE
+        button.background = ColorPalette.WHITE
+        button.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    end for
+end sub
+
+sub handleButtonSelection(selectedButtonID)
+    if isStringEqual(selectedButtonID, "nameButton")
+        title = tr("Radio Station Name")
+        hintText = m.top.radioStationName
+        m.global.sceneManager.callFunc("keyboardDialog", selectedButtonID, title, [string.EMPTY], [tr("OK")], hintText, string.EMPTY)
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "subtitleButton")
+        title = tr("Radio Station Subtitle")
+        hintText = m.top.radioStationSubtitle
+        m.global.sceneManager.callFunc("keyboardDialog", selectedButtonID, title, [string.EMPTY], [tr("OK")], hintText, string.EMPTY)
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "limitButton")
+        title = tr("Maximum number of items to load")
+
+        sortData = {
+            data: [
+                { Title: "100", Name: "100", Track: { description: "100" }, Type: "limitSelection" },
+                { Title: "200", Name: "200", Track: { description: "200" }, Type: "limitSelection" },
+                { Title: "300", Name: "300", Track: { description: "300" }, Type: "limitSelection" },
+            ]
+        }
+
+        sortData.data[1].selected = true
+
+        m.global.sceneManager.callFunc("radioDialog", title, sortData, [tr("OK")], "radioStationLimit")
+        m.global.sceneManager.observeField("returnData", "onLimitSelected")
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "sortByButton")
+        title = tr("Field to sort media by on the server before cutting off at set limit")
+
+        sortData = {
+            data: [
+                { selected: true, Title: "Default", Name: "Default", Track: { description: "Default" }, Type: "sortBySelection" },
+                { Title: "Album", Name: "Album", Track: { description: "Album" }, Type: "sortBySelection" },
+                { Title: "AlbumArtist", Name: "AlbumArtist", Track: { description: "AlbumArtist" }, Type: "sortBySelection" },
+                { Title: "Artist", Name: "Artist", Track: { description: "Artist" }, Type: "sortBySelection" },
+                { Title: "DateCreated", Name: "DateCreated", Track: { description: "DateCreated" }, Type: "sortBySelection" },
+                { Title: "DatePlayed", Name: "DatePlayed", Track: { description: "DatePlayed" }, Type: "sortBySelection" },
+                { Title: "SortName", Name: "SortName", Track: { description: "Name" }, Type: "sortBySelection" },
+                { Title: "Runtime", Name: "Runtime", Track: { description: "Runtime" }, Type: "sortBySelection" },
+                { Title: "ProductionYear", Name: "ProductionYear", Track: { description: "ProductionYear" }, Type: "sortBySelection" },
+                { Title: "PlayCount", Name: "PlayCount", Track: { description: "PlayCount" }, Type: "sortBySelection" },
+            ]
+        }
+
+        m.global.sceneManager.callFunc("radioDialog", title, sortData, [tr("OK")], "radioStationSortBy")
+        m.global.sceneManager.observeField("returnData", "onsortBySelected")
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "sortOrderButton")
+        title = tr("Direction to sort media on the server before cutting off at set limit")
+
+        sortData = {
+            data: [
+                { Title: "Ascending", Name: "Ascending", Track: { description: "Ascending" }, Type: "sortOrderSelection" },
+                { Title: "Descending", Name: "Descending", Track: { description: "Descending" }, Type: "sortOrderSelection" }
+            ]
+        }
+
+        sortData.data[0].selected = true
+
+        m.global.sceneManager.callFunc("radioDialog", title, sortData, [tr("OK")], "radioStationLimit")
+        m.global.sceneManager.observeField("returnData", "onsortOrderSelected")
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "createStationButton")
+        newStationData = {
+            id: m.top.radioStationName,
+            posterURL: "pkg:/images/icons/mostplayed.png",
+            name: m.top.radioStationName,
+            subtitle: m.top.radioStationSubtitle,
+            sortBy: m.top.radioStationSortBy,
+            sortOrder: m.top.radioStationSortOrder,
+            limit: m.top.radioStationLimit,
+            filter: ""
+        }
+
+        radioStationList = ParseJSON(chainLookupReturn(m.global.session, "user.settings.radioStations", "[]"))
+        radioStationList.push(newStationData)
+        set_user_setting(`radioStations`, FormatJson(radioStationList))
+        m.global.sceneManager.callFunc("popScene")
+
+        return
+    end if
+end sub
+
+sub onLimitSelected()
+    m.global.sceneManager.unobserveField("returnData")
+
+    if not isChainValid(m.global.sceneManager, "returnData.type") then return
+
+    if isStringEqual(m.global.sceneManager.returnData.type, "limitSelection")
+        m.top.radioStationLimit = m.global.sceneManager.returnData.name
+        return
+    end if
+end sub
+
+sub onsortBySelected()
+    m.global.sceneManager.unobserveField("returnData")
+
+    if not isChainValid(m.global.sceneManager, "returnData.type") then return
+
+    if isStringEqual(m.global.sceneManager.returnData.type, "sortBySelection")
+        m.top.radioStationSortBy = m.global.sceneManager.returnData.name
+        return
+    end if
+end sub
+
+sub onsortOrderSelected()
+    m.global.sceneManager.unobserveField("returnData")
+
+    if not isChainValid(m.global.sceneManager, "returnData.type") then return
+
+    if isStringEqual(m.global.sceneManager.returnData.type, "sortOrderSelection")
+        m.top.radioStationSortOrder = m.global.sceneManager.returnData.name
+        return
+    end if
+end sub
+
+sub onRadioStationNameChange()
+    m.nameButton.text = m.top.radioStationName
+end sub
+
+sub onRadioStationSubtitleChange()
+    m.subtitleButton.text = m.top.radioStationSubtitle
+end sub
+
+sub onRadioStationLimitChange()
+    m.limitButton.text = m.top.radioStationLimit
+end sub
+
+sub onRadioStationSortByChange()
+    m.sortByButton.text = m.top.radioStationSortBy
+end sub
+
+sub onRadioStationSortOrderChange()
+    m.sortOrderButton.text = m.top.radioStationSortOrder
+end sub
+
+' Process key press events
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if isStringEqual(key, KeyCode.LEFT)
+        if m.focusButtonIndex mod 2 = 0
+            return false
+        end if
+
+        m.buttonList[m.focusButtonIndex].focus = false
+
+        m.focusButtonIndex--
+        m.buttonList[m.focusButtonIndex].focus = true
+        m.buttonList[m.focusButtonIndex].setFocus(true)
+
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.RIGHT)
+        if m.focusButtonIndex mod 2 = 1
+            return false
+        end if
+
+        if m.focusButtonIndex = 1
+            return false
+        end if
+
+        if m.focusButtonIndex = m.buttonCount - 1 then return false
+
+        m.buttonList[m.focusButtonIndex].focus = false
+
+        m.focusButtonIndex++
+        m.buttonList[m.focusButtonIndex].focus = true
+        m.buttonList[m.focusButtonIndex].setFocus(true)
+
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.DOWN)
+        if m.createStationButton.hasFocus() then return false
+
+        currentRow = div_ceiling(m.focusButtonIndex + 1, 2)
+
+        ' If we're at the last button, move to the Create Station button
+        if currentRow = m.totalRows
+            m.buttonList[m.focusButtonIndex].focus = false
+            m.focusButtonIndex += 2
+            m.createStationButton.focus = true
+            m.createStationButton.setFocus(true)
+            return true
+        end if
+
+        m.buttonList[m.focusButtonIndex].focus = false
+
+        m.focusButtonIndex += 2
+
+        if m.focusButtonIndex > m.buttonCount - 1
+            m.focusButtonIndex = m.buttonCount - 1
+        end if
+
+        m.buttonList[m.focusButtonIndex].focus = true
+        m.buttonList[m.focusButtonIndex].setFocus(true)
+
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.UP)
+        if m.focusButtonIndex < 2 then return false
+
+        if m.createStationButton.hasFocus()
+            m.createStationButton.focus = false
+        end if
+
+        if m.focusButtonIndex < m.buttonCount
+            m.buttonList[m.focusButtonIndex].focus = false
+        end if
+
+        m.focusButtonIndex -= 2
+
+        m.buttonList[m.focusButtonIndex].focus = true
+        m.buttonList[m.focusButtonIndex].setFocus(true)
+
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.OK)
+        if m.createStationButton.hasFocus()
+            handleButtonSelection("createStationButton")
+            return true
+        end if
+
+        handleButtonSelection(m.buttonList[m.focusButtonIndex].id)
+        return true
+    end if
+
+    return false
+end function
