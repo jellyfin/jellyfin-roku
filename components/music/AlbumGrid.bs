@@ -17,18 +17,21 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
+    columnCount = m.top.numColumns
+    if columnCount <= 0 then return false
+
     if key = "up"
-        if m.top.itemFocused <= 4
+        if m.top.itemFocused < columnCount
             m.top.escape = key
             return true
         end if
     else if key = "left"
-        if m.top.itemFocused mod 5 = 0
+        if m.top.itemFocused mod columnCount = 0
             m.top.escape = key
             return true
         end if
     else if key = "right"
-        if m.top.itemFocused + 1 mod 5 = 0
+        if (m.top.itemFocused + 1) mod columnCount = 0
             m.top.escape = key
             return true
         end if
@@ -37,11 +40,19 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if isValid(m.top.MusicArtistAlbumData)
             totalCount = m.top.MusicArtistAlbumData.getChildCount()
         end if
-        totalRows = div_ceiling(totalCount, 5)
-        currentRow = div_ceiling(m.top.itemFocused + 1, 5)
+        totalRows = div_ceiling(totalCount, columnCount)
+        currentRow = div_ceiling(m.top.itemFocused + 1, columnCount)
 
         if currentRow = totalRows
             m.top.escape = key
+            return true
+        end if
+
+        nextRowStart = currentRow * columnCount
+        sameColumnNextRowIndex = m.top.itemFocused + columnCount
+
+        if nextRowStart < totalCount and sameColumnNextRowIndex >= totalCount
+            m.top.jumpToItem = totalCount - 1
             return true
         end if
     end if

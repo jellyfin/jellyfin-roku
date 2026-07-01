@@ -2371,15 +2371,15 @@
     </message>
     <message>
         <source>Search Unavailable</source>
-        <translation type="unfinished">Recherche indisponible</translation>
+        <translation>Recherche indisponible</translation>
     </message>
     <message>
         <source>Roku&apos;s video player got stuck buffering video</source>
-        <translation type="unfinished">Le lecteur vidéo Roku est bloqué en cours de chargement</translation>
+        <translation>Le lecteur vidéo Roku est bloqué en cours de chargement</translation>
     </message>
     <message>
         <source>Roku&apos;s video player threw the following error</source>
-        <translation type="unfinished">Le lecteur vidéo Roku a renvoyé l&apos;erreur suivante</translation>
+        <translation>Le lecteur vidéo Roku a renvoyé l&apos;erreur suivante</translation>
     </message>
     <message>
         <source>Roku thought it could direct play this media, but playback never started.</source>
@@ -2391,7 +2391,68 @@
     </message>
     <message>
         <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
-        <translation type="unfinished">Force Jellyfin à tenter la lecture directe des médias vidéo, à l&apos;exception de la TV en direct. L&apos;activation de cette option ignore tous les autres paramètres de prise en charge de la lecture et tentera toujours la lecture directe en priorité. Cela modifie également la manière dont la raison du transcodage est affichée.</translation>
+        <translation>Force Jellyfin à tenter la lecture directe des médias vidéo, à l&apos;exception de la TV en direct. L&apos;activation de cette option ignore tous les autres paramètres de prise en charge de la lecture et tentera toujours la lecture directe en priorité. Cela modifie également la manière dont la raison du transcodage est affichée.</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+        <translation>Roku pensait pouvoir lire directement ce fichier multimédia, mais la durée de lecture indiquée était erronée.</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Lire depuis le début</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Pas de valeur par défaut</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>Aucune information sur la distribution n&apos;est disponible.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>en %1</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>Plus de contenu avec %1 dans votre bibliothèque</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>Aucun autre titre n&apos;a été trouvé dans votre bibliothèque.</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Reprendre de</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Remplacez les fonctions de sous-titrage par défaut de Roku par des fonctions personnalisées. Si des polices de secours sont configurées et activées sur le serveur, ce sont celles-ci qui seront utilisées. Une police de secours CJK est requise pour l&apos;affichage des caractères CJK. Pour prendre en charge le gras et l&apos;italique, vous devez disposer de fichiers de polices supplémentaires dont le nom de fichier contient les mots « bold », « italic » et « bolditalic ».</translation>
+    </message>
+    <message>
+        <source>Playback Controls Inactivity Timeout</source>
+        <translation>Délai d&apos;inactivité des commandes de lecture</translation>
+    </message>
+    <message>
+        <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+        <translation>Délai d&apos;inactivité des commandes de lecture</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Tous les médias jouables</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Forcer le transcodage de la télévision en direct. Si l&apos;option « Tous les médias lisibles » est déjà définie sur « Forcer le transcodage (remux désactivé) », ce paramètre est ignoré.</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Vidéos</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Vu récemment</translation>
     </message>
 </context>
 </TS>

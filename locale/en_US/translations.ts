@@ -181,6 +181,10 @@
             <translation>Video</translation>
         </message>
         <message>
+            <source>Videos</source>
+            <translation>Videos</translation>
+        </message>
+        <message>
             <source>Audio</source>
             <translation>Audio</translation>
         </message>
@@ -258,6 +262,11 @@
             <comment>Name or Title field of media item</comment>
             <source>TITLE</source>
             <translation>Name</translation>
+        </message>
+        <message>
+            <comment>Last played time of media item</comment>
+            <source>RECENTLY_WATCHED</source>
+            <translation>Recently Watched</translation>
         </message>
         <message>
             <source>IMDB_RATING</source>
@@ -1248,6 +1257,16 @@
         <message>
             <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
             <translation>If no Outro media segment exists, set how many seconds before the end of an episode the Skip Outro button should appear. Set to 0 to disable.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Playback Controls Inactivity Timeout</source>
+            <translation>Playback Controls Inactivity Timeout</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+            <translation>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
