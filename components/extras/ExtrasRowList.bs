@@ -51,7 +51,7 @@ sub onSeasonOfEpisodesLoaded()
 
     if not m.top.hasItems then m.top.hasItems = true
 
-    header = tr("More of")
+    header = tr("More from")
     if isChainValid(data[0], "json.ParentIndexNumber")
         header += ` ${tr("Season")} ${data[0].json.ParentIndexNumber}`
     end if

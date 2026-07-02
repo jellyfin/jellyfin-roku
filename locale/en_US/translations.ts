@@ -213,9 +213,9 @@
             <translation>Episodes</translation>
         </message>
         <message>
-            <source>More of</source>
-            <translation>More of</translation>
-            <extracomment>Prefix for the episodes row header in the item detail extras slider, followed by "Season X" (e.g. "More of Season 3")</extracomment>
+            <source>More from</source>
+            <translation>More from</translation>
+            <extracomment>Prefix for the episodes row header in the item detail extras slider, followed by "Season X" (e.g. "More from Season 3")</extracomment>
         </message>
         <message>
             <source>Error Retrieving Content</source>
