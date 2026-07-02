@@ -889,11 +889,13 @@ sub updateOnNowItems()
     for each item in itemData
         row.usePoster = false
 
+        ' thumbnailURL may be empty for Live TV programs; imageURL is requested as wide (16:9)
+        ' via LoadItemsTask, so we always use WIDE_POSTER regardless of image source
         if (not isValid(item.thumbnailURL) or item.thumbnailURL = "") and isValid(item.json) and isValid(item.json.imageURL)
             item.thumbnailURL = item.json.imageURL
             row.usePoster = true
-            row.imageWidth = homeRowItemSizes.MOVIE_POSTER[0]
-            row.cursorSize = homeRowItemSizes.MOVIE_POSTER
+            row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
+            row.cursorSize = homeRowItemSizes.WIDE_POSTER
         end if
 
         item.usePoster = row.usePoster

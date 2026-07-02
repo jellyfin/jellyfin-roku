@@ -371,8 +371,7 @@ function loadLiveTVOnNow() as object
         tmp.json = {
             id: item.LookupCI("Id"),
             name: item.LookupCI("name"),
-            ImageURL: ImageURL(item.LookupCI("Id")),
-            Type: item.LookupCI("Type"),
+            ImageURL: ImageURL(item.LookupCI("Id"), "Primary", { maxWidth: 464, maxHeight: 261 }), Type: item.LookupCI("Type"),
             mediatype: item.LookupCI("mediatype"),
             CollectionType: item.LookupCI("CollectionType"),
             ChannelName: item.LookupCI("ChannelName"),
