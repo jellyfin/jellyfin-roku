@@ -36,33 +36,82 @@ sub init()
     m.seekBar.color = ColorPalette.BLACK77
     m.playPosition.color = ColorPalette.SMOKE
 
+    m.currentItemIsFavorite = false
     m.previouslySelectedButtonIndex = 0
     m.selectedButtonIndex = 1
 end sub
 
 sub setupButtons()
-    buttons = ["buttons", "previous", "stop", "play", "next", "nowPlaying"]
+    buttons = ["buttons", "previous", "stop", "play", "next", "favorite", "nowPlaying"]
 
     for each button in buttons
         m[button] = m.top.findNode(button)
     end for
+
+    if isValid(m.favorite)
+        m.favoriteFocusBox = m.favorite.findNode("favoriteFocusBox")
+        m.favoriteIcon = m.favorite.findNode("favoriteIcon")
+    end if
+end sub
+
+function getButtonByIndex(index as integer) as dynamic
+    if not isValid(m.buttons) then return invalid
+    if index < 0 or index >= m.buttons.getChildCount() then return invalid
+
+    return m.buttons.getChild(index)
+end function
+
+sub setButtonDefaultStyle(button as dynamic)
+    if not isValid(button) then return
+
+    if isStringEqual(button.id, "favorite")
+        setFavoriteButtonStyle(false)
+        return
+    end if
+
+    button.blendColor = ColorPalette.WHITE
+    button.opacity = .85
+end sub
+
+sub setButtonSelectedStyle(button as dynamic)
+    if not isValid(button) then return
+
+    if isStringEqual(button.id, "favorite")
+        setFavoriteButtonStyle(true)
+        return
+    end if
+
+    button.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    button.opacity = 1
+end sub
+
+sub setFavoriteButtonStyle(isFocused as boolean)
+    if not isValid(m.favoriteIcon) then return
+
+    if m.currentItemIsFavorite
+        m.favoriteIcon.uri = "pkg:/images/icons/heart_checked_mini.png"
+    else
+        m.favoriteIcon.uri = "pkg:/images/icons/heart_mini.png"
+    end if
+
+    m.favoriteIcon.opacity = isFocused ? 1 : .85
+
+    if isValid(m.favoriteFocusBox)
+        m.favoriteFocusBox.visible = isFocused
+        m.favoriteFocusBox.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+        m.favoriteFocusBox.opacity = 1
+    end if
 end sub
 
 ' Event handler when user selected a different playback button
 sub onButtonSelectedChange()
     ' Change previously selected button back to default image
-    selectedButton = m.buttons.getChild(m.previouslySelectedButtonIndex)
-    if isValid(selectedButton)
-        selectedButton.blendColor = ColorPalette.WHITE
-        selectedButton.opacity = .85
-    end if
+    selectedButton = getButtonByIndex(m.previouslySelectedButtonIndex)
+    setButtonDefaultStyle(selectedButton)
 
     ' Change selected button image to selected image
-    selectedButton = m.buttons.getChild(m.selectedButtonIndex)
-    if isValid(selectedButton)
-        selectedButton.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-        selectedButton.opacity = 1
-    end if
+    selectedButton = getButtonByIndex(m.selectedButtonIndex)
+    setButtonSelectedStyle(selectedButton)
 end sub
 
 sub updateMiniPlayerFocusStyle()
@@ -173,6 +222,12 @@ sub onAudioDataChanged()
 
     useMetaTask = false
     currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    if not isValid(currentItem)
+        setVisible(false)
+        return
+    end if
+
+    setCurrentFavoriteState(currentItem)
 
     if not isValid(currentItem.RunTimeTicks)
         useMetaTask = true
@@ -187,6 +242,10 @@ sub onAudioDataChanged()
     end if
 
     if not isValid(currentItem.Artists)
+        useMetaTask = true
+    end if
+
+    if not isValid(getFavoriteState(currentItem))
         useMetaTask = true
     end if
 
@@ -216,6 +275,71 @@ sub updatePlayButtonState()
     else
         m.play.uri = "pkg:/images/icons/play.png"
     end if
+end sub
+
+function getFavoriteState(item as dynamic) as dynamic
+    if isChainValid(item, "json.UserData.IsFavorite") then return chainLookup(item, "json.UserData.IsFavorite")
+    if isChainValid(item, "UserData.IsFavorite") then return chainLookup(item, "UserData.IsFavorite")
+
+    favorite = chainLookup(item, "favorite")
+    if isValid(favorite) and favorite = true then return true
+
+    return invalid
+end function
+
+sub updateFavoriteButtonState()
+    if not isValid(m.favorite) then return
+
+    selectedButton = getButtonByIndex(m.selectedButtonIndex)
+    if isValid(selectedButton) and isStringEqual(selectedButton.id, "favorite")
+        setButtonSelectedStyle(m.favorite)
+    else
+        setButtonDefaultStyle(m.favorite)
+    end if
+end sub
+
+sub setCurrentFavoriteState(item as dynamic)
+    favoriteState = getFavoriteState(item)
+    m.currentItemIsFavorite = isValid(favoriteState) ? favoriteState : false
+    updateFavoriteButtonState()
+end sub
+
+sub updateCurrentItemFavoriteValue(isFavorite as boolean)
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    if not isValid(currentItem) then return
+
+    if isChainValid(currentItem, "json.UserData")
+        itemData = currentItem.json
+        itemData.UserData.AddReplace("IsFavorite", isFavorite)
+        currentItem.json = itemData
+    end if
+
+    if isChainValid(currentItem, "UserData")
+        currentItem.UserData.AddReplace("IsFavorite", isFavorite)
+    end if
+
+    if isChainValid(currentItem, "favorite")
+        currentItem.favorite = isFavorite
+    end if
+end sub
+
+sub runFavoriteTask(itemId as string, isFavorite as boolean)
+    m.favoriteItemsTask = CreateObject("roSGNode", "FavoriteItemsTask")
+    m.favoriteItemsTask.favTask = isFavorite ? "Favorite" : "Unfavorite"
+    m.favoriteItemsTask.itemId = itemId
+    m.favoriteItemsTask.control = TaskControl.RUN
+end sub
+
+sub favoriteClicked()
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    itemId = chainLookup(currentItem, "id")
+    if not isValidAndNotEmpty(itemId) then return
+
+    m.currentItemIsFavorite = not m.currentItemIsFavorite
+
+    updateCurrentItemFavoriteValue(m.currentItemIsFavorite)
+    updateFavoriteButtonState()
+    runFavoriteTask(itemId, m.currentItemIsFavorite)
 end sub
 
 sub setupInfoNodes()
@@ -286,12 +410,27 @@ function findCurrentSongIndex(songList) as integer
     return 0
 end function
 
-sub onMetaDataLoaded()
-    data = m.LoadMetaDataTask.content[0]
-    m.LoadMetaDataTask.unobserveField("content")
+sub onMetaDataLoaded(event as object)
+    metaDataTask = event.getRoSGNode()
+    if not isValid(metaDataTask) then return
+
+    metaDataTask.unobserveField("content")
+
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    currentItemId = chainLookup(currentItem, "id")
+    ' Metadata tasks can complete after the user skips tracks. Do not apply stale
+    ' title, poster, or favorite state to the new current queue item.
+    if not isStringEqual(metaDataTask.itemId, currentItemId) then return
+    if not isValidAndNotEmpty(metaDataTask.content) then return
+
+    data = metaDataTask.content[0]
     if isValidAndNotEmpty(data) and isValid(data.json)
+        if not isStringEqual(chainLookup(data.json, "id"), currentItemId) then return
+
         setPosterImage(data.posterURL)
         setOnScreenTextValues(data.json)
+        setCurrentFavoriteState(data.json)
+        updateCurrentItemFavoriteValue(m.currentItemIsFavorite)
 
         if isValid(data.json.RunTimeTicks)
             m.songDuration = data.json.RunTimeTicks / 10000000.0
@@ -377,6 +516,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         else if isStringEqual(selectedButtonID, "stop")
             stopClicked()
+            return true
+        else if isStringEqual(selectedButtonID, "favorite")
+            favoriteClicked()
             return true
         else if isStringEqual(selectedButtonID, "nowPlaying")
             nowPlayingClicked()

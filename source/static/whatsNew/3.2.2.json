@@ -14,5 +14,9 @@
   {
     "description": "Reduce music library album view load time",
     "author": "ferezvi"
+  },
+  {
+    "description": "Add favorite toggle to MiniPlayer",
+    "author": "VX-101"
   }
 ]
