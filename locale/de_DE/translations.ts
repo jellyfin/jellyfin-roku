@@ -18,7 +18,7 @@
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation>Endet um %1</translation>
+        <translation>Endet bei %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
@@ -62,7 +62,7 @@
     </message>
     <message>
         <source>Shuffle</source>
-        <translation>Zufallswiedergabe</translation>
+        <translation>Zufällige Wiedergabe</translation>
     </message>
     <message>
         <source>Sign In</source>
