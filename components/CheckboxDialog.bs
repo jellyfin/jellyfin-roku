@@ -25,7 +25,8 @@ sub onButtonSelected()
     if m.top.buttonSelected = 0
         selectedItems = {
             id: m.top.id,
-            data: []
+            data: [],
+            checkedState: m.checkboxOptions.checkedState
         }
 
         i = 0
@@ -46,20 +47,30 @@ sub onButtonSelected()
 
         return
     end if
+
+    if m.top.buttonSelected = 1
+        for each checkedState in m.checkboxOptions.checkedState
+            if checkedState
+                checkedState = false
+            end if
+        end for
+
+        return
+    end if
 end sub
 
 sub onContentDataChanged()
     i = 0
 
     options = CreateObject("roSGNode", "ContentNode")
+    checkedState = []
 
     for each item in m.top.contentData.data
         cardItem = CreateObject("roSGNode", "ContentNode")
         cardItem.id = i
 
-        'if isValid(item.selected)
-        '    cardItem.iconStatus = item.selected
-        'end if
+        isSelected = chainLookupReturn(item, "selected", false)
+        checkedState.push(isSelected)
 
         cardItem.title = item.track.description
         options.appendChild(cardItem)
@@ -67,6 +78,7 @@ sub onContentDataChanged()
     end for
 
     m.checkboxOptions.content = options
+    m.checkboxOptions.checkedState = checkedState
 
     stopLoadingSpinner()
 end sub

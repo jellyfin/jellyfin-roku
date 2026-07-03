@@ -94,7 +94,12 @@ sub filterDataLoaded(msg)
 
     if not isValid(data) then return
 
-    m.genres = data.genres
+    for each genre in data.genres
+        name = chainLookup(genre, "name")
+        m.genres.push({ Title: name, Name: name, Track: { description: name }, Type: "genreSelection" })
+    end for
+
+    data.clear()
     m.genresSpinner.visible = false
     m.genresButton.disabled = false
 end sub
@@ -128,17 +133,28 @@ sub oncheckboxDataChange()
     m.global.sceneManager.unobserveField("returnData")
     dataType = m.top.checkboxData.LookupCI("id")
 
+    data = m.top.checkboxData.LookupCI("data")
+    checkedState = m.top.checkboxData.LookupCI("checkedState")
+
     if isStringEqual(dataType, "radioStationGenres")
-        data = m.top.checkboxData.LookupCI("data")
         if isValidAndNotEmpty(data)
+            for i = 0 to checkedState.count() - 1
+                m.genres[i].selected = checkedState[i]
+            end for
+
             m.userSelectedGenres = data.join("|")
+            m.genresButton.text = data.join(", ")
         end if
     end if
 
     if isStringEqual(dataType, "radioStationYears")
-        data = m.top.checkboxData.LookupCI("data")
         if isValidAndNotEmpty(data)
-            m.userSelectedYears = data.join(",")
+            for i = 0 to checkedState.count() - 1
+                m.years[i].selected = checkedState[i]
+            end for
+
+            m.userSelectedYears = data.join(", ")
+            m.yearsButton.text = m.userSelectedYears
         end if
     end if
 end sub
@@ -169,19 +185,11 @@ sub handleButtonSelection(selectedButtonID)
         if isStringEqual(m.getGenresTask.state, TaskControl.RUN) then return
         if not isValidAndNotEmpty(m.genres) then return
 
-        data = []
-        for each genre in m.genres
-            name = chainLookup(genre, "name")
-            data.push({ Title: name, Name: name, Track: { description: name }, Type: "genreSelection" })
-        end for
-
         title = tr("Press Play/Pause to jump to OK button")
 
         genreData = {
-            data: data
+            data: m.genres
         }
-
-        genreData.data[1].selected = true
 
         m.global.sceneManager.callFunc("checkboxDialog", title, genreData, [tr("OK"), tr("Reset")], "radioStationGenres")
         return
@@ -195,8 +203,6 @@ sub handleButtonSelection(selectedButtonID)
         yearData = {
             data: m.years
         }
-
-        yearData.data[1].selected = true
 
         m.global.sceneManager.callFunc("checkboxDialog", title, yearData, [tr("OK"), tr("Reset")], "radioStationYears")
         return
