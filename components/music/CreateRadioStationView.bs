@@ -45,9 +45,9 @@ sub init()
 
     m.genres = []
     m.years = []
-    m.sortData = {
+    m.limitData = {
         data: [
-            { Index: 0, Title: "100", Name: "100", Track: { description: "100" }, Type: "limitSelection" },
+            { selected: true, Index: 0, Title: "100", Name: "100", Track: { description: "100" }, Type: "limitSelection" },
             { Index: 1, Title: "200", Name: "200", Track: { description: "200" }, Type: "limitSelection" },
             { Index: 2, Title: "300", Name: "300", Track: { description: "300" }, Type: "limitSelection" },
             { Index: 3, Title: "400", Name: "400", Track: { description: "400" }, Type: "limitSelection" },
@@ -60,9 +60,24 @@ sub init()
         ]
     }
 
-    selectedLimit = 0
-    m.sortData.data[selectedLimit].selected = true
-    m.top.radioStationLimit = m.sortData.data[selectedLimit].name
+    m.top.radioStationLimit = m.limitData.data[0].name
+
+    m.sortByData = {
+        data: [
+            { selected: true, Index: 0, Title: "Random", Name: "Random", Track: { description: "Random" }, Type: "sortBySelection" },
+            { Index: 1, Title: "Album", Name: "Album", Track: { description: "Album" }, Type: "sortBySelection" },
+            { Index: 2, Title: "AlbumArtist", Name: "AlbumArtist", Track: { description: "AlbumArtist" }, Type: "sortBySelection" },
+            { Index: 3, Title: "Artist", Name: "Artist", Track: { description: "Artist" }, Type: "sortBySelection" },
+            { Index: 4, Title: "DateCreated", Name: "DateCreated", Track: { description: "DateCreated" }, Type: "sortBySelection" },
+            { Index: 5, Title: "DatePlayed", Name: "DatePlayed", Track: { description: "DatePlayed" }, Type: "sortBySelection" },
+            { Index: 6, Title: "SortName", Name: "SortName", Track: { description: "Name" }, Type: "sortBySelection" },
+            { Index: 7, Title: "Runtime", Name: "Runtime", Track: { description: "Runtime" }, Type: "sortBySelection" },
+            { Index: 8, Title: "ProductionYear", Name: "ProductionYear", Track: { description: "ProductionYear" }, Type: "sortBySelection" },
+            { Index: 9, Title: "PlayCount", Name: "PlayCount", Track: { description: "PlayCount" }, Type: "sortBySelection" },
+        ]
+    }
+
+    m.top.radioStationSortBy = m.sortByData.data[0].name
 
     m.getGenresTask = createObject("roSGNode", "GetFiltersTask2")
     m.getGenresTask.observeField("filters", "filterDataLoaded")
@@ -176,7 +191,7 @@ sub handleButtonSelection(selectedButtonID)
 
     if isStringEqual(selectedButtonID, "limitButton")
         title = tr("Maximum number of items to load")
-        m.global.sceneManager.callFunc("radioDialog", title, m.sortData, [tr("OK")], "radioStationLimit")
+        m.global.sceneManager.callFunc("radioDialog", title, m.limitData, [tr("OK")], "radioStationLimit")
         m.global.sceneManager.observeField("returnData", "onLimitSelected")
         return
     end if
@@ -210,23 +225,7 @@ sub handleButtonSelection(selectedButtonID)
 
     if isStringEqual(selectedButtonID, "sortByButton")
         title = tr("Sort By")
-
-        sortData = {
-            data: [
-                { selected: true, Title: "Random", Name: "Random", Track: { description: "Random" }, Type: "sortBySelection" },
-                { Title: "Album", Name: "Album", Track: { description: "Album" }, Type: "sortBySelection" },
-                { Title: "AlbumArtist", Name: "AlbumArtist", Track: { description: "AlbumArtist" }, Type: "sortBySelection" },
-                { Title: "Artist", Name: "Artist", Track: { description: "Artist" }, Type: "sortBySelection" },
-                { Title: "DateCreated", Name: "DateCreated", Track: { description: "DateCreated" }, Type: "sortBySelection" },
-                { Title: "DatePlayed", Name: "DatePlayed", Track: { description: "DatePlayed" }, Type: "sortBySelection" },
-                { Title: "SortName", Name: "SortName", Track: { description: "Name" }, Type: "sortBySelection" },
-                { Title: "Runtime", Name: "Runtime", Track: { description: "Runtime" }, Type: "sortBySelection" },
-                { Title: "ProductionYear", Name: "ProductionYear", Track: { description: "ProductionYear" }, Type: "sortBySelection" },
-                { Title: "PlayCount", Name: "PlayCount", Track: { description: "PlayCount" }, Type: "sortBySelection" },
-            ]
-        }
-
-        m.global.sceneManager.callFunc("radioDialog", title, sortData, [tr("OK")], "radioStationSortBy")
+        m.global.sceneManager.callFunc("radioDialog", title, m.sortByData, [tr("OK")], "radioStationSortBy")
         m.global.sceneManager.observeField("returnData", "onsortBySelected")
         return
     end if
@@ -279,7 +278,7 @@ sub onLimitSelected()
 
     if isStringEqual(m.global.sceneManager.returnData.type, "limitSelection")
         m.top.radioStationLimit = m.global.sceneManager.returnData.LookupCI("name")
-        m.sortData.data[m.global.sceneManager.returnData.LookupCI("index")].selected = true
+        m.limitData.data[m.global.sceneManager.returnData.LookupCI("index")].selected = true
         return
     end if
 end sub
@@ -291,6 +290,7 @@ sub onsortBySelected()
 
     if isStringEqual(m.global.sceneManager.returnData.type, "sortBySelection")
         m.top.radioStationSortBy = m.global.sceneManager.returnData.name
+        m.sortByData.data[m.global.sceneManager.returnData.LookupCI("index")].selected = true
         return
     end if
 end sub
