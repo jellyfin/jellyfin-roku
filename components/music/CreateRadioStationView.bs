@@ -34,6 +34,7 @@ sub init()
     m.focusButtonIndex = 0
 
     m.genres = []
+    m.years = []
 
     m.getFiltersTask2 = createObject("roSGNode", "GetFiltersTask2")
     m.getFiltersTask2.observeField("filters", "filterDataLoaded")
@@ -41,9 +42,22 @@ sub init()
         userid: m.global.session.user.id,
         includeItemTypes: "Audio"
     }
+
+    m.getYearsTask = createObject("roSGNode", "GetYearsTask")
+    m.getYearsTask.observeField("data", "yearDataLoaded")
+    m.getYearsTask.params = {
+        userid: m.global.session.user.id,
+        mediaTypes: "Audio",
+        sortBy: "Name",
+        enableImages: false,
+        enableUserData: false,
+        sortOrder: "Descending",
+        excludeItemTypes: "AudioBook,Book"
+    }
     startLoadingSpinner()
 
     m.getFiltersTask2.control = TaskControl.RUN
+    m.getYearsTask.control = TaskControl.RUN
 end sub
 
 sub filterDataLoaded(msg)
@@ -56,6 +70,20 @@ sub filterDataLoaded(msg)
     stopLoadingSpinner()
 end sub
 
+sub yearDataLoaded(msg)
+    data = msg.GetData()
+    m.getYearsTask.unobserveField("data")
+
+    if not isChainValid(data, "items") then return
+
+    for each year in chainLookup(data, "items")
+        name = chainLookup(year, "name")
+        m.years.push({ Title: name, Name: name, Track: { description: name }, Type: "yearSelection" })
+    end for
+
+    data.clear()
+    stopLoadingSpinner()
+end sub
 
 sub setButtonColors()
     for each button in m.buttonList
@@ -74,6 +102,13 @@ sub oncheckboxDataChange()
         data = m.top.checkboxData.LookupCI("data")
         if isValidAndNotEmpty(data)
             m.userSelectedGenres = data.join("|")
+        end if
+    end if
+
+    if isStringEqual(dataType, "radioStationYears")
+        data = m.top.checkboxData.LookupCI("data")
+        if isValidAndNotEmpty(data)
+            m.userSelectedYears = data.join(",")
         end if
     end if
 end sub
@@ -133,6 +168,21 @@ sub handleButtonSelection(selectedButtonID)
         return
     end if
 
+    if isStringEqual(selectedButtonID, "yearsButton")
+        if not isValidAndNotEmpty(m.years) then return
+
+        title = tr("Press Play/Pause to jump to OK button")
+
+        yearData = {
+            data: m.years
+        }
+
+        yearData.data[1].selected = true
+
+        m.global.sceneManager.callFunc("checkboxDialog", title, yearData, [tr("OK"), tr("Reset")], "radioStationYears")
+        return
+    end if
+
     if isStringEqual(selectedButtonID, "sortByButton")
         title = tr("Field to sort media by on the server before cutting off at set limit")
 
@@ -183,7 +233,8 @@ sub handleButtonSelection(selectedButtonID)
             sortOrder: m.top.radioStationSortOrder,
             limit: m.top.radioStationLimit,
             filters: {
-                genres: m.userSelectedGenres
+                genres: m.userSelectedGenres ?? string.EMPTY,
+                years: m.userSelectedYears ?? string.EMPTY
             }
         }
 

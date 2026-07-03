@@ -74,6 +74,13 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
+    if isStringEqual(key, KeyCode.UP)
+        m.checkboxOptions.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.checkboxOptions
+        return true
+    end if
+
     if isStringEqual(key, KeyCode.PLAY)
         buttonArea = findNodeBySubtype(m.top, "StdDlgButtonArea")
 

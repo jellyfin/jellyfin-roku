@@ -1,0 +1,10 @@
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/config.bs"
+
+sub init()
+    m.top.functionName = "getYearsTask"
+end sub
+
+sub getYearsTask()
+    m.top.data = api.years.Get(m.top.params)
+end sub
