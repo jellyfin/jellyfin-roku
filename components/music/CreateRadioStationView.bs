@@ -35,6 +35,24 @@ sub init()
 
     m.genres = []
     m.years = []
+    m.sortData = {
+        data: [
+            { Index: 0, Title: "100", Name: "100", Track: { description: "100" }, Type: "limitSelection" },
+            { Index: 1, Title: "200", Name: "200", Track: { description: "200" }, Type: "limitSelection" },
+            { Index: 2, Title: "300", Name: "300", Track: { description: "300" }, Type: "limitSelection" },
+            { Index: 3, Title: "400", Name: "400", Track: { description: "400" }, Type: "limitSelection" },
+            { Index: 4, Title: "500", Name: "500", Track: { description: "500" }, Type: "limitSelection" },
+            { Index: 5, Title: "600", Name: "600", Track: { description: "600" }, Type: "limitSelection" },
+            { Index: 6, Title: "700", Name: "700", Track: { description: "700" }, Type: "limitSelection" },
+            { Index: 7, Title: "800", Name: "800", Track: { description: "800" }, Type: "limitSelection" },
+            { Index: 8, Title: "900", Name: "900", Track: { description: "900" }, Type: "limitSelection" },
+            { Index: 9, Title: "1000", Name: "1000", Track: { description: "1000" }, Type: "limitSelection" },
+        ]
+    }
+
+    selectedLimit = 0
+    m.sortData.data[selectedLimit].selected = true
+    m.top.radioStationLimit = m.sortData.data[selectedLimit].name
 
     m.getFiltersTask2 = createObject("roSGNode", "GetFiltersTask2")
     m.getFiltersTask2.observeField("filters", "filterDataLoaded")
@@ -130,18 +148,7 @@ sub handleButtonSelection(selectedButtonID)
 
     if isStringEqual(selectedButtonID, "limitButton")
         title = tr("Maximum number of items to load")
-
-        sortData = {
-            data: [
-                { Title: "100", Name: "100", Track: { description: "100" }, Type: "limitSelection" },
-                { Title: "200", Name: "200", Track: { description: "200" }, Type: "limitSelection" },
-                { Title: "300", Name: "300", Track: { description: "300" }, Type: "limitSelection" },
-            ]
-        }
-
-        sortData.data[1].selected = true
-
-        m.global.sceneManager.callFunc("radioDialog", title, sortData, [tr("OK")], "radioStationLimit")
+        m.global.sceneManager.callFunc("radioDialog", title, m.sortData, [tr("OK")], "radioStationLimit")
         m.global.sceneManager.observeField("returnData", "onLimitSelected")
         return
     end if
@@ -253,7 +260,8 @@ sub onLimitSelected()
     if not isChainValid(m.global.sceneManager, "returnData.type") then return
 
     if isStringEqual(m.global.sceneManager.returnData.type, "limitSelection")
-        m.top.radioStationLimit = m.global.sceneManager.returnData.name
+        m.top.radioStationLimit = m.global.sceneManager.returnData.LookupCI("name")
+        m.sortData.data[m.global.sceneManager.returnData.LookupCI("index")].selected = true
         return
     end if
 end sub

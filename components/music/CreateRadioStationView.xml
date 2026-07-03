@@ -42,7 +42,7 @@
 
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
         <Text id="limit" font="font:smallBoldSystemFont" text="Maximum Number of Items to Load" />
-        <TextButton id="limitButton" iconSide="right" fontSize="35" padding="35" text="" height="75" width="250" />
+        <TextButton id="limitButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="250" />
       </LayoutGroup>
 
       <StandardButton
