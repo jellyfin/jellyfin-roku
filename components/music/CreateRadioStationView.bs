@@ -245,8 +245,21 @@ sub handleButtonSelection(selectedButtonID)
     end if
 
     if isStringEqual(selectedButtonID, "createStationButton")
+        if not isValidAndNotEmpty(m.top.radioStationName)
+            m.global.sceneManager.callFunc("standardDialog", tr("Station Name Missing"), { data: ["<p>" + tr("You must enter a station name.") + "</p>"] })
+            m.createStationButton.focus = false
+
+            m.focusButtonIndex = 0
+            m.buttonList[0].focus = true
+            m.buttonList[0].setFocus(true)
+            return
+        end if
+
+        radioStationList = ParseJSON(chainLookupReturn(m.global.session, "user.settings.radioStations", "[]"))
+
+
         newStationData = {
-            id: m.top.radioStationName,
+            id: radioStationList.count(),
             posterURL: "pkg:/images/icons/mostplayed.png",
             name: m.top.radioStationName,
             subtitle: m.top.radioStationSubtitle,
@@ -259,7 +272,6 @@ sub handleButtonSelection(selectedButtonID)
             }
         }
 
-        radioStationList = ParseJSON(chainLookupReturn(m.global.session, "user.settings.radioStations", "[]"))
         radioStationList.push(newStationData)
         set_user_setting(`radioStations`, FormatJson(radioStationList))
         m.global.sceneManager.callFunc("popScene")
