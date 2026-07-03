@@ -2501,5 +2501,9 @@
         <source>RECENTLY_WATCHED</source>
         <translation>Ostatnio oglądane</translation>
     </message>
+    <message>
+        <source>More from</source>
+        <translation>Więcej z</translation>
+    </message>
 </context>
 </TS>
