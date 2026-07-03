@@ -40,7 +40,8 @@
           </LayoutGroup>
 
           <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-            <Text id="limit" font="font:smallBoldSystemFont" text="Maximum Number of Items to Load" />
+            <Text id="limit" font="font:smallBoldSystemFont" text="Item Limit" />
+            <Text id="limitDescription" font="font:smallestSystemFont" text="Maximum number of items to load" />
             <TextButton id="limitButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="250" />
           </LayoutGroup>
 
@@ -84,6 +85,12 @@
             <Text id="sortOrderDescription" font="font:smallestSystemFont" text="Direction to sort media before cutting off at limit" />
             <TextButton id="sortOrderButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="500" />
           </LayoutGroup>
+
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+            <Text id="backgroundColor" font="font:smallBoldSystemFont" text="Background Color" />
+            <Text id="backgroundColorDescription" font="font:smallestSystemFont" text="Background color to use on home screen block" />
+            <TextButton id="backgroundColorButton" iconSide="right" fontSize="35" padding="35" text="" height="75" width="75" />
+          </LayoutGroup>
         </LayoutGroup>
 
       </LayoutGroup>
@@ -95,6 +102,8 @@
     <field id="radioStationLimit" type="string" alwaysNotify="true" onChange="onRadioStationLimitChange" />
     <field id="radioStationSortBy" type="string" alwaysNotify="true" onChange="onRadioStationSortByChange" />
     <field id="radioStationSortOrder" type="string" alwaysNotify="true" onChange="onRadioStationSortOrderChange" />
+    <field id="radioStationBackgroundColor" type="string" alwaysNotify="true" onChange="onRadioStationBackgroundColorChange" />
     <field id="checkboxData" type="assocarray" alwaysNotify="true" onChange="oncheckboxDataChange" />
+    <field id="selectedColor" type="assocarray" alwaysNotify="true" onChange="onSelectedColorChange" />
   </interface>
 </component>

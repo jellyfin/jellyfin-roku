@@ -299,6 +299,7 @@ sub displayRadioStationInfo(itemData as object)
     m.stationGroup.clippingRect = "[0,0,261,261]"
 
     stationText = m.stationGroup.CreateChild("Text")
+    stationText.color = ColorPalette.DARKGREY
     stationText.id = "radioStationName"
     stationText.font = "font:LargeBoldSystemFont"
     stationText.font.size = 80

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="ColorDialog" extends="StandardMessageDialog" initialFocus="colorgrid">
+  <children>
+    <StdDlgContentArea id="contentArea">
+      <ColorGrid
+        id="colorgrid"
+        translation="[0, 0]"
+        itemComponentName="ColorOption"
+        numColumns="12"
+        numRows="8"
+        rowHeights="[50]"
+        visible="true"
+        vertFocusAnimationStyle="fixed"
+        itemSize="[50, 50]"
+        itemSpacing="[20, 20]"
+        drawFocusFeedback="true" />
+    </StdDlgContentArea>
+  </children>
+  <interface>
+    <field id="selectedColor" type="string" onChange="onSelectedColorChange" />
+  </interface>
+</component>
