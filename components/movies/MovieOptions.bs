@@ -63,13 +63,13 @@ end sub
 
 ' Move focus onto the rows whenever the dialog becomes visible
 sub onVisibleChange()
-    if m.top.visible
-        m.detailPopup.visible = false
-        m.activeCategory = -1
-        m.optionsMenu.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.optionsMenu
-    end if
+    if not m.top.visible then return
+    
+    m.detailPopup.visible = false
+    m.activeCategory = -1
+    m.optionsMenu.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.optionsMenu
 end sub
 
 sub optionsSet()
