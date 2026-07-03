@@ -3,18 +3,6 @@
   <children>
     <Rectangle id="backdrop" width="464" height="261" />
     <Poster id="itemIcon" width="100" height="100" translation="[190,85]" loadDisplayMode="scaleToFit" />
-    <Group clippingRect="[0,0,261,261]">
-      <Text
-        id="radioStationName"
-        font="font:LargeBoldSystemFont"
-        ellipsisText=" "
-        wrap="true"
-        width="275"
-        height="290"
-        translation="[-10, 0]"
-        displayPartialLines="true"
-        vertAlign="bottom" />
-    </Group>
     <Poster id="itemPoster" width="464" height="261" loadDisplayMode="scaleToZoom">
       <PlayedCheckmark id="playedIndicator" translation="[375, 0]" />
     </Poster>

@@ -88,6 +88,11 @@ sub itemContentChanged()
         }
     end if
 
+    if isValid(m.stationGroup)
+        m.top.removeChild(m.stationGroup)
+        m.stationGroup = invalid
+    end if
+
     itemData.AddReplace("Title", itemData.LookupCI("name"))
 
     setColors()
@@ -290,11 +295,23 @@ sub displayMusicAlbumInfo(itemData as object)
 end sub
 
 sub displayRadioStationInfo(itemData as object)
-    radioStationName = m.top.findNode("radioStationName")
-    if isValid(radioStationName)
-        radioStationName.font.size = 80
-        radioStationName.text = itemData.name
-    end if
+    m.stationGroup = createObject("roSGNode", "Group")
+    m.stationGroup.clippingRect = "[0,0,261,261]"
+
+    stationText = m.stationGroup.CreateChild("Text")
+    stationText.id = "radioStationName"
+    stationText.font = "font:LargeBoldSystemFont"
+    stationText.font.size = 80
+    stationText.ellipsisText = " "
+    stationText.wrap = "true"
+    stationText.width = "275"
+    stationText.height = "290"
+    stationText.translation = "[-10, 0]"
+    stationText.displayPartialLines = "true"
+    stationText.vertAlign = "bottom"
+    stationText.text = itemData.name
+
+    m.top.insertChild(m.stationGroup, 1)
 
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.Subtitle
