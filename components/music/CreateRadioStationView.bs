@@ -76,8 +76,15 @@ sub init()
             { Index: 9, Title: "PlayCount", Name: "PlayCount", Track: { description: "PlayCount" }, Type: "sortBySelection" },
         ]
     }
-
     m.top.radioStationSortBy = m.sortByData.data[0].name
+
+    m.sortOrderData = {
+        data: [
+            { selected: true, Index: 0, Title: "Ascending", Name: "Ascending", Track: { description: "Ascending" }, Type: "sortOrderSelection" },
+            { Index: 1, Title: "Descending", Name: "Descending", Track: { description: "Descending" }, Type: "sortOrderSelection" }
+        ]
+    }
+    m.top.radioStationSortOrder = m.sortOrderData.data[0].name
 
     m.getGenresTask = createObject("roSGNode", "GetFiltersTask2")
     m.getGenresTask.observeField("filters", "filterDataLoaded")
@@ -232,17 +239,7 @@ sub handleButtonSelection(selectedButtonID)
 
     if isStringEqual(selectedButtonID, "sortOrderButton")
         title = tr("Sort Order")
-
-        sortData = {
-            data: [
-                { Title: "Ascending", Name: "Ascending", Track: { description: "Ascending" }, Type: "sortOrderSelection" },
-                { Title: "Descending", Name: "Descending", Track: { description: "Descending" }, Type: "sortOrderSelection" }
-            ]
-        }
-
-        sortData.data[0].selected = true
-
-        m.global.sceneManager.callFunc("radioDialog", title, sortData, [tr("OK")], "radioStationLimit")
+        m.global.sceneManager.callFunc("radioDialog", title, m.sortOrderData, [tr("OK")], "radioStationLimit")
         m.global.sceneManager.observeField("returnData", "onsortOrderSelected")
         return
     end if
@@ -302,6 +299,7 @@ sub onsortOrderSelected()
 
     if isStringEqual(m.global.sceneManager.returnData.type, "sortOrderSelection")
         m.top.radioStationSortOrder = m.global.sceneManager.returnData.name
+        m.sortOrderData.data[m.global.sceneManager.returnData.LookupCI("index")].selected = true
         return
     end if
 end sub
