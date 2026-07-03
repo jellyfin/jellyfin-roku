@@ -2015,7 +2015,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
 
         for each radioStation in radioStationList
             if not isStringEqual(radioStation.LookupCI("id"), params.LookupCI("id"))
-                radioStation.id = updatedRadioStationList.count()
+                radioStation.id = `radio${updatedRadioStationList.count()}`
                 updatedRadioStationList.push(radioStation)
             end if
         end for
