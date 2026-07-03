@@ -14,5 +14,9 @@
   {
     "description": "Reduce music library album view load time",
     "author": "ferezvi"
+  },
+  {
+    "description": "Preserve My Media tile focus after returning Home",
+    "author": "VX-101"
   }
 ]
