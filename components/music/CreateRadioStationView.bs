@@ -257,9 +257,8 @@ sub handleButtonSelection(selectedButtonID)
 
         radioStationList = ParseJSON(chainLookupReturn(m.global.session, "user.settings.radioStations", "[]"))
 
-
         newStationData = {
-            id: radioStationList.count(),
+            id: `radio${radioStationList.count()}`,
             posterURL: "pkg:/images/icons/mostplayed.png",
             name: m.top.radioStationName,
             subtitle: m.top.radioStationSubtitle,

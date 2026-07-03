@@ -11,7 +11,7 @@ function getListOfRadioStations()
     ' User has no setting value, return defaults
     defaultRadioStations = [
         {
-            id: "mostplayed",
+            id: "radio0",
             posterURL: "pkg:/images/icons/mostplayed.png",
             name: tr("Most Played Tracks"),
             subtitle: tr("Shuffle play your most played tracks"),
@@ -21,7 +21,7 @@ function getListOfRadioStations()
             filter: ""
         },
         {
-            id: "leastplayed",
+            id: "radio1",
             posterURL: "pkg:/images/icons/leastplayed.png",
             name: tr("Least Played Tracks"),
             subtitle: tr("Shuffle play your least played tracks"),
@@ -32,6 +32,6 @@ function getListOfRadioStations()
         }
     ]
 
-    set_user_setting(`radioStations`, FormatJson(defaultRadioStations))
+    ' set_user_setting(`radioStations`, FormatJson(defaultRadioStations))
     return defaultRadioStations
 end function
