@@ -2007,18 +2007,24 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
     end if
 
     ' Mark item as played
-    if isStringEqual(selectedPopupButton, tr("Mark As Played"))
-        MainAction.setPlayed(itemID, true)
+    if isStringEqual(selectedPopupButton, tr("Delete Radio Station"))
+        radioStationList = chainLookupReturn(m.global.session, "user.settings.radioStations", "[]")
+        radioStationList = ParseJSON(radioStationList)
+
+        updatedRadioStationList = []
+
+        for each radioStation in radioStationList
+            if not isStringEqual(radioStation.LookupCI("id"), params.LookupCI("id"))
+                radioStation.id = updatedRadioStationList.count()
+                updatedRadioStationList.push(radioStation)
+            end if
+        end for
+        set_user_setting(`radioStations`, FormatJson(updatedRadioStationList))
 
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group)
             if isStringEqual(group.subtype(), "home")
                 group.callFunc("refresh")
-                return
-            end if
-
-            if isStringEqual(group.subtype(), "TVSeasonDetails")
-                group.refreshSeasonDetailsData = not group.refreshSeasonDetailsData
                 return
             end if
         end if
@@ -2042,6 +2048,18 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
                 return
             end if
         end if
+
+        return
+    end if
+
+    ' Add item to playlist
+    if isStringEqual(selectedPopupButton, tr("Add To Playlist"))
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        MainAction.onPlaylistButtonClicked({
+            itemContent: {
+                id: itemID
+            }
+        })
 
         return
     end if
