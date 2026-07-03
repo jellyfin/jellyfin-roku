@@ -9,6 +9,16 @@ sub init()
     overhang = m.top.getScene().findNode("overhang")
     overhang.isVisible = false
 
+    m.yearsSpinner = m.top.findNode("yearsSpinner")
+    m.yearsSpinner.poster.uri = "pkg:/images/spinner.png"
+    m.yearsSpinner.poster.height = "32"
+    m.yearsSpinner.poster.width = "32"
+
+    m.genresSpinner = m.top.findNode("genresSpinner")
+    m.genresSpinner.poster.uri = "pkg:/images/spinner.png"
+    m.genresSpinner.poster.height = "32"
+    m.genresSpinner.poster.width = "32"
+
     m.nameButton = m.top.findNode("nameButton")
     m.subtitleButton = m.top.findNode("subtitleButton")
     m.yearsButton = m.top.findNode("yearsButton")
@@ -54,12 +64,14 @@ sub init()
     m.sortData.data[selectedLimit].selected = true
     m.top.radioStationLimit = m.sortData.data[selectedLimit].name
 
-    m.getFiltersTask2 = createObject("roSGNode", "GetFiltersTask2")
-    m.getFiltersTask2.observeField("filters", "filterDataLoaded")
-    m.getFiltersTask2.params = {
+    m.getGenresTask = createObject("roSGNode", "GetFiltersTask2")
+    m.getGenresTask.observeField("filters", "filterDataLoaded")
+    m.getGenresTask.params = {
         userid: m.global.session.user.id,
         includeItemTypes: "Audio"
     }
+
+    m.getGenresTask.control = TaskControl.RUN
 
     m.getYearsTask = createObject("roSGNode", "GetYearsTask")
     m.getYearsTask.observeField("data", "yearDataLoaded")
@@ -72,20 +84,19 @@ sub init()
         sortOrder: "Descending",
         excludeItemTypes: "AudioBook,Book"
     }
-    startLoadingSpinner()
 
-    m.getFiltersTask2.control = TaskControl.RUN
     m.getYearsTask.control = TaskControl.RUN
 end sub
 
 sub filterDataLoaded(msg)
     data = msg.GetData()
-    m.getFiltersTask2.unobserveField("filters")
+    m.getGenresTask.unobserveField("filters")
 
     if not isValid(data) then return
 
     m.genres = data.genres
-    stopLoadingSpinner()
+    m.genresSpinner.visible = false
+    m.genresButton.disabled = false
 end sub
 
 sub yearDataLoaded(msg)
@@ -100,7 +111,8 @@ sub yearDataLoaded(msg)
     end for
 
     data.clear()
-    stopLoadingSpinner()
+    m.yearsSpinner.visible = false
+    m.yearsButton.disabled = false
 end sub
 
 sub setButtonColors()
@@ -133,14 +145,14 @@ end sub
 
 sub handleButtonSelection(selectedButtonID)
     if isStringEqual(selectedButtonID, "nameButton")
-        title = tr("Radio Station Name")
+        title = tr("Station Name")
         hintText = m.top.radioStationName
         m.global.sceneManager.callFunc("keyboardDialog", selectedButtonID, title, [string.EMPTY], [tr("OK")], hintText, string.EMPTY)
         return
     end if
 
     if isStringEqual(selectedButtonID, "subtitleButton")
-        title = tr("Radio Station Subtitle")
+        title = tr("Subtitle")
         hintText = m.top.radioStationSubtitle
         m.global.sceneManager.callFunc("keyboardDialog", selectedButtonID, title, [string.EMPTY], [tr("OK")], hintText, string.EMPTY)
         return
@@ -154,7 +166,7 @@ sub handleButtonSelection(selectedButtonID)
     end if
 
     if isStringEqual(selectedButtonID, "genresButton")
-        if isStringEqual(m.getFiltersTask2.state, TaskControl.RUN) then return
+        if isStringEqual(m.getGenresTask.state, TaskControl.RUN) then return
         if not isValidAndNotEmpty(m.genres) then return
 
         data = []
@@ -191,11 +203,11 @@ sub handleButtonSelection(selectedButtonID)
     end if
 
     if isStringEqual(selectedButtonID, "sortByButton")
-        title = tr("Field to sort media by on the server before cutting off at set limit")
+        title = tr("Sort By")
 
         sortData = {
             data: [
-                { selected: true, Title: "Default", Name: "Default", Track: { description: "Default" }, Type: "sortBySelection" },
+                { selected: true, Title: "Random", Name: "Random", Track: { description: "Random" }, Type: "sortBySelection" },
                 { Title: "Album", Name: "Album", Track: { description: "Album" }, Type: "sortBySelection" },
                 { Title: "AlbumArtist", Name: "AlbumArtist", Track: { description: "AlbumArtist" }, Type: "sortBySelection" },
                 { Title: "Artist", Name: "Artist", Track: { description: "Artist" }, Type: "sortBySelection" },
@@ -214,7 +226,7 @@ sub handleButtonSelection(selectedButtonID)
     end if
 
     if isStringEqual(selectedButtonID, "sortOrderButton")
-        title = tr("Direction to sort media on the server before cutting off at set limit")
+        title = tr("Sort Order")
 
         sortData = {
             data: [
@@ -398,6 +410,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             handleButtonSelection("createStationButton")
             return true
         end if
+
+        if m.buttonList[m.focusButtonIndex].LookupCI("disabled") then return false
 
         handleButtonSelection(m.buttonList[m.focusButtonIndex].id)
         return true
