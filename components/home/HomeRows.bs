@@ -518,6 +518,7 @@ sub createRadioStationsRow()
 
     radioStationList.push({
         id: "createstation",
+        backgroundColor: ColorPalette.TRIADBLUE,
         posterURL: "pkg:/images/icons/leastplayed.png",
         name: tr("Create Station"),
         subtitle: tr("Choose options for a new radio station"),
@@ -536,6 +537,7 @@ sub createRadioStationsRow()
             PlaylistID: station.LookupCI("id"),
             IsFolder: true,
             Name: station.LookupCI("name"),
+            BackgroundColor: station.LookupCI("backgroundColor"),
             Subtitle: station.LookupCI("subtitle"),
             Type: ItemType.RADIOSTATION,
             CollectionType: "radioStation",

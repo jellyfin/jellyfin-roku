@@ -290,9 +290,15 @@ sub displayMusicAlbumInfo(itemData as object)
 end sub
 
 sub displayRadioStationInfo(itemData as object)
+    radioStationName = m.top.findNode("radioStationName")
+    if isValid(radioStationName)
+        radioStationName.font.size = 80
+        radioStationName.text = itemData.name
+    end if
+
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.Subtitle
-    m.itemPoster.uri = itemData.posterURL
+    m.backdrop.color = itemData.json.BackgroundColor
 end sub
 
 sub displayPersonInfo(itemData as object)
