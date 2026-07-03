@@ -48,12 +48,24 @@ sub onButtonSelected()
         return
     end if
 
+    ' Reset, uncheck all options
     if m.top.buttonSelected = 1
+        checkedStateList = []
         for each checkedState in m.checkboxOptions.checkedState
-            if checkedState
-                checkedState = false
-            end if
+            checkedStateList.push(false)
         end for
+        m.checkboxOptions.checkedState = checkedStateList
+
+        selectedItems = {
+            id: m.top.id,
+            data: [],
+            checkedState: m.checkboxOptions.checkedState
+        }
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(activeScene)
+            activeScene.checkboxData = selectedItems
+        end if
 
         return
     end if

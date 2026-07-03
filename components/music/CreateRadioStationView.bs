@@ -137,7 +137,7 @@ sub oncheckboxDataChange()
     checkedState = m.top.checkboxData.LookupCI("checkedState")
 
     if isStringEqual(dataType, "radioStationGenres")
-        if isValidAndNotEmpty(data)
+        if isValid(data)
             for i = 0 to checkedState.count() - 1
                 m.genres[i].selected = checkedState[i]
             end for
@@ -148,7 +148,7 @@ sub oncheckboxDataChange()
     end if
 
     if isStringEqual(dataType, "radioStationYears")
-        if isValidAndNotEmpty(data)
+        if isValid(data)
             for i = 0 to checkedState.count() - 1
                 m.years[i].selected = checkedState[i]
             end for
