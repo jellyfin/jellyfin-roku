@@ -12,6 +12,7 @@
     <function name="whatsNewDialog" />
     <function name="remoteSubtitleDialog" />
     <function name="radioDialog" />
+    <function name="checkboxDialog" />
     <function name="librarySettingDialog" />
     <function name="dismissDialog" />
     <function name="isDialogOpen" />
@@ -22,6 +23,6 @@
     <field id="currentUser" type="string" onChange="updateUser" />
     <field id="returnData" type="assocarray" />
     <field id="dataReturned" type="boolean" />
-    <field id="currentSpeed" type="float" value="1.0"/>
+    <field id="currentSpeed" type="float" value="1.0" />
   </interface>
 </component>

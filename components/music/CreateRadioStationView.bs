@@ -32,7 +32,30 @@ sub init()
     m.nameButton.setFocus(true)
 
     m.focusButtonIndex = 0
+
+    m.genres = []
+
+    m.getFiltersTask2 = createObject("roSGNode", "GetFiltersTask2")
+    m.getFiltersTask2.observeField("filters", "filterDataLoaded")
+    m.getFiltersTask2.params = {
+        userid: m.global.session.user.id,
+        includeItemTypes: "Audio"
+    }
+    startLoadingSpinner()
+
+    m.getFiltersTask2.control = TaskControl.RUN
 end sub
+
+sub filterDataLoaded(msg)
+    data = msg.GetData()
+    m.getFiltersTask2.unobserveField("filters")
+
+    if not isValid(data) then return
+
+    m.genres = data.genres
+    stopLoadingSpinner()
+end sub
+
 
 sub setButtonColors()
     for each button in m.buttonList
@@ -41,6 +64,18 @@ sub setButtonColors()
         button.background = ColorPalette.WHITE
         button.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     end for
+end sub
+
+sub oncheckboxDataChange()
+    m.global.sceneManager.unobserveField("returnData")
+    dataType = m.top.checkboxData.LookupCI("id")
+
+    if isStringEqual(dataType, "radioStationGenres")
+        data = m.top.checkboxData.LookupCI("data")
+        if isValidAndNotEmpty(data)
+            m.userSelectedGenres = data.join("|")
+        end if
+    end if
 end sub
 
 sub handleButtonSelection(selectedButtonID)
@@ -73,6 +108,28 @@ sub handleButtonSelection(selectedButtonID)
 
         m.global.sceneManager.callFunc("radioDialog", title, sortData, [tr("OK")], "radioStationLimit")
         m.global.sceneManager.observeField("returnData", "onLimitSelected")
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "genresButton")
+        if isStringEqual(m.getFiltersTask2.state, TaskControl.RUN) then return
+        if not isValidAndNotEmpty(m.genres) then return
+
+        data = []
+        for each genre in m.genres
+            name = chainLookup(genre, "name")
+            data.push({ Title: name, Name: name, Track: { description: name }, Type: "genreSelection" })
+        end for
+
+        title = tr("Press Play/Pause to jump to OK button")
+
+        genreData = {
+            data: data
+        }
+
+        genreData.data[1].selected = true
+
+        m.global.sceneManager.callFunc("checkboxDialog", title, genreData, [tr("OK"), tr("Reset")], "radioStationGenres")
         return
     end if
 
@@ -125,7 +182,9 @@ sub handleButtonSelection(selectedButtonID)
             sortBy: m.top.radioStationSortBy,
             sortOrder: m.top.radioStationSortOrder,
             limit: m.top.radioStationLimit,
-            filter: ""
+            filters: {
+                genres: m.userSelectedGenres
+            }
         }
 
         radioStationList = ParseJSON(chainLookupReturn(m.global.session, "user.settings.radioStations", "[]"))

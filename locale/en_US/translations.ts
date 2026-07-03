@@ -2521,5 +2521,9 @@
             <source>Shuffle play your least played tracks</source>
             <translation>Shuffle play your least played tracks</translation>
         </message>
+        <message>
+            <source>Press Play/Pause to jump to OK button</source>
+            <translation>Press Play/Pause to jump to OK button</translation>
+        </message>
     </context>
 </TS>
