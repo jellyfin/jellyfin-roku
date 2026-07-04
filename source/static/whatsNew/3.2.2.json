@@ -26,5 +26,9 @@
   {
     "description": "Add quickplay support to the TV season grid",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Avoid non-ASCII title corruption in the full audio player",
+    "author": "VX-101"
   }
 ]
