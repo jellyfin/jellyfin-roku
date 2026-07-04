@@ -30,5 +30,9 @@
   {
     "description": "Avoid non-ASCII title corruption in the full audio player",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix Back navigation loop from item details",
+    "author": "VX-101"
   }
 ]
