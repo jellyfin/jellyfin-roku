@@ -699,7 +699,7 @@ sub setOnScreenTextValues(json)
         end if
 
         if isValidAndNotEmpty(json.name)
-            setFieldTextValue("song", UCase(json.name))
+            setFieldTextValue("song", json.name.trim())
         end if
     end if
 end sub

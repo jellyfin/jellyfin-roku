@@ -2329,6 +2329,179 @@
         <source>Newer devices may support direct play of anamorphic video.</source>
         <translation>Dispositivos mais recentes podem oferecer suporte à reprodução direta de vídeos anamórficos.</translation>
     </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Reproduzir do início</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Vídeos</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Legendas</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>faixas</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Sem padrão</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Assistido Recentemente</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>Não há dados de elenco disponíveis.</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>Mais com 1% na sua biblioteca</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>Nenhum outro título encontrado em sua biblioteca.</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Continuar a partir de</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Substitua as funções de legenda padrão do Roku por funções personalizadas. Se fontes de reserva estiverem configuradas e habilitadas no servidor, elas serão utilizadas. É necessária uma fonte de reserva CJK para a renderização de caracteres CJK. Para oferecer suporte a negrito e itálico, você deve ter arquivos de fonte adicionais com as palavras &quot;bold&quot;, &quot;italic&quot; e &quot;bolditalic&quot; no nome do arquivo.</translation>
+    </message>
+    <message>
+        <source>Playback Controls Inactivity Timeout</source>
+        <translation>Tempo limite de inatividade dos controles de reprodução</translation>
+    </message>
+    <message>
+        <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+        <translation>Defina a duração, em segundos, pela qual a sobreposição de controles de reprodução permanecerá visível quando nenhum botão for pressionado. Defina como 0 para desativar.</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Forçar a transcodificação da mídia.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Todas as mídias reproduzíveis</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Forçar a transcodificação da TV ao vivo. Se &quot;Todas as mídias reproduzíveis&quot; já estiver configurado para &quot;Forçar transcodificação (Remux desativado)&quot;, esta configuração será ignorada.</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>Limite de carregamento de itens</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>Número de itens a serem carregados de uma só vez nas telas da biblioteca.</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>Conco imagens de controle de reprodução</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>Imagem única de controle de reprodução que se move</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>Configurações relacionadas à TV ao vivo.</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>Informações do Título do Canal</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>Selecione qual informação usar como título do canal.</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>Número e Nome do Canal</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>Número do Canal</translation>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>Nome do Canal</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>Exibição do Guia de Programação da TV</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>Selecione como exibir um canal no guia de TV ao vivo.</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>Logo e Título do Canal</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Logo do Canal</translation>
+    </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>Título do Canal</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>Controles de Velocidade de Reprodução (Experimental)</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>Use por sua conta e risco. Não garantimos que isso funcionará para você.\n1. Este recurso pode não funcionar neste dispositivo, embora funcione em outros.\n2. Algumas opções de velocidade podem não funcionar neste dispositivo, embora funcionem em outros.\n3. A Roku pode bloquear este recurso sem aviso prévio, mesmo que o cliente Jellyfin não seja atualizado.</translation>
+    </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>Busca Indisponível</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation>O reprodutor de vídeo do Roku travou enquanto carregava o vídeo</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation>O reprodutor de vídeo da Roku apresentou o seguinte erro</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>O Roku achou que poderia reproduzir essa mídia diretamente, mas a reprodução nunca começou.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Sempre tentar reproduzir mídia de vídeo diretamente</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>Força o Jellyfin a tentar a reprodução direta de mídia de vídeo (exceto TV ao vivo). Ativar essa opção ignora todas as outras configurações de suporte à reprodução e sempre tentará primeiro a reprodução direta. Também altera a forma como o motivo da transcodificação é exibido.</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+        <translation>O Roku achou que poderia reproduzir essa mídia diretamente, mas a duração da reprodução estava incorreta.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>como 1%</translation>
+    </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>Exibição de controles de reprodução</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>Selcione o formato de exibição dos controles de reprodução.</translation>
+    </message>
 </context>
 <context>
     <name></name>

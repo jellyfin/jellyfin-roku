@@ -40,6 +40,8 @@ sub init()
     m.movieExtras.observeField("hasItems", "onMovieExtrasHasItems")
 
     m.options = m.top.findNode("movieOptions")
+    m.options.observeField("videoStreamId", "onOptionsVideoStreamChanged")
+    m.options.observeField("audioStreamIndex", "onOptionsAudioStreamChanged")
     m.infoGroup = m.top.findNode("infoGroup")
 
     m.buttonGrp = m.top.findNode("buttons")
@@ -859,21 +861,48 @@ end function
 '
 'Check if options updated and any reloading required
 sub audioOptionsClosed()
-    if m.options.audioStreamIndex <> m.top.selectedAudioStreamIndex
-        m.top.selectedAudioStreamIndex = m.options.audioStreamIndex
-        m.global.queueManager.callFunc("setPreferredAudioTrackIndex", m.options.audioStreamIndex)
-        m.global.queueManager.callFunc("setPreferredAudioTrackName", m.options.audioStreamName)
-        setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
-    end if
+    applyAudioSelection()
 
     m.buttonGrp.setFocus(true)
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.buttonGrp
 end sub
 
-'
-' Check if options were updated and if any reloding is needed...
+sub onOptionsAudioStreamChanged()
+    applyAudioSelection()
+end sub
+
+sub applyAudioSelection()
+    if m.options.audioStreamIndex <> m.top.selectedAudioStreamIndex
+        m.top.selectedAudioStreamIndex = m.options.audioStreamIndex
+        m.global.queueManager.callFunc("setPreferredAudioTrackIndex", m.options.audioStreamIndex)
+        m.global.queueManager.callFunc("setPreferredAudioTrackName", m.options.audioStreamName)
+        setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
+    end if
+end sub
+
 sub videoOptionsClosed()
+    applyVideoSelection()
+
+    m.buttonGrp.setFocus(true)
+
+    ' If user manually disables force transcode, disable rotation check
+    m.performRotationCheck = not isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.PLAYNORMALLY)
+    if not m.performRotationCheck
+        setFieldText("rotationWarning", string.EMPTY)
+    end if
+
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.buttonGrp
+end sub
+
+' Live callback when the video version is changed from the options dialog
+sub onOptionsVideoStreamChanged()
+    applyVideoSelection()
+end sub
+
+' Reload the audio/subtitle/video option lists when a new video source is selected
+sub applyVideoSelection()
     if m.options.videoStreamId <> m.top.selectedVideoStreamId
         m.top.selectedVideoStreamId = m.options.videoStreamId
         setFieldText("video_codec", tr("Video") + ": " + m.options.video_codec)
@@ -887,6 +916,7 @@ sub videoOptionsClosed()
                     itemData.mediaStreams.push(mediaSource.mediaStreams[i])
                 end for
                 SetDefaultAudioTrack(itemData)
+                SetUpVideoOptions(itemData.mediaSources)
                 SetUpAudioOptions(itemData)
                 exit for
             end if
@@ -894,16 +924,6 @@ sub videoOptionsClosed()
         m.top.itemContent.json = itemData
         m.top.observeField("itemContent", "itemContentChanged")
     end if
-    m.buttonGrp.setFocus(true)
-
-    ' If user manually disables force transcode, disable rotation check
-    m.performRotationCheck = not isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.PLAYNORMALLY)
-    if not m.performRotationCheck
-        setFieldText("rotationWarning", string.EMPTY)
-    end if
-
-    group = m.global.sceneManager.callFunc("getActiveScene")
-    group.lastFocus = m.buttonGrp
 end sub
 
 sub onButtonGroupEscape()
@@ -966,9 +986,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.top.buttonSelected = button.id
                 if button.id = "options-button"
                     m.options.visible = true
-                    m.options.setFocus(true)
-                    group = m.global.sceneManager.callFunc("getActiveScene")
-                    group.lastFocus = m.options
                 end if
                 exit for
             end if
