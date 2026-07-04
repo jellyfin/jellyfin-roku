@@ -2505,5 +2505,13 @@
         <source>More from</source>
         <translation>Więcej z</translation>
     </message>
+    <message>
+        <source>Default</source>
+        <translation>Domyślne</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Tryb odtwarzania</translation>
+    </message>
 </context>
 </TS>
