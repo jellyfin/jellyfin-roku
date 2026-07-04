@@ -26,5 +26,9 @@
   {
     "description": "Add quickplay support to the TV season grid",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix possible crash on homescreen when BACK is pressed",
+    "author": "1hitsong"
   }
 ]
