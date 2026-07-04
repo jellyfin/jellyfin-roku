@@ -87,6 +87,7 @@ sub optionsSet()
             entry.StreamIndex = subtitle.StreamIndex
             if isValid(subtitle.Selected) and subtitle.Selected
                 selectedSubtitleIndex = index
+                m.global.queueManager.callFunc("setPreferredSubtitleTrack", subtitle)
                 entry.selected = true
             end if
             index = index + 1
