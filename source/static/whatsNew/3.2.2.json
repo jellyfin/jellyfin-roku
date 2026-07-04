@@ -26,5 +26,9 @@
   {
     "description": "Add quickplay support to the TV season grid",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix Back navigation loop from item details",
+    "author": "VX-101"
   }
 ]
