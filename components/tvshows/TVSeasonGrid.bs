@@ -93,5 +93,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
+    if isStringEqual(key, KeyCode.PLAY)
+        focusedItem = m.top.content.getChild(m.top.itemFocused)
+        if isValid(focusedItem)
+            m.top.quickPlayNode = focusedItem
+        end if
+        return true
+    end if
+
     return false
 end function
