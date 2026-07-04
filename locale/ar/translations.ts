@@ -1624,31 +1624,31 @@
     </message>
     <message>
         <source>Use Fallback Font Across App</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم خط تطبيق وصول Fallback</translation>
     </message>
     <message>
         <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
-        <translation type="unfinished"></translation>
+        <translation>تغيير الخط المستخدم في التطبيق إلى خط fallback المحدد في الخادم.</translation>
     </message>
     <message>
         <source>Highlighted Color</source>
-        <translation type="unfinished"></translation>
+        <translation>لون التعليم</translation>
     </message>
     <message>
         <source>Folders</source>
-        <translation type="unfinished"></translation>
+        <translation>مجلدات</translation>
     </message>
     <message>
         <source>Go To Artist</source>
-        <translation type="unfinished"></translation>
+        <translation>توجّه للفنان</translation>
     </message>
     <message>
         <source>No Results Found</source>
-        <translation type="unfinished"></translation>
+        <translation>لا توجد نتائج</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>تهيئة</translation>
     </message>
     <message>
         <source>downloads</source>
@@ -1664,15 +1664,15 @@
     </message>
     <message>
         <source>Play / Resume from</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل / استئناف من</translation>
     </message>
     <message>
         <source>Play or Resume from</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغبل أو استئناف من</translation>
     </message>
     <message>
         <source>What&apos;s New</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الجديد</translation>
     </message>
     <message>
         <source>Skip</source>
@@ -1680,7 +1680,7 @@
     </message>
     <message>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>تصنيف بـ</translation>
     </message>
     <message>
         <source>Search is unavailable because the API does not support searching inside boxsets.</source>
@@ -2134,7 +2134,7 @@
     </message>
     <message>
         <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
-        <translation type="unfinished"></translation>
+        <translation>عند فتح لائحة حلقات المسلسل, سيتم التمرير للاسفل تلقائيا و المؤشر ستجه لأول حلقة غير مشاهدة.</translation>
     </message>
     <message>
         <source>Add To Favorites</source>
@@ -2477,6 +2477,19 @@
     <message>
         <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
         <translation>حدد طول الوقت بالثواني ليكون متحكم التشغيل ظاهرا عندما لا يكون هناك ازرة مضغوطة. حدد كـ 0 للتثبيط.</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>مشاهد مؤخرا</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>صورة trickplay تتحرك</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>خمس صور trickplay</translation>
     </message>
 </context>
 </TS>
