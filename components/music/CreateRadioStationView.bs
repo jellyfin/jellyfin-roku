@@ -69,24 +69,24 @@ sub init()
 
     m.sortByData = {
         data: [
-            { selected: true, Index: 0, Title: "Random", Name: "Random", Track: { description: "Random" }, Type: "sortBySelection" },
-            { Index: 1, Title: "Album", Name: "Album", Track: { description: "Album" }, Type: "sortBySelection" },
-            { Index: 2, Title: "AlbumArtist", Name: "AlbumArtist", Track: { description: "AlbumArtist" }, Type: "sortBySelection" },
-            { Index: 3, Title: "Artist", Name: "Artist", Track: { description: "Artist" }, Type: "sortBySelection" },
-            { Index: 4, Title: "DateCreated", Name: "DateCreated", Track: { description: "DateCreated" }, Type: "sortBySelection" },
-            { Index: 5, Title: "DatePlayed", Name: "DatePlayed", Track: { description: "DatePlayed" }, Type: "sortBySelection" },
-            { Index: 6, Title: "SortName", Name: "SortName", Track: { description: "Name" }, Type: "sortBySelection" },
-            { Index: 7, Title: "Runtime", Name: "Runtime", Track: { description: "Runtime" }, Type: "sortBySelection" },
-            { Index: 8, Title: "ProductionYear", Name: "ProductionYear", Track: { description: "ProductionYear" }, Type: "sortBySelection" },
-            { Index: 9, Title: "PlayCount", Name: "PlayCount", Track: { description: "PlayCount" }, Type: "sortBySelection" },
+            { selected: true, Index: 0, Title: "Random", Name: "Random", Track: { description: tr("Random") }, Type: "sortBySelection" },
+            { Index: 1, Title: "Album", Name: "Album", Track: { description: tr("Album") }, Type: "sortBySelection" },
+            { Index: 2, Title: "AlbumArtist", Name: "AlbumArtist", Track: { description: tr("Album Artist") }, Type: "sortBySelection" },
+            { Index: 3, Title: "Artist", Name: "Artist", Track: { description: tr("Artist") }, Type: "sortBySelection" },
+            { Index: 4, Title: "DateCreated", Name: "DateCreated", Track: { description: tr("Date Created") }, Type: "sortBySelection" },
+            { Index: 5, Title: "DatePlayed", Name: "DatePlayed", Track: { description: tr("DATE_PLAYED") }, Type: "sortBySelection" },
+            { Index: 6, Title: "SortName", Name: "SortName", Track: { description: tr("Name") }, Type: "sortBySelection" },
+            { Index: 7, Title: "Runtime", Name: "Runtime", Track: { description: tr("RUNTIME") }, Type: "sortBySelection" },
+            { Index: 8, Title: "ProductionYear", Name: "ProductionYear", Track: { description: tr("RELEASE_DATE") }, Type: "sortBySelection" },
+            { Index: 9, Title: "PlayCount", Name: "PlayCount", Track: { description: tr("PLAY_COUNT") }, Type: "sortBySelection" },
         ]
     }
     m.top.radioStationSortBy = m.sortByData.data[0].name
 
     m.sortOrderData = {
         data: [
-            { selected: true, Index: 0, Title: "Ascending", Name: "Ascending", Track: { description: "Ascending" }, Type: "sortOrderSelection" },
-            { Index: 1, Title: "Descending", Name: "Descending", Track: { description: "Descending" }, Type: "sortOrderSelection" }
+            { selected: true, Index: 0, Title: "Ascending", Name: "Ascending", Track: { description: tr("Ascending") }, Type: "sortOrderSelection" },
+            { Index: 1, Title: "Descending", Name: "Descending", Track: { description: tr("Descending") }, Type: "sortOrderSelection" }
         ]
     }
     m.top.radioStationSortOrder = m.sortOrderData.data[0].name

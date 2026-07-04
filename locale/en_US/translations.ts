@@ -2525,5 +2525,57 @@
             <source>Press Play/Pause to jump to OK button</source>
             <translation>Press Play/Pause to jump to OK button</translation>
         </message>
+        <message>
+            <source>Station Name</source>
+            <translation>Station Name</translation>
+        </message>
+        <message>
+            <source>Name to identify radio station</source>
+            <translation>Name to identify radio station</translation>
+        </message>
+        <message>
+            <source>List of years to include in station content</source>
+            <translation>List of years to include in station content</translation>
+        </message>
+        <message>
+            <source>Field to sort media by before cutting off at limit</source>
+            <translation>Field to sort media by before cutting off at limit</translation>
+        </message>
+        <message>
+            <source>Item Limit</source>
+            <translation>Item Limit</translation>
+        </message>
+        <message>
+            <source>Maximum number of items to load</source>
+            <translation>Maximum number of items to load</translation>
+        </message>
+        <message>
+            <source>Create Station</source>
+            <translation>Create Station</translation>
+        </message>
+        <message>
+            <source>Subtitle</source>
+            <translation>Subtitle</translation>
+        </message>
+        <message>
+            <source>A short description of the radio station</source>
+            <translation>A short description of the radio station</translation>
+        </message>
+        <message>
+            <source>List of genres to include in station content</source>
+            <translation>List of genres to include in station content</translation>
+        </message>
+        <message>
+            <source>Direction to sort media before cutting off at limit</source>
+            <translation>Direction to sort media before cutting off at limit</translation>
+        </message>
+        <message>
+            <source>Background Color</source>
+            <translation>Background Color</translation>
+        </message>
+        <message>
+            <source>Background color to use on home screen block</source>
+            <translation>Background color to use on home screen block</translation>
+        </message>
     </context>
 </TS>
