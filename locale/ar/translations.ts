@@ -1684,15 +1684,15 @@
     </message>
     <message>
         <source>Search is unavailable because the API does not support searching inside boxsets.</source>
-        <translation type="unfinished"></translation>
+        <translation>البحث غير متوفر لأن الـ API لا يدعم البحث في المسلسلات.</translation>
     </message>
     <message>
         <source>Search is unavailable because the API does not support searching inside My List.</source>
-        <translation type="unfinished"></translation>
+        <translation>البحث غير متوفر لأن الـ API لا يدعم البحث في لائحتي.</translation>
     </message>
     <message>
         <source>Search this library</source>
-        <translation type="unfinished"></translation>
+        <translation>البحث في هذه المكتبة</translation>
     </message>
     <message>
         <source>Mark As Unplayed</source>
@@ -1712,99 +1712,99 @@
     </message>
     <message>
         <source>Add To My List</source>
-        <translation type="unfinished"></translation>
+        <translation>اضف إلى لائحتي</translation>
     </message>
     <message>
         <source>Press OK to type</source>
-        <translation type="unfinished"></translation>
+        <translation>اضغط &quot;تم&quot; للكتابة</translation>
     </message>
     <message>
         <source>Library Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات المكتبة</translation>
     </message>
     <message>
         <source>Display Watched Checkmark</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض معلّمات المشاهدة</translation>
     </message>
     <message>
         <source>Playback Info</source>
-        <translation type="unfinished"></translation>
+        <translation>معلومات لتشغيل</translation>
     </message>
     <message>
         <source>Select Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار الصوت</translation>
     </message>
     <message>
         <source>Select Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار التردمات</translation>
     </message>
     <message>
         <source>Select Language</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار اللغة</translation>
     </message>
     <message>
         <source>Tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>مسارات</translation>
     </message>
     <message>
         <source>Released</source>
-        <translation type="unfinished"></translation>
+        <translation>منشور</translation>
     </message>
     <message>
         <source>min</source>
-        <translation type="unfinished"></translation>
+        <translation>دقيقة</translation>
     </message>
     <message>
         <source>mins</source>
-        <translation type="unfinished"></translation>
+        <translation>دقائق</translation>
     </message>
     <message>
         <source>Continue Listening</source>
-        <translation type="unfinished"></translation>
+        <translation>متابعة الاستماع</translation>
     </message>
     <message>
         <source>In My List</source>
-        <translation type="unfinished"></translation>
+        <translation>في لائحتي</translation>
     </message>
     <message>
         <source>AppearsOn</source>
-        <translation type="unfinished"></translation>
+        <translation>يظهر على</translation>
     </message>
     <message>
         <source>Public Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>ملف عام</translation>
     </message>
     <message>
         <source>Saved Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>حفظ الملف</translation>
     </message>
     <message>
         <source>Manage Hidden Users</source>
-        <translation type="unfinished"></translation>
+        <translation>إدارة المستخدمين المخفيين</translation>
     </message>
     <message>
         <source>Select User</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار مستخدم</translation>
     </message>
     <message>
         <source>Are you sure you want to forget this user?</source>
-        <translation type="unfinished"></translation>
+        <translation>هل انت متأكد من رغبتك في نسيان هذا المستخدم؟</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this subtitle?</source>
-        <translation type="unfinished"></translation>
+        <translation>هل انت متأكد من رغبتك في حذف هذه الترجمة؟</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>نعم</translation>
     </message>
     <message>
         <source>No, Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>لا, إلغي</translation>
     </message>
     <message>
         <source>Manual Login</source>
-        <translation type="unfinished"></translation>
+        <translation>ولوج يدوي</translation>
     </message>
     <message>
         <source>Unhide Users</source>
@@ -1812,93 +1812,93 @@
     </message>
     <message>
         <source>Unhide Users</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار مستخدمين</translation>
     </message>
     <message>
         <source>Play Normally - disabled because of selected force transcoding setting</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل طبيعي - مثبط بسبب إعداد التشفير المختار</translation>
     </message>
     <message>
         <source>as</source>
-        <translation type="unfinished"></translation>
+        <translation>مثل</translation>
         <extracomment>Used in ExtrasRowList.bs to show the role of a person in a movie or TV show</extracomment>
     </message>
     <message>
         <source>Seasons</source>
-        <translation type="unfinished"></translation>
+        <translation>مواسم</translation>
         <extracomment>Used in TVSeasonRow.bs to show the title of a row containing seasons</extracomment>
     </message>
     <message>
         <source>Season</source>
-        <translation type="unfinished"></translation>
+        <translation>موسم</translation>
     </message>
     <message>
         <source>Episode</source>
-        <translation type="unfinished"></translation>
+        <translation>حلقة</translation>
     </message>
     <message>
         <source>Section 1</source>
-        <translation type="unfinished"></translation>
+        <translation>القسم 1</translation>
     </message>
     <message>
         <source>Section 2</source>
-        <translation type="unfinished"></translation>
+        <translation>القسم 2</translation>
     </message>
     <message>
         <source>Section 3</source>
-        <translation type="unfinished"></translation>
+        <translation>القسم 3</translation>
     </message>
     <message>
         <source>Section 4</source>
-        <translation type="unfinished"></translation>
+        <translation>القسم 4</translation>
     </message>
     <message>
         <source>Section 5</source>
-        <translation type="unfinished"></translation>
+        <translation>القسم 5</translation>
     </message>
     <message>
         <source>Section 6</source>
-        <translation type="unfinished"></translation>
+        <translation>القسم 6</translation>
     </message>
     <message>
         <source>Section 7</source>
-        <translation type="unfinished"></translation>
+        <translation>القسم 7</translation>
     </message>
     <message>
         <source>Section 8</source>
-        <translation type="unfinished"></translation>
+        <translation>القسم 8</translation>
     </message>
     <message>
         <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار ما يظهر في القسم 1. هذا الاعداد لا تأثير له إلا عند تفعيل &quot;\استخدام ترتيب صفحة ويب المستخدم الرئيسية&quot;. Jellyfin سيحتاج لإغلاقه ثم تشغيله لتفعيل التغييرات.</translation>
     </message>
     <message>
         <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار ما يظهر في القسم 2. هذا الاعداد لا تأثير له إلا عند تفعيل &quot;\استخدام ترتيب صفحة ويب المستخدم الرئيسية&quot;. Jellyfin سيحتاج لإغلاقه ثم تشغيله لتفعيل التغييرات.</translation>
     </message>
     <message>
         <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار ما يظهر في القسم 3. هذا الاعداد لا تأثير له إلا عند تفعيل &quot;\استخدام ترتيب صفحة ويب المستخدم الرئيسية&quot;. Jellyfin سيحتاج لإغلاقه ثم تشغيله لتفعيل التغييرات.</translation>
     </message>
     <message>
         <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار ما يظهر في القسم 4. هذا الاعداد لا تأثير له إلا عند تفعيل &quot;\استخدام ترتيب صفحة ويب المستخدم الرئيسية&quot;. Jellyfin سيحتاج لإغلاقه ثم تشغيله لتفعيل التغييرات.</translation>
     </message>
     <message>
         <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار ما يظهر في القسم 5. هذا الاعداد لا تأثير له إلا عند تفعيل &quot;\استخدام ترتيب صفحة ويب المستخدم الرئيسية&quot;. Jellyfin سيحتاج لإغلاقه ثم تشغيله لتفعيل التغييرات.</translation>
     </message>
     <message>
         <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار ما يظهر في القسم 6. هذا الاعداد لا تأثير له إلا عند تفعيل &quot;\استخدام ترتيب صفحة ويب المستخدم الرئيسية&quot;. Jellyfin سيحتاج لإغلاقه ثم تشغيله لتفعيل التغييرات.</translation>
     </message>
     <message>
         <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار ما يظهر في القسم 7. هذا الاعداد لا تأثير له إلا عند تفعيل &quot;\استخدام ترتيب صفحة ويب المستخدم الرئيسية&quot;. Jellyfin سيحتاج لإغلاقه ثم تشغيله لتفعيل التغييرات.</translation>
     </message>
     <message>
         <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيار ما يظهر في القسم 8. هذا الاعداد لا تأثير له إلا عند تفعيل &quot;\استخدام ترتيب صفحة ويب المستخدم الرئيسية&quot;. Jellyfin سيحتاج لإغلاقه ثم تشغيله لتفعيل التغييرات.</translation>
     </message>
     <message>
         <source>Live TV</source>
@@ -1906,71 +1906,71 @@
     </message>
     <message>
         <source>My List</source>
-        <translation type="unfinished"></translation>
+        <translation>لائحتي</translation>
     </message>
     <message>
         <source>Recently Added Media</source>
-        <translation type="unfinished"></translation>
+        <translation>الوسائط المضافة حديثا</translation>
     </message>
     <message>
         <source>Customize the home screen sections</source>
-        <translation type="unfinished"></translation>
+        <translation>تخصيص اقسام الشاشة الرئيسية</translation>
     </message>
     <message>
         <source>Home Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>صفوف الصفحة الرئيسية</translation>
     </message>
     <message>
         <source>Colors</source>
-        <translation type="unfinished"></translation>
+        <translation>ألوان</translation>
     </message>
     <message>
         <source>Change the colors of elements in the app.</source>
-        <translation type="unfinished"></translation>
+        <translation>تغيير ألوان العناصر في التطبيق.</translation>
     </message>
     <message>
         <source>All Screens</source>
-        <translation type="unfinished"></translation>
+        <translation>كل الشاشات</translation>
     </message>
     <message>
         <source>Colors used across multiple screens.</source>
-        <translation type="unfinished"></translation>
+        <translation>الألوان المستخدمة عبر عدة شاشات.</translation>
     </message>
     <message>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>خلفية</translation>
     </message>
     <message>
         <source>The base background color. Background images are layered on top of this color.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون الخلفية الاساسي. صور الخلفية تتموضع أعلى هذا اللون.</translation>
     </message>
     <message>
         <source>Cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>مؤشر</translation>
     </message>
     <message>
         <source>The color of the remote control&apos;s cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون مؤشر التحكم عن بعد.</translation>
     </message>
     <message>
         <source>Primary Text</source>
-        <translation type="unfinished"></translation>
+        <translation>نص رئيسي</translation>
     </message>
     <message>
         <source>The primary text color.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون النص الرئيسي.</translation>
     </message>
     <message>
         <source>Secondary Text</source>
-        <translation type="unfinished"></translation>
+        <translation>نص ثانوي</translation>
     </message>
     <message>
         <source>The secondary text color.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون النص الثانوي.</translation>
     </message>
     <message>
         <source>Watched Check Mark &amp; Unplayed Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد المشاهدات المؤشرة و غير المشغّلة</translation>
     </message>
     <message>
         <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
@@ -2034,15 +2034,15 @@
     </message>
     <message>
         <source>Text Color</source>
-        <translation type="unfinished"></translation>
+        <translation>لون النص</translation>
     </message>
     <message>
         <source>The text color for title and items the cursor is not over.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون نص العنوان و العناصر التي لا يمر عليها المؤشر.</translation>
     </message>
     <message>
         <source>What&apos;s New Author</source>
-        <translation type="unfinished"></translation>
+        <translation>ما جديد المؤلف</translation>
     </message>
     <message>
         <source>The text color for the author in the What&apos;s New popup.</source>
@@ -2130,7 +2130,7 @@
     </message>
     <message>
         <source>Start Episode List From First Unwatched Episode</source>
-        <translation type="unfinished"></translation>
+        <translation>بدء لائحة الحلقات من أول حلقة غير مشاهدة</translation>
     </message>
     <message>
         <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
@@ -2490,6 +2490,18 @@
     <message>
         <source>Five trickplay images</source>
         <translation>خمس صور trickplay</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>افتراضي</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>المزيد من</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>نمط التشغيل</translation>
     </message>
 </context>
 </TS>
