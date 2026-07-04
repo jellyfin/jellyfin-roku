@@ -34,5 +34,9 @@
   {
     "description": "Fix Back navigation loop from item details",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix full audio player controls after stop",
+    "author": "VX-101"
   }
 ]
