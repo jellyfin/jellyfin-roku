@@ -2513,5 +2513,9 @@
         <source>Playback Mode</source>
         <translation>Tryb odtwarzania</translation>
     </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Naciśnij ponownie przycisk Zatrzymaj, aby zamknąć odtwarzacz</translation>
+    </message>
 </context>
 </TS>
