@@ -6,6 +6,7 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/VideoControl.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 
 import "pkg:/source/utils/config.bs"
@@ -364,7 +365,7 @@ sub clearStopConfirmation()
 end sub
 
 function isStopButtonAction(key as string) as boolean
-    if key <> KeyCode.OK then return false
+    if not isStringEqual(key, KeyCode.OK) then return false
     if not m.buttons.hasFocus() then return false
 
     selectedButton = m.buttons.getChild(m.top.selectedButtonIndex)
@@ -386,8 +387,8 @@ function stopClicked() as boolean
     end if
 
     audioState = m.global.audioPlayer.state
-    if isStringEqual(audioState, MediaPlaybackState.PLAYING) or isStringEqual(audioState, MediaPlaybackState.BUFFERING)
-        m.global.audioPlayer.control = "pause"
+    if inArray([MediaPlaybackState.PLAYING, MediaPlaybackState.BUFFERING], audioState)
+        m.global.audioPlayer.control = VideoControl.PAUSE
     end if
 
     return true
