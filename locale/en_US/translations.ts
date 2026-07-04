@@ -217,6 +217,11 @@
             <translation>Episodes</translation>
         </message>
         <message>
+            <source>More from</source>
+            <translation>More from</translation>
+            <extracomment>Prefix for the episodes row header in the item detail extras slider, followed by "Season X" (e.g. "More from Season 3")</extracomment>
+        </message>
+        <message>
             <source>Error Retrieving Content</source>
             <translation>Error Retrieving Content</translation>
             <extracomment>Dialog title when unable to load Content from Server</extracomment>

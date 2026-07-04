@@ -16,6 +16,10 @@
     "author": "ferezvi"
   },
   {
+    "description": "Honor subtitle selection beyond current episode",
+    "author": "tjps"
+  },
+  {
     "description": "Revamped the Options menu for movies, showing all options in a single list instead of a tabbed view",
     "author": "CarsonKompon"
   }
