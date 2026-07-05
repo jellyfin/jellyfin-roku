@@ -218,11 +218,15 @@ sub setRowItemSize()
 
     homeSections = m.top.content.getChildren(-1, 0)
     newSizeArray = CreateObject("roArray", homeSections.count(), false)
+    variableWidthArray = CreateObject("roArray", homeSections.count(), false)
 
     for i = 0 to homeSections.count() - 1
         newSizeArray[i] = isValid(homeSections[i].cursorSize) ? homeSections[i].cursorSize : homeRowItemSizes.WIDE_POSTER
+        variableWidthArray[i] = isStringEqual(homeSections[i].title, tr("On Now"))
     end for
+
     m.top.rowItemSize = newSizeArray
+    m.top.variableWidthItems = variableWidthArray
 
     ' If we have processed the expected number of content rows, stop the loading timer and run the complete function
     if m.expectedRowCount = m.processedRowCount
