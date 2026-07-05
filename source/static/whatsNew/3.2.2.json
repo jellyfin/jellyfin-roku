@@ -38,5 +38,9 @@
   {
     "description": "Fix full audio player controls after stop",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix possible crash on homescreen when BACK is pressed",
+    "author": "1hitsong"
   }
 ]
