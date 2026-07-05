@@ -78,5 +78,9 @@
   {
     "description": "Stop forcing HLS for live TV",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Add Force Transcode (Allow Remux) option for live TV",
+    "author": "FractalBoy"
   }
 ]

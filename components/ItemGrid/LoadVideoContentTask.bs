@@ -251,8 +251,19 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     ' If forceTranscode setting is enabled, but we haven't set the transcode codec yet, set it now and update Playback Info
     if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
         setTranscodeCodec(video, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
-    else if meta.live and isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscodeLiveTV`", PlaybackMethod.PLAYNORMALLY))
-        setTranscodeCodec(video, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+    else if meta.live
+        forceTranscode = chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscodeLiveTV`", PlaybackMethod.PLAYNORMALLY)
+        if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, forceTranscode)
+            setTranscodeCodec(video, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+        else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, forceTranscode)
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+
+            m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+            if not isValid(m.playbackInfo)
+                video.errorMsg = "Error loading playback info"
+                video.content = invalid
+            end if
+        end if
     end if
 
     addSubtitlesToVideo(video, meta)
