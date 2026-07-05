@@ -272,7 +272,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     if meta.live
         video.content.live = true
-        video.content.StreamFormat = "hls"
     end if
 
     video.container = getContainerType(meta)
