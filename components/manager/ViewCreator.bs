@@ -1,22 +1,38 @@
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
+import "pkg:/source/enums/TransportCommand.bs"
+import "pkg:/source/enums/TransportStatus.bs"
 import "pkg:/source/enums/VideoControl.bs"
 
 const STILL_WATCHING_POPUP_TIMER_SECONDS = 60
 
 
 ' Play Audio
-sub CreateAudioPlayerView()
-    if m.global.audioPlayer.id <> m.global.queueManager.callFunc("getCurrentItem").id
+sub CreateAudioPlayerView(showAudioPlayerView = false as boolean)
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    if not isValid(currentItem)
+        stopLoadingSpinner()
+        return
+    end if
+
+    audioItemChanged = m.global.audioPlayer.id <> currentItem.id
+    if audioItemChanged
         m.global.audioPlayer.id = invalid
-        m.global.audioPlayer.id = m.global.queueManager.callFunc("getCurrentItem").id
+        m.global.audioPlayer.id = currentItem.id
     end if
 
     ' Only bypass creating an audio player view if the current queue is only audio
     if m.global.queueManager.callFunc("getQueueUniqueTypes").count() = 1
-        if audioMiniPlayerIsVisible(m.top) then return
+        if audioMiniPlayerIsVisible(m.top)
+            if not showAudioPlayerView
+                if not audioItemChanged then stopLoadingSpinner()
+                return
+            end if
+            m.audioMiniPlayer.callFunc("setVisible", false)
+        end if
     end if
 
     m.view = CreateObject("roSGNode", "AudioPlayerView")
@@ -64,6 +80,11 @@ sub CreateVideoPlayerView()
     m.view.observeField("selectSubtitlePressed", "onSelectSubtitlePressed")
     m.view.observeField("selectAudioPressed", "onSelectAudioPressed")
     m.view.observeField("selectSpeedPressed", "onSelectSpeedPressed")
+
+    ' Start VoiceInputTask to receive voice transport commands
+    m.voiceInputTask = CreateObject("roSGNode", "VoiceInputTask")
+    m.voiceInputTask.observeField("inputData", "onVoiceInputData")
+    m.voiceInputTask.control = TaskControl.RUN
 
     mediaSourceId = m.global.queueManager.callFunc("getCurrentItem").mediaSourceId
 
@@ -195,6 +216,7 @@ sub onSelectSubtitlePressed()
     ' Manually create the None option and place at top
     subtitleData.data.Unshift({
         "Index": SubtitleSelection.NONE,
+        "StreamIndex": SubtitleSelection.NONE,
         "IsExternal": false,
         "Track": {
             "description": "None"
@@ -362,6 +384,11 @@ sub onStateChange()
                 m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
                 m.global.queueManager.callFunc("clear")
 
+                ' Stop VoiceInputTask when playback ends
+                if isValid(m.voiceInputTask)
+                    m.voiceInputTask.control = TaskControl.STOP
+                end if
+
                 ' Playback completed, return user to previous screen
                 m.global.sceneManager.callFunc("popScene")
                 m.global.audioPlayer.loopMode = ""
@@ -406,6 +433,11 @@ sub onStateChange()
             m.global.queueManager.callFunc("setLastKnownItemID", episodeToShowAtFinish.LookupCI("id"))
         end if
 
+        ' Stop VoiceInputTask when playback ends
+        if isValid(m.voiceInputTask)
+            m.voiceInputTask.control = TaskControl.STOP
+        end if
+
         ' Playback completed, return user to previous screen
         m.global.sceneManager.callFunc("popScene")
         m.global.audioPlayer.loopMode = ""
@@ -424,6 +456,11 @@ sub stillWatchingTimerComplete()
 
     m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
     m.global.queueManager.callFunc("clear")
+
+    ' Stop VoiceInputTask when playback ends
+    if isValid(m.voiceInputTask)
+        m.voiceInputTask.control = TaskControl.STOP
+    end if
     m.global.sceneManager.callFunc("popScene")
 end sub
 
@@ -455,4 +492,178 @@ function audioMiniPlayerIsVisible(baseNode as dynamic) as boolean
     if not isValid(m.audioMiniPlayer) then return false
 
     return m.audioMiniPlayer.callFunc("isVisible")
+end function
+
+' onVoiceInputData: Called when VoiceInputTask receives a voice/transport command.
+' Decodes the command, handles it, and sends EventResponse back to Roku OS.
+'
+sub onVoiceInputData()
+    if not isValid(m.view) then return
+    data = m.voiceInputTask.inputData
+    if not isChainValid(data, "type") then return
+
+    ret = handleTransportCommand(data)
+
+    ' Send EventResponse back to Roku OS with the result
+    if isChainValid(data, "id")
+        m.voiceInputTask.transportResponse = { id: data.id, status: ret.status }
+    end if
+
+    ' Forward seek commands to VideoPlayerView
+    if isValid(ret.cmd)
+        m.view.voiceCommand = ret.cmd
+    end if
+end sub
+
+' handleTransportCommand: Decodes and handles a voice/transport command.
+' Returns an assocarray with "status" and optionally "cmd" for VideoPlayerView.
+' Status values follow Roku's EventResponse spec:
+'   "success"   - command handled successfully
+'   "unhandled" - command not handled, Roku OS will execute default behavior
+'   "error.generic" - command not available in current context
+'
+function handleTransportCommand(data as object) as object
+    ret = { status: TransportStatus.UNHANDLED }
+    if not isValid(m.view) then return ret
+
+    if isStringEqual(data.type, TransportCommand.SEEK)
+        ret.cmd = { type: TransportCommand.SEEK, position: data.position }
+        ret.status = TransportStatus.SUCCESS
+        return ret
+    end if
+
+    if not isStringEqual(data.type, "transport") then return ret
+    if not isChainValid(data, "command") then return ret
+
+    cmd = LCase(data.command)
+
+    if isStringEqual(cmd, TransportCommand.STARTOVER)
+        ret.cmd = { type: TransportCommand.SEEK, position: 0 }
+        ret.status = TransportStatus.SUCCESS
+
+    else if isStringEqual(cmd, TransportCommand.SEEK)
+        currentPos = m.view.position
+        duration = Val(data.duration)
+        newPos = currentPos + duration
+        if isStringEqual(data.direction, "backward")
+            newPos = currentPos - duration
+        end if
+        if newPos < 0
+            newPos = 0
+            ret.status = TransportStatus.SUCCESS_SEEK_START
+        else if newPos > m.view.duration
+            newPos = m.view.duration - 30
+            ret.status = TransportStatus.SUCCESS_SEEK_END
+        else
+            ret.status = TransportStatus.SUCCESS
+        end if
+        ret.cmd = { type: TransportCommand.SEEK, position: newPos }
+
+    else if isStringEqual(cmd, TransportCommand.PLAY) or isStringEqual(cmd, TransportCommand.RESUME)
+        ret.cmd = { type: TransportCommand.PLAY }
+        ret.status = TransportStatus.SUCCESS
+
+    else if isStringEqual(cmd, TransportCommand.PAUSE) or isStringEqual(cmd, TransportCommand.STOP)
+        ret.cmd = { type: TransportCommand.PAUSE}
+        ret.status = TransportStatus.SUCCESS
+
+    else if isStringEqual(cmd, TransportCommand.PLAYPAUSE)
+        ret.status = TransportStatus.SUCCESS
+
+    else if isStringEqual(cmd, TransportCommand.FORWARD) or isStringEqual(cmd, TransportCommand.FASTFORWARD) or isStringEqual(cmd, TransportCommand.FF)
+        if m.view.hasActiveSegment
+            ret.cmd = { type: TransportCommand.SKIP }
+            ret.status = TransportStatus.SUCCESS
+        else
+            ret.status = TransportStatus.UNHANDLED
+        end if
+
+    else if isStringEqual(cmd, TransportCommand.REWIND) or isStringEqual(cmd, TransportCommand.RW)
+        ret.status = TransportStatus.UNHANDLED
+
+    else if isStringEqual(cmd, TransportCommand.NEXT_ITEM)
+        if m.view.hasActiveSegment
+            ret.cmd = { type: TransportCommand.SKIP }
+            ret.status = TransportStatus.SUCCESS
+        else if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+            m.global.sceneManager.callFunc("clearPreviousScene")
+            m.global.queueManager.callFunc("moveForward")
+            m.global.queueManager.callFunc("playQueue")
+            ret.status = TransportStatus.SUCCESS
+        else
+            ret.status = TransportStatus.ERROR_GENERIC
+        end if
+
+    else if isStringEqual(cmd, TransportCommand.REPLAY)
+        ret.status = TransportStatus.UNHANDLED
+
+    else if isStringEqual(cmd, TransportCommand.NOWPLAYING)
+        currentItem = m.global.queueManager.callFunc("getCurrentItem")
+        if isValid(currentItem)
+            itemData = currentItem.json ?? currentItem
+            mediaItemType = LCase(itemData.Type)
+
+            ' Build a descriptive title including year (movies) or season/episode info (TV episodes).
+            ' NOTE: During testing (es-MX, Roku voice remote), Roku Voice only announced the base
+            ' title and did not read the year/season/episode suffix. This may be a limitation
+            ' of the locale/TTS, or may work correctly in other regions/languages. The full
+            ' title is still passed per the official spec, in case it is supported elsewhere.
+            if isStringEqual(mediaItemType, ItemType.MOVIE)
+                displayTitle = itemData.Name ?? itemData.title
+                if isValid(itemData.ProductionYear)
+                    displayTitle += `, ${itemData.ProductionYear}`
+                end if
+
+            else if isStringEqual(mediaItemType, ItemType.EPISODE)
+                season = isValid(itemData.ParentIndexNumber) ? StrI(itemData.ParentIndexNumber).trim() : "0"
+                episode = isValid(itemData.IndexNumber) ? StrI(itemData.IndexNumber).trim() : "0"
+                seasonStr = Left("0" + season, 2)
+                episodeStr = Left("0" + episode, 2)
+                displayTitle = `${itemData.SeriesName} - S${seasonStr}E${episodeStr} - ${itemData.Name ?? itemData.title}`
+                if isValid(itemData.ProductionYear)
+                    displayTitle += `, ${itemData.ProductionYear}`
+                end if
+
+            else
+                displayTitle = itemData.Name ?? itemData.title
+            end if
+
+            appMgr = CreateObject("roAppManager")
+            appMgr.SetNowPlayingContentMetaData({
+                title: displayTitle,
+                contentType: mediaItemType
+            })
+            ret.status = TransportStatus.SUCCESS
+        else
+            ret.status = TransportStatus.ERROR_GENERIC
+        end if
+
+    else if isStringEqual(cmd, TransportCommand.SKIP)
+        ret.cmd = { type: TransportCommand.SKIP }
+        ret.status = TransportStatus.SUCCESS
+
+    else if isStringEqual(cmd, TransportCommand.LOOP)
+        ret.status = TransportStatus.UNHANDLED
+
+    else if isStringEqual(cmd, TransportCommand.SHUFFLE)
+        ret.status = TransportStatus.UNHANDLED
+
+    else if isStringEqual(cmd, TransportCommand.LIKE)
+        ret.status = TransportStatus.UNHANDLED
+
+    else if isStringEqual(cmd, TransportCommand.DISLIKE)
+        ret.status = TransportStatus.UNHANDLED
+
+    else if isStringEqual(cmd, TransportCommand.STOP)
+        ret.status = TransportStatus.UNHANDLED
+
+    else if isStringEqual(cmd, TransportCommand.RESUME)
+        ret.status = TransportStatus.UNHANDLED
+
+    else if isStringEqual(cmd, TransportCommand.OK)
+        ret.status = TransportStatus.UNHANDLED
+
+    end if
+
+    return ret
 end function

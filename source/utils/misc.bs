@@ -1,3 +1,4 @@
+import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/parsedUrl.bs"
 
@@ -308,6 +309,17 @@ end sub
 ' Returns whether or not passed value is valid
 function isValid(input as dynamic) as boolean
     return input <> invalid
+end function
+
+' Returns whether or not passed value is a number
+function isNumber(input as dynamic) as boolean
+    if not isValid(input) then return false
+    itemType = type(input)
+    if inArray(["roInt", "Integer"], itemType) then return true
+    if inArray(["roLongInteger", "LongInteger"], itemType) then return true
+    if inArray(["roFloat", "Float"], itemType) then return true
+    if inArray(["roDouble", "Double"], itemType) then return true
+    return false
 end function
 
 ' Returns whether or not passed string values are equal
@@ -657,6 +669,57 @@ function isSelectedAudioMiniPlayer() as boolean
     if not isValid(audioMiniPlayer) then return false
 
     return audioMiniPlayer.callFunc("isSelected")
+end function
+
+' toggleActiveAudioPlayback: Toggles the loaded audio player item without changing queue position.
+'
+function toggleActiveAudioPlayback() as boolean
+    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PLAYING)
+        stopLoadingSpinner()
+        m.global.audioPlayer.control = "pause"
+        return true
+    end if
+
+    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PAUSED)
+        stopLoadingSpinner()
+        m.global.audioPlayer.control = "resume"
+        return true
+    end if
+
+    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.BUFFERING)
+        return true
+    end if
+
+    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.FINISHED)
+        currentItem = m.global.queueManager.callFunc("getCurrentItem")
+        if not isValid(currentItem) then return false
+
+        if isValidAndNotEmpty(m.global.audioPlayer.id) and isValidAndNotEmpty(currentItem.id)
+            if isStringEqual(m.global.audioPlayer.id, currentItem.id)
+                stopLoadingSpinner()
+                m.global.audioPlayer.control = "play"
+                return true
+            end if
+        end if
+
+        return false
+    end if
+
+    return false
+end function
+
+' toggleAudioMiniPlayerPlayback: Toggles active mini-player audio playback if shown.
+'
+function toggleAudioMiniPlayerPlayback() as boolean
+    scene = m.top.getScene()
+    if not isValid(scene) then return false
+
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return false
+    if not audioMiniPlayer.callFunc("isVisible") then return false
+    if audioMiniPlayer.callFunc("isSelected") then return true
+
+    return toggleActiveAudioPlayback()
 end function
 
 function findDefaultTrack(streams as dynamic)

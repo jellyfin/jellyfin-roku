@@ -6,6 +6,7 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/VideoControl.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 
 import "pkg:/source/utils/config.bs"
@@ -29,6 +30,7 @@ sub init()
     m.lastRecordedPositionTimestamp = 0
     m.scrubTimestamp = -1
     m.hasLyrics = false
+    m.stopConfirmPending = false
 
     m.playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
 
@@ -68,7 +70,7 @@ sub init()
 
     m.buttons.setFocus(true)
 
-    if m.global.audioPlayer.state = "playing"
+    if isValidAndNotEmpty(m.global.audioPlayer.audioData)
         onAudioDataChanged()
     end if
 end sub
@@ -130,6 +132,7 @@ sub setupAudioNode()
     m.global.audioPlayer.observeFieldScoped("bufferingStatus", "bufferPositionChanged")
     m.global.audioPlayer.observeFieldScoped("audioData", "onAudioDataChanged")
     m.global.audioPlayer.observeFieldScoped("loopmode", "setLoopButtonImage")
+    m.global.audioPlayer.observeFieldScoped("state", "onAudioPlayerStateChanged")
 end sub
 
 ' Creates audio node used to play song(s)
@@ -138,11 +141,13 @@ sub unobserveAll()
     m.global.audioPlayer.unobserveFieldScoped("bufferingStatus")
     m.global.audioPlayer.unobserveFieldScoped("audioData")
     m.global.audioPlayer.unobserveFieldScoped("loopmode")
+    m.global.audioPlayer.unobserveFieldScoped("state")
 end sub
 
 ' Setup playback buttons, default to Play button selected
 sub setupButtons()
     m.buttons = m.top.findNode("buttons")
+    m.playButton = m.top.findNode("play")
     m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
 
     ' If we're playing a mixed playlist, remove the shuffle and loop buttons
@@ -155,11 +160,13 @@ sub setupButtons()
 
         m.previouslySelectedButtonIndex = 0
         m.top.selectedButtonIndex = 1
+        updatePlayButtonState()
         return
     end if
 
     m.previouslySelectedButtonIndex = 1
     m.top.selectedButtonIndex = 2
+    updatePlayButtonState()
 end sub
 
 ' Event handler when user selected a different playback button
@@ -186,6 +193,7 @@ sub setupInfoNodes()
     m.positionTimestamp = m.top.findNode("positionTimestamp")
     m.seekPosition = m.top.findNode("seekPosition")
     m.seekTimestamp = m.top.findNode("seekTimestamp")
+    m.stopConfirmMessage = m.top.findNode("stopConfirmMessage")
     m.totalLengthTimestamp = m.top.findNode("totalLengthTimestamp")
     m.nextItem = m.top.findNode("nextItem")
     m.previousItem = m.top.findNode("previousItem")
@@ -301,7 +309,11 @@ sub endScreenSaver()
 end sub
 
 sub displayMiniPlayer()
-    if not isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PLAYING)
+    audioState = m.global.audioPlayer.state
+    ' Paused or buffering audio should still return to the mini-player instead of clearing playback.
+    isActiveAudioState = isStringEqual(audioState, MediaPlaybackState.PLAYING) or isStringEqual(audioState, MediaPlaybackState.PAUSED) or isStringEqual(audioState, MediaPlaybackState.BUFFERING)
+
+    if not isActiveAudioState
         m.global.queueManager.callFunc("clear")
         m.global.audioPlayer.control = "stop"
         return
@@ -330,13 +342,63 @@ function playAction() as boolean
     return true
 end function
 
-function stopClicked() as boolean
-    m.global.queueManager.callFunc("clear")
-    m.global.audioPlayer.control = "stop"
-    if m.top.returnOnStop
-        unobserveAll()
-        m.global.sceneManager.callFunc("popScene")
+sub onAudioPlayerStateChanged()
+    updatePlayButtonState()
+end sub
+
+sub updatePlayButtonState()
+    if not isValid(m.playButton) then return
+
+    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PLAYING)
+        m.playButton.uri = "pkg:/images/icons/pauseCircle.png"
+    else
+        m.playButton.uri = "pkg:/images/icons/playCircle.png"
     end if
+end sub
+
+sub clearStopConfirmation()
+    m.stopConfirmPending = false
+
+    if isValid(m.stopConfirmMessage)
+        m.stopConfirmMessage.visible = false
+    end if
+end sub
+
+function isStopButtonAction(key as string) as boolean
+    if not isStringEqual(key, KeyCode.OK) then return false
+    if not m.buttons.hasFocus() then return false
+
+    selectedButton = m.buttons.getChild(m.top.selectedButtonIndex)
+    if not isValid(selectedButton) then return false
+
+    return isStringEqual(selectedButton.id, "stop")
+end function
+
+function stopClicked() as boolean
+    if m.stopConfirmPending
+        clearStopConfirmation()
+        return closePlayerClicked()
+    end if
+
+    m.stopConfirmPending = true
+    if isValid(m.stopConfirmMessage)
+        m.stopConfirmMessage.text = tr("Press Stop again to close player")
+        m.stopConfirmMessage.visible = true
+    end if
+
+    audioState = m.global.audioPlayer.state
+    if inArray([MediaPlaybackState.PLAYING, MediaPlaybackState.BUFFERING], audioState)
+        m.global.audioPlayer.control = VideoControl.PAUSE
+    end if
+
+    return true
+end function
+
+function closePlayerClicked() as boolean
+    m.global.queueManager.callFunc("clear")
+    unobserveAll()
+    m.global.audioPlayer.control = "stop"
+    m.global.sceneManager.callFunc("popScene")
     return true
 end function
 
@@ -479,6 +541,7 @@ sub onAudioDataChanged()
     data = data[0]
     ' Reset buffer bar without animation
     m.bufferPosition.width = 0
+    clearStopConfirmation()
     m.hasLyrics = false
 
     exitScrubMode(m.buttons)
@@ -636,7 +699,7 @@ sub setOnScreenTextValues(json)
         end if
 
         if isValidAndNotEmpty(json.name)
-            setFieldTextValue("song", UCase(json.name))
+            setFieldTextValue("song", json.name.trim())
         end if
     end if
 end sub
@@ -826,6 +889,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if screenSaverActive()
             endScreenSaver()
             return true
+        end if
+
+        if m.stopConfirmPending and not isStopButtonAction(key)
+            clearStopConfirmation()
         end if
 
         ' Key Event handler when m.song is in focus
@@ -1040,7 +1107,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if key = KeyCode.BACK
             if m.playlistTypeCount > 1
-                stopClicked()
+                return closePlayerClicked()
             else
                 displayMiniPlayer()
             end if

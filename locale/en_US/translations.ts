@@ -53,6 +53,10 @@
             <translation>Play from beginning</translation>
         </message>
         <message>
+            <source>Press Stop again to close player</source>
+            <translation>Press Stop again to close player</translation>
+        </message>
+        <message>
             <source>Please sign in</source>
             <translation>Please sign in</translation>
         </message>
@@ -181,8 +185,16 @@
             <translation>Video</translation>
         </message>
         <message>
+            <source>Videos</source>
+            <translation>Videos</translation>
+        </message>
+        <message>
             <source>Audio</source>
             <translation>Audio</translation>
+        </message>
+        <message>
+            <source>Default</source>
+            <translation>Default</translation>
         </message>
         <message>
             <source>Subtitles</source>
@@ -207,6 +219,11 @@
         <message>
             <source>Episodes</source>
             <translation>Episodes</translation>
+        </message>
+        <message>
+            <source>More from</source>
+            <translation>More from</translation>
+            <extracomment>Prefix for the episodes row header in the item detail extras slider, followed by "Season X" (e.g. "More from Season 3")</extracomment>
         </message>
         <message>
             <source>Error Retrieving Content</source>
@@ -253,6 +270,11 @@
             <comment>Name or Title field of media item</comment>
             <source>TITLE</source>
             <translation>Name</translation>
+        </message>
+        <message>
+            <comment>Last played time of media item</comment>
+            <source>RECENTLY_WATCHED</source>
+            <translation>Recently Watched</translation>
         </message>
         <message>
             <source>IMDB_RATING</source>
@@ -328,6 +350,22 @@
         <message>
             <source>Cast &amp; Crew</source>
             <translation>Cast &amp; Crew</translation>
+        </message>
+        <message>
+            <source>No cast data available.</source>
+            <translation>No cast data available.</translation>
+        </message>
+        <message>
+            <source>as %1</source>
+            <translation>as %1</translation>
+        </message>
+        <message>
+            <source>More with %1 in Your Library</source>
+            <translation>More with %1 in Your Library</translation>
+        </message>
+        <message>
+            <source>No other titles found in your library.</source>
+            <translation>No other titles found in your library.</translation>
         </message>
         <message>
             <source>More Like This</source>
@@ -1227,6 +1265,16 @@
         <message>
             <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
             <translation>If no Outro media segment exists, set how many seconds before the end of an episode the Skip Outro button should appear. Set to 0 to disable.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Playback Controls Inactivity Timeout</source>
+            <translation>Playback Controls Inactivity Timeout</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+            <translation>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -2208,6 +2256,10 @@
         <message>
             <source>Play Normally</source>
             <translation>Play Normally</translation>
+        </message>
+        <message>
+            <source>Playback Mode</source>
+            <translation>Playback Mode</translation>
         </message>
         <message>
             <source>Force Transcode (Allow Remux)</source>

@@ -72,6 +72,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if isStringEqual(key, KeyCode.PLAY)
+        m.top.selectionSource = KeyCode.PLAY
         m.top.mediaItemSelected = m.top.itemFocused
         return true
     end if

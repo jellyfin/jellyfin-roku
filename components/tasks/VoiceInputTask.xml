@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    VoiceInputTask: Dedicated Task that listens for roInput events.
+    Runs on its own thread so it doesn't block the render thread.
+    Based on Roku's official transport-control sample.
+-->
+<component name="VoiceInputTask" extends="Task">
+    <interface>
+        <!-- Raw input data from roInputEvent, forwarded to VideoPlayerView -->
+        <field id="inputData" type="assocarray" alwaysNotify="true" />
+        <!-- Response status to send back to Roku OS after handling a command -->
+        <field id="transportResponse" type="assocarray" alwaysNotify="true" />
+    </interface>
+</component>

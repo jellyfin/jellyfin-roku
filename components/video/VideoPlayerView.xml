@@ -16,6 +16,7 @@
     <field id="systemOverlay" type="boolean" value="false" />
     <field id="showID" type="string" />
     <field id="lastFocus" type="node" />
+    <field id="returnOnStop" type="boolean" value="false" />
 
     <field id="transcodeParams" type="assocarray" />
     <field id="transcodeAvailable" type="boolean" value="false" />
@@ -28,6 +29,9 @@
     <field id="fullAudioData" type="array" />
     <field id="audioIndex" type="integer" />
     <field id="allowCaptions" type="boolean" value="false" />
+    <field id="voiceCommand" type="assocarray" alwaysNotify="true" />
+    <!-- True when a skippable segment (intro, recap, etc.) is currently active -->
+    <field id="hasActiveSegment" type="boolean" value="false" />
   </interface>
 
   <children>
@@ -45,7 +49,8 @@
     <timer id="playbackCheckTimer" repeat="false" duration="1" />
     <timer id="bufferStuckTimer" repeat="true" duration="3" />
     <timer id="bufferCheckTimer" repeat="true" />
-    <OSD id="osd" visible="false" inactiveTimeout="5" />
+    <OSD id="osd" visible="false" />
+    <PlaybackCastPopup id="castPopup" visible="false" />
 
     <Rectangle id="chapterList" visible="false" color="0x00000098" width="400" height="380" translation="[103,210]">
       <LabelList id="chapterMenu" itemSpacing="[0,20]" numRows="5" font="font:SmallSystemFont" itemSize="[315,40]" translation="[40,20]">
