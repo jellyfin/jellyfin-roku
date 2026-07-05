@@ -53,6 +53,10 @@
             <translation>Play from beginning</translation>
         </message>
         <message>
+            <source>Press Stop again to close player</source>
+            <translation>Press Stop again to close player</translation>
+        </message>
+        <message>
             <source>Please sign in</source>
             <translation>Please sign in</translation>
         </message>
@@ -181,8 +185,16 @@
             <translation>Video</translation>
         </message>
         <message>
+            <source>Videos</source>
+            <translation>Videos</translation>
+        </message>
+        <message>
             <source>Audio</source>
             <translation>Audio</translation>
+        </message>
+        <message>
+            <source>Default</source>
+            <translation>Default</translation>
         </message>
         <message>
             <source>Subtitles</source>
@@ -207,6 +219,11 @@
         <message>
             <source>Episodes</source>
             <translation>Episodes</translation>
+        </message>
+        <message>
+            <source>More from</source>
+            <translation>More from</translation>
+            <extracomment>Prefix for the episodes row header in the item detail extras slider, followed by "Season X" (e.g. "More from Season 3")</extracomment>
         </message>
         <message>
             <source>Error Retrieving Content</source>
@@ -253,6 +270,11 @@
             <comment>Name or Title field of media item</comment>
             <source>TITLE</source>
             <translation>Name</translation>
+        </message>
+        <message>
+            <comment>Last played time of media item</comment>
+            <source>RECENTLY_WATCHED</source>
+            <translation>Recently Watched</translation>
         </message>
         <message>
             <source>IMDB_RATING</source>
@@ -2234,6 +2256,10 @@
         <message>
             <source>Play Normally</source>
             <translation>Play Normally</translation>
+        </message>
+        <message>
+            <source>Playback Mode</source>
+            <translation>Playback Mode</translation>
         </message>
         <message>
             <source>Force Transcode (Allow Remux)</source>

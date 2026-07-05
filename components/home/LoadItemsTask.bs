@@ -462,100 +462,125 @@ function loadNextUp() as object
     return results
 end function
 
+' getFavoriteRowDefinitions: Defines the visible Favorites rows and their Jellyfin query type
+'
+function getFavoriteRowDefinitions() as object
+    return [
+        { title: `${tr("Favorite")} ${tr("Movies")}`, includeItemTypes: ItemType.MOVIE, rowType: "poster" },
+        { title: `${tr("Favorite")} ${tr("Shows")}`, includeItemTypes: ItemType.SERIES, rowType: "poster" },
+        { title: `${tr("Favorite")} ${tr("Episodes")}`, includeItemTypes: ItemType.EPISODE, rowType: "wide" },
+        { title: `${tr("Favorite")} ${tr("Videos")}`, includeItemTypes: `${ItemType.VIDEO},${ItemType.MUSICVIDEO}`, rowType: "wide" },
+        { title: `${tr("Favorite")} ${tr("Collections")}`, includeItemTypes: ItemType.BOXSET, rowType: "poster" },
+        { title: `${tr("Favorite")} ${tr("Playlists")}`, includeItemTypes: ItemType.PLAYLIST, rowType: "album" },
+        { title: `${tr("Favorite")} ${tr("Cast & Crew")}`, queryType: "people", rowType: "poster" },
+        { title: `${tr("Favorite")} ${tr("Artists")}`, queryType: "artists", rowType: "album" },
+        { title: `${tr("Favorite")} ${tr("Albums")}`, includeItemTypes: ItemType.MUSICALBUM, rowType: "album" },
+        { title: `${tr("Favorite")} ${tr("Songs")}`, includeItemTypes: ItemType.AUDIO, rowType: "album" }
+    ]
+end function
+
+function getFavoriteQueryParams(sortField as string, sortOrder as string) as object
+    return {
+        userid: m.global.session.user.id,
+        Filters: "IsFavorite",
+        Limit: 25,
+        recursive: true,
+        sortby: sortField,
+        sortOrder: sortOrder,
+        EnableTotalRecordCount: false
+    }
+end function
+
+function createFavoriteHomeData(item as object) as object
+    tmp = CreateObject("roSGNode", "HomeData")
+
+    primaryImageTag = item.LookupCI("PrimaryImageTag")
+    imageTags = item.LookupCI("ImageTags")
+
+    if not isValid(imageTags) and isValid(primaryImageTag)
+        imageTags = { Primary: primaryImageTag }
+    end if
+
+    params = {
+        Tags: primaryImageTag,
+        MaxWidth: 234,
+        MaxHeight: 330
+    }
+    tmp.posterURL = ImageUrl(item.LookupCI("Id"), "Primary", params)
+    tmp.json = {
+        Id: item.LookupCI("Id"),
+        name: item.LookupCI("name"),
+        Type: item.LookupCI("Type"),
+        SeriesName: item.LookupCI("SeriesName"),
+        SeriesId: item.LookupCI("SeriesId"),
+        SeasonId: item.LookupCI("SeasonId"),
+        ProductionYear: item.LookupCI("ProductionYear"),
+        Status: item.LookupCI("Status"),
+        EndDate: item.LookupCI("EndDate"),
+        ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+        IndexNumberEnd: item.LookupCI("IndexNumberEnd"),
+        IndexNumber: item.LookupCI("IndexNumber"),
+        OfficialRating: item.LookupCI("OfficialRating"),
+        Album: item.LookupCI("Album"),
+        AlbumArtist: item.LookupCI("AlbumArtist"),
+        ChildCount: item.LookupCI("ChildCount"),
+        CollectionType: item.LookupCI("CollectionType"),
+        PrimaryImageTag: primaryImageTag,
+        ImageTags: imageTags,
+        UserData: item.LookupCI("UserData"),
+        ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
+        ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+        ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+        ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+        SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+        BackdropImageTags: item.LookupCI("BackdropImageTags")
+    }
+
+    return tmp
+end function
+
+function createFavoriteHomeItems(data as object) as object
+    results = []
+
+    if not isChainValid(data, "Items") then return results
+
+    for each item in data.Items
+        results.push(createFavoriteHomeData(item))
+    end for
+
+    return results
+end function
+
 function loadFavorites() as object
     results = []
 
     sortField = chainLookupReturn(m.global.session, "user.settings.`ui.home.favoritesSortField`", "SortName")
     sortOrder = chainLookupReturn(m.global.session, "user.settings.`ui.home.favoritesSortOrder`", "Ascending")
 
-    params = {
-        userid: m.global.session.user.id,
-        Filters: "IsFavorite",
-        Limit: 25,
-        recursive: true,
-        sortby: sortField,
-        sortOrder: sortOrder,
-        EnableTotalRecordCount: false
-    }
+    for each favoriteRow in getFavoriteRowDefinitions()
+        queryType = favoriteRow.LookupCI("queryType") ?? string.EMPTY
+        params = getFavoriteQueryParams(sortField, sortOrder)
 
-    data = api.items.Get(params)
+        if isStringEqual(queryType, "people")
+            data = api.persons.Get(params)
+        else if isStringEqual(queryType, "artists")
+            params.IncludeItemTypes = `${ItemType.MUSICALBUM},${ItemType.AUDIO}`
+            data = api.artists.Get(params)
+        else
+            params.IncludeItemTypes = favoriteRow.LookupCI("includeItemTypes")
+            data = api.items.Get(params)
+        end if
 
-    if isChainValid(data, "Items")
-        for each item in data.Items
-            if isStringEqual(item.LookupCI("Type"), ItemType.BOOK) then continue for
+        items = createFavoriteHomeItems(data)
 
-            tmp = CreateObject("roSGNode", "HomeData")
-
-            params = {
-                Tags: item.PrimaryImageTag,
-                MaxWidth: 234,
-                MaxHeight: 330
-            }
-            tmp.posterURL = ImageUrl(item.Id, "Primary", params)
-            tmp.json = {
-                Id: item.LookupCI("Id"),
-                name: item.LookupCI("name"),
-                Type: item.LookupCI("Type"),
-                SeriesName: item.LookupCI("SeriesName"),
-                SeriesId: item.LookupCI("SeriesId"),
-                SeasonId: item.LookupCI("SeasonId"),
-                ProductionYear: item.LookupCI("ProductionYear"),
-                Status: item.LookupCI("Status"),
-                EndDate: item.LookupCI("EndDate"),
-                ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
-                IndexNumberEnd: item.LookupCI("IndexNumberEnd"),
-                IndexNumber: item.LookupCI("IndexNumber"),
-                OfficialRating: item.LookupCI("OfficialRating"),
-                Album: item.LookupCI("Album"),
-                AlbumArtist: item.LookupCI("AlbumArtist"),
-                CollectionType: item.LookupCI("CollectionType"),
-                ImageTags: item.LookupCI("ImageTags"),
-                UserData: item.LookupCI("UserData"),
-                ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
-                ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-                ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-                ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-                SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-                BackdropImageTags: item.LookupCI("BackdropImageTags")
-            }
-            results.push(tmp)
-        end for
-    end if
-
-    peopleParams = {
-        userid: m.global.session.user.id,
-        Filters: "IsFavorite",
-        Limit: 25,
-        recursive: true,
-        sortby: sortField,
-        sortOrder: sortOrder,
-        EnableTotalRecordCount: false
-    }
-
-    peopleData = api.persons.Get(peopleParams)
-
-    if isChainValid(peopleData, "Items")
-        for each person in peopleData.Items
-            primaryImageTag = person.LookupCI("PrimaryImageTag")
-
-            tmp = CreateObject("roSGNode", "HomeData")
-            params = {
-                Tags: primaryImageTag,
-                MaxWidth: 234,
-                MaxHeight: 330
-            }
-            tmp.posterURL = ImageUrl(person.Id, "Primary", params)
-            tmp.json = {
-                Id: person.LookupCI("Id"),
-                name: person.LookupCI("name"),
-                Type: person.LookupCI("Type"),
-                PrimaryImageTag: primaryImageTag,
-                ImageTags: { Primary: primaryImageTag },
-                UserData: person.LookupCI("UserData")
-            }
-            results.push(tmp)
-        end for
-    end if
+        if isValidAndNotEmpty(items)
+            results.push({
+                title: favoriteRow.title,
+                rowType: favoriteRow.rowType,
+                items: items
+            })
+        end if
+    end for
 
     return results
 end function
@@ -682,7 +707,7 @@ function loadPlaylists() as object
         if isStringEqual(item.LookupCI("CollectionType"), "playlists")
             playlistData = api.items.Get({
                 userid: m.global.session.user.id,
-                includeItemTypes: "Playlist",
+                includeItemTypes: ItemType.PLAYLIST,
                 parentId: item.LookupCI("id"),
                 SortBy: "SortName"
             })

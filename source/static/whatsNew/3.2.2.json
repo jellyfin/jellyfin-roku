@@ -1,0 +1,42 @@
+[
+  {
+    "description": "Separate favorites on the home screen into type specific rows",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix crash when changing live TV view from schedule to channels",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add Live TV Guide Recently Watched sort option. Show favorite channels first when configured to do so.",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Reduce music library album view load time",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Honor subtitle selection beyond current episode",
+    "author": "tjps"
+  },
+  {
+    "description": "Revamped the Options menu for movies, showing all options in a single list instead of a tabbed view",
+    "author": "CarsonKompon"
+  },
+  {
+    "description": "Add quickplay support to the TV season grid",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Avoid non-ASCII title corruption in the full audio player",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix Back navigation loop from item details",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix full audio player controls after stop",
+    "author": "VX-101"
+  }
+]
