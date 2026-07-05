@@ -2411,6 +2411,22 @@
         <source>Videos</source>
         <translation>Vidéos</translation>
     </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Appuyez à nouveau sur « Stop » pour fermer le lecteur</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Défaut</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>En savoir plus sur</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Mode de lecture</translation>
+    </message>
 </context>
 <context>
     <name></name>
