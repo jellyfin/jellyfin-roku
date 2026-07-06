@@ -1978,23 +1978,23 @@
     </message>
     <message>
         <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون خلفية عدّاد علامة التأشير و غير المشاهدة الظاهر زاوية أعلى يمين العناصر.</translation>
     </message>
     <message>
         <source>Unplayed Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عدّاد غير المشغّل</translation>
     </message>
     <message>
         <source>The color of the unplayed count number.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون عدد العناصر غير المشغّلة.</translation>
     </message>
     <message>
         <source>Watched Check Mark</source>
-        <translation type="unfinished"></translation>
+        <translation>مؤشر المشاهدة</translation>
     </message>
     <message>
         <source>The color of the watched check mark.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون مؤشر المشاهدة.</translation>
     </message>
     <message>
         <source>Dialog Popups</source>
@@ -2010,7 +2010,7 @@
     </message>
     <message>
         <source>Bold Text</source>
-        <translation type="unfinished"></translation>
+        <translation>نص عريض</translation>
     </message>
     <message>
         <source>The text color for bold text.</source>
@@ -2110,19 +2110,19 @@
     </message>
     <message>
         <source>The text color of the first line displayed under items.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون نص أول سطر ظاهر في العناصر.</translation>
     </message>
     <message>
         <source>Username In Header</source>
-        <translation type="unfinished"></translation>
+        <translation>اسم المستخدم في الترويسة</translation>
     </message>
     <message>
         <source>The text color of the user&apos;s name in the header.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون نص اسم المستخدم في الترويسة.</translation>
     </message>
     <message>
         <source>Shuffle Play Collection</source>
-        <translation type="unfinished"></translation>
+        <translation>خلط تجميعة التشغيل</translation>
     </message>
     <message>
         <source>Note: Force transcode option automatically enabled due to video rotation</source>
@@ -2502,6 +2502,10 @@
     <message>
         <source>Playback Mode</source>
         <translation>نمط التشغيل</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>اضغط إيقاف مجددا لاغلاق المشغّل</translation>
     </message>
 </context>
 </TS>
