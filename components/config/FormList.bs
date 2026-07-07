@@ -24,6 +24,9 @@ end sub
 
 sub onItemSelected()
     i = m.top.itemSelected
+    ' Remember which index is being edited so we know where to jump
+    ' after confirming (next field, or out of the list if it's the last one)
+    m.currentIndex = i
     itemField = m.top.content.getchild(i)
 
     formListShowDialog(itemField)
@@ -36,6 +39,7 @@ function onDialogButton()
     if button_text = tr("OK")
         m.configField.value = d.text
         dismiss_dialog()
+        advanceFocus()
         return true
     else if button_text = tr("Cancel")
         dismiss_dialog()
@@ -44,6 +48,19 @@ function onDialogButton()
     return false
 end function
 
+' Moves focus to the next form field after confirming one.
+' If it was the last field, notify the outside world (SigninScene) via
+' allFieldsSubmitted instead of trying to navigate within the list.
+sub advanceFocus()
+    itemCount = m.top.content.getChildCount()
+    nextIndex = m.currentIndex + 1
+
+    if nextIndex < itemCount
+        m.top.jumpToItem = nextIndex
+    else
+        m.top.allFieldsSubmitted = not m.top.allFieldsSubmitted
+    end if
+end sub
 
 sub formListShowDialog(configField)
     dialog = createObject("roSGNode", "StandardKeyboardDialog")
