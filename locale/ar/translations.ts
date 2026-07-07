@@ -1974,7 +1974,7 @@
     </message>
     <message>
         <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
-        <translation type="unfinished"></translation>
+        <translation>ألوان محددة لصندوق عدد مؤشر المشاهدة و غير المشاهدة.</translation>
     </message>
     <message>
         <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
@@ -1998,15 +1998,15 @@
     </message>
     <message>
         <source>Dialog Popups</source>
-        <translation type="unfinished"></translation>
+        <translation>اضبارات النوافذ المنبثقة</translation>
     </message>
     <message>
         <source>Colors specific to dialog popups</source>
-        <translation type="unfinished"></translation>
+        <translation>ألونم محددة لاضبارة النوافذ المنبثقة</translation>
     </message>
     <message>
         <source>The background color for all dialog popups.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون خلفية كل اضبارات النوافذ المنبثقة.</translation>
     </message>
     <message>
         <source>Bold Text</source>
@@ -2014,23 +2014,23 @@
     </message>
     <message>
         <source>The text color for bold text.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون نص النص الغليض.</translation>
     </message>
     <message>
         <source>Horizontal Border line</source>
-        <translation type="unfinished"></translation>
+        <translation>خط حدود افقي</translation>
     </message>
     <message>
         <source>The color of the thin border line under the header text.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون خط الحد الرفيع تحت نص العنوان.</translation>
     </message>
     <message>
         <source>Selected Text</source>
-        <translation type="unfinished"></translation>
+        <translation>النص المختار</translation>
     </message>
     <message>
         <source>The text color for the item the cursor is over.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون نص العنصر تحت المؤشر.</translation>
     </message>
     <message>
         <source>Text Color</source>
@@ -2046,67 +2046,67 @@
     </message>
     <message>
         <source>The text color for the author in the What&apos;s New popup.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون نص المؤلف في منبثقة ما الجديد.</translation>
     </message>
     <message>
         <source>Home Screen</source>
-        <translation type="unfinished"></translation>
+        <translation>الصفحة الرئيسية</translation>
     </message>
     <message>
         <source>Colors specific to the home screen</source>
-        <translation type="unfinished"></translation>
+        <translation>ألوان محددة للصفحة الرئيسية</translation>
     </message>
     <message>
         <source>My List Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>ايقونة لائحتي</translation>
     </message>
     <message>
         <source>The color of the star icon in the My List library item.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون ايقونة الندمة في لائحة عناصر المكتبة خاصتي.</translation>
     </message>
     <message>
         <source>Row Headers</source>
-        <translation type="unfinished"></translation>
+        <translation>عناوين الصف</translation>
     </message>
     <message>
         <source>The text color of the headers of each row.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون عنوان كل صف.</translation>
     </message>
     <message>
         <source>Row Item Background</source>
-        <translation type="unfinished"></translation>
+        <translation>خلفية عنصر الصف</translation>
     </message>
     <message>
         <source>The background color of items. Only seen if no image loads on top of it.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون خلفية العناصر. فقط تظهر عند عدم وجود صورة فوقها.</translation>
     </message>
     <message>
         <source>Row Item Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>تدريج عنصر الصف</translation>
     </message>
     <message>
         <source>The color of the watched portion of the progress bar.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون للجزء المشاهد من التدريج.</translation>
     </message>
     <message>
         <source>Row Item Progress Background</source>
-        <translation type="unfinished"></translation>
+        <translation>خلفية عنصر تدرج الصف</translation>
     </message>
     <message>
         <source>The background color of the progress bar.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون خلفية التدرج.</translation>
     </message>
     <message>
         <source>Row Item Subtitle</source>
-        <translation type="unfinished"></translation>
+        <translation>ترجمة عنصر الصف</translation>
     </message>
     <message>
         <source>The text color of the second line displayed under items.</source>
-        <translation type="unfinished"></translation>
+        <translation>لون نص السطر الثاني ضمن العناصر المعروضة.</translation>
     </message>
     <message>
         <source>Row Item Title</source>
-        <translation type="unfinished"></translation>
+        <translation>عنوان عنصر الصف</translation>
     </message>
     <message>
         <source>The text color of the first line displayed under items.</source>
@@ -2126,7 +2126,7 @@
     </message>
     <message>
         <source>Note: Force transcode option automatically enabled due to video rotation</source>
-        <translation type="unfinished"></translation>
+        <translation>ملاحظة: اجبار اختيار التشفير تلقائيا مفعل عند تدوير الفيديو</translation>
     </message>
     <message>
         <source>Start Episode List From First Unwatched Episode</source>
