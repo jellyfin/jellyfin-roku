@@ -311,6 +311,17 @@ function isValid(input as dynamic) as boolean
     return input <> invalid
 end function
 
+' Returns whether or not passed value is a number
+function isNumber(input as dynamic) as boolean
+    if not isValid(input) then return false
+    itemType = type(input)
+    if inArray(["roInt", "Integer"], itemType) then return true
+    if inArray(["roLongInteger", "LongInteger"], itemType) then return true
+    if inArray(["roFloat", "Float"], itemType) then return true
+    if inArray(["roDouble", "Double"], itemType) then return true
+    return false
+end function
+
 ' Returns whether or not passed string values are equal
 function isStringEqual(input1, input2) as boolean
     if not isAllValid([input1, input2]) then return false
