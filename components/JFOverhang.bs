@@ -2,6 +2,7 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.id = "overhang"
@@ -17,6 +18,7 @@ sub init()
     m.slideUpAnimation = m.top.findNode("slideUp")
 
     m.profileImage = m.top.findNode("overlayCurrentUserProfileImage")
+    m.profileMask = m.top.findNode("backgroundMask")
 
     m.overlayCurrentUser = m.top.findNode("overlayCurrentUser")
     if isValid(m.overlayCurrentUser)
@@ -27,6 +29,14 @@ sub init()
     if isValid(m.overlayCurrentUserSelection)
         m.overlayCurrentUserSelection.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     end if
+
+    if isValid(m.profileMask)
+        ' Adjust MaskGroup size for HD devices because maskSize does not currently
+        ' follow SceneGraph automatic resolution scaling.
+        size = scaleMaskSize(64)
+        m.profileMask.maskSize = [size, size]
+    end if
+
 end sub
 
 sub highlightUser()

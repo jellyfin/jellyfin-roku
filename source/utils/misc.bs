@@ -772,3 +772,21 @@ function serverVersionMeetsMinimumRequirements(systemVersion as string, targetVe
     ' Server is the exact version needed
     return true
 end function
+
+' MaskGroup sizes are not automatically scaled by SceneGraph on HD devices
+' when using an FHD design resolution. Apply the 2/3 scale factor to keep
+' masks aligned correctly.
+function scaleMaskSize(size as integer) as integer
+    if isHDDevice()
+        return Int(size * 2 / 3)
+    end if
+
+    return size
+end function
+
+function isHDDevice() as boolean
+    deviceInfo = CreateObject("roDeviceInfo")
+    resolution = deviceInfo.GetUIResolution()
+
+    return resolution.name = "HD"
+end function
