@@ -42,5 +42,9 @@
   {
     "description": "Fix possible crash on homescreen when BACK is pressed",
     "author": "1hitsong"
+  },
+  {
+    "description": "If audio mini-player is already visible, don't call show animation.",
+    "author": "VX-101"
   }
 ]
