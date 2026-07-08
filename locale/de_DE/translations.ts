@@ -2483,6 +2483,22 @@
         <source>Videos</source>
         <translation>Videos</translation>
     </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Nochmal Stop drücken um den Player zu schliessen</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Standard</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Mehr von</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Wiedergabemodus</translation>
+    </message>
 </context>
 <context>
     <name></name>
