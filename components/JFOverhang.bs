@@ -32,8 +32,9 @@ sub init()
 
     if isValid(m.profileMask)
         ' Adjust MaskGroup size for HD devices because maskSize does not currently
-        ' follow SceneGraph automatic resolution scaling.
-        size = scaleMaskSize(64)
+        ' follow SceneGraph automatic resolution scaling. Asset is 66x66 (not 64x64)
+        ' because it must be divisible by 3 for clean 2/3 scaling to HD (66 -> 44).
+        size = scaleMaskSize(66)
         m.profileMask.maskSize = [size, size]
     end if
 
