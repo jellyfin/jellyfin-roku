@@ -11,7 +11,7 @@
         <Poster uri="pkg:/images/icons/circle.png" id="overlayCurrentUserProfileImage" width="66" height="66" loadDisplayMode="scaleToZoom" />
       </MaskGroup>
     </LayoutGroup>
-    <Poster visible="false" uri="pkg:/images/icons/openCircle.png" id="overlayCurrentUserSelection" translation="[1702, 53]" width="64" height="64" loadDisplayMode="scaleToZoom" />
+    <Poster visible="false" uri="pkg:/images/icons/openCircle72.png" id="overlayCurrentUserSelection" translation="[1698, 49]" width="72" height="72" loadDisplayMode="scaleToZoom" />
 
     <Timer id="currentTimeTimer" repeat="true" duration="60" />
 
