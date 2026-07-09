@@ -54,5 +54,9 @@
   {
     "description": "Prevent the audio mini-player from covering short music album song lists",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix user avatar circle on HD devices",
+    "author": "ferezvi"
   }
 ]
