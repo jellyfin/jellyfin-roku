@@ -2443,5 +2443,21 @@
         <source>Videos</source>
         <translation>Vídeos</translation>
     </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Torneu a pitjar Atura per a tancar el reproductor</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Mode de reproducció</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Per defecte</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Més de</translation>
+    </message>
 </context>
 </TS>
