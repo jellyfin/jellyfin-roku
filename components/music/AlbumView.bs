@@ -8,6 +8,20 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.loadStatus = ViewLoadStatus.INIT
+    m.songList = m.top.findNode("songList")
+    m.songListDefaultNumRows = m.songList.numRows
+    m.songListMiniPlayerNumRows = m.songListDefaultNumRows - 2
+
+    scene = m.top.getScene()
+    if isValid(scene)
+        audioMiniPlayer = scene.findNode("audioMiniPlayer")
+        if isValid(audioMiniPlayer)
+            audioMiniPlayerVisibility = audioMiniPlayer.callFunc("isVisible")
+            if audioMiniPlayerVisibility
+                m.songList.numRows = m.songListMiniPlayerNumRows
+            end if
+        end if
+    end if
 
     ' Load background image
     m.LoadBackdropImageTask = CreateObject("roSGNode", "LoadItemsTask")
@@ -54,13 +68,6 @@ sub init()
     setupButtons()
 
     m.albumCover = m.top.findNode("albumCover")
-    m.toplevel = m.top.findNode("toplevel")
-    m.toplevelDefaultTranslation = [m.toplevel.translation[0], m.toplevel.translation[1]]
-    m.toplevelMiniPlayerTranslation = [m.toplevelDefaultTranslation[0], 0]
-    m.songList = m.top.findNode("songList")
-    m.songListDefaultNumRows = m.songList.numRows
-    ' MiniPlayer overlap requires removing two song rows from the default album layout.
-    m.songListMiniPlayerNumRows = m.songListDefaultNumRows - 2
     m.infoGroup = m.top.FindNode("infoGroup")
     m.songListRect = m.top.FindNode("songListRect")
 
@@ -187,81 +194,26 @@ sub setScreenTitle(json)
     end if
 end sub
 
-sub prepareAlbumLayoutForMiniPlayer()
-    syncAlbumLayoutForMiniPlayer(true)
-end sub
+sub adjustForMiniPlayer(audioMiniPlayerVisible = false)
+    if not isChainValid(m.songList, "MusicArtistAlbumData") then return
+    if m.songList.MusicArtistAlbumData.getChildCount() < m.songListMiniPlayerNumRows then return
 
-sub setAlbumLayoutShifted(shifted as boolean)
-    if not isValid(m.toplevel) then return
+    newNumberOfRows = audioMiniPlayerVisible ? m.songListMiniPlayerNumRows : m.songListDefaultNumRows
 
-    targetTranslation = m.toplevelDefaultTranslation
-    if shifted
-        targetTranslation = m.toplevelMiniPlayerTranslation
-    end if
+    if m.songList.numRows <> newNumberOfRows
+        focusedItem = m.songList.itemFocused
+        m.songList.numRows = newNumberOfRows
 
-    if m.toplevel.translation[0] <> targetTranslation[0] or m.toplevel.translation[1] <> targetTranslation[1]
-        m.toplevel.translation = targetTranslation
-    end if
-end sub
+        tempData = CreateObject("roSGNode", "ContentNode")
+        tempData.appendChildren(m.top.albumData.getChildren(-1, 0))
 
-function shouldShiftAlbumLayoutForMiniPlayer(trackCount = invalid as dynamic) as boolean
-    visibleRows = m.songListDefaultNumRows
+        data = CreateObject("roSGNode", "ContentNode")
+        m.top.albumData = data
+        m.songList.content = data
+        data.appendChildren(tempData.getChildren(-1, 0))
 
-    if not isValid(trackCount)
-        trackCount = getAlbumTrackCount()
-    end if
-
-    ' Near-full albums fit without scroll overflow, so shift the screen instead.
-    return trackCount >= visibleRows - 1 and trackCount <= visibleRows
-end function
-
-function getAlbumTrackCount() as integer
-    if not isChainValid(m.songList, "MusicArtistAlbumData") then return 0
-
-    return m.songList.MusicArtistAlbumData.getChildCount()
-end function
-
-sub setSongListRows(rowCount as integer)
-    if not isValid(m.songList) then return
-    if m.songList.numRows = rowCount then return
-
-    trackCount = getAlbumTrackCount()
-    focusedItem = m.songList.itemFocused
-    if focusedItem < 0 then focusedItem = 0
-    if trackCount > 0 and focusedItem >= trackCount then focusedItem = trackCount - 1
-
-    m.songList.numRows = rowCount
-    if trackCount > 0
-        ' Force MarkupList to redraw after numRows changes by moving focus away and back.
-        m.songList.jumpToItem = trackCount - 1
-        m.songList.jumpToItem = 0
         m.songList.jumpToItem = focusedItem
     end if
-end sub
-
-sub syncAlbumLayoutForMiniPlayer(audioMiniPlayerVisible = false)
-    trackCount = getAlbumTrackCount()
-
-    if not audioMiniPlayerVisible
-        setAlbumLayoutShifted(false)
-        setSongListRows(m.songListDefaultNumRows)
-        return
-    end if
-
-    if shouldShiftAlbumLayoutForMiniPlayer(trackCount)
-        setSongListRows(m.songListDefaultNumRows)
-        setAlbumLayoutShifted(true)
-        return
-    end if
-
-    setAlbumLayoutShifted(false)
-
-    if trackCount >= m.songListMiniPlayerNumRows
-        setSongListRows(m.songListMiniPlayerNumRows)
-        return
-    end if
-
-    setSongListRows(m.songListDefaultNumRows)
 end sub
 
 sub onAudioMiniPlayerVisibleChange()
@@ -269,7 +221,7 @@ sub onAudioMiniPlayerVisibleChange()
     audioMiniPlayer = scene.findNode("audioMiniPlayer")
     if isValid(audioMiniPlayer)
         audioMiniPlayerVisibility = audioMiniPlayer.callFunc("isVisible")
-        syncAlbumLayoutForMiniPlayer(audioMiniPlayerVisibility)
+        adjustForMiniPlayer(audioMiniPlayerVisibility)
         processAddToQueueButtonVisibility(audioMiniPlayerVisibility)
     end if
 end sub
@@ -349,8 +301,9 @@ sub OnScreenShown()
     audioMiniPlayer = scene.findNode("audioMiniPlayer")
     if isValid(audioMiniPlayer)
         audioMiniPlayerVisibility = audioMiniPlayer.callFunc("isVisible")
+
         audioMiniPlayer.observeFieldScoped("visible", "onAudioMiniPlayerVisibleChange")
-        syncAlbumLayoutForMiniPlayer(audioMiniPlayerVisibility)
+        adjustForMiniPlayer(audioMiniPlayerVisibility)
         processAddToQueueButtonVisibility(audioMiniPlayerVisibility)
     end if
     m.global.audioPlayer.observeFieldScoped("state", "onAudioMiniPlayerStateChange")
@@ -988,7 +941,6 @@ sub onDoneLoading()
     audioMiniPlayer = scene.findNode("audioMiniPlayer")
     if isValid(audioMiniPlayer)
         audioMiniPlayerVisibility = audioMiniPlayer.callFunc("isVisible")
-        syncAlbumLayoutForMiniPlayer(audioMiniPlayerVisibility)
         processAddToQueueButtonVisibility(audioMiniPlayerVisibility)
     end if
 end sub

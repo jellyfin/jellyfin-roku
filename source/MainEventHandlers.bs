@@ -1097,7 +1097,6 @@ end sub
 sub playAlbumSongInList(screenContent as object, selectedIndex as integer, toggleCurrentPlayback = true as boolean)
     if toggleCurrentPlayback
         if toggleActiveAudioPlayback()
-            screenContent.callFunc("prepareAlbumLayoutForMiniPlayer")
             showAudioMiniPlayerForListPlayback()
             return
         end if
@@ -1109,7 +1108,6 @@ sub playAlbumSongInList(screenContent as object, selectedIndex as integer, toggl
     m.global.queueManager.callFunc("resetShuffle")
     m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
     m.global.queueManager.callFunc("setPosition", selectedIndex)
-    screenContent.callFunc("prepareAlbumLayoutForMiniPlayer")
     showAudioMiniPlayerForListPlayback()
     m.global.queueManager.callFunc("playQueue")
 end sub

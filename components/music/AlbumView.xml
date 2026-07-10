@@ -83,6 +83,5 @@
     <field id="shuffleAlbumSelected" alias="shuffle.selected" />
     <field id="instantMixSelected" alias="instantMix.selected" />
     <field id="selectedButtonIndex" type="integer" value="-1" />
-    <function name="prepareAlbumLayoutForMiniPlayer" />
   </interface>
 </component>
