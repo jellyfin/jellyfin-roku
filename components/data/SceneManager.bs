@@ -78,6 +78,12 @@ end sub
 '
 ' Remove the current group and load the last group from the stack
 sub popScene()
+    confirmExit = chainLookupReturn(m.global.session, "user.settings.`global.confirmexit`", true)
+    if m.groups.count() = 1 and confirmExit
+        optionDialog("confirmexit", tr("Confirm Exit"), [tr("Are you sure you want to exit Jellyfin?")], [tr("No, Cancel"), tr("Yes")], {})
+        return
+    end if
+
     group = m.groups.pop()
     if isValid(group)
         if group.isSubType("JFGroup")
@@ -465,7 +471,7 @@ sub optionDialog(id, title, message, buttons, params)
     end if
 
     dialog.message = message
-    if isStringEqual(type(buttons[0]), "rostring")
+    if isString(buttons[0])
         dialog.buttons = buttons
     else
         objectTitles = []
