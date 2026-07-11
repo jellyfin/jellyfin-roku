@@ -46,5 +46,9 @@
   {
     "description": "If audio mini-player is already visible, don't call show animation.",
     "author": "VX-101"
+  },
+  {
+    "description": "Improve music album and artist placeholder images and titles",
+    "author": "VX-101"
   }
 ]
