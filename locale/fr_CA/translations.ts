@@ -2402,6 +2402,31 @@
         <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
         <translation>Roku pensait pouvoir lire directement ce fichier multimédia, mais la durée de lecture indiquée était erronée.</translation>
     </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Vu récemment</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Vidéos</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Appuyez à nouveau sur « Stop » pour fermer le lecteur</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Défaut</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>En savoir plus sur</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Mode de lecture</translation>
+    </message>
 </context>
 <context>
     <name></name>

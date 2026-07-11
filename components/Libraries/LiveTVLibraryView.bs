@@ -51,8 +51,12 @@ sub init()
     'set voice help text
     m.voiceBox.hintText = tr("Use voice remote to search")
 
-    'Item sort - maybe load defaults from user prefs?
-    m.sortField = "SortName"
+    channelOrder = chainLookupReturn(m.global.session, "display.livetv.sortField", LiveTVChannelSortOrder.NUMBER)
+    if isStringEqual(channelOrder, LiveTVChannelSortOrder.DATEPLAYED)
+        m.sortField = "DatePlayed"
+    else
+        m.sortField = "SortName"
+    end if
     m.sortAscending = true
 
     m.filter = "All"
@@ -207,7 +211,8 @@ sub setLiveTvOptions(options)
         { "Title": tr("TV Guide"), "Name": "tvGuide" }
     ]
     options.sort = [
-        { "Title": tr("TITLE"), "Name": "SortName" }
+        { "Title": tr("TITLE"), "Name": "SortName" },
+        { "Title": tr("RECENTLY_WATCHED"), "Name": "DatePlayed" }
     ]
     options.filter = [
         { "Title": tr("All"), "Name": "All" },
@@ -447,7 +452,9 @@ sub optionsClosed()
     end if
 
     if reload
-        m.scheduleGrid.getParent().callFunc("loadChannelList")
+        if isValid(m.scheduleGrid)
+            m.scheduleGrid.getParent().callFunc("loadChannelList")
+        end if
         m.loadedRows = 0
         m.loadedItems = 0
         m.data = CreateObject("roSGNode", "ContentNode")

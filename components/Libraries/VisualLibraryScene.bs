@@ -1300,6 +1300,7 @@ end function
 'Genre Item Selected
 sub onGenreItemSelected()
     m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
+    m.top.selectedItem = invalid
 end sub
 
 '

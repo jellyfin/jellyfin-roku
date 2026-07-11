@@ -314,9 +314,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
     ' Otherwise, they are exiting the app.
     if isStringEqual(key, KeyCode.BACK)
         rowItemFocused = chainLookupReturn(m.homeRows, "rowItemFocused", [0, 0])
-        if rowItemFocused[1] > 0
-            m.homeRows.jumpToRowItem = [rowItemFocused[0], 0]
-            return true
+        if isNumber(rowItemFocused[1])
+            if rowItemFocused[1] > 0
+                m.homeRows.jumpToRowItem = [rowItemFocused[0], 0]
+                return true
+            end if
         end if
     end if
 
