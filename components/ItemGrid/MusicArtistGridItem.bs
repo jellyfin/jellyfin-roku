@@ -1,10 +1,13 @@
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.itemPoster = m.top.findNode("itemPoster")
     m.placeholderBackground = m.top.findNode("placeholderBackground")
+    m.placeholderBackground.color = ColorPalette.ELEMENTBACKGROUND
     m.postTextBackground = m.top.findNode("postTextBackground")
     m.posterText = m.top.findNode("posterText")
     m.posterText.font.size = 30
@@ -82,7 +85,7 @@ sub itemContentChanged()
     end if
 
     ' Avoid flashing the missing-art background while a valid poster URL is still loading.
-    if m.hasPoster and m.itemPoster.loadStatus <> "ready"
+    if m.hasPoster and not isStringEqual(m.itemPoster.loadStatus, PosterLoadStatus.READY)
         m.placeholderBackground.visible = false
         m.backdrop.visible = true
     end if
@@ -111,10 +114,10 @@ end sub
 
 'Hide backdrop and text when poster loaded
 sub onPosterLoadStatusChanged()
-    if m.hasPoster and m.itemPoster.loadStatus = "ready"
+    if m.hasPoster and isStringEqual(m.itemPoster.loadStatus, PosterLoadStatus.READY)
         m.placeholderBackground.visible = false
         m.backdrop.visible = false
-    else if m.hasPoster and isStringEqual(m.itemPoster.loadStatus, "failed")
+    else if m.hasPoster and isStringEqual(m.itemPoster.loadStatus, PosterLoadStatus.FAILED)
         m.forceTitleVisible = true
         showMissingPlaceholder()
     else if not m.hasPoster

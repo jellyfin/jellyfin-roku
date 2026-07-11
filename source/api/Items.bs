@@ -379,11 +379,7 @@ function getMusicAlbumGridTitle(item as object) as string
 end function
 
 sub setMusicAlbumGridPoster(album as object)
-    posterURL = "pkg:/images/icons/album.png"
-
-    if isChainValid(album, "image.url")
-        posterURL = album.image.url
-    end if
+    posterURL = chainLookupReturn(album, "image.url", "pkg:/images/icons/album.png")
 
     album.HDGRIDPOSTERURL = posterURL
     album.hdposterurl = posterURL
