@@ -822,6 +822,10 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     group.observeField("playSeriesFromStart", m.port)
     group.observeField("seasonSelected", m.port)
     group.observeField("quickPlayNode", m.port)
+    seasonGrid = group.findNode("seasons")
+    if isValid(seasonGrid)
+        seasonGrid.observeField("quickPlayNode", m.port)
+    end if
     group.observeField("refreshSeasonDetailsData", m.port)
 
     ' setup and load series extras

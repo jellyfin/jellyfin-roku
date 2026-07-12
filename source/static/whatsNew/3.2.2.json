@@ -4,7 +4,55 @@
     "author": "VX-101"
   },
   {
-    "description": "Prevent the mini-player from covering short music album song lists",
+    "description": "Fix crash when changing live TV view from schedule to channels",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add Live TV Guide Recently Watched sort option. Show favorite channels first when configured to do so.",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Reduce music library album view load time",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Honor subtitle selection beyond current episode",
+    "author": "tjps"
+  },
+  {
+    "description": "Revamped the Options menu for movies, showing all options in a single list instead of a tabbed view",
+    "author": "CarsonKompon"
+  },
+  {
+    "description": "Add quickplay support to the TV season grid",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Avoid non-ASCII title corruption in the full audio player",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix Back navigation loop from item details",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix full audio player controls after stop",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix possible crash on homescreen when BACK is pressed",
+    "author": "1hitsong"
+  },
+  {
+    "description": "If audio mini-player is already visible, don't call show animation.",
+    "author": "VX-101"
+  },
+  {
+    "description": "Improve music album and artist placeholder images and titles",
+    "author": "VX-101"
+  },
+  {
+    "description": "Prevent the audio mini-player from covering short music album song lists",
     "author": "VX-101"
   }
 ]
