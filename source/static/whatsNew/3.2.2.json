@@ -50,5 +50,9 @@
   {
     "description": "Improve music album and artist placeholder images and titles",
     "author": "VX-101"
+  },
+  {
+    "description": "Prevent the audio mini-player from covering short music album song lists",
+    "author": "VX-101"
   }
 ]
