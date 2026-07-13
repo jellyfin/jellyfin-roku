@@ -1249,7 +1249,7 @@
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
-        <translation>Establecer la tasa de bits máxima en Mbps. Establécela en 0 para utilizar las especificaciones de Roku. Esta configuración debe estar habilitada para que surta efecto.</translation>
+        <translation>Establece la tasa de bits máxima en Mbps. Establécela en 0 para utilizar las especificaciones de Roku. Esta configuración debe estar habilitada para que surta efecto.</translation>
     </message>
     <message>
         <source>General</source>
@@ -2529,6 +2529,47 @@
     <message>
         <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
         <translation>Roku indicó poder reproducir directamente este elemento, pero la duración de la reproducción no era correcta.</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Álbum desconocido</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Presiona Stop de nuevo para cerrar el reproductor</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Videos</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Por defecto</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Más de</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Visto recientemente</translation>
+    </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Artista desconocido</translation>
+    </message>
+    <message>
+        <source>Playback Controls Inactivity Timeout</source>
+        <translation>Tiempo máximo de inactividad de los comandos de lectura</translation>
+    </message>
+    <message>
+        <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+        <translation>Establece el periodo de tiempo en segundos durante el cual la superposición de los controles de reproducción es visible si no se pulsa ningún botón. Indica 0 para inhabilitarlo.</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Modo de reproducción</translation>
     </message>
 </context>
 <context>
