@@ -359,10 +359,6 @@ sub loadItems()
                     tmp.type = "MusicAlbum"
                     if isChainValid(item, "ImageTags.Primary")
                         tmp.posterURL = ImageURL(item.id, "Primary")
-                    else if isChainValid(item, "BackdropImageTags")
-                        tmp.posterURL = ImageURL(item.id, "Backdrop")
-                    else
-                        tmp.posterURL = "pkg:/images/icons/album.png"
                     end if
                 else if item.Type = "MusicArtist"
                     tmp = CreateObject("roSGNode", "MusicArtistData")

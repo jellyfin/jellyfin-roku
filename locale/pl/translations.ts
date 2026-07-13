@@ -2517,5 +2517,13 @@
         <source>Press Stop again to close player</source>
         <translation>Naciśnij ponownie przycisk Zatrzymaj, aby zamknąć odtwarzacz</translation>
     </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Nieznany wykonawca</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Nieznany album</translation>
+    </message>
 </context>
 </TS>
