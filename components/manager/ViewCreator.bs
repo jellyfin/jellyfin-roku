@@ -63,9 +63,10 @@ sub CreateVideoPlayerView()
         m.audioMiniPlayer.callFunc("setVisible", false)
     end if
 
-    ' If we're playing audio, stop it
-    if m.global.audioPlayer.state = MediaPlaybackState.PLAYING
+    ' Stop active audio and release its media content before creating the video player
+    if inArray([MediaPlaybackState.PLAYING, MediaPlaybackState.PAUSED, MediaPlaybackState.BUFFERING], m.global.audioPlayer.state)
         m.global.audioPlayer.control = VideoControl.STOP
+        m.global.audioPlayer.content = invalid
     end if
 
     ' If the user has set a preferred audio track index, use it

@@ -54,5 +54,9 @@
   {
     "description": "Prevent the audio mini-player from covering short music album song lists",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix paused mini-player audio blocking video playback",
+    "author": "VX-101"
   }
 ]
