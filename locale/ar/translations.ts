@@ -2507,5 +2507,13 @@
         <source>Press Stop again to close player</source>
         <translation>اضغط إيقاف مجددا لاغلاق المشغّل</translation>
     </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>فنان مجهول</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>ألبوم مجهول</translation>
+    </message>
 </context>
 </TS>
