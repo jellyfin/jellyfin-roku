@@ -1494,43 +1494,50 @@ sub setLiveTvValues()
 
     liveTvStartTime = m.clock.callFunc("getCurrentTime")
     ' Determine if this is a recording that is in progress, and if so then attempt to set values appropriately.
-    if isValid(m.LoadProgramDetailsTask) and m.LoadProgramDetailsTask.programDetails.json.type = "Recording"
-        ' Determine if we were able to get the recording timer.  If we were not then we will just treat this as a Live TV session
-        if m.LoadProgramDetailsTask.programDetails.json.Status = "InProgress" and isChainValid(m.LoadProgramDetailsTask, "programDetails.json.TimerId")
-            ' The create date time is stored in local time zone, but start and end date times are stored in UTC (Why?)  We will do all time calculations in the local time zone.
+    if not isValid(m.LoadProgramDetailsTask)
+        m.osd.liveTvStartTime = liveTvStartTime
+        return
+    end if
 
-            createDate = createObject("roDateTime")
-            createDate.FromISO8601String(m.LoadProgramDetailsTask.programDetails.json.DateCreated)
+    if not isStringEqual(chainLookup(m.LoadProgramDetailsTask, "programDetails.json.type"), ItemType.RECORDING)
+        m.osd.liveTvStartTime = liveTvStartTime
+        return
+    end if
 
-            startDate = createObject("roDateTime")
-            startDate.FromISO8601String(m.LoadRecordingTimerTask.recordingTimerDetails.json.StartDate)
-            startDate.toLocalTime()
+    if m.LoadProgramDetailsTask.programDetails.json.Status = "InProgress" and isChainValid(m.LoadProgramDetailsTask, "programDetails.json.TimerId")
+        ' The create date time is stored in local time zone, but start and end date times are stored in UTC (Why?)  We will do all time calculations in the local time zone.
 
-            endDate = createObject("roDateTime")
-            endDate.FromISO8601String(m.LoadRecordingTimerTask.recordingTimerDetails.json.EndDate)
-            endDate.toLocalTime()
+        createDate = createObject("roDateTime")
+        createDate.FromISO8601String(m.LoadProgramDetailsTask.programDetails.json.DateCreated)
 
-            ' Create date includes any prepadding time, but we need to subtract/add pre/post padding to the start/end date to get the total planned duration.
-            recordingCreateInSeconds = createDate.AsSeconds()
-            recordingStartInSeconds = startDate.AsSeconds() - m.LoadRecordingTimerTask.recordingTimerDetails.json.PrePaddingSeconds
-            recordingEndInSeconds = endDate.AsSeconds() + m.LoadRecordingTimerTask.recordingTimerDetails.json.PostPaddingSeconds
-            durationInSeconds = recordingEndInSeconds - recordingStartInSeconds
+        startDate = createObject("roDateTime")
+        startDate.FromISO8601String(m.LoadRecordingTimerTask.recordingTimerDetails.json.StartDate)
+        startDate.toLocalTime()
 
-            ' If the recording started after the beginning program time, then set a recording offset
-            if recordingCreateInSeconds <= recordingStartInSeconds
+        endDate = createObject("roDateTime")
+        endDate.FromISO8601String(m.LoadRecordingTimerTask.recordingTimerDetails.json.EndDate)
+        endDate.toLocalTime()
+
+        ' Create date includes any prepadding time, but we need to subtract/add pre/post padding to the start/end date to get the total planned duration.
+        recordingCreateInSeconds = createDate.AsSeconds()
+        recordingStartInSeconds = startDate.AsSeconds() - m.LoadRecordingTimerTask.recordingTimerDetails.json.PrePaddingSeconds
+        recordingEndInSeconds = endDate.AsSeconds() + m.LoadRecordingTimerTask.recordingTimerDetails.json.PostPaddingSeconds
+        durationInSeconds = recordingEndInSeconds - recordingStartInSeconds
+
+        ' If the recording started after the beginning program time, then set a recording offset
+        if recordingCreateInSeconds <= recordingStartInSeconds
+            m.osd.recordingOffset = 0
+        else
+            m.osd.recordingOffset = recordingCreateInSeconds - recordingStartInSeconds
+            ' Check that recordingOffset is within the bounds of the recording duration.  If not, set recording offset to 0 to avoid OSD issues
+            if m.osd.recordingOffset < 0 or m.osd.recordingOffset > durationInSeconds
                 m.osd.recordingOffset = 0
-            else
-                m.osd.recordingOffset = recordingCreateInSeconds - recordingStartInSeconds
-                ' Check that recordingOffset is within the bounds of the recording duration.  If not, set recording offset to 0 to avoid OSD issues
-                if m.osd.recordingOffset < 0 or m.osd.recordingOffset > durationInSeconds
-                    m.osd.recordingOffset = 0
-                end if
             end if
-            m.osd.liveTvRewindLimit = durationInSeconds
-
-            liveTvStartTime = recordingStartInSeconds
-            m.osd.recordingStartTime = createDate.AsSeconds()
         end if
+        m.osd.liveTvRewindLimit = durationInSeconds
+
+        liveTvStartTime = recordingStartInSeconds
+        m.osd.recordingStartTime = createDate.AsSeconds()
     end if
     m.osd.liveTvStartTime = liveTvStartTime
 end sub
@@ -1721,7 +1728,8 @@ sub skipCurrentSegment()
 end sub
 
 sub onProgramDetailsLoaded()
-    if m.top.content.live and m.LoadProgramDetailsTask.programDetails.json.type = "Recording"
+    '    if m.top.content.live and m.LoadProgramDetailsTask.programDetails.json.type = "Recording"
+    if m.top.content.live and isStringEqual(chainLookup(m.LoadProgramDetailsTask, "programDetails.json.type"), ItemType.RECORDING)
         if isChainValid(m.LoadProgramDetailsTask, "programDetails.json.TimerId") and m.LoadProgramDetailsTask.programDetails.json.Status = "InProgress"
             ' Only load the recording timer once by checking if LoadRecordingTimerTask is already valid.  This also handles the case where we fail to load the recording timer - we won't keep trying to load it on every program details refresh.
             if isValid(m.LoadRecordingTimerTask) and not isChainValid(m.LoadRecordingTimerTask, "recordingTimerDetails.json.Status")

@@ -1,4 +1,4 @@
-import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/sdk.bs"
 import "pkg:/source/utils/config.bs"
 
 sub init()
@@ -8,16 +8,9 @@ end sub
 
 sub loadRecordingTimer()
 
-    params = {
-        UserId: m.global.session.user.id
-    }
+    data = api.liveTV.GetTimerByID(m.top.timerId)
 
-    url = Substitute("LiveTv/Timers/{0}", m.top.timerId)
-
-    resp = APIRequest(url, params)
-    data = getJson(resp)
-
-    if data = invalid
+    if not isValid(data)
         m.top.timerDetails = {}
         return
     end if
