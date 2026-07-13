@@ -2459,5 +2459,13 @@
         <source>More from</source>
         <translation>Més de</translation>
     </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Artista desconegut</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Àlbum desconegut</translation>
+    </message>
 </context>
 </TS>
