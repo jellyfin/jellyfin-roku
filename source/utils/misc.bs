@@ -774,15 +774,17 @@ function serverVersionMeetsMinimumRequirements(systemVersion as string, targetVe
 end function
 
 ' MaskGroup sizes are not automatically scaled by SceneGraph on HD devices
-' when using an FHD design resolution. Apply the 2/3 scale factor to keep
+' when using an FHD design resolution. Apply HD_SCALE_FACTOR to keep
 ' masks aligned correctly. Callers should use asset/maskSize values divisible
 ' by 3 (e.g. 66, not 64) to avoid truncation error from Int().
 ' isHDDevice is cached on m.global.device at startup (see SaveDeviceToGlobal
 ' in globals.bs) to avoid repeated roDeviceInfo lookups as more MaskGroup
 ' usages are added.
+const HD_SCALE_FACTOR = 2.0 / 3.0
+
 function scaleMaskSize(size as integer) as integer
-    if m.global.device.isHDDevice
-        return Int(size * 2 / 3)
+    if chainLookupReturn(m.global.device, "isHDDevice", false)
+        return Int(size * HD_SCALE_FACTOR)
     end if
 
     return size
