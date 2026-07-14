@@ -158,6 +158,11 @@ end sub
 sub loadInitialItems()
     m.loadItemsTask.control = TaskControl.STOP
     startLoadingSpinner()
+    favoriteViewAll = isFavoriteViewAll()
+
+    if favoriteViewAll
+        m.top.optionsAvailable = false
+    end if
 
     if isStringEqual(m.top.parentItem.json.Type, "CollectionFolder")
         m.top.HomeLibraryItem = m.top.parentItem.Id
@@ -168,7 +173,13 @@ sub loadInitialItems()
     end if
 
     ' Read view/sort/filter settings
-    if isStringEqual(m.top.parentItem.collectionType, "music")
+    if favoriteViewAll
+        m.sortField = chainLookupReturn(m.top.parentItem, "json.SortBy", "SortName")
+        sortAscendingStr = isStringEqual(chainLookupReturn(m.top.parentItem, "json.SortOrder", "Ascending"), "Ascending")
+        m.filter = "Favorites"
+        m.filterOptions = "{}"
+        m.view = string.EMPTY
+    else if isStringEqual(m.top.parentItem.collectionType, "music")
         m.view = m.global.session.user.settings["display.music.view"]
         m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
         sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
@@ -204,6 +215,41 @@ sub loadInitialItems()
     else
         m.sortAscending = false
     end if
+
+    if favoriteViewAll
+        m.loadItemsTask.itemId = string.EMPTY
+        m.loadItemsTask.itemType = string.EMPTY
+        m.loadItemsTask.recursive = true
+        m.loadItemsTask.studioIds = string.EMPTY
+        m.loadItemsTask.genreIds = string.EMPTY
+        m.loadItemsTask.metadata = {
+            favoriteViewAll: true,
+            includeItemTypes: chainLookupReturn(m.top.parentItem, "json.IncludeItemTypes", string.EMPTY),
+            queryType: chainLookupReturn(m.top.parentItem, "json.QueryType", string.EMPTY)
+        }
+
+        if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
+            m.loadItemsTask.nameStartsWith = string.EMPTY
+            m.top.alphaSelected = string.EMPTY
+        else
+            m.loadItemsTask.nameStartsWith = m.top.alphaSelected
+        end if
+
+        m.loadItemsTask.searchTerm = m.voiceBox.text
+        m.emptyText.visible = false
+        m.loadItemsTask.sortField = m.sortField
+        m.loadItemsTask.sortAscending = m.sortAscending
+        m.loadItemsTask.filter = m.filter
+        m.loadItemsTask.filterOptions = m.filterOptions
+        m.loadItemsTask.startIndex = 0
+
+        startLoadingSpinner(false)
+        m.loadItemsTask.control = TaskControl.RUN
+
+        SetUpOptions()
+        return
+    end if
+
     ' Set Studio Id
     if isStringEqual(m.top.parentItem.json.type, "Studio")
         m.loadItemsTask.studioIds = m.top.parentItem.id
@@ -561,6 +607,10 @@ function getCollectionType() as string
     end if
 end function
 
+function isFavoriteViewAll() as boolean
+    return chainLookupReturn(m.top.parentItem, "json.FavoriteViewAll", false)
+end function
+
 ' Search string array for search value. Return if it's found
 function inStringArray(array, searchValue) as boolean
     for each item in array
@@ -574,6 +624,13 @@ sub SetUpOptions()
     options = {}
     options.filter = []
     options.favorite = []
+
+    if isFavoriteViewAll()
+        options.views = []
+        options.sort = []
+        m.options.options = options
+        return
+    end if
 
     if isStringEqual(getCollectionType(), "movies")
         setMoviesOptions(options)
@@ -926,7 +983,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         group.lastFocus = topGrp
     end if
 
-    if isStringEqual(key, KeyCode.OPTIONS) and not isStringEqual(getCollectionType(), "nextup")
+    if isStringEqual(key, KeyCode.OPTIONS) and not isStringEqual(getCollectionType(), "nextup") and not isFavoriteViewAll()
         if isStringEqual(getCollectionType(), "playlists")
             itemToPlay = getItemFocused()
             if not isValid(itemToPlay) then return true

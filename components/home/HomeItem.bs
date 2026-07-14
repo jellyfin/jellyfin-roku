@@ -9,6 +9,9 @@ import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
+const ITEM_IMAGE_HEIGHT = 261
+const ITEM_ICON_TOP = 85
+
 sub init()
     findNodes()
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
@@ -106,6 +109,7 @@ sub itemContentChanged()
     if not isValid(m.itemIcon) then initItemIcon()
 
     m.itemPoster.width = itemData.imageWidth
+    m.itemPoster.height = ITEM_IMAGE_HEIGHT
     m.itemPoster.loadDisplayMode = "scaleToZoom"
 
     m.showProgressBarAnimation.control = AnimationControl.STOP
@@ -125,9 +129,19 @@ sub itemContentChanged()
     m.itemText.vertAlign = "bottom"
 
     m.backdrop.width = itemData.imageWidth
+    m.backdrop.height = ITEM_IMAGE_HEIGHT
 
-    if isAllValid([m.itemIcon, itemData.iconUrl])
-        m.itemIcon.uri = itemData.iconUrl
+    if isValid(m.itemIcon)
+        iconX = (itemData.imageWidth - m.itemIcon.width) / 2
+        if iconX < 0 then iconX = 0
+        m.itemIcon.translation = [iconX, ITEM_ICON_TOP]
+        if isValidAndNotEmpty(itemData.iconUrl)
+            m.itemIcon.uri = itemData.iconUrl
+            m.itemIcon.visible = true
+        else
+            m.itemIcon.uri = string.EMPTY
+            m.itemIcon.visible = false
+        end if
     end if
 
     if inArray([ItemType.COLLECTIONFOLDER, ItemType.USERVIEW, ItemType.CHANNEL, ItemType.FOLDER], itemDataType)
@@ -219,14 +233,13 @@ end sub
 
 sub displayCollectionInfo(itemData as object)
     m.itemText.text = itemData.name
-    if isValidAndNotEmpty(itemData.iconUrl)
-        m.itemIcon.uri = itemData.iconUrl
-    end if
 
     if isValidAndNotEmpty(itemData.widePosterURL)
         m.itemPoster.uri = itemData.widePosterURL
-    else
+    else if isValidAndNotEmpty(itemData.posterURL)
         m.itemPoster.uri = itemData.posterURL
+    else
+        m.itemPoster.uri = string.EMPTY
     end if
 end sub
 
@@ -275,7 +288,12 @@ end sub
 sub displayAudioInfo(itemData as object)
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
-    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
+
+    if isValidAndNotEmpty(itemData.posterURL)
+        m.itemPoster.uri = itemData.posterURL
+    else
+        m.itemPoster.uri = "pkg:/images/icons/album.png"
+    end if
 end sub
 
 sub displayAudioBookInfo(itemData as object)
@@ -510,6 +528,13 @@ sub onPosterLoadStatusChanged()
 
             m.itemPoster.uri = artistPrimaryImageURL
             return
+        end if
+
+        if isStringEqual(thisItemType, ItemType.AUDIO) and isValidAndNotEmpty(m.top.itemContent.thumbnailURL)
+            if not isStringEqual(m.itemPoster.uri, m.top.itemContent.thumbnailURL)
+                m.itemPoster.uri = m.top.itemContent.thumbnailURL
+                return
+            end if
         end if
 
         ' If loading the episode poster image failed, try loading the series image

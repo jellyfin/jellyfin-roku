@@ -14,5 +14,9 @@
   {
     "description": "Fix possible crash on home screen On Now row",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add View All tiles to home Favorites rows",
+    "author": "VX-101"
   }
 ]
