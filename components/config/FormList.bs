@@ -1,4 +1,5 @@
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.itemComponentName = "FormElement"
@@ -20,6 +21,8 @@ sub setData()
     data.appendChildren(items)
 
     m.top.content = data
+    ' Cached here (not in init) since content isn't populated until configItems changes
+    m.itemCount = data.getChildCount()
 end sub
 
 sub onItemSelected()
@@ -39,7 +42,9 @@ function onDialogButton()
     if button_text = tr("OK")
         m.configField.value = d.text
         dismiss_dialog()
-        advanceFocus()
+        if isValidAndNotEmpty(d.text)
+            advanceFocus()
+        end if
         return true
     else if button_text = tr("Cancel")
         dismiss_dialog()
@@ -52,10 +57,9 @@ end function
 ' If it was the last field, notify the outside world (SigninScene) via
 ' allFieldsSubmitted instead of trying to navigate within the list.
 sub advanceFocus()
-    itemCount = m.top.content.getChildCount()
     nextIndex = m.currentIndex + 1
 
-    if nextIndex < itemCount
+    if nextIndex < m.itemCount
         m.top.jumpToItem = nextIndex
     else
         m.top.allFieldsSubmitted = not m.top.allFieldsSubmitted
