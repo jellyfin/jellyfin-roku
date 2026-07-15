@@ -9,6 +9,8 @@ import "pkg:/source/utils/config.bs"
 const SCREEN_PADDING = 60
 const LOWEST_CAPTION = 1080 - SCREEN_PADDING
 const VIEWABLE_AREA = 1080 - 2 * SCREEN_PADDING
+' Maximum width allowed before caption text wraps to the next line
+const SAFE_TEXT_WIDTH = Int(1920 * 0.75)
 
 sub init()
     m.top.playerState = MediaPlaybackState.STOPPED
@@ -55,6 +57,9 @@ sub init()
     end if
     ' Calculate and store the max line height for all font variants (used for per-line backgrounds)
     m.lineHeights = getLineHeights()
+
+    ' Hidden label used to measure caption text for word wrapping.
+    createMeasureLabel()
 
 end sub
 
@@ -110,6 +115,120 @@ function newRect(lg, id as string, styledText = invalid, drawingStyles = invalid
     return rect
 end function
 
+' Creates a hidden MultiStyleLabel used to measure rendered text width for
+' caption word wrapping. It remains attached so boundingRect() returns
+' valid dimensions.
+sub createMeasureLabel()
+    m.measureGroup = CreateObject("roSGNode", "Group")
+    m.measureLabel = CreateObject("roSGNode", "MultiStyleLabel")
+    m.measureLabel.drawingStyles = {
+        "default": { "fontUri": m.fonts.regular, "fontSize": m.fontSize, "color": m.textColor }
+    }
+    m.measureGroup.appendChild(m.measureLabel)
+    m.top.appendChild(m.measureGroup)
+end sub
+
+' Wraps caption text so no visual line exceeds maxWidth pixels while
+' preserving inline style tags across inserted line breaks.
+function wrapLongLines(text as string, maxWidth as integer) as string
+    lines = text.split(Chr(10))
+    wrapped = []
+    for each line in lines
+        wrapped.push(wrapSingleLine(line, maxWidth))
+    end for
+    return wrapped.join(Chr(10))
+end function
+
+function wrapSingleLine(line as string, maxWidth as integer) as string
+    ' Tokenize into tags vs. plain text
+    tokens = []
+    position = 0
+    lineLen = line.Len()
+    while position < lineLen
+        if line.Mid(position, 1) = "<"
+            tagEnd = line.Instr(position, ">")
+            if tagEnd = -1
+                tokens.push({ type: "text", value: line.Mid(position) })
+                position = lineLen
+            else
+                tokens.push({ type: "tag", value: line.Mid(position, tagEnd - position + 1) })
+                position = tagEnd + 1
+            end if
+        else
+            nextTag = line.Instr(position, "<")
+            if nextTag = -1
+                tokens.push({ type: "text", value: line.Mid(position) })
+                position = lineLen
+            else
+                tokens.push({ type: "text", value: line.Mid(position, nextTag - position) })
+                position = nextTag
+            end if
+        end if
+    end while
+
+    ' Expand plain-text tokens into words/spaces so we can break between them
+    expanded = []
+    for each token in tokens
+        if token.type = "tag"
+            expanded.push(token)
+        else
+            words = token.value.split(" ")
+            for i = 0 to words.count() - 1
+                if words[i].Len() > 0
+                    expanded.push({ type: "word", value: words[i] })
+                end if
+                if i < words.count() - 1
+                    expanded.push({ type: "space" })
+                end if
+            end for
+        end if
+    end for
+
+    openTags = []
+    output = ""
+    currentPlainText = ""
+
+    for each token in expanded
+        if token.type = "tag"
+            output += token.value
+            if token.value.StartsWith("</")
+                if openTags.count() > 0 then openTags.pop()
+            else
+                openTags.push(token.value)
+            end if
+        else if token.type = "space"
+            output += " "
+            currentPlainText += " "
+        else
+            candidateText = currentPlainText + token.value
+            m.measureLabel.text = candidateText
+            candidateWidth = m.measureLabel.boundingRect().width
+
+            if candidateWidth > maxWidth and currentPlainText.Trim().Len() > 0
+                ' Close currently open tags, break the line, then reopen
+                ' them so styling continues on the next visual line
+                for i = openTags.count() - 1 to 0 step -1
+                    tagName = openTags[i].Mid(1, openTags[i].Len() - 2)
+                    spacePos = tagName.Instr(0, " ")
+                    if spacePos <> -1 then tagName = tagName.Left(spacePos)
+                    output += `</${tagName}>`
+                end for
+                output += Chr(10)
+                for each tag in openTags
+                    output += tag
+                end for
+                currentPlainText = token.value
+                output += token.value
+            else
+                currentPlainText = candidateText
+                output += token.value
+            end if
+        end if
+    end for
+
+    return output
+end function
+
 sub updateCaption()
     if LCase(m.top.playerState.right(1)) = "w"
         m.top.playerState = m.top.playerState.left(len (m.top.playerState) - 1)
@@ -128,6 +247,13 @@ sub updateCaption()
         if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
 
             fullText = entry["text"].Join(Chr(10))
+
+            captionPosition = chainLookupReturn(entry["styles"], "position", string.EMPTY)
+
+            ' Only wrap captions without explicit position cues.
+            if isStringEqual(captionPosition, string.EMPTY)
+                fullText = wrapLongLines(fullText, SAFE_TEXT_WIDTH)
+            end if
 
             ' look for style tags
             currentStyle = {
@@ -305,7 +431,10 @@ sub updateCaption()
 
             lines = newLayoutGroup(label)
             rect = newRect(lines, entry.LookupCI("id"), styledText, drawingStyles)
-            finalStyles = prepareStyles(entry["styles"], rect, entry["text"].count())
+            ' Use the post-wrap line count (not the original VTT line count),
+            ' since wrapping may have split a line into more visual lines
+            wrappedLineCount = styledText.split(Chr(10)).count()
+            finalStyles = prepareStyles(entry["styles"], rect, wrappedLineCount)
             rect.translation = finalStyles.translation
 
             adjustForCaptionOverlaps(rect, captions)
@@ -367,7 +496,7 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
     finalStyles = { translation: [960, LOWEST_CAPTION] }
 
     verticalPosition = LOWEST_CAPTION
-    horizontalPositon = 960 - (rect.BoundingRect().width / 2)
+    horizontalPosition = 960 - (rect.BoundingRect().width / 2)
 
     ' Use isValid instead of isValidAndNotEmpty to allow empty style objects ({})
     ' to continue processing. An empty AA is valid — it just has no explicit cues.
@@ -390,10 +519,10 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
 
     ' Position
     if not isStringEqual(captionPosition, string.EMPTY)
-        horizontalPositon = processPositionCue(captionPosition, rect.BoundingRect().width)
+        horizontalPosition = processPositionCue(captionPosition, rect.BoundingRect().width)
     end if
 
-    finalStyles.translation = [horizontalPositon, verticalPosition]
+    finalStyles.translation = [horizontalPosition, verticalPosition]
 
     return finalStyles
 end function
