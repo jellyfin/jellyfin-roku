@@ -58,6 +58,12 @@ sub onQuickPlayEvent(msg)
         return
     end if
 
+    if isStringEqual(selectedItemType, ItemType.RADIOSTATION)
+        CreateRadioStation(itemNode)
+        m.global.queueManager.callFunc("playQueue")
+        return
+    end if
+
     if isStringEqual(selectedItemType, ItemType.AUDIO)
         quickplay.audio(itemNode)
         m.global.queueManager.callFunc("playQueue")
