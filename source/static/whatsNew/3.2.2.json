@@ -82,5 +82,9 @@
   {
     "description": "Fix crash on album view when use fallback font for entire app setting is enabled",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add automatic wrapping for long caption lines",
+    "author": "ferezvi"
   }
 ]
