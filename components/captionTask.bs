@@ -139,6 +139,51 @@ function wrapLongLines(text as string, maxWidth as integer) as string
     return wrapped.join(Chr(10))
 end function
 
+' Balances two wrapped lines by finding the closest visual widths.
+function balanceCaptionLines(text as string, maxWidth as integer) as string
+    lines = text.split(Chr(10))
+
+    ' Only balance captions generated as two lines.
+    if lines.count() <> 2
+        return text
+    end if
+
+    words = (lines[0] + " " + lines[1]).split(" ")
+
+    if words.count() < 3
+        return text
+    end if
+
+    bestText = text
+    bestDifference = invalid
+
+    for i = 1 to words.count() - 1
+        firstLine = words.slice(0, i).join(" ")
+        secondLine = words.slice(i).join(" ")
+
+        firstWidth = measureCaptionWidth(firstLine)
+        secondWidth = measureCaptionWidth(secondLine)
+
+        if firstWidth > maxWidth or secondWidth > maxWidth
+            continue for
+        end if
+
+        difference = abs(firstWidth - secondWidth)
+
+        if not isValid(bestDifference) or difference < bestDifference
+            bestDifference = difference
+            bestText = firstLine + Chr(10) + secondLine
+        end if
+    end for
+
+    return bestText
+end function
+
+function measureCaptionWidth(text as string) as integer
+    m.measureLabel.text = text
+    return m.measureLabel.boundingRect().width
+end function
+
 function wrapSingleLine(line as string, maxWidth as integer) as string
     ' Tokenize into tags vs. plain text
     tokens = []
@@ -253,6 +298,8 @@ sub updateCaption()
             ' Only wrap captions without explicit position cues.
             if isStringEqual(captionPosition, string.EMPTY)
                 fullText = wrapLongLines(fullText, SAFE_TEXT_WIDTH)
+                ' Balance automatically wrapped lines for better visual distribution.
+                fullText = balanceCaptionLines(fullText, SAFE_TEXT_WIDTH)
             end if
 
             ' look for style tags
