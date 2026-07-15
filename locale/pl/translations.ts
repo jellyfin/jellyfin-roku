@@ -2496,5 +2496,34 @@
         <source>Videos</source>
         <translation>Wideo</translation>
     </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Ostatnio oglądane</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Więcej z</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Domyślne</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Tryb odtwarzania</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Naciśnij ponownie przycisk Zatrzymaj, aby zamknąć odtwarzacz</translation>
+    </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Nieznany wykonawca</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Nieznany album</translation>
+    </message>
 </context>
 </TS>

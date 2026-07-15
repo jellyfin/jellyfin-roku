@@ -228,7 +228,7 @@
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation>Valoració de IMDb</translation>
+        <translation>Valoració de l&apos;IMDb</translation>
     </message>
     <message>
         <source>Community Rating</source>
@@ -2433,6 +2433,39 @@
     <message>
         <source>Playback Controls Inactivity Timeout</source>
         <translation>Temps d&apos;espera d&apos;inactivitat dels controls de reproducció</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Mirat recentment</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Vídeos</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Torneu a pitjar Atura per a tancar el reproductor</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Mode de reproducció</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Per defecte</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Més de</translation>
+    </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Artista desconegut</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Àlbum desconegut</translation>
     </message>
 </context>
 </TS>

@@ -53,6 +53,10 @@
             <translation>Play from beginning</translation>
         </message>
         <message>
+            <source>Press Stop again to close player</source>
+            <translation>Press Stop again to close player</translation>
+        </message>
+        <message>
             <source>Please sign in</source>
             <translation>Please sign in</translation>
         </message>
@@ -189,6 +193,10 @@
             <translation>Audio</translation>
         </message>
         <message>
+            <source>Default</source>
+            <translation>Default</translation>
+        </message>
+        <message>
             <source>Subtitles</source>
             <translation>Subtitles</translation>
         </message>
@@ -211,6 +219,11 @@
         <message>
             <source>Episodes</source>
             <translation>Episodes</translation>
+        </message>
+        <message>
+            <source>More from</source>
+            <translation>More from</translation>
+            <extracomment>Prefix for the episodes row header in the item detail extras slider, followed by "Season X" (e.g. "More from Season 3")</extracomment>
         </message>
         <message>
             <source>Error Retrieving Content</source>
@@ -257,6 +270,11 @@
             <comment>Name or Title field of media item</comment>
             <source>TITLE</source>
             <translation>Name</translation>
+        </message>
+        <message>
+            <comment>Last played time of media item</comment>
+            <source>RECENTLY_WATCHED</source>
+            <translation>Recently Watched</translation>
         </message>
         <message>
             <source>IMDB_RATING</source>
@@ -522,6 +540,14 @@
             <source>Unknown</source>
             <translation>Unknown</translation>
             <extracomment>Title for a cast member for which we have no information for</extracomment>
+        </message>
+        <message>
+            <source>Unknown Artist</source>
+            <translation>Unknown Artist</translation>
+        </message>
+        <message>
+            <source>Unknown Album</source>
+            <translation>Unknown Album</translation>
         </message>
         <message>
             <source>The requested content does not exist on the server</source>
@@ -2238,6 +2264,10 @@
         <message>
             <source>Play Normally</source>
             <translation>Play Normally</translation>
+        </message>
+        <message>
+            <source>Playback Mode</source>
+            <translation>Playback Mode</translation>
         </message>
         <message>
             <source>Force Transcode (Allow Remux)</source>
