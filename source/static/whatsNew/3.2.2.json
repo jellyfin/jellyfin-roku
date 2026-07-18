@@ -56,7 +56,7 @@
     "author": "VX-101"
   },
   {
-    "description": "Fix mini-player Play/Pause above album actions",
+    "description": "Route Play/Pause button presses to audio mini-player when cursor is on album details",
     "author": "VX-101"
   }
 ]
