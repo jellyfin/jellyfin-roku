@@ -2607,5 +2607,13 @@
             <source>Background color to use on home screen block</source>
             <translation>Background color to use on home screen block</translation>
         </message>
+        <message>
+            <source>The server found no media matching the filter criteria for this radio station.</source>
+            <translation>The server found no media matching the filter criteria for this radio station.</translation>
+        </message>
+        <message>
+            <source>No media matched radio station criteria</source>
+            <translation>No media matched radio station criteria</translation>
+        </message>
     </context>
 </TS>

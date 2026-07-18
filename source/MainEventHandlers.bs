@@ -60,7 +60,6 @@ sub onQuickPlayEvent(msg)
 
     if isStringEqual(selectedItemType, ItemType.RADIOSTATION)
         CreateRadioStation(itemNode)
-        m.global.queueManager.callFunc("playQueue")
         return
     end if
 

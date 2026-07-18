@@ -954,11 +954,19 @@ sub CreateRadioStation(stationData as object)
 
     apiData = api.items.Get(params)
 
-    if not isChainValid(apiData, "items") then return
+    if not isChainValid(apiData, "items")
+        stopLoadingSpinner()
+        m.global.sceneManager.callFunc("standardDialog", tr("No media matched radio station criteria"), { data: ["<p>" + tr("The server found no media matching the filter criteria for this radio station.") + "</p>"] })
+        return
+    end if
 
     radioStationData = chainLookup(apiData, "items")
 
-    if not isValidAndNotEmpty(radioStationData) then return
+    if not isValidAndNotEmpty(radioStationData)
+        stopLoadingSpinner()
+        m.global.sceneManager.callFunc("standardDialog", tr("No media matched radio station criteria"), { data: ["<p>" + tr("The server found no media matching the filter criteria for this radio station.") + "</p>"] })
+        return
+    end if
 
     MainAction.playItem(radioStationData, { method: "set", setShuffle: true, showAudioPlayerView: true })
 end sub
