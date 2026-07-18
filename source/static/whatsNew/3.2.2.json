@@ -62,5 +62,9 @@
   {
     "description": "Create radio station home row type",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix autoplayed episodes not starting from the beginning",
+    "author": "brianpardy"
   }
 ]
