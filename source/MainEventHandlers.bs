@@ -58,6 +58,12 @@ sub onQuickPlayEvent(msg)
         return
     end if
 
+    if isStringEqual(selectedItemType, ItemType.RADIOSTATION)
+        CreateRadioStation(itemNode)
+        m.global.queueManager.callFunc("playQueue")
+        return
+    end if
+
     if isStringEqual(selectedItemType, ItemType.AUDIO)
         quickplay.audio(itemNode)
         m.global.queueManager.callFunc("playQueue")
@@ -884,6 +890,8 @@ sub onSelectedItemEvent(msg)
             m.global.queueManager.callFunc("resetShuffle")
             m.global.queueManager.callFunc("push", selectedItem.json)
             m.global.queueManager.callFunc("playQueue")
+        else if isStringEqual(selectedItemType, "radiostation")
+            CreateRadioStation(selectedItem)
         else if selectedItemType = "audiobook"
             ' Display playback options dialog
             showPlaybackOptionDialog = false

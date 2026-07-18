@@ -2531,5 +2531,25 @@
             <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
             <translation>Roku thought it could direct play this media, but the playback duration was incorrect.</translation>
         </message>
+        <message>
+            <source>Radio Stations</source>
+            <translation>Radio Stations</translation>
+        </message>
+        <message>
+            <source>Most Played Tracks</source>
+            <translation>Most Played Tracks</translation>
+        </message>
+        <message>
+            <source>Least Played Tracks</source>
+            <translation>Least Played Tracks</translation>
+        </message>
+        <message>
+            <source>Shuffle play your most played tracks</source>
+            <translation>Shuffle play your most played tracks</translation>
+        </message>
+        <message>
+            <source>Shuffle play your least played tracks</source>
+            <translation>Shuffle play your least played tracks</translation>
+        </message>
     </context>
 </TS>
