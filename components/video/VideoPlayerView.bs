@@ -32,6 +32,9 @@ sub init()
     m.top.observeField("availableAudioTracks", "onAvailableAudioTracksChanged")
 
     m.attemptDirectPlaySetting = chainLookupReturn(m.global.session, "user.settings.attemptDirectPlay", false)
+    if m.attemptDirectPlaySetting
+        m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
+    end if
 
     m.subtitleOffset = 0
 

@@ -730,7 +730,7 @@
     </message>
     <message>
         <source>Options that alter the design of Jellyfin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternativ som ändrar Jellyfins utseende.</translation>
         <extracomment>Description for Design Elements user settings.</extracomment>
     </message>
     <message>
@@ -2201,6 +2201,31 @@
     <message>
         <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
         <translation>Ange det maximala antalet dagar ett program ska finnas kvar i listan &quot;Härnäst&quot; utan att man tittar på det. Maximalt värde är 1000 dagar.</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Videor</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Ingen Standard</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Nyligen sedda</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>som %1</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>Fler med %1 i ditt bibliotek</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>Inga andra titlar funna i ditt bibliotek.</translation>
     </message>
 </context>
 </TS>

@@ -2391,7 +2391,7 @@
     </message>
     <message>
         <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
-        <translation type="unfinished">Force Jellyfin à tenter la lecture directe des médias vidéo, à l&apos;exception de la TV en direct. L&apos;activation de cette option ignore tous les autres paramètres de prise en charge de la lecture et tentera toujours la lecture directe en priorité. Cela modifie également la manière dont la raison du transcodage est affichée.</translation>
+        <translation>Force Jellyfin à tenter la lecture directe des médias vidéo, à l&apos;exception de la TV en direct. L&apos;activation de cette option ignore tous les autres paramètres de prise en charge de la lecture et tentera toujours la lecture directe en priorité. Cela modifie également la manière dont la raison du transcodage est affichée.</translation>
     </message>
     <message>
         <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
@@ -2435,7 +2435,7 @@
     </message>
     <message>
         <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
-        <translation>Délai d&apos;inactivité des commandes de lecture</translation>
+        <translation>Définissez la durée en secondes pendant laquelle l&apos;interface de contrôle de lecture restera visible lorsqu&apos;aucun bouton n&apos;est utilisé. Mettre la valeur à 0 pour désactiver cette option.</translation>
     </message>
     <message>
         <source>All Playable Media</source>
@@ -2444,6 +2444,39 @@
     <message>
         <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
         <translation>Forcer le transcodage de la télévision en direct. Si l&apos;option « Tous les médias lisibles » est déjà définie sur « Forcer le transcodage (remux désactivé) », ce paramètre est ignoré.</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Vidéos</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Vu récemment</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Appuyez à nouveau sur « Stop » pour fermer le lecteur</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Défaut</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>En savoir plus sur</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Mode de lecture</translation>
+    </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Artiste Inconnu</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Album Inconnu</translation>
     </message>
 </context>
 </TS>

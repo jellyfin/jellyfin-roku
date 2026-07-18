@@ -60,6 +60,13 @@ namespace quickplay
         m.global.queueManager.callFunc("push", itemNode)
     end sub
 
+    ' A radio station
+    sub radiostation(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        m.global.queueManager.callFunc("push", itemNode)
+    end sub
+
     ' A single music video file.
     sub musicVideo(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.id) or not isValid(itemNode.json) then return
