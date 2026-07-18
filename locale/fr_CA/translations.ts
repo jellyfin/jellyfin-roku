@@ -2427,6 +2427,14 @@
         <source>Playback Mode</source>
         <translation>Mode de lecture</translation>
     </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Artiste Inconnu</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Album Inconnu</translation>
+    </message>
 </context>
 <context>
     <name></name>

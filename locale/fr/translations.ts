@@ -2435,7 +2435,7 @@
     </message>
     <message>
         <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
-        <translation>Délai d&apos;inactivité des commandes de lecture</translation>
+        <translation>Définissez la durée en secondes pendant laquelle l&apos;interface de contrôle de lecture restera visible lorsqu&apos;aucun bouton n&apos;est utilisé. Mettre la valeur à 0 pour désactiver cette option.</translation>
     </message>
     <message>
         <source>All Playable Media</source>
@@ -2469,6 +2469,14 @@
     <message>
         <source>Playback Mode</source>
         <translation>Mode de lecture</translation>
+    </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Artiste Inconnu</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Album Inconnu</translation>
     </message>
 </context>
 </TS>
