@@ -469,6 +469,9 @@ end sub
 ' This function translates between our internel selected subtitle index
 ' and the corresponding index in availableSubtitleTracks.
 function availSubtitleTrackIdx(tracknameToFind as string) as integer
+    ' Giving an empty substring to Instr will always return position 1
+    if not isValidAndNotEmpty(tracknameToFind) then return SubtitleSelection.NONE
+
     idx = 0
     for each availTrack in m.view.availableSubtitleTracks
         ' The TrackName must contain the URL we supplied originally, though

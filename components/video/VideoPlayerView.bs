@@ -1635,6 +1635,9 @@ end function
 ' @param {string} tracknameToFind - TrackName for subtitle we're looking to match
 ' @return {integer} indicating Roku's index for requested subtitle track. Returns SubtitleSelection.NONE if not found
 function availSubtitleTrackIdx(tracknameToFind as string) as integer
+    ' Giving an empty substring to Instr will always return position 1
+    if not isValidAndNotEmpty(tracknameToFind) then return SubtitleSelection.NONE
+
     idx = 0
     for each availTrack in m.top.availableSubtitleTracks
         ' The TrackName must contain the URL we supplied originally, though
