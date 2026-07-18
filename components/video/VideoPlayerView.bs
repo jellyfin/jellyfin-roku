@@ -30,10 +30,12 @@ sub init()
     m.spinnerPercentTimer.observeField("fire", "onPercentTick")
 
     m.top.observeField("availableAudioTracks", "onAvailableAudioTracksChanged")
+    m.top.observeField("availableSubtitleTracks", "onAvailableSubtitleTracksChanged")
 
     m.attemptDirectPlaySetting = chainLookupReturn(m.global.session, "user.settings.attemptDirectPlay", false)
 
     m.subtitleOffset = 0
+    m.pendingSubtitle = invalid
 
     m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
@@ -852,18 +854,15 @@ sub onVideoContentLoaded()
         m.top.subtitleTrack = ""
     end if
 
-    if isValid(selectedSubtitle)
-        availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
-        if availableSubtitleTrackIndex <> SubtitleSelection.NONE
-            if not selectedSubtitle.IsEncoded
-                if selectedSubtitle.IsForced
-                    ' If IsForced, make sure to remember the Roku global setting so we can set it back when the video is done playing.
-                    m.originalClosedCaptionState = m.top.globalCaptionMode
-                end if
-                m.top.globalCaptionMode = "On"
-                m.top.subtitleTrack = m.top.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
-            end if
-        end if
+    ' availableSubtitleTracks is populated asynchronously. If it's not populated yet,
+    ' applyPendingSubtitleTrack will do nothing on this call and we have to wait for the observer to
+    ' be triggered. If it is already populated, then its observer has already fired and the manual
+    ' call here is necessary.
+    if isValid(selectedSubtitle) and not selectedSubtitle.IsEncoded
+        m.pendingSubtitle = selectedSubtitle
+        applyPendingSubtitleTrack()
+    else
+        m.pendingSubtitle = invalid
     end if
 
     ' Check if video content selected a subtitle
@@ -1650,6 +1649,29 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
     end for
     return SubtitleSelection.NONE
 end function
+
+sub onAvailableSubtitleTracksChanged()
+    applyPendingSubtitleTrack()
+end sub
+
+' Tries to apply m.pendingSubtitle to the Video node if the target subtitle can be located in the
+' availableSubtitleTracks list. If it can't, no-op.
+sub applyPendingSubtitleTrack()
+    if not isValid(m.pendingSubtitle) then return
+    if not isValidAndNotEmpty(m.top.availableSubtitleTracks) then return
+
+    availableSubtitleTrackIndex = availSubtitleTrackIdx(m.pendingSubtitle.Track.TrackName)
+    if availableSubtitleTrackIndex = SubtitleSelection.NONE then return
+
+    if m.pendingSubtitle.IsForced and not isValid(m.originalClosedCaptionState)
+        ' If IsForced, make sure to remember the Roku global setting so we can set it back when the video is done playing.
+        m.originalClosedCaptionState = m.top.globalCaptionMode
+    end if
+
+    m.top.globalCaptionMode = "On"
+    m.top.subtitleTrack = m.top.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
+    m.pendingSubtitle = invalid
+end sub
 
 sub skipCurrentSegment()
     seekPosition = m.currentSegmentEndTicks / 10000000#
