@@ -920,6 +920,48 @@ function CreateAlbumView(album as object) as dynamic
     return group
 end function
 
+sub CreateRadioStation(stationData as object)
+    if not isChainValid(stationData, "id") then return
+
+    radioStationData = []
+
+    if isStringEqual(chainLookup(stationData, "id"), "mostplayed")
+        apiData = api.items.Get({
+            userid: m.global.session.user.id,
+            SortBy: "PlayCount",
+            recursive: true,
+            SortOrder: "Descending",
+            limit: 250,
+            includeItemTypes: ItemType.AUDIO,
+            EnableTotalRecordCount: false
+        })
+
+        if not isChainValid(apiData, "items") then return
+
+        radioStationData = chainLookup(apiData, "items")
+    end if
+
+    if isStringEqual(chainLookup(stationData, "id"), "leastplayed")
+        apiData = api.items.Get({
+            userid: m.global.session.user.id,
+            SortBy: "PlayCount",
+            recursive: true,
+            SortOrder: "Ascending",
+            limit: 250,
+            includeItemTypes: ItemType.AUDIO,
+            EnableTotalRecordCount: false
+        })
+
+        if not isChainValid(apiData, "items") then return
+
+        radioStationData = chainLookup(apiData, "items")
+    end if
+
+    if not isValidAndNotEmpty(radioStationData) then return
+
+    MainAction.playItem(radioStationData, { method: "set", setShuffle: true, showAudioPlayerView: true })
+end sub
+
 ' Shows details on selected playlist. Description text, image, and list of available items
 sub CreatePlaylistView(playlist as object)
     ' validate playlist node

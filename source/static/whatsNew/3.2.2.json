@@ -58,5 +58,9 @@
   {
     "description": "Route Play/Pause button presses to audio mini-player when cursor is on album details",
     "author": "VX-101"
+  },
+  {
+    "description": "Create radio station home row type",
+    "author": "1hitsong"
   }
 ]
