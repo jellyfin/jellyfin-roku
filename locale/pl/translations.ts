@@ -2525,5 +2525,25 @@
         <source>Unknown Album</source>
         <translation>Nieznany album</translation>
     </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Stacje radiowe</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Najczęściej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Najrzadziej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Odtwarzaj losowo najczęściej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Odtwarzaj losowo najrzadziej odtwarzane utwory</translation>
+    </message>
 </context>
 </TS>
