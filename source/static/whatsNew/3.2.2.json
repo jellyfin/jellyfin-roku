@@ -54,5 +54,9 @@
   {
     "description": "Prevent the audio mini-player from covering short music album song lists",
     "author": "VX-101"
+  },
+  {
+    "description": "Route Play/Pause button presses to audio mini-player when cursor is on album details",
+    "author": "VX-101"
   }
 ]
