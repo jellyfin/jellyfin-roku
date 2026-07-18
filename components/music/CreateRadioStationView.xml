@@ -102,7 +102,7 @@
     <field id="radioStationLimit" type="string" alwaysNotify="true" onChange="onRadioStationLimitChange" />
     <field id="radioStationSortBy" type="string" alwaysNotify="true" onChange="onRadioStationSortByChange" />
     <field id="radioStationSortOrder" type="string" alwaysNotify="true" onChange="onRadioStationSortOrderChange" />
-    <field id="radioStationBackgroundColor" type="string" alwaysNotify="true" onChange="onRadioStationBackgroundColorChange" />
+    <field id="radioStationBackgroundColor" value="#FFFFFF" type="string" alwaysNotify="true" onChange="onRadioStationBackgroundColorChange" />
     <field id="checkboxData" type="assocarray" alwaysNotify="true" onChange="oncheckboxDataChange" />
     <field id="selectedColor" type="assocarray" alwaysNotify="true" onChange="onSelectedColorChange" />
   </interface>
