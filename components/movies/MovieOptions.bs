@@ -78,11 +78,6 @@ sub optionsSet()
     ' When force transcoding is dictated by a global setting, Playback Mode row is read-only
     m.playbackLocked = not isStringEqual(PlaybackMethod.PLAYNORMALLY, forceTranscodeSetting)
 
-    ' If user has enabled attempt direct play setting, Playback Mode row is read-only
-    if chainLookupReturn(m.global.session, "user.settings.attemptDirectPlay", false)
-        m.playbackLocked = true
-    end if
-
     if not isStringEqual(PlaybackMethod.PLAYNORMALLY, forceTranscodeSetting)
         normalOption = m.optionMenu.content.getChild(0)
         normalOption.title = tr("Play Normally - disabled because of selected force transcoding setting")
