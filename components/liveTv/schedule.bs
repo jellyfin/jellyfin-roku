@@ -95,20 +95,6 @@ sub loadChannelList()
     m.LoadChannelsTask.control = TaskControl.RUN
 end sub
 
-' Join channel ids into the comma-separated form the schedule endpoint expects.
-function joinChannelIds(ids) as string
-    result = ""
-    if isValid(ids) and ids.count() > 0
-        for i = 0 to ids.count() - 1
-            if i > 0
-                result = result + ", "
-            end if
-            result = result + ids[i]
-        end for
-    end if
-    return result
-end function
-
 ' Reset progressive-load state so the next channel load starts a fresh initial window.
 sub resetScheduleProgress()
     m.allChannelsLoaded = false
@@ -235,7 +221,7 @@ sub loadScheduleBatch()
 
     m.LoadScheduleTask.control = TaskControl.STOP
     m.LoadScheduleTask.observeField("schedule", "onScheduleLoaded")
-    m.LoadScheduleTask.channelIds = joinChannelIds(channelSlice)
+    m.LoadScheduleTask.channelIds = channelSlice
     m.LoadScheduleTask.control = TaskControl.RUN
 end sub
 
@@ -387,7 +373,7 @@ sub expandScheduleWindow(stepHours)
 
     m.LoadScheduleTask.observeField("schedule", "onScheduleLoaded")
 
-    m.LoadScheduleTask.channelIds = joinChannelIds(m.channelIdList)
+    m.LoadScheduleTask.channelIds = m.channelIdList
     m.LoadScheduleTask.startTime = sliceStart
     m.LoadScheduleTask.endTime = sliceEnd
     m.LoadScheduleTask.control = TaskControl.RUN
