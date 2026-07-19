@@ -1,0 +1,11 @@
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/config.bs"
+
+sub init()
+    m.top.functionName = "getFiltersTask2"
+end sub
+
+sub getFiltersTask2()
+    m.filters = api.items.GetFilters2(m.top.params)
+    m.top.filters = m.filters
+end sub
