@@ -56,6 +56,26 @@
     "author": "VX-101"
   },
   {
+    "description": "Route Play/Pause button presses to audio mini-player when cursor is on album details",
+    "author": "VX-101"
+  },
+  {
+    "description": "Create radio station home row type",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix force transcode playback option",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add ability to manage radio stations",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add ability to force transcode when always directplay setting is enabled",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix user avatar circle on HD devices",
     "author": "ferezvi"
   }
