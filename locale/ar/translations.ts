@@ -2515,5 +2515,37 @@
         <source>Unknown Album</source>
         <translation>ألبوم مجهول</translation>
     </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>محطات الاذاعة</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>أكثر المسارات تشغيلا</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>أقل المسارات تشغيلا</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>لا يوجد تطابق بين محطة الاذاعة و الوسيطة</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>الخادم لم يعثر على وسيطة تطابق معيار محطة الاذاعة هذه.</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>لون خلفية يستخدم في قسم صفحة البداية</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>لون الخلفية</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>اتجاه ترتيب الوسيطة قبل الانقطاع عند الحد</translation>
+    </message>
 </context>
 </TS>
