@@ -394,14 +394,14 @@ function loadLiveTVOnNow() as object
     for each item in data.Items
         tmp = CreateObject("roSGNode", "HomeData")
         imageTags = item.LookupCI("ImageTags")
-        isThumbImage = isValid(imageTags) and isValid(imageTags.LookupCI("Thumb"))
+        isThumbImage = chainLookupReturn(imageTags, ImageType.THUMB, false)
 
         tmp.addField("FHDItemWidth", "float", false)
         tmp.FHDItemWidth = calculateOnNowItemWidth(item.LookupCI("PrimaryImageAspectRatio"), isThumbImage)
         tmp.json = {
             id: item.LookupCI("Id"),
             name: item.LookupCI("name"),
-            ImageURL: ImageURL(item.LookupCI("Id"), "Primary", { maxHeight: 261 }),
+            ImageURL: api.items.GetImageURL(item.LookupCI("Id"), ImageType.PRIMARY, 0, { maxHeight: 261 }),
             ImageAspectRatio: item.LookupCI("PrimaryImageAspectRatio"),
             Type: item.LookupCI("Type"),
             mediatype: item.LookupCI("mediatype"),
