@@ -350,6 +350,8 @@ function loadSpecialFeatures() as object
     return results
 end function
 
+const THUMB_ASPECT_RATIO = 1.777 ' 16/9
+
 function calculateOnNowItemWidth(ratio as dynamic, isThumbImage as boolean) as float
     ' Actual image height within the cell (not the full cell height,
     ' which includes the title space below). Must match the image
@@ -359,7 +361,7 @@ function calculateOnNowItemWidth(ratio as dynamic, isThumbImage as boolean) as f
     minWidth = homeRowItemSizes.MOVIE_POSTER[0] ' floor
 
     if isThumbImage
-        return itemHeight * (16 / 9)
+        return itemHeight * THUMB_ASPECT_RATIO
     end if
 
     if not isValid(ratio) or ratio <= 0
