@@ -2647,6 +2647,14 @@
         <source>Background color to use on home screen block</source>
         <translation>Color de fondo para la pantalla principal</translation>
     </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>El servidor no ha encontrado medios que correspondan con los criterios de los filtros para esta estación de radio.</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Ningún medio corresponde a los criterios de la estación de radio</translation>
+    </message>
 </context>
 <context>
     <name></name>
