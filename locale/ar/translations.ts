@@ -2547,5 +2547,13 @@
         <source>Direction to sort media before cutting off at limit</source>
         <translation>اتجاه ترتيب الوسيطة قبل الانقطاع عند الحد</translation>
     </message>
+    <message>
+        <source>Station Name</source>
+        <translation>اسم المحطة</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>اسم تعريف محطة الاذاعة</translation>
+    </message>
 </context>
 </TS>
