@@ -7,11 +7,11 @@
 
     <LayoutGroup id="overlayRightGroup" layoutDirection="horiz" itemSpacings="15" translation="[1766, 53]" horizAlignment="right">
       <Text id="overlayCurrentUser" font="font:MediumSystemFont" width="300" horizAlign="right" vertAlign="center" height="64" />
-      <MaskGroup id="backgroundMask" maskUri="pkg:/images/icons/circle64.png" maskSize="[64,64]">
-        <Poster uri="pkg:/images/icons/circle.png" id="overlayCurrentUserProfileImage" width="64" height="64" loadDisplayMode="scaleToZoom" />
+      <MaskGroup id="backgroundMask" maskUri="pkg:/images/icons/circle66.png" maskSize="[66,66]">
+        <Poster uri="pkg:/images/icons/circle.png" id="overlayCurrentUserProfileImage" width="66" height="66" loadDisplayMode="scaleToZoom" />
       </MaskGroup>
     </LayoutGroup>
-    <Poster visible="false" uri="pkg:/images/icons/openCircle.png" id="overlayCurrentUserSelection" translation="[1702, 53]" width="64" height="64" loadDisplayMode="scaleToZoom" />
+    <Poster visible="false" uri="pkg:/images/icons/openCircle72.png" id="overlayCurrentUserSelection" translation="[1698, 49]" width="72" height="72" loadDisplayMode="scaleToZoom" />
 
     <Timer id="currentTimeTimer" repeat="true" duration="60" />
 

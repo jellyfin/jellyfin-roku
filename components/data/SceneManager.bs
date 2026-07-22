@@ -330,6 +330,68 @@ end sub
 
 '
 ' Display dialog to user with an OK button
+sub colorDialog(title, selectedColor, buttons = [tr("OK")], id = "OKDialog")
+    m.itemID = string.EMPTY
+    m.userselection = false
+
+    if not isValidAndNotEmpty(buttons)
+        buttons = [tr("OK")]
+    end if
+
+    dialog = createObject("roSGNode", "ColorDialog")
+    dialog.selectedColor = selectedColor
+    dlgPalette = createObject("roSGNode", "RSGPalette")
+    dlgPalette.colors = {
+        DialogBackgroundColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBackground", ColorPalette.ELEMENTBACKGROUND),
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
+        DialogFocusItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogSelectedText", ColorPalette.WHITE),
+        DialogSecondaryTextColor: ColorPalette.RED,
+        DialogSecondaryItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBorderLine", ColorPalette.LIGHTBLUE),
+        DialogTextColor: chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
+    }
+    dialog.palette = dlgPalette
+    dialog.observeField("buttonSelected", "checkboxButtonSelected")
+    dialog.observeField("wasClosed", "optionClosed")
+    dialog.title = title
+    dialog.buttons = buttons
+    dialog.id = id
+
+    m.scene.dialog = dialog
+end sub
+
+'
+' Display dialog to user with an OK button
+sub checkboxDialog(title, message, buttons = [tr("OK")], id = "OKDialog")
+    m.itemID = string.EMPTY
+    m.userselection = false
+
+    if not isValidAndNotEmpty(buttons)
+        buttons = [tr("OK")]
+    end if
+
+    dialog = createObject("roSGNode", "CheckboxDialog")
+    dlgPalette = createObject("roSGNode", "RSGPalette")
+    dlgPalette.colors = {
+        DialogBackgroundColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBackground", ColorPalette.ELEMENTBACKGROUND),
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
+        DialogFocusItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogSelectedText", ColorPalette.WHITE),
+        DialogSecondaryTextColor: ColorPalette.RED,
+        DialogSecondaryItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBorderLine", ColorPalette.LIGHTBLUE),
+        DialogTextColor: chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
+    }
+    dialog.palette = dlgPalette
+    dialog.observeField("buttonSelected", "checkboxButtonSelected")
+    dialog.observeField("wasClosed", "optionClosed")
+    dialog.title = title
+    dialog.contentData = message
+    dialog.buttons = buttons
+    dialog.id = id
+
+    m.scene.dialog = dialog
+end sub
+
+'
+' Display dialog to user with an OK button
 sub radioDialog(title, message, buttons = [tr("OK")], id = "OKDialog")
     m.itemID = string.EMPTY
     m.userselection = false
@@ -357,6 +419,11 @@ sub radioDialog(title, message, buttons = [tr("OK")], id = "OKDialog")
     dialog.id = id
 
     m.scene.dialog = dialog
+end sub
+
+sub checkboxButtonSelected()
+    m.userselection = true
+    dismissDialog()
 end sub
 
 sub radioButtonSelected()
