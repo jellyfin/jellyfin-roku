@@ -160,9 +160,11 @@ sub onMyListLoaded()
         end if
     end if
 
-    dialogData.push(m.favoritesOptionText)
+    if not inArray([ItemType.RADIOSTATION], focusedItem.LookupCI("type"))
+        dialogData.push(m.favoritesOptionText)
+    end if
 
-    if not inArray([ItemType.COLLECTIONFOLDER, ItemType.CHANNEL, ItemType.FOLDER, ItemType.PLAYLIST, ItemType.PROGRAM, ItemType.TVCHANNEL, ItemType.USERVIEW], focusedItem.LookupCI("type"))
+    if not inArray([ItemType.COLLECTIONFOLDER, ItemType.RADIOSTATION, ItemType.CHANNEL, ItemType.FOLDER, ItemType.PLAYLIST, ItemType.PROGRAM, ItemType.TVCHANNEL, ItemType.USERVIEW], focusedItem.LookupCI("type"))
         dialogData.push(tr("Add To Playlist"))
     end if
 
@@ -314,9 +316,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
     ' Otherwise, they are exiting the app.
     if isStringEqual(key, KeyCode.BACK)
         rowItemFocused = chainLookupReturn(m.homeRows, "rowItemFocused", [0, 0])
-        if rowItemFocused[1] > 0
-            m.homeRows.jumpToRowItem = [rowItemFocused[0], 0]
-            return true
+        if isNumber(rowItemFocused[1])
+            if rowItemFocused[1] > 0
+                m.homeRows.jumpToRowItem = [rowItemFocused[0], 0]
+                return true
+            end if
         end if
     end if
 
@@ -324,6 +328,21 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.homeRows.hasFocus()
             focusedItem = m.homeRows.content.getChild(m.homeRows.rowItemFocused[0]).getChild(m.homeRows.rowItemFocused[1])
             if not isValidAndNotEmpty(focusedItem) then return false
+
+            ' Skip loading playlists and mylist data for radio stations
+            if inArray([ItemType.RADIOSTATION], focusedItem.LookupCI("type"))
+                itemID = focusedItem.LookupCI("id")
+                if isStringEqual(itemID, "createstation")
+                    return false
+                end if
+
+                paramData = {
+                    id: itemID
+                }
+                m.global.sceneManager.callFunc("optionDialog", "libraryitem", focusedItem.LookupCI("title") ?? tr("Options"), [], [tr("Delete Radio Station")], paramData)
+                return true
+            end if
+
 
             m.loadMetaDataTask.itemId = focusedItem.LookupCI("id")
             m.loadMetaDataTask.control = TaskControl.RUN

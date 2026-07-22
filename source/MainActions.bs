@@ -204,6 +204,7 @@ namespace MainAction
             method: "push",
             bypassNextPreferredAudioTrackIndexReset: false,
             resetShuffle: false,
+            setShuffle: false,
             showAudioPlayerView: false,
             position: -1
         }
@@ -220,6 +221,10 @@ namespace MainAction
 
         m.global.queueManager.callFunc("clear")
         m.global.queueManager.callFunc(playItemParams.method, item)
+
+        if playItemParams.setShuffle
+            m.global.queueManager.callFunc("setShuffle", true)
+        end if
 
         if playItemParams.position <> -1
             m.global.queueManager.callFunc("setPosition", playItemParams.position)

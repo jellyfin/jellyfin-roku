@@ -2501,5 +2501,113 @@
         <source>RECENTLY_WATCHED</source>
         <translation>Ostatnio oglądane</translation>
     </message>
+    <message>
+        <source>More from</source>
+        <translation>Więcej z</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Domyślne</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Tryb odtwarzania</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Naciśnij ponownie przycisk Zatrzymaj, aby zamknąć odtwarzacz</translation>
+    </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Nieznany wykonawca</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Nieznany album</translation>
+    </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Stacje radiowe</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Najczęściej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Najrzadziej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Odtwarzaj losowo najczęściej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Odtwarzaj losowo najrzadziej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Naciśnij przycisk Odtwórz/Wstrzymaj, aby przejść do przycisku OK</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nazwa stacji</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nazwa identyfikująca stację radiową</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Lista lat, które należy uwzględnić w treści stacji</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Pole do sortowania multimediów przed odcięciem przy limicie</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Limit pozycji</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Maksymalna liczba pozycji do załadowania</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Utwórz stację</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Podtytuł</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Krótki opis stacji radiowej</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Lista gatunków, które należy uwzględnić w treści stacji</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Kierunek sortowania multimediów przed odcięciem przy limicie</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Kolor tła</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Kolor tła do użycia w bloku ekranu głównego</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>Serwer nie znalazł żadnych multimediów spełniających kryteria filtrowania dla tej stacji radiowej.</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Żadne multimedia nie spełniały kryteriów stacji radiowej</translation>
+    </message>
 </context>
 </TS>

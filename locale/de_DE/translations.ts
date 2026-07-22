@@ -18,7 +18,7 @@
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation>Endet um %1</translation>
+        <translation>Endet bei %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
@@ -62,7 +62,7 @@
     </message>
     <message>
         <source>Shuffle</source>
-        <translation>Zufallswiedergabe</translation>
+        <translation>Zufällige Wiedergabe</translation>
     </message>
     <message>
         <source>Sign In</source>
@@ -2482,6 +2482,22 @@
     <message>
         <source>Videos</source>
         <translation>Videos</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Nochmal Stop drücken um den Player zu schliessen</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Standard</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Mehr von</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Wiedergabemodus</translation>
     </message>
 </context>
 <context>

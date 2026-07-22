@@ -1,0 +1,43 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.categoryLabel = m.top.findNode("categoryLabel")
+    m.valueLabel = m.top.findNode("valueLabel")
+    m.leftArrow = m.top.findNode("leftArrow")
+    m.rightArrow = m.top.findNode("rightArrow")
+
+    focusChanged()
+end sub
+
+sub itemContentChanged()
+    itemData = m.top.itemContent
+    if not isValid(itemData) then return
+
+    m.categoryLabel.text = itemData.title
+    m.valueLabel.text = itemData.description
+    updateArrows()
+end sub
+
+sub focusChanged()
+    m.categoryLabel.color = ColorPalette.WHITE
+    m.valueLabel.color = ColorPalette.WHITE
+    if m.top.itemHasFocus
+        m.categoryLabel.font = "font:MediumBoldSystemFont"
+        m.valueLabel.font = "font:MediumBoldSystemFont"
+        m.valueLabel.repeatCount = -1
+    else
+        m.categoryLabel.font = "font:MediumSystemFont"
+        m.valueLabel.font = "font:MediumSystemFont"
+        m.valueLabel.repeatCount = 0
+    end if
+    updateArrows()
+end sub
+
+sub updateArrows()
+    itemData = m.top.itemContent
+    hasMultiple = isValid(itemData) and itemData.optionCount > 1
+    arrowOpacity = (m.top.itemHasFocus and hasMultiple) ? 1 : 0
+    m.leftArrow.opacity = arrowOpacity
+    m.rightArrow.opacity = arrowOpacity
+end sub

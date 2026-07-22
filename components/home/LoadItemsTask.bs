@@ -2,6 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/constants/HomeRowItemSizes.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
@@ -349,6 +350,32 @@ function loadSpecialFeatures() as object
     return results
 end function
 
+const THUMB_ASPECT_RATIO = 1.777 ' 16/9
+
+function calculateOnNowItemWidth(ratio as dynamic, isThumbImage as boolean) as float
+    ' Actual image height within the cell (not the full cell height,
+    ' which includes the title space below). Must match the image
+    ' height used for wide/movie/album (all are 261).
+    itemHeight = 261
+    maxWidth = homeRowItemSizes.WIDE_POSTER[0] ' ceiling
+    minWidth = homeRowItemSizes.MOVIE_POSTER[0] ' floor
+
+    if isThumbImage
+        return itemHeight * THUMB_ASPECT_RATIO
+    end if
+
+    if not isValid(ratio) or ratio <= 0
+        return minWidth ' no aspect ratio metadata -> usually falls back to channel logo, safer narrow
+    end if
+
+    calculatedWidth = itemHeight * ratio
+
+    if calculatedWidth > maxWidth then return maxWidth
+    if calculatedWidth < minWidth then return minWidth
+
+    return calculatedWidth
+end function
+
 function loadLiveTVOnNow() as object
     results = []
 
@@ -368,10 +395,16 @@ function loadLiveTVOnNow() as object
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "HomeData")
+        imageTags = item.LookupCI("ImageTags")
+        isThumbImage = chainLookupReturn(imageTags, ImageType.THUMB, false)
+
+        tmp.addField("FHDItemWidth", "float", false)
+        tmp.FHDItemWidth = calculateOnNowItemWidth(item.LookupCI("PrimaryImageAspectRatio"), isThumbImage)
         tmp.json = {
             id: item.LookupCI("Id"),
             name: item.LookupCI("name"),
-            ImageURL: ImageURL(item.LookupCI("Id")),
+            ImageURL: api.items.GetImageURL(item.LookupCI("Id"), ImageType.PRIMARY, 0, { maxHeight: 261 }),
+            ImageAspectRatio: item.LookupCI("PrimaryImageAspectRatio"),
             Type: item.LookupCI("Type"),
             mediatype: item.LookupCI("mediatype"),
             CollectionType: item.LookupCI("CollectionType"),

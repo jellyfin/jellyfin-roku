@@ -2443,5 +2443,113 @@
         <source>Videos</source>
         <translation>Vídeos</translation>
     </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Torneu a pitjar Atura per a tancar el reproductor</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Mode de reproducció</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Per defecte</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Més de</translation>
+    </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Artista desconegut</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Àlbum desconegut</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Subtítol</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Color de fons</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Nombre màxim d&apos;elements a carregar</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Límit d&apos;elements</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Cap mitjà encaixa amb els criteris de l&apos;estació de ràdio</translation>
+    </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Estacions de ràdio</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Crea una estació</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Pistes més reproduïdes</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Pistes menys reproduïdes</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Reprodueix les pistes amb més reproduccions de forma aleatòria</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Reprodueix aleatòriament les pistes amb menys reproduccions</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Pitgeu Reprodueix/Pausa per saltar al botó D&apos;acord</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nom de l&apos;estació</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nom per a identificar l&apos;estació de ràdio</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Llista d&apos;anys inclosos en el contingut de l&apos;estació</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Camp per a ordenar els continguts multimèdia abans de filtrar</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Una petita descripció de l&apos;estació de ràdio</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Llista de gèneres a incloure en el contingut de l&apos;estació</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Direcció per a ordenar els mitjans abans de filtrar</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Color de fons per a emprar a la pantalla principal de bloqueig</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>El servidor no ha trobat mitjans que encaixin amb els criteris dels filtres per a aquesta estació de ràdio.</translation>
+    </message>
 </context>
 </TS>
