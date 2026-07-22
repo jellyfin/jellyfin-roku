@@ -78,5 +78,9 @@
   {
     "description": "Fix user avatar circle on HD devices",
     "author": "ferezvi"
+  },
+  {
+    "description": "Fix crash on album view when use fallback font for entire app setting is enabled",
+    "author": "1hitsong"
   }
 ]
