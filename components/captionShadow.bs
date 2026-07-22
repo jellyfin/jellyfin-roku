@@ -133,16 +133,32 @@ sub createCueBackgroundBox(rect as object, lg as object, styledText as string, d
     fontSize = drawingStyles["default"].fontSize
     bgPadding = Int(fontSize * OUTLINE_STEP_RATIO) + 1
 
-    ' Create background boxes - same height for all lines
-    for i = 0 to lineFragments.count() - 1
+    ' Last line uses singleLineHeight since there's no next line's leading to reserve
+    ' bgPadding applied vertically too (top of first line, bottom of last) so it covers shadow spillover on all sides, not just left/right
+    lastLineIndex = lineFragments.count() - 1
+
+    for i = 0 to lastLineIndex
+        isFirstLine = (i = 0)
+        isLastLine = (i = lastLineIndex)
+
+        boxHeight = lineHeight
+        if isLastLine and lineFragments.count() > 1
+            boxHeight = lineHeights.single
+        end if
+
+        extraTop = 0
+        if isFirstLine then extraTop = bgPadding
+
+        extraBottom = 0
+        if isLastLine then extraBottom = bgPadding
+
         bg = CreateObject("roSGNode", "Rectangle")
-        bg.height = lineHeight
+        bg.height = boxHeight + extraTop + extraBottom
         bg.color = bgColor
-        ' Padding matches outline step so background fully covers shadow labels
         bg.width = lineWidths[i] + (bgPadding * 2)
         bg.translation = [
             (maxWidth - lineWidths[i]) / 2 + BASE_OFFSET - bgPadding,
-            i * lineHeight + BASE_OFFSET
+            i * lineHeight + BASE_OFFSET - extraTop
         ]
         rect.insertChild(bg, 0)
     end for
