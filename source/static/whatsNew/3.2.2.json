@@ -50,5 +50,9 @@
   {
     "description": "Improve music album and artist placeholder images and titles",
     "author": "VX-101"
+  },
+  {
+    "description": "Add an optional confirmation prompt before exiting the app",
+    "author": "TnUC-Creations"
   }
 ]
