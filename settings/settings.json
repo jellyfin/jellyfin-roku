@@ -8,7 +8,7 @@
         "description": "Show a confirmation prompt before exiting Jellyfin from the home screen.",
         "settingName": "global.confirmexit",
         "type": "bool",
-        "default": "true"
+        "default": "false"
       },
       {
         "title": "Remember Me?",
