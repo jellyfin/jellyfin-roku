@@ -139,44 +139,147 @@ function wrapLongLines(text as string, maxWidth as integer) as string
     return wrapped.join(Chr(10))
 end function
 
-' Balances two wrapped lines by finding the closest visual widths.
+' Maximum number of visual lines a caption may be balanced across.
+const MAX_BALANCED_LINES = 3
+
+' Balances wrapped caption lines by redistributing words across up to
+' MAX_BALANCED_LINES lines, choosing the smallest line count that keeps
+' every line under maxWidth, then minimizing the width spread for that count.
 function balanceCaptionLines(text as string, maxWidth as integer) as string
     lines = text.split(Chr(10))
 
-    ' Only balance captions generated as two lines.
-    if lines.count() <> 2
+    ' Nothing to balance for single-line captions
+    if lines.count() < 2
         return text
     end if
 
-    words = (lines[0] + " " + lines[1]).split(" ")
+    words = []
+    for each line in lines
+        for each word in line.split(" ")
+            if word.Len() > 0 then words.push(word)
+        end for
+    end for
 
     if words.count() < 3
         return text
     end if
 
-    bestText = text
-    bestDifference = invalid
-
-    for i = 1 to words.count() - 1
-        firstLine = words.slice(0, i).join(" ")
-        secondLine = words.slice(i).join(" ")
-
-        firstWidth = measureCaptionWidth(firstLine)
-        secondWidth = measureCaptionWidth(secondLine)
-
-        if firstWidth > maxWidth or secondWidth > maxWidth
-            continue for
+    ' Find the smallest line count (2 or 3) that fits every word under maxWidth,
+    ' probed with a simple greedy wrap.
+    targetLineCount = 0
+    for candidateCount = 2 to MAX_BALANCED_LINES
+        if candidateCount >= words.count()
+            exit for
         end if
-
-        difference = abs(firstWidth - secondWidth)
-
-        if not isValid(bestDifference) or difference < bestDifference
-            bestDifference = difference
-            bestText = firstLine + Chr(10) + secondLine
+        if canFitInLines(words, candidateCount, maxWidth)
+            targetLineCount = candidateCount
+            exit for
         end if
     end for
 
-    return bestText
+    ' No arrangement fits within MAX_BALANCED_LINES; keep the original wrap.
+    if targetLineCount = 0
+        return text
+    end if
+
+    bestSplit = findBestSplit(words, targetLineCount, maxWidth)
+    if bestSplit = invalid
+        return text
+    end if
+
+    return bestSplit.join(Chr(10))
+end function
+
+' Checks whether words can be greedily wrapped into lineCount lines (or fewer)
+' without exceeding maxWidth on any line.
+function canFitInLines(words as object, lineCount as integer, maxWidth as integer) as boolean
+    linesUsed = 1
+    currentLine = ""
+
+    for each word in words
+        candidate = currentLine
+        if candidate.Len() > 0 then candidate += " "
+        candidate += word
+
+        if measureCaptionWidth(candidate) > maxWidth and currentLine.Len() > 0
+            linesUsed++
+            if linesUsed > lineCount then return false
+            currentLine = word
+            if measureCaptionWidth(currentLine) > maxWidth then return false
+        else
+            currentLine = candidate
+        end if
+    end for
+
+    return true
+end function
+
+' Finds the split of words into exactly lineCount lines that minimizes the
+' gap between the widest and narrowest line, keeping every line under
+' maxWidth. Brute-forced over split points; cheap given typical caption
+' word counts.
+function findBestSplit(words as object, lineCount as integer, maxWidth as integer) as object
+    splitCombinations = generateSplitCombinations(words.count(), lineCount)
+
+    bestLines = invalid
+    bestScore = invalid
+
+    for each split in splitCombinations
+        candidateLines = []
+        widths = []
+        start = 0
+        valid = true
+
+        for each cut in split
+            segment = words.slice(start, cut).join(" ")
+            width = measureCaptionWidth(segment)
+            if width > maxWidth
+                valid = false
+                exit for
+            end if
+            candidateLines.push(segment)
+            widths.push(width)
+            start = cut
+        end for
+
+        if not valid then continue for
+
+        maxW = widths[0]
+        minW = widths[0]
+        for each w in widths
+            if w > maxW then maxW = w
+            if w < minW then minW = w
+        end for
+        score = maxW - minW
+
+        if bestScore = invalid or score < bestScore
+            bestScore = score
+            bestLines = candidateLines
+        end if
+    end for
+
+    return bestLines
+end function
+
+' Generates every way to place (lineCount - 1) internal cut points across
+' wordCount words. E.g. 3 lines / 5 words -> [[1,2,5],[1,3,5],[1,4,5],[2,3,5]...]
+function generateSplitCombinations(wordCount as integer, lineCount as integer) as object
+    cutsNeeded = lineCount - 1
+    combinations = []
+
+    if cutsNeeded = 1
+        for i = 1 to wordCount - 1
+            combinations.push([i, wordCount])
+        end for
+    else if cutsNeeded = 2
+        for i = 1 to wordCount - 2
+            for j = i + 1 to wordCount - 1
+                combinations.push([i, j, wordCount])
+            end for
+        end for
+    end if
+
+    return combinations
 end function
 
 function measureCaptionWidth(text as string) as integer
