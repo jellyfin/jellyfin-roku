@@ -98,5 +98,9 @@
   {
     "description": "Fix full audio player Play/Pause on song title and artist name focus",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix autoplayed episodes not starting from the beginning",
+    "author": "brianpardy"
   }
 ]

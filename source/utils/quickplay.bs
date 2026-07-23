@@ -421,6 +421,9 @@ namespace quickplay
             if isValid(firstUnwatchedEpisodeIndex)
                 ' add the first unwatched episode and the rest of the season to a playlist
                 for i = firstUnwatchedEpisodeIndex to unwatchedData.Items.count() - 1
+                    if i <> firstUnwatchedEpisodeIndex
+                        unwatchedData.Items[i].startingPoint = 0
+                    end if
                     m.global.queueManager.callFunc("push", unwatchedData.Items[i])
                 end for
             else

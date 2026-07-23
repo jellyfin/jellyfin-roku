@@ -1022,6 +1022,10 @@ sub onPlaySeasonFromStartEvent(msg)
     end if
 
     m.global.queueManager.callFunc("clear")
+    for each item in listOfEpisodes.items
+        item.startingPoint = 0
+    end for
+
     m.global.queueManager.callFunc("set", listOfEpisodes.items)
     m.global.queueManager.callFunc("playQueue")
 end sub
