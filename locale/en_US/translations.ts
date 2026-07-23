@@ -1904,6 +1904,18 @@
             <translation>Are you sure you want to delete this subtitle?</translation>
         </message>
         <message>
+            <source>Confirm Exit</source>
+            <translation>Confirm Exit</translation>
+        </message>
+        <message>
+            <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+            <translation>Show a confirmation prompt before exiting Jellyfin from the home screen.</translation>
+        </message>
+        <message>
+            <source>Are you sure you want to exit Jellyfin?</source>
+            <translation>Are you sure you want to exit Jellyfin?</translation>
+        </message>
+        <message>
             <source>Yes</source>
             <translation>Yes</translation>
         </message>

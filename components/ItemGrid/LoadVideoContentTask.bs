@@ -554,6 +554,7 @@ sub addNextEpisodesToQueue(showID, additionalPartsCount as integer, queueLimit a
 
     if isValid(data) and data.Items.Count() > 1
         for i = 1 to data.Items.Count() - 1
+            data.Items[i].startingPoint = 0
             m.global.queueManager.callFunc("push", data.Items[i])
         end for
     end if
