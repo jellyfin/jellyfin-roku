@@ -17,6 +17,7 @@ enum ItemType
     PHOTOALBUM = "photoalbum"
     PLAYLIST = "playlist"
     PROGRAM = "program"
+    RADIOSTATION = "radiostation"
     RECORDING = "recording"
     SEASON = "season"
     SERIES = "series"
