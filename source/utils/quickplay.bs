@@ -60,6 +60,13 @@ namespace quickplay
         m.global.queueManager.callFunc("push", itemNode)
     end sub
 
+    ' A radio station
+    sub radiostation(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        m.global.queueManager.callFunc("push", itemNode)
+    end sub
+
     ' A single music video file.
     sub musicVideo(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.id) or not isValid(itemNode.json) then return
@@ -414,6 +421,9 @@ namespace quickplay
             if isValid(firstUnwatchedEpisodeIndex)
                 ' add the first unwatched episode and the rest of the season to a playlist
                 for i = firstUnwatchedEpisodeIndex to unwatchedData.Items.count() - 1
+                    if i <> firstUnwatchedEpisodeIndex
+                        unwatchedData.Items[i].startingPoint = 0
+                    end if
                     m.global.queueManager.callFunc("push", unwatchedData.Items[i])
                 end for
             else

@@ -110,6 +110,12 @@ end sub
 sub setVisible(newVisibleState as boolean)
 
     if newVisibleState
+        ' Keep repeated show requests from restarting the mini-player animation.
+        if isVisible()
+            updateMiniPlayerFocusStyle()
+            return
+        end if
+
         m.audioMiniPlayerContainerBorder.visible = true
         m.audioMiniPlayerContainer.visible = true
         m.top.visible = true
