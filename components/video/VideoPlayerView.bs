@@ -1507,11 +1507,19 @@ sub setLiveTvValues()
         return
     end if
 
+    if not isValid(m.LoadRecordingTimerTask) or not isChainValid(m.LoadRecordingTimerTask, "recordingTimerDetails.json.StartDate")
+        m.osd.liveTvStartTime = liveTvStartTime
+        return
+    end if
+
     if m.LoadProgramDetailsTask.programDetails.json.Status = "InProgress" and isChainValid(m.LoadProgramDetailsTask, "programDetails.json.TimerId")
-        ' The create date time is stored in local time zone, but start and end date times are stored in UTC (Why?)  We will do all time calculations in the local time zone.
+        ' Create date time is stored in UTC for server 12.0.0 and later. Prior to server v12.0.0 the create date time is stored in local time zone.
 
         createDate = createObject("roDateTime")
         createDate.FromISO8601String(m.LoadProgramDetailsTask.programDetails.json.DateCreated)
+        if serverVersionMeetsMinimumRequirements(m.global.session.server.version, [12, 0, 0])
+            createDate.toLocalTime()
+        end if
 
         startDate = createObject("roDateTime")
         startDate.FromISO8601String(m.LoadRecordingTimerTask.recordingTimerDetails.json.StartDate)
@@ -1731,7 +1739,6 @@ sub skipCurrentSegment()
 end sub
 
 sub onProgramDetailsLoaded()
-    '    if m.top.content.live and m.LoadProgramDetailsTask.programDetails.json.type = "Recording"
     if m.top.content.live and isStringEqual(chainLookup(m.LoadProgramDetailsTask, "programDetails.json.type"), ItemType.RECORDING)
         if isChainValid(m.LoadProgramDetailsTask, "programDetails.json.TimerId") and m.LoadProgramDetailsTask.programDetails.json.Status = "InProgress"
             ' Only load the recording timer once by checking if LoadRecordingTimerTask is already valid.  This also handles the case where we fail to load the recording timer - we won't keep trying to load it on every program details refresh.
