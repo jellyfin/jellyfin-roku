@@ -143,8 +143,10 @@ end function
 const MAX_BALANCED_LINES = 3
 
 ' Balances wrapped caption lines by redistributing words across up to
-' MAX_BALANCED_LINES lines, choosing the smallest line count that keeps
-' every line under maxWidth, then minimizing the width spread for that count.
+' MAX_BALANCED_LINES lines. Originally this only balanced when exactly 2
+' lines were produced; that missed cases where 2 lines were both close to
+' maxWidth and a 3-line split would read better. This version searches for
+' the minimum line count that fits, then balances within that count.
 function balanceCaptionLines(text as string, maxWidth as integer) as string
     lines = text.split(Chr(10))
 
