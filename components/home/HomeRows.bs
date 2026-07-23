@@ -644,7 +644,7 @@ end sub
 
 sub updateFavoriteRowFromData(row as object, rowData as object)
     if not isValid(row) then return
-    if not isChainValid(rowData, "items") or not isValidAndNotEmpty(rowData.items) then return
+    if not isValidAndNotEmpty(chainLookupReturn(rowData, "items", [])) then return
 
     rowType = rowData.LookupCI("rowType") ?? "wide"
     rowSize = getFavoriteRowItemSize(rowType)
@@ -666,7 +666,7 @@ end sub
 
 function favoriteRowItemsMatch(row as object, rowData as object) as boolean
     if not isValid(row) then return false
-    if not isChainValid(rowData, "items") or not isValidAndNotEmpty(rowData.items) then return false
+    if not isValidAndNotEmpty(chainLookupReturn(rowData, "items", [])) then return false
     if row.getChildCount() <> rowData.items.count() then return false
 
     for i = 0 to rowData.items.count() - 1
@@ -704,16 +704,16 @@ function isFavoriteSectionTitle(sectionTitle as dynamic) as boolean
     if not isValid(sectionTitle) then return false
 
     searchSectionTitle = normalizeSectionTitle(sectionTitle)
-    favoritesTitle = tr("Favorites").Replace(" ", "")
-    favoriteTitlePrefix = tr("Favorite").Replace(" ", "")
+    favoritesTitle = tr("Favorites").Replace(" ", String.EMPTY)
+    favoriteTitlePrefix = tr("Favorite").Replace(" ", String.EMPTY)
 
     return isStringEqual(searchSectionTitle, favoritesTitle) or searchSectionTitle.StartsWith(favoriteTitlePrefix)
 end function
 
 function normalizeSectionTitle(sectionTitle as dynamic) as string
-    if not isValid(sectionTitle) then return ""
+    if not isValid(sectionTitle) then return String.EMPTY
 
-    return sectionTitle.Replace(" ", "")
+    return sectionTitle.Replace(" ", String.EMPTY)
 end function
 
 function favoriteSectionExists() as boolean
@@ -824,13 +824,8 @@ end function
 sub cancelFavoriteFocusForNavigation(key as string)
     if not isValid(m.favoriteFocusForRefresh) then return
 
-    if isStringEqual(key, KeyCode.LEFT) or isStringEqual(key, KeyCode.RIGHT)
-        m.favoriteFocusForRefresh = invalid
-    else if isStringEqual(key, KeyCode.UP) or isStringEqual(key, KeyCode.DOWN)
-        m.favoriteFocusForRefresh = invalid
-    else if isStringEqual(key, KeyCode.BACK) or isStringEqual(key, KeyCode.OK)
-        m.favoriteFocusForRefresh = invalid
-    else if isStringEqual(key, KeyCode.PLAY) or isStringEqual(key, KeyCode.OPTIONS)
+    cancelKeyCodes = [KeyCode.LEFT, KeyCode.RIGHT, KeyCode.UP, KeyCode.DOWN, KeyCode.BACK, KeyCode.OK, KeyCode.PLAY, KeyCode.OPTIONS]
+    if inArray(cancelKeyCodes, key)
         m.favoriteFocusForRefresh = invalid
     end if
 end sub
