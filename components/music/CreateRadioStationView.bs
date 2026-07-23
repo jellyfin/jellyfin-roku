@@ -1,0 +1,491 @@
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    overhang = m.top.getScene().findNode("overhang")
+    overhang.isVisible = false
+
+    m.yearsSpinner = m.top.findNode("yearsSpinner")
+    m.yearsSpinner.poster.uri = "pkg:/images/spinner.png"
+    m.yearsSpinner.poster.height = "32"
+    m.yearsSpinner.poster.width = "32"
+
+    m.genresSpinner = m.top.findNode("genresSpinner")
+    m.genresSpinner.poster.uri = "pkg:/images/spinner.png"
+    m.genresSpinner.poster.height = "32"
+    m.genresSpinner.poster.width = "32"
+
+    m.nameButton = m.top.findNode("nameButton")
+    m.subtitleButton = m.top.findNode("subtitleButton")
+    m.yearsButton = m.top.findNode("yearsButton")
+    m.genresButton = m.top.findNode("genresButton")
+    m.sortByButton = m.top.findNode("sortByButton")
+    m.sortOrderButton = m.top.findNode("sortOrderButton")
+    m.limitButton = m.top.findNode("limitButton")
+    m.backgroundColorButton = m.top.findNode("backgroundColorButton")
+    m.buttonList = [m.nameButton, m.subtitleButton, m.yearsButton, m.genresButton, m.sortByButton, m.sortOrderButton, m.limitButton, m.backgroundColorButton]
+    setButtonColors()
+
+    m.buttonCount = m.buttonList.count()
+    m.totalRows = div_ceiling(m.buttonCount, 2)
+
+    m.createStationButton = m.top.findNode("createStationButton")
+    m.createStationButton.background = ColorPalette.LIGHTBLUE
+    m.createStationButton.color = ColorPalette.DARKGREY
+    m.createStationButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.createStationButton.focusColor = ColorPalette.WHITE
+
+    m.nameButton.focus = true
+    m.nameButton.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(group)
+        group.lastFocus = m.nameButton
+    end if
+
+    m.focusButtonIndex = 0
+
+    m.genres = []
+    m.years = []
+    m.limitData = {
+        data: [
+            { selected: true, Index: 0, Title: "100", Name: "100", Track: { description: "100" }, Type: "limitSelection" },
+            { Index: 1, Title: "200", Name: "200", Track: { description: "200" }, Type: "limitSelection" },
+            { Index: 2, Title: "300", Name: "300", Track: { description: "300" }, Type: "limitSelection" },
+            { Index: 3, Title: "400", Name: "400", Track: { description: "400" }, Type: "limitSelection" },
+            { Index: 4, Title: "500", Name: "500", Track: { description: "500" }, Type: "limitSelection" },
+            { Index: 5, Title: "600", Name: "600", Track: { description: "600" }, Type: "limitSelection" },
+            { Index: 6, Title: "700", Name: "700", Track: { description: "700" }, Type: "limitSelection" },
+            { Index: 7, Title: "800", Name: "800", Track: { description: "800" }, Type: "limitSelection" },
+            { Index: 8, Title: "900", Name: "900", Track: { description: "900" }, Type: "limitSelection" },
+            { Index: 9, Title: "1000", Name: "1000", Track: { description: "1000" }, Type: "limitSelection" },
+        ]
+    }
+
+    m.top.radioStationLimit = m.limitData.data[0].name
+
+    m.sortByData = {
+        data: [
+            { selected: true, Index: 0, Title: "Random", Name: "Random", Track: { description: tr("Random") }, Type: "sortBySelection" },
+            { Index: 1, Title: "Album", Name: "Album", Track: { description: tr("Album") }, Type: "sortBySelection" },
+            { Index: 2, Title: "AlbumArtist", Name: "AlbumArtist", Track: { description: tr("Album Artist") }, Type: "sortBySelection" },
+            { Index: 3, Title: "Artist", Name: "Artist", Track: { description: tr("Artist") }, Type: "sortBySelection" },
+            { Index: 4, Title: "DateCreated", Name: "DateCreated", Track: { description: tr("Date Created") }, Type: "sortBySelection" },
+            { Index: 5, Title: "DatePlayed", Name: "DatePlayed", Track: { description: tr("DATE_PLAYED") }, Type: "sortBySelection" },
+            { Index: 6, Title: "SortName", Name: "SortName", Track: { description: tr("Name") }, Type: "sortBySelection" },
+            { Index: 7, Title: "Runtime", Name: "Runtime", Track: { description: tr("RUNTIME") }, Type: "sortBySelection" },
+            { Index: 8, Title: "ProductionYear", Name: "ProductionYear", Track: { description: tr("RELEASE_DATE") }, Type: "sortBySelection" },
+            { Index: 9, Title: "PlayCount", Name: "PlayCount", Track: { description: tr("PLAY_COUNT") }, Type: "sortBySelection" },
+        ]
+    }
+    m.top.radioStationSortBy = m.sortByData.data[0].name
+
+    m.sortOrderData = {
+        data: [
+            { selected: true, Index: 0, Title: "Ascending", Name: "Ascending", Track: { description: tr("Ascending") }, Type: "sortOrderSelection" },
+            { Index: 1, Title: "Descending", Name: "Descending", Track: { description: tr("Descending") }, Type: "sortOrderSelection" }
+        ]
+    }
+    m.top.radioStationSortOrder = m.sortOrderData.data[0].name
+
+    m.getGenresTask = createObject("roSGNode", "GetFiltersTask2")
+    m.getGenresTask.observeField("filters", "filterDataLoaded")
+    m.getGenresTask.params = {
+        userid: m.global.session.user.id,
+        includeItemTypes: "Audio"
+    }
+
+    m.getGenresTask.control = TaskControl.RUN
+
+    m.getYearsTask = createObject("roSGNode", "GetYearsTask")
+    m.getYearsTask.observeField("data", "yearDataLoaded")
+    m.getYearsTask.params = {
+        userid: m.global.session.user.id,
+        mediaTypes: "Audio",
+        sortBy: "Name",
+        enableImages: false,
+        enableUserData: false,
+        sortOrder: "Descending",
+        excludeItemTypes: "AudioBook,Book"
+    }
+
+    m.getYearsTask.control = TaskControl.RUN
+end sub
+
+sub filterDataLoaded(msg)
+    data = msg.GetData()
+    m.getGenresTask.unobserveField("filters")
+
+    if not isValid(data) then return
+
+    for each genre in data.genres
+        name = chainLookup(genre, "name")
+        m.genres.push({ Title: name, Name: name, Track: { description: name }, Type: "genreSelection" })
+    end for
+
+    data.clear()
+    m.genresSpinner.visible = false
+    m.genresButton.disabled = false
+end sub
+
+sub yearDataLoaded(msg)
+    data = msg.GetData()
+    m.getYearsTask.unobserveField("data")
+
+    if not isChainValid(data, "items") then return
+
+    for each year in chainLookup(data, "items")
+        name = chainLookup(year, "name")
+        m.years.push({ Title: name, Name: name, Track: { description: name }, Type: "yearSelection" })
+    end for
+
+    data.clear()
+    m.yearsSpinner.visible = false
+    m.yearsButton.disabled = false
+end sub
+
+sub setButtonColors()
+    for each button in m.buttonList
+        button.textColor = ColorPalette.DARKGREY
+        button.focusTextColor = ColorPalette.WHITE
+        button.background = ColorPalette.WHITE
+        button.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    end for
+end sub
+
+sub onSelectedColorChange()
+    dataType = m.top.selectedColor.LookupCI("id")
+    selectedColor = m.top.selectedColor.LookupCI("selectedColor")
+
+    if isStringEqual(dataType, "radioStationBackgroundColor")
+        if isValid(selectedColor)
+            m.top.radioStationBackgroundColor = selectedColor
+        end if
+    end if
+end sub
+
+sub oncheckboxDataChange()
+    m.global.sceneManager.unobserveField("returnData")
+    dataType = m.top.checkboxData.LookupCI("id")
+
+    data = m.top.checkboxData.LookupCI("data")
+    checkedState = m.top.checkboxData.LookupCI("checkedState")
+
+    if isStringEqual(dataType, "radioStationGenres")
+        if isValid(data)
+            for i = 0 to checkedState.count() - 1
+                m.genres[i].selected = checkedState[i]
+            end for
+
+            m.userSelectedGenres = data.join("|")
+            m.genresButton.text = data.join(", ")
+        end if
+    end if
+
+    if isStringEqual(dataType, "radioStationYears")
+        if isValid(data)
+            for i = 0 to checkedState.count() - 1
+                m.years[i].selected = checkedState[i]
+            end for
+
+            m.userSelectedYears = data.join(", ")
+            m.yearsButton.text = m.userSelectedYears
+        end if
+    end if
+end sub
+
+sub handleButtonSelection(selectedButtonID)
+    if isStringEqual(selectedButtonID, "nameButton")
+        title = tr("Station Name")
+        hintText = m.top.radioStationName
+        m.global.sceneManager.callFunc("keyboardDialog", selectedButtonID, title, [string.EMPTY], [tr("OK")], hintText, string.EMPTY)
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "subtitleButton")
+        title = tr("Subtitle")
+        hintText = m.top.radioStationSubtitle
+        m.global.sceneManager.callFunc("keyboardDialog", selectedButtonID, title, [string.EMPTY], [tr("OK")], hintText, string.EMPTY)
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "backgroundColorButton")
+        title = tr("Background Color")
+        m.global.sceneManager.callFunc("colorDialog", title, m.top.radioStationBackgroundColor, [tr("OK")], "radioStationBackgroundColor")
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "limitButton")
+        title = tr("Maximum number of items to load")
+        m.global.sceneManager.callFunc("radioDialog", title, m.limitData, [tr("OK")], "radioStationLimit")
+        m.global.sceneManager.observeField("returnData", "onLimitSelected")
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "genresButton")
+        if isStringEqual(m.getGenresTask.state, TaskControl.RUN) then return
+        if not isValidAndNotEmpty(m.genres) then return
+
+        title = tr("Press Play/Pause to jump to OK button")
+
+        genreData = {
+            data: m.genres
+        }
+
+        m.global.sceneManager.callFunc("checkboxDialog", title, genreData, [tr("OK"), tr("Reset")], "radioStationGenres")
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "yearsButton")
+        if not isValidAndNotEmpty(m.years) then return
+
+        title = tr("Press Play/Pause to jump to OK button")
+
+        yearData = {
+            data: m.years
+        }
+
+        m.global.sceneManager.callFunc("checkboxDialog", title, yearData, [tr("OK"), tr("Reset")], "radioStationYears")
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "sortByButton")
+        title = tr("Sort By")
+        m.global.sceneManager.callFunc("radioDialog", title, m.sortByData, [tr("OK")], "radioStationSortBy")
+        m.global.sceneManager.observeField("returnData", "onsortBySelected")
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "sortOrderButton")
+        title = tr("Sort Order")
+        m.global.sceneManager.callFunc("radioDialog", title, m.sortOrderData, [tr("OK")], "radioStationLimit")
+        m.global.sceneManager.observeField("returnData", "onsortOrderSelected")
+        return
+    end if
+
+    if isStringEqual(selectedButtonID, "createStationButton")
+        if not isValidAndNotEmpty(m.top.radioStationName)
+            m.global.sceneManager.callFunc("standardDialog", tr("Station Name Missing"), { data: ["<p>" + tr("You must enter a station name.") + "</p>"] })
+            m.createStationButton.focus = false
+
+            m.focusButtonIndex = 0
+            m.buttonList[0].focus = true
+            m.buttonList[0].setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            if isValid(group)
+                group.lastFocus = m.buttonList[0]
+            end if
+            return
+        end if
+
+        radioStationList = ParseJSON(chainLookupReturn(m.global.session, "user.settings.radioStations", "[]"))
+
+        newStationData = {
+            id: `radio${radioStationList.count()}`,
+            posterURL: "pkg:/images/icons/mostplayed.png",
+            name: m.top.radioStationName,
+            subtitle: m.top.radioStationSubtitle,
+            sortBy: m.top.radioStationSortBy,
+            sortOrder: m.top.radioStationSortOrder,
+            backgroundColor: m.top.radioStationBackgroundColor,
+            limit: m.top.radioStationLimit,
+            filters: {
+                genres: m.userSelectedGenres ?? string.EMPTY,
+                years: m.userSelectedYears ?? string.EMPTY
+            }
+        }
+
+        radioStationList.push(newStationData)
+        set_user_setting(`radioStations`, FormatJson(radioStationList))
+        m.global.sceneManager.callFunc("popScene")
+
+        return
+    end if
+end sub
+
+sub onLimitSelected()
+    m.global.sceneManager.unobserveField("returnData")
+
+    if not isChainValid(m.global.sceneManager, "returnData.type") then return
+
+    if isStringEqual(m.global.sceneManager.returnData.type, "limitSelection")
+        m.top.radioStationLimit = m.global.sceneManager.returnData.LookupCI("name")
+        m.limitData.data[m.global.sceneManager.returnData.LookupCI("index")].selected = true
+        return
+    end if
+end sub
+
+sub onsortBySelected()
+    m.global.sceneManager.unobserveField("returnData")
+
+    if not isChainValid(m.global.sceneManager, "returnData.type") then return
+
+    if isStringEqual(m.global.sceneManager.returnData.type, "sortBySelection")
+        m.top.radioStationSortBy = m.global.sceneManager.returnData.name
+        m.sortByData.data[m.global.sceneManager.returnData.LookupCI("index")].selected = true
+        return
+    end if
+end sub
+
+sub onsortOrderSelected()
+    m.global.sceneManager.unobserveField("returnData")
+
+    if not isChainValid(m.global.sceneManager, "returnData.type") then return
+
+    if isStringEqual(m.global.sceneManager.returnData.type, "sortOrderSelection")
+        m.top.radioStationSortOrder = m.global.sceneManager.returnData.name
+        m.sortOrderData.data[m.global.sceneManager.returnData.LookupCI("index")].selected = true
+        return
+    end if
+end sub
+
+sub onRadioStationNameChange()
+    m.nameButton.text = m.top.radioStationName
+end sub
+
+sub onRadioStationSubtitleChange()
+    m.subtitleButton.text = m.top.radioStationSubtitle
+end sub
+
+sub onRadioStationLimitChange()
+    m.limitButton.text = m.top.radioStationLimit
+end sub
+
+sub onRadioStationBackgroundColorChange()
+    m.backgroundColorButton.background = m.top.radioStationBackgroundColor
+
+    ' Toggle focus so new color gets picked up
+    m.backgroundColorButton.focus = false
+    m.backgroundColorButton.focus = true
+end sub
+
+sub onRadioStationSortByChange()
+    m.sortByButton.text = m.top.radioStationSortBy
+end sub
+
+sub onRadioStationSortOrderChange()
+    m.sortOrderButton.text = m.top.radioStationSortOrder
+end sub
+
+' Process key press events
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if isStringEqual(key, KeyCode.LEFT)
+        if m.focusButtonIndex mod 2 = 0
+            return false
+        end if
+
+        m.buttonList[m.focusButtonIndex].focus = false
+
+        m.focusButtonIndex--
+        m.buttonList[m.focusButtonIndex].focus = true
+        m.buttonList[m.focusButtonIndex].setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            group.lastFocus = m.buttonList[m.focusButtonIndex]
+        end if
+
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.RIGHT)
+        if m.focusButtonIndex mod 2 = 1
+            return false
+        end if
+
+        if m.focusButtonIndex = 1
+            return false
+        end if
+
+        if m.focusButtonIndex = m.buttonCount - 1 then return false
+
+        m.buttonList[m.focusButtonIndex].focus = false
+
+        m.focusButtonIndex++
+        m.buttonList[m.focusButtonIndex].focus = true
+        m.buttonList[m.focusButtonIndex].setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            group.lastFocus = m.buttonList[m.focusButtonIndex]
+        end if
+
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.DOWN)
+        if m.createStationButton.hasFocus() then return false
+
+        currentRow = div_ceiling(m.focusButtonIndex + 1, 2)
+
+        ' If we're at the last button, move to the Create Station button
+        if currentRow = m.totalRows
+            m.buttonList[m.focusButtonIndex].focus = false
+            m.focusButtonIndex += 2
+            m.createStationButton.focus = true
+            m.createStationButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            if isValid(group)
+                group.lastFocus = m.createStationButton
+            end if
+            return true
+        end if
+
+        m.buttonList[m.focusButtonIndex].focus = false
+
+        m.focusButtonIndex += 2
+
+        if m.focusButtonIndex > m.buttonCount - 1
+            m.focusButtonIndex = m.buttonCount - 1
+        end if
+
+        m.buttonList[m.focusButtonIndex].focus = true
+        m.buttonList[m.focusButtonIndex].setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            group.lastFocus = m.buttonList[m.focusButtonIndex]
+        end if
+
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.UP)
+        if m.focusButtonIndex < 2 then return false
+
+        if m.createStationButton.hasFocus()
+            m.createStationButton.focus = false
+        end if
+
+        if m.focusButtonIndex < m.buttonCount
+            m.buttonList[m.focusButtonIndex].focus = false
+        end if
+
+        m.focusButtonIndex -= 2
+
+        m.buttonList[m.focusButtonIndex].focus = true
+        m.buttonList[m.focusButtonIndex].setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            group.lastFocus = m.buttonList[m.focusButtonIndex]
+        end if
+
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.OK)
+        if m.createStationButton.hasFocus()
+            handleButtonSelection("createStationButton")
+            return true
+        end if
+
+        if m.buttonList[m.focusButtonIndex].LookupCI("disabled") then return false
+
+        handleButtonSelection(m.buttonList[m.focusButtonIndex].id)
+        return true
+    end if
+
+    return false
+end function
