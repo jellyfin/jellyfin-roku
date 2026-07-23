@@ -920,6 +920,57 @@ function CreateAlbumView(album as object) as dynamic
     return group
 end function
 
+sub CreateRadioStation(stationData as object)
+    if not isChainValid(stationData, "id") then return
+
+    startLoadingSpinner()
+
+    radioStationData = []
+
+    if isValidAndNotEmpty(chainLookup(stationData, "json.action"))
+        action = chainLookup(stationData, "json.action")
+
+        if isStringEqual(action, "createstation")
+            group = CreateObject("roSGNode", "CreateRadioStationView")
+            m.global.sceneManager.callFunc("pushScene", group)
+            stopLoadingSpinner()
+            return
+        end if
+    end if
+
+    params = {
+        userid: m.global.session.user.id,
+        SortBy: chainLookupReturn(stationData, "json.sortby", "SortName"),
+        SortOrder: chainLookupReturn(stationData, "json.sortorder", "Ascending"),
+        limit: chainLookupReturn(stationData, "json.limit", 250),
+        recursive: true,
+        includeItemTypes: ItemType.AUDIO,
+        EnableTotalRecordCount: false
+    }
+
+    if isValidAndNotEmpty(chainLookup(stationData, "json.filters"))
+        params.append(chainLookup(stationData, "json.filters"))
+    end if
+
+    apiData = api.items.Get(params)
+
+    if not isChainValid(apiData, "items")
+        stopLoadingSpinner()
+        m.global.sceneManager.callFunc("standardDialog", tr("No media matched radio station criteria"), { data: ["<p>" + tr("The server found no media matching the filter criteria for this radio station.") + "</p>"] })
+        return
+    end if
+
+    radioStationData = chainLookup(apiData, "items")
+
+    if not isValidAndNotEmpty(radioStationData)
+        stopLoadingSpinner()
+        m.global.sceneManager.callFunc("standardDialog", tr("No media matched radio station criteria"), { data: ["<p>" + tr("The server found no media matching the filter criteria for this radio station.") + "</p>"] })
+        return
+    end if
+
+    MainAction.playItem(radioStationData, { method: "set", setShuffle: true, showAudioPlayerView: true })
+end sub
+
 ' Shows details on selected playlist. Description text, image, and list of available items
 sub CreatePlaylistView(playlist as object)
     ' validate playlist node

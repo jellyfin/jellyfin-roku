@@ -88,6 +88,11 @@ sub itemContentChanged()
         }
     end if
 
+    if isValid(m.stationGroup)
+        m.top.removeChild(m.stationGroup)
+        m.stationGroup = invalid
+    end if
+
     itemData.AddReplace("Title", itemData.LookupCI("name"))
 
     setColors()
@@ -108,7 +113,7 @@ sub itemContentChanged()
     m.itemProgressBackground.visible = false
     m.itemProgress.width = 0
 
-    m.itemTextExtra.width = itemData.imageWidth
+    m.itemTextExtra.maxWidth = itemData.imageWidth
     m.itemTextExtra.visible = true
     m.itemTextExtra.text = ""
     m.itemTextExtra.font.size = 22
@@ -166,6 +171,11 @@ sub itemContentChanged()
 
     if itemDataType = ItemType.MUSICALBUM
         displayMusicAlbumInfo(itemData as object)
+        return
+    end if
+
+    if itemDataType = ItemType.RADIOSTATION
+        displayRadioStationInfo(itemData as object)
         return
     end if
 
@@ -284,6 +294,31 @@ sub displayMusicAlbumInfo(itemData as object)
     m.itemPoster.uri = itemData.posterURL
 end sub
 
+sub displayRadioStationInfo(itemData as object)
+    m.stationGroup = createObject("roSGNode", "Group")
+    m.stationGroup.clippingRect = "[0,0,261,261]"
+
+    stationText = m.stationGroup.CreateChild("Text")
+    stationText.color = ColorPalette.DARKGREY
+    stationText.id = "radioStationName"
+    stationText.font = "font:LargeBoldSystemFont"
+    stationText.font.size = 80
+    stationText.ellipsisText = " "
+    stationText.wrap = "true"
+    stationText.width = "275"
+    stationText.height = "290"
+    stationText.translation = "[-10, 0]"
+    stationText.displayPartialLines = "true"
+    stationText.vertAlign = "bottom"
+    stationText.text = itemData.name
+
+    m.top.insertChild(m.stationGroup, 1)
+
+    m.itemText.text = itemData.name
+    m.itemTextExtra.text = itemData.json.Subtitle
+    m.backdrop.color = itemData.json.BackgroundColor
+end sub
+
 sub displayPersonInfo(itemData as object)
     m.itemText.text = itemData.name
     m.itemPoster.loadDisplayMode = "scaleToFit"
@@ -374,6 +409,14 @@ sub displayProgramInfo(itemData as object)
     m.itemPoster.uri = itemData.usePoster ? itemData.thumbnailURL : ImageURL(itemData.json.ChannelId)
     m.itemPoster.loadDisplayMode = "scaleToFill"
 
+    if isValid(itemData.FHDItemWidth)
+        realWidth = itemData.FHDItemWidth
+        m.itemPoster.width = realWidth
+        m.itemText.maxWidth = realWidth - 8
+        m.itemTextExtra.width = realWidth - 8
+        m.backdrop.width = realWidth
+    end if
+
     ' Set Episode title if available
     if isValid(itemData.json.EpisodeTitle)
         m.itemTextExtra.text = itemData.json.EpisodeTitle
@@ -445,6 +488,7 @@ end sub
 ' Enable title scrolling based on item Focus
 sub focusChanged()
     m.itemText.repeatCount = m.top.itemHasFocus ? - 1 : 0
+    m.itemTextExtra.repeatCount = m.top.itemHasFocus ? - 1 : 0
 end sub
 
 'Hide backdrop and icon when poster loaded

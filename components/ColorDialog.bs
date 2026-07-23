@@ -1,0 +1,65 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.colorgrid = m.top.findNode("colorgrid")
+    selectedColor = m.colorgrid.findNode("selectedColor")
+    if isValid(selectedColor)
+        selectedColor.visible = false
+    end if
+
+    m.top.observeFieldScoped("buttonSelected", "onButtonSelected")
+
+    m.top.id = "OKDialog"
+    m.top.height = 900
+end sub
+
+' Event handler for when user selected a button
+sub onButtonSelected()
+    if m.top.buttonSelected = 0
+        selectedColor = m.colorgrid.content.getChild(m.colorgrid.itemSelected).colorCode
+
+        selectedItems = {
+            id: m.top.id,
+            selectedColor: selectedColor
+        }
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(activeScene)
+            activeScene.selectedColor = selectedItems
+        end if
+
+        return
+    end if
+end sub
+
+sub onSelectedColorChange()
+    m.colorgrid.selectedColor = m.top.selectedColor
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if isStringEqual(key, KeyCode.OK)
+        if m.colorgrid.isinFocusChain()
+            buttonArea = findNodeBySubtype(m.top, "StdDlgButtonArea")
+
+            if buttonArea.count() <> 0 and isValid(buttonArea[0]) and isValid(buttonArea[0].node)
+                buttonArea[0].node.setFocus(true)
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = buttonArea[0].node
+                return true
+            end if
+        end if
+    end if
+
+    if isStringEqual(key, KeyCode.UP)
+        m.colorgrid.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.colorgrid
+        return true
+    end if
+
+    return false
+end function
