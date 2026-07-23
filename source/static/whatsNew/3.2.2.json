@@ -56,6 +56,10 @@
     "author": "VX-101"
   },
   {
+    "description": "Auto-advance focus between sign-in form fields",
+    "author": "ferezvi"
+  },
+  {
     "description": "Route Play/Pause button presses to audio mini-player when cursor is on album details",
     "author": "VX-101"
   },
