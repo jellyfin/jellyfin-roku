@@ -63,6 +63,9 @@ sub init()
     m.LoadMetaDataTask.itemType = currentItem.type
     m.LoadMetaDataTask.selectedAudioStreamIndex = currentItem.selectedAudioStreamIndex
     m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+    if not isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+        m.LoadMetaDataTask.mustTranscode = true
+    end if
     m.LoadMetaDataTask.control = TaskControl.RUN
 
     m.PreloadTrickplayImagesTask = CreateObject("roSGNode", "PreloadTrickplayImagesTask")

@@ -1,0 +1,120 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.contentArea = m.top.findNode("contentArea")
+    m.checkboxOptions = m.top.findNode("checkboxOptions")
+
+    m.top.observeField("contentData", "onContentDataChanged")
+    m.top.observeFieldScoped("buttonSelected", "onButtonSelected")
+
+    m.checkboxOptions.observeField("focusedChild", "onItemFocused")
+
+    m.checkboxOptions.focusedColor = ColorPalette.WHITE
+    m.checkboxOptions.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.checkboxOptions.font.size = 30
+    m.checkboxOptions.focusedFont.size = 30
+
+    m.top.id = "OKDialog"
+    m.top.height = 900
+end sub
+
+' Event handler for when user selected a button
+sub onButtonSelected()
+    if m.top.buttonSelected = 0
+        selectedItems = {
+            id: m.top.id,
+            data: [],
+            checkedState: m.checkboxOptions.checkedState
+        }
+
+        i = 0
+        for each checkedState in m.checkboxOptions.checkedState
+            if checkedState
+                checkboxItem = m.top.contentData.data[i]
+                if not isValidAndNotEmpty(checkboxItem) then continue for
+                selectedItems.data.push(checkboxItem.LookupCI("name"))
+            end if
+
+            i++
+        end for
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(activeScene)
+            activeScene.checkboxData = selectedItems
+        end if
+
+        return
+    end if
+
+    ' Reset, uncheck all options
+    if m.top.buttonSelected = 1
+        checkedStateList = []
+        for each checkedState in m.checkboxOptions.checkedState
+            checkedStateList.push(false)
+        end for
+        m.checkboxOptions.checkedState = checkedStateList
+
+        selectedItems = {
+            id: m.top.id,
+            data: [],
+            checkedState: m.checkboxOptions.checkedState
+        }
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(activeScene)
+            activeScene.checkboxData = selectedItems
+        end if
+
+        return
+    end if
+end sub
+
+sub onContentDataChanged()
+    i = 0
+
+    options = CreateObject("roSGNode", "ContentNode")
+    checkedState = []
+
+    for each item in m.top.contentData.data
+        cardItem = CreateObject("roSGNode", "ContentNode")
+        cardItem.id = i
+
+        isSelected = chainLookupReturn(item, "selected", false)
+        checkedState.push(isSelected)
+
+        cardItem.title = item.track.description
+        options.appendChild(cardItem)
+        i++
+    end for
+
+    m.checkboxOptions.content = options
+    m.checkboxOptions.checkedState = checkedState
+
+    stopLoadingSpinner()
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if isStringEqual(key, KeyCode.UP)
+        m.checkboxOptions.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.checkboxOptions
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.PLAY)
+        buttonArea = findNodeBySubtype(m.top, "StdDlgButtonArea")
+
+        if buttonArea.count() <> 0 and isValid(buttonArea[0]) and isValid(buttonArea[0].node)
+            buttonArea[0].node.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = buttonArea[0].node
+            return true
+        end if
+    end if
+
+    return false
+end function
