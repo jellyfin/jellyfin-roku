@@ -90,5 +90,9 @@
   {
     "description": "Preserve My Media tile focus after returning to home screen",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix paused mini-player audio blocking video playback",
+    "author": "VX-101"
   }
 ]
