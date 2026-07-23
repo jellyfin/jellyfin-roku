@@ -710,7 +710,7 @@
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation>Selecciona un servidor Jellyfin disponible en su red local:</translation>
+        <translation>Selecciona un servidor Jellyfin disponible en tu red local:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
@@ -1249,7 +1249,7 @@
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
-        <translation>Establecer la tasa de bits máxima en Mbps. Establécela en 0 para utilizar las especificaciones de Roku. Esta configuración debe estar habilitada para que surta efecto.</translation>
+        <translation>Establece la tasa de bits máxima en Mbps. Establécela en 0 para utilizar las especificaciones de Roku. Esta configuración debe estar habilitada para que surta efecto.</translation>
     </message>
     <message>
         <source>General</source>
@@ -2501,6 +2501,159 @@
     <message>
         <source>Roku thought it could direct play this media, but playback never started.</source>
         <translation>Roku creía poder reproducir directamente este contenido, pero la reproducción nunca empezó.</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>No se han encontrado otros títulos en tu biblioteca.</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Reproducir desde el inicio</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>No hay disponible información sobre el elenco.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>como %1</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>Más con %1 en Tu Biblioteca</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Continuar desde</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+        <translation>Roku indicó poder reproducir directamente este elemento, pero la duración de la reproducción no era correcta.</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Álbum desconocido</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Presiona Stop de nuevo para cerrar el reproductor</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Videos</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Por defecto</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Más de</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Visto recientemente</translation>
+    </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Artista desconocido</translation>
+    </message>
+    <message>
+        <source>Playback Controls Inactivity Timeout</source>
+        <translation>Tiempo máximo de inactividad de los comandos de lectura</translation>
+    </message>
+    <message>
+        <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+        <translation>Establece el periodo de tiempo en segundos durante el cual la superposición de los controles de reproducción es visible si no se pulsa ningún botón. Indica 0 para inhabilitarlo.</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Modo de reproducción</translation>
+    </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Estaciones de radio</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Pistas con más reproducciones</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Pistas con menos reproducciones</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Reproducir las pistas con más reproducciones de manera aleatoria</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Reproducir las pistas con menos reproducciones de manera aleatoria</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Pulsa Reproducir/Pausa para ir al botón OK</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nombre de la estación</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nombre para identificar a la estación de radio</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Lista de años incluidos en el contenido de la estación</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Campo que ordenará los medios antes de filtrar</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Límite de ítems</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Número máximo de ítems cargados</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Crear estación</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Subtítulo</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Corta descripción de la estación de radio</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Lista de géneros incluidos en el contenido de la estación</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Dirección que ordenará los medios antes de filtrar</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Color de fondo</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Color de fondo para la pantalla principal</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>El servidor no ha encontrado medios que correspondan con los criterios de los filtros para esta estación de radio.</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Ningún medio corresponde a los criterios de la estación de radio</translation>
     </message>
 </context>
 <context>

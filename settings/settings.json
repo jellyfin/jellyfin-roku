@@ -367,6 +367,14 @@
         "default": "30"
       },
       {
+        "title": "Playback Controls Inactivity Timeout",
+        "description": "Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.",
+        "settingName": "playback.inactiveTimeoutLength",
+        "type": "integer",
+        "max": "60",
+        "default": "5"
+      },
+      {
         "title": "Playback Speed Controls (Experimental)",
         "description": "Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn't update",
         "settingName": "playback.showPlaybackSpeedControls",
@@ -850,6 +858,10 @@
                 "id": "none"
               },
               {
+                "title": "Radio Stations",
+                "id": "radiostations"
+              },
+              {
                 "title": "Recently Added Media",
                 "id": "latestmedia"
               }
@@ -894,6 +906,10 @@
               {
                 "title": "None",
                 "id": "none"
+              },
+              {
+                "title": "Radio Stations",
+                "id": "radiostations"
               },
               {
                 "title": "Recently Added Media",
@@ -942,6 +958,10 @@
                 "id": "none"
               },
               {
+                "title": "Radio Stations",
+                "id": "radiostations"
+              },
+              {
                 "title": "Recently Added Media",
                 "id": "latestmedia"
               }
@@ -986,6 +1006,10 @@
               {
                 "title": "None",
                 "id": "none"
+              },
+              {
+                "title": "Radio Stations",
+                "id": "radiostations"
               },
               {
                 "title": "Recently Added Media",
@@ -1034,6 +1058,10 @@
                 "id": "none"
               },
               {
+                "title": "Radio Stations",
+                "id": "radiostations"
+              },
+              {
                 "title": "Recently Added Media",
                 "id": "latestmedia"
               }
@@ -1078,6 +1106,10 @@
               {
                 "title": "None",
                 "id": "none"
+              },
+              {
+                "title": "Radio Stations",
+                "id": "radiostations"
               },
               {
                 "title": "Recently Added Media",
@@ -1126,6 +1158,10 @@
                 "id": "none"
               },
               {
+                "title": "Radio Stations",
+                "id": "radiostations"
+              },
+              {
                 "title": "Recently Added Media",
                 "id": "latestmedia"
               }
@@ -1170,6 +1206,10 @@
               {
                 "title": "None",
                 "id": "none"
+              },
+              {
+                "title": "Radio Stations",
+                "id": "radiostations"
               },
               {
                 "title": "Recently Added Media",

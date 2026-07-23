@@ -18,7 +18,7 @@
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation>Endet um %1</translation>
+        <translation>Endet bei %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
@@ -62,7 +62,7 @@
     </message>
     <message>
         <source>Shuffle</source>
-        <translation>Zufallswiedergabe</translation>
+        <translation>Zufällige Wiedergabe</translation>
     </message>
     <message>
         <source>Sign In</source>
@@ -2425,6 +2425,79 @@
     <message>
         <source>Channel Logo</source>
         <translation>Kanallogo</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Von Beginn starten</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>Keine Angaben zur Besetzung verfügbar.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>als %1</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>Mehr mit %1 in deiner Bibliothek</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>Keine weiteren Titel in deiner Bibliothek gefunden.</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Fortfahren von</translation>
+    </message>
+    <message>
+        <source>Playback Controls Inactivity Timeout</source>
+        <translation>Wiedergabesteuerung Inaktivitäts-Timeout</translation>
+    </message>
+    <message>
+        <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+        <translation>Lege die Zeitspanne in Sekunden fest, die die Wiedergabesteuerungsanzeige sichtbar bleibt, wenn keine Tasten gedrückt werden. Stelle den Wert auf 0, um sie zu deaktivieren.</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>TV Guide Kanalanzeige</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>Wiedergabegeschwindigkeit-Steuerung (Experimentell)</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>Die Nutzung erfolgt auf eigene Gefahr. Wir übernehmen keine Garantie für die Funktionsfähigkeit. \n 1. Diese Funktion funktioniert möglicherweise nicht auf diesem Gerät, aber auf anderen. \n 2. Einige Geschwindigkeitsoptionen funktionieren möglicherweise nicht auf diesem Gerät, aber auf anderen. \n 3. Roku kann diese Funktion ohne Vorwarnung blockieren, selbst wenn der Jellyfin-Client nicht aktualisiert wird.</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+        <translation>Roku ging davon aus, dass es diese Medien direkt abspielen könnte, aber die Wiedergabedauer war falsch.</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Kürzlich angesehen</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Videos</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Nochmal Stop drücken um den Player zu schliessen</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Standard</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Mehr von</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Wiedergabemodus</translation>
     </message>
 </context>
 <context>

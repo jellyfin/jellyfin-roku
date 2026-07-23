@@ -11,6 +11,7 @@ import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
+import "pkg:/source/enums/TransportCommand.bs"
 import "pkg:/source/enums/VideoControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
@@ -60,6 +61,9 @@ sub init()
     m.LoadMetaDataTask.itemType = currentItem.type
     m.LoadMetaDataTask.selectedAudioStreamIndex = currentItem.selectedAudioStreamIndex
     m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+    if not isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+        m.LoadMetaDataTask.mustTranscode = true
+    end if
     m.LoadMetaDataTask.control = TaskControl.RUN
 
     m.PreloadTrickplayImagesTask = CreateObject("roSGNode", "PreloadTrickplayImagesTask")
@@ -105,6 +109,8 @@ sub init()
 
     ' Custom Caption Function
     m.top.observeField("allowCaptions", "onAllowCaptionsChange")
+    ' Voice/transport command observer (Alexa, Roku voice remote)
+    m.top.observeField("voiceCommand", "onVoiceCommand")
 
     m.playbackTimer.observeField("fire", "ReportPlayback")
     m.bufferPercentage = 0 ' Track whether content is being loaded
@@ -1061,6 +1067,9 @@ sub hideSegmentSkipButton()
     m.skipSegmentButton.text = string.EMPTY
     m.skipSegmentButton.setFocus(false)
     m.skipSegmentButton.focus = false
+
+    ' Notify that no skippable segment is active
+    m.top.hasActiveSegment = false
     hideNextItem()
     m.top.setFocus(true)
 end sub
@@ -1068,6 +1077,9 @@ end sub
 sub displaySegmentSkipButton(segmentType as string, endticks as double)
     m.currentSegmentEndTicks = endticks
     m.currentSegmentType = segmentType
+
+    ' Notify that a skippable segment is active
+    m.top.hasActiveSegment = true
 
     if isValidAndNotEmpty(m.mediaSegmentDismissed) and m.mediaSegmentDismissed.DoesExist(m.currentSegmentType) then return
 
@@ -2397,5 +2409,49 @@ sub setSkipSegmentButtonFocus()
     if m.skipSegmentButton.visible
         m.skipSegmentButton.setFocus(true)
         m.skipSegmentButton.focus = true
+    end if
+end sub
+
+' onVoiceCommand: Handles voice/transport commands from Alexa or Roku voice remote.
+' Receives an assocarray with keys "type" and "position" (in seconds).
+' Types handled: "play", "pause", "playpause", "seek"
+'
+sub onVoiceCommand()
+    cmd = m.top.voiceCommand
+    if not isChainValid(cmd, "type") then return
+
+    cmdType = LCase(cmd.type)
+
+    if isStringEqual(cmdType, TransportCommand.PLAY)
+        stopFastforwardOrRewind()
+        if m.previewPos > 0
+            m.top.seek = m.previewPos
+            setVideoEndingTime(m.previewPos)
+        end if
+        m.top.control = VideoControl.RESUME
+        return
+    end if
+
+    if isStringEqual(cmdType, TransportCommand.PAUSE)
+        stopFastforwardOrRewind()
+        m.top.control = VideoControl.PAUSE
+        return
+    end if
+
+    if isStringEqual(cmdType, TransportCommand.PLAYPAUSE)
+        stopFastforwardOrRewind()
+        handleVideoPlayPauseAction()
+        return
+    end if
+
+    if isStringEqual(cmdType, TransportCommand.SEEK) and isValid(cmd.position)
+        m.top.seek = cmd.position
+        setVideoEndingTime(cmd.position)
+        return
+    end if
+
+    if isStringEqual(cmdType, TransportCommand.SKIP)
+        skipCurrentSegment()
+        return
     end if
 end sub

@@ -1,4 +1,6 @@
+import "pkg:/components/home/RadioStations.bs"
 import "pkg:/source/constants/HomeRowItemSizes.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
@@ -218,11 +220,15 @@ sub setRowItemSize()
 
     homeSections = m.top.content.getChildren(-1, 0)
     newSizeArray = CreateObject("roArray", homeSections.count(), false)
+    variableWidthArray = CreateObject("roArray", homeSections.count(), false)
 
     for i = 0 to homeSections.count() - 1
         newSizeArray[i] = isValid(homeSections[i].cursorSize) ? homeSections[i].cursorSize : homeRowItemSizes.WIDE_POSTER
+        variableWidthArray[i] = isStringEqual(homeSections[i].title, tr("On Now"))
     end for
+
     m.top.rowItemSize = newSizeArray
+    m.top.variableWidthItems = variableWidthArray
 
     ' If we have processed the expected number of content rows, stop the loading timer and run the complete function
     if m.expectedRowCount = m.processedRowCount
@@ -293,6 +299,12 @@ function addHomeSection(sectionType as string) as boolean
         return true
     end if
 
+    ' Radio Stations
+    if isStringEqual(sectionType, "radiostations")
+        createRadioStationsRow()
+        return true
+    end if
+
     ' This section type isn't supported.
     ' Count it as processed since we aren't going to do anything else with it
     m.processedRowCount++
@@ -308,11 +320,6 @@ sub createLibraryRow()
 
     sectionName = tr("My Media")
 
-    ' We don't refresh library data, so if section already exists, exit
-    if sectionExists(sectionName)
-        ' return
-    end if
-
     row = CreateObject("roSGNode", "HomeRow")
     row.title = sectionName
     row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
@@ -325,8 +332,22 @@ sub createLibraryRow()
 
     ' Row already exists, replace it with new content
     if sectionExists(sectionName)
-        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+        sectionIndex = getSectionIndex(sectionName)
+        restoreFocusedColumn = invalid
+        rowItemFocused = chainLookupReturn(m.top, "rowItemFocused", invalid)
+        if isValidAndNotEmpty(rowItemFocused) and rowItemFocused[0] = sectionIndex
+            restoreFocusedColumn = rowItemFocused[1]
+        end if
+
+        m.top.content.replaceChild(row, sectionIndex)
         setRowItemSize()
+
+        if isValid(restoreFocusedColumn) and row.getChildCount() > 0
+            if restoreFocusedColumn >= row.getChildCount() then restoreFocusedColumn = row.getChildCount() - 1
+            if restoreFocusedColumn < 0 then restoreFocusedColumn = 0
+            m.top.jumpToRowItem = [sectionIndex, restoreFocusedColumn]
+        end if
+
         return
     end if
 
@@ -496,6 +517,63 @@ sub createNextUpRow()
     m.LoadNextUpTask.control = "RUN"
 end sub
 
+' createRadioStationsRow: Creates a row displaying radio stations
+'
+sub createRadioStationsRow()
+    m.processedRowCount++
+    sectionName = tr("Radio Stations")
+    row = m.top.content.CreateChild("HomeRow")
+    row.title = sectionName
+    row.imageWidth = homeRowItemSizes.MUSIC_ALBUM[0]
+    row.cursorSize = homeRowItemSizes.MUSIC_ALBUM
+
+    radioStationList = getListOfRadioStations()
+
+    radioStationList.push({
+        id: "createstation",
+        backgroundColor: ColorPalette.TRIADBLUE,
+        posterURL: "pkg:/images/icons/leastplayed.png",
+        name: tr("Create Station"),
+        subtitle: tr("Choose options for a new radio station"),
+        action: "createstation"
+    })
+
+    for each station in radioStationList
+        item = CreateObject("roSGNode", "HomeData")
+        item.id = station.LookupCI("id")
+        item.posterURL = station.LookupCI("posterURL")
+        item.type = ItemType.RADIOSTATION
+        item.usePoster = false
+        item.imageWidth = row.imageWidth
+        item.json = {
+            id: station.LookupCI("id"),
+            PlaylistID: station.LookupCI("id"),
+            IsFolder: true,
+            Name: station.LookupCI("name"),
+            BackgroundColor: station.LookupCI("backgroundColor"),
+            Subtitle: station.LookupCI("subtitle"),
+            Type: ItemType.RADIOSTATION,
+            CollectionType: "radioStation",
+            sortBy: station.LookupCI("sortBy"),
+            sortOrder: station.LookupCI("sortOrder"),
+            limit: station.LookupCI("limit"),
+            filters: station.LookupCI("filters"),
+            action: station.LookupCI("action")
+        }
+
+        row.appendChild(item)
+    end for
+
+    if sectionExists(sectionName)
+        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+        setRowItemSize()
+        return
+    end if
+
+    m.top.content.insertChild(row, getSectionIndex(sectionName))
+    setRowItemSize()
+end sub
+
 ' createMyListRow: Creates a row displaying items from the user's personal list
 '
 sub createMyListRow()
@@ -518,7 +596,7 @@ end sub
 sub createFavoritesRow()
     sectionName = tr("Favorites")
 
-    if not sectionExists(sectionName)
+    if not favoriteSectionExists()
         nextUpRow = m.top.content.CreateChild("HomeRow")
         nextUpRow.title = sectionName
         nextUpRow.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
@@ -542,43 +620,106 @@ end sub
 '
 sub updateFavoritesItems()
     m.processedRowCount++
-    itemData = m.LoadFavoritesTask.content
+    favoriteRows = m.LoadFavoritesTask.content
     m.LoadFavoritesTask.unobserveField("content")
     m.LoadFavoritesTask.content = []
 
-    sectionName = tr("Favorites")
+    insertIndex = getFirstFavoriteSectionIndex()
+    removeFavoriteSections()
 
-    if not isValidAndNotEmpty(itemData)
-        removeHomeSection(sectionName)
-        return
-    end if
-
-    ' remake row using the new data
-    row = CreateObject("roSGNode", "HomeRow")
-    row.title = sectionName
-    row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
-    row.cursorSize = homeRowItemSizes.WIDE_POSTER
-
-    for each item in itemData
-        usePoster = true
-
-        if lcase(item.type) = "episode" or lcase(item.type) = "audio" or lcase(item.type) = "musicartist"
-            usePoster = false
-        end if
-
-        item.usePoster = usePoster
-        item.imageWidth = row.imageWidth
-        row.appendChild(item)
-    end for
-
-    if sectionExists(sectionName)
-        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+    if not isValidAndNotEmpty(favoriteRows)
         setRowItemSize()
         return
     end if
 
-    m.top.content.insertChild(row, getSectionIndex(sectionName))
+    for each favoriteRowData in favoriteRows
+        row = createFavoriteRowFromData(favoriteRowData)
+        if isValid(row)
+            m.top.content.insertChild(row, insertIndex)
+            insertIndex++
+        end if
+    end for
+
     setRowItemSize()
+end sub
+
+' createFavoriteRowFromData: Creates a HomeRow for one type-specific Favorites group
+'
+function createFavoriteRowFromData(rowData as object) as object
+    if not isChainValid(rowData, "items") or not isValidAndNotEmpty(rowData.items) then return invalid
+
+    rowType = rowData.LookupCI("rowType") ?? "wide"
+    rowSize = getFavoriteRowItemSize(rowType)
+
+    row = CreateObject("roSGNode", "HomeRow")
+    row.title = rowData.LookupCI("title")
+    row.imageWidth = rowSize[0]
+    row.cursorSize = rowSize
+
+    for each item in rowData.items
+        item.usePoster = isStringEqual(rowType, "poster")
+        item.imageWidth = row.imageWidth
+        row.appendChild(item)
+    end for
+
+    return row
+end function
+
+function getFavoriteRowItemSize(rowType as string) as object
+    if isStringEqual(rowType, "poster") then return homeRowItemSizes.MOVIE_POSTER
+    if isStringEqual(rowType, "album") then return homeRowItemSizes.MUSIC_ALBUM
+    return homeRowItemSizes.WIDE_POSTER
+end function
+
+' isFavoriteSectionTitle: Matches the placeholder Favorites row and translated split Favorites rows
+'
+function isFavoriteSectionTitle(sectionTitle as dynamic) as boolean
+    if not isValid(sectionTitle) then return false
+
+    searchSectionTitle = sectionTitle.Replace(" ", "")
+    favoritesTitle = tr("Favorites").Replace(" ", "")
+    favoriteTitlePrefix = tr("Favorite").Replace(" ", "")
+
+    return isStringEqual(searchSectionTitle, favoritesTitle) or searchSectionTitle.StartsWith(favoriteTitlePrefix)
+end function
+
+function favoriteSectionExists() as boolean
+    if not isValid(m.top.content) then return false
+
+    homeSections = m.top.content.getChildren(-1, 0)
+    for each section in homeSections
+        if isFavoriteSectionTitle(section.title) then return true
+    end for
+
+    return false
+end function
+
+' getFirstFavoriteSectionIndex: Preserves the configured Favorites placement when inserting split rows
+'
+function getFirstFavoriteSectionIndex() as integer
+    if not isValid(m.top.content) then return getOriginalSectionIndex("favorites")
+
+    homeSections = m.top.content.getChildren(-1, 0)
+    i = 0
+    for each section in homeSections
+        if isFavoriteSectionTitle(section.title) then return i
+        i++
+    end for
+
+    return getOriginalSectionIndex("favorites")
+end function
+
+sub removeFavoriteSections()
+    if not isValid(m.top.content) then return
+
+    homeSections = m.top.content.getChildren(-1, 0)
+    if homeSections.count() = 0 then return
+
+    for i = homeSections.count() - 1 to 0 step -1
+        if isFavoriteSectionTitle(homeSections[i].title)
+            m.top.content.removeChildIndex(i)
+        end if
+    end for
 end sub
 
 ' updateMyListItems: Processes LoadMyListTask content. Removes, Creates, or Updates My List row as needed

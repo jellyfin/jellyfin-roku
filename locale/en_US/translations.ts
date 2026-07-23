@@ -53,6 +53,10 @@
             <translation>Play from beginning</translation>
         </message>
         <message>
+            <source>Press Stop again to close player</source>
+            <translation>Press Stop again to close player</translation>
+        </message>
+        <message>
             <source>Please sign in</source>
             <translation>Please sign in</translation>
         </message>
@@ -181,8 +185,16 @@
             <translation>Video</translation>
         </message>
         <message>
+            <source>Videos</source>
+            <translation>Videos</translation>
+        </message>
+        <message>
             <source>Audio</source>
             <translation>Audio</translation>
+        </message>
+        <message>
+            <source>Default</source>
+            <translation>Default</translation>
         </message>
         <message>
             <source>Subtitles</source>
@@ -207,6 +219,11 @@
         <message>
             <source>Episodes</source>
             <translation>Episodes</translation>
+        </message>
+        <message>
+            <source>More from</source>
+            <translation>More from</translation>
+            <extracomment>Prefix for the episodes row header in the item detail extras slider, followed by "Season X" (e.g. "More from Season 3")</extracomment>
         </message>
         <message>
             <source>Error Retrieving Content</source>
@@ -253,6 +270,11 @@
             <comment>Name or Title field of media item</comment>
             <source>TITLE</source>
             <translation>Name</translation>
+        </message>
+        <message>
+            <comment>Last played time of media item</comment>
+            <source>RECENTLY_WATCHED</source>
+            <translation>Recently Watched</translation>
         </message>
         <message>
             <source>IMDB_RATING</source>
@@ -518,6 +540,14 @@
             <source>Unknown</source>
             <translation>Unknown</translation>
             <extracomment>Title for a cast member for which we have no information for</extracomment>
+        </message>
+        <message>
+            <source>Unknown Artist</source>
+            <translation>Unknown Artist</translation>
+        </message>
+        <message>
+            <source>Unknown Album</source>
+            <translation>Unknown Album</translation>
         </message>
         <message>
             <source>The requested content does not exist on the server</source>
@@ -1243,6 +1273,16 @@
         <message>
             <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
             <translation>If no Outro media segment exists, set how many seconds before the end of an episode the Skip Outro button should appear. Set to 0 to disable.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Playback Controls Inactivity Timeout</source>
+            <translation>Playback Controls Inactivity Timeout</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+            <translation>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -2226,6 +2266,10 @@
             <translation>Play Normally</translation>
         </message>
         <message>
+            <source>Playback Mode</source>
+            <translation>Playback Mode</translation>
+        </message>
+        <message>
             <source>Force Transcode (Allow Remux)</source>
             <translation>Force Transcode (Allow Remux)</translation>
         </message>
@@ -2486,6 +2530,90 @@
         <message>
             <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
             <translation>Roku thought it could direct play this media, but the playback duration was incorrect.</translation>
+        </message>
+        <message>
+            <source>Radio Stations</source>
+            <translation>Radio Stations</translation>
+        </message>
+        <message>
+            <source>Most Played Tracks</source>
+            <translation>Most Played Tracks</translation>
+        </message>
+        <message>
+            <source>Least Played Tracks</source>
+            <translation>Least Played Tracks</translation>
+        </message>
+        <message>
+            <source>Shuffle play your most played tracks</source>
+            <translation>Shuffle play your most played tracks</translation>
+        </message>
+        <message>
+            <source>Shuffle play your least played tracks</source>
+            <translation>Shuffle play your least played tracks</translation>
+        </message>
+        <message>
+            <source>Press Play/Pause to jump to OK button</source>
+            <translation>Press Play/Pause to jump to OK button</translation>
+        </message>
+        <message>
+            <source>Station Name</source>
+            <translation>Station Name</translation>
+        </message>
+        <message>
+            <source>Name to identify radio station</source>
+            <translation>Name to identify radio station</translation>
+        </message>
+        <message>
+            <source>List of years to include in station content</source>
+            <translation>List of years to include in station content</translation>
+        </message>
+        <message>
+            <source>Field to sort media by before cutting off at limit</source>
+            <translation>Field to sort media by before cutting off at limit</translation>
+        </message>
+        <message>
+            <source>Item Limit</source>
+            <translation>Item Limit</translation>
+        </message>
+        <message>
+            <source>Maximum number of items to load</source>
+            <translation>Maximum number of items to load</translation>
+        </message>
+        <message>
+            <source>Create Station</source>
+            <translation>Create Station</translation>
+        </message>
+        <message>
+            <source>Subtitle</source>
+            <translation>Subtitle</translation>
+        </message>
+        <message>
+            <source>A short description of the radio station</source>
+            <translation>A short description of the radio station</translation>
+        </message>
+        <message>
+            <source>List of genres to include in station content</source>
+            <translation>List of genres to include in station content</translation>
+        </message>
+        <message>
+            <source>Direction to sort media before cutting off at limit</source>
+            <translation>Direction to sort media before cutting off at limit</translation>
+        </message>
+        <message>
+            <source>Background Color</source>
+            <translation>Background Color</translation>
+        </message>
+        <message>
+            <source>Background color to use on home screen block</source>
+            <translation>Background color to use on home screen block</translation>
+        </message>
+        <message>
+            <source>The server found no media matching the filter criteria for this radio station.</source>
+            <translation>The server found no media matching the filter criteria for this radio station.</translation>
+        </message>
+        <message>
+            <source>No media matched radio station criteria</source>
+            <translation>No media matched radio station criteria</translation>
         </message>
     </context>
 </TS>

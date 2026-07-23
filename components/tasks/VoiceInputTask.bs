@@ -1,0 +1,63 @@
+import "pkg:/source/enums/TransportCommand.bs"
+import "pkg:/source/utils/misc.bs"
+
+' VoiceInputTask: Listens for roInput events on its own thread.
+' Based on Roku's official transport-control sample.
+' Uses enableTransportEvents() to receive voice/transport commands.
+' Communicates results via inputData field and sends EventResponse to Roku OS.
+'
+sub init()
+    m.port = CreateObject("roMessagePort")
+    m.top.observeField("transportResponse", m.port)
+    m.top.functionName = "runLoop"
+end sub
+' runLoop: Main task loop. Listens for roInput events and forwards them.
+'
+sub runLoop()
+    m.input = CreateObject("roInput")
+    m.input.SetMessagePort(m.port)
+    ' Required to receive transport commands from Alexa and Roku voice remote
+    m.input.enableTransportEvents()
+    while true
+        msg = m.port.waitMessage(500)
+        if type(msg) = "roInputEvent"
+            if msg.isInput()
+                info = msg.getInfo()
+                handleVoiceInput(info)
+            end if
+        else if type(msg) = "roSGNodeEvent"
+            ' Send EventResponse back to Roku OS after command is handled
+            if isStringEqual(msg.getField(), "transportResponse")
+                response = msg.getData()
+                if isValid(response) and isValid(response.id)
+                    m.input.EventResponse({ id: response.id, status: response.status })
+                end if
+            end if
+        end if
+    end while
+end sub
+' handleVoiceInput: Decodes the roInputEvent and forwards it to VideoPlayerView.
+' Transport seek is relative (duration + direction), absolute seek uses seek_position.
+'
+sub handleVoiceInput(info as object)
+    if not isValid(info) then return
+    if not info.doesExist("type") then return
+    if isStringEqual(info.type, "seek")
+        if info.doesExist("seek_position")
+            m.top.inputData = {
+                type: TransportCommand.SEEK,
+                position: Val(info.seek_position) / 1000.0,
+                id: info.id
+            }
+        end if
+    else if isStringEqual(info.type, "transport")
+        if not info.doesExist("command") then return
+        m.top.inputData = {
+            type: "transport",
+            command: LCase(info.command),
+            duration: info.duration,
+            direction: info.direction,
+            id: info.id
+        }
+    end if
+end sub

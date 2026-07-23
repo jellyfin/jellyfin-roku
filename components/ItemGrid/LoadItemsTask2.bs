@@ -143,7 +143,11 @@ sub loadItems()
     else if m.top.ItemType = "MusicAlbum"
         url = "Items"
         params.append({ ImageTypeLimit: 1, UserId: m.global.session.user.id })
-        params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
+        ' Request Primary artwork (album cover) and Backdrop as fallback
+        params.append({ EnableImageTypes: "Primary,Backdrop" })
+        ' Remove heavy fields that bloat the JSON response
+        ' Overview (long text) and RecursiveItemCount (not used in grid)
+        params.delete("Fields")
     else if m.top.ItemType = "audiobooks"
         params.append({ mediaTypes: "Audio", UserId: m.global.session.user.id })
         params.append({ Filters: "IsNotFolder" })
@@ -353,10 +357,8 @@ sub loadItems()
                 else if item.Type = "MusicAlbum"
                     tmp = CreateObject("roSGNode", "MusicAlbumData")
                     tmp.type = "MusicAlbum"
-                    if api.items.HeadImageURLByName(item.id, "primary")
+                    if isChainValid(item, "ImageTags.Primary")
                         tmp.posterURL = ImageURL(item.id, "Primary")
-                    else
-                        tmp.posterURL = ImageURL(item.id, "backdrop")
                     end if
                 else if item.Type = "MusicArtist"
                     tmp = CreateObject("roSGNode", "MusicArtistData")

@@ -1,6 +1,8 @@
 import "pkg:/components/manager/ViewCreator.bs"
 import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/ResumePopupAction.bs"
 import "pkg:/source/enums/String.bs"
@@ -53,6 +55,11 @@ sub onQuickPlayEvent(msg)
         end if
 
         m.global.queueManager.callFunc("playQueue")
+        return
+    end if
+
+    if isStringEqual(selectedItemType, ItemType.RADIOSTATION)
+        CreateRadioStation(itemNode)
         return
     end if
 
@@ -882,6 +889,8 @@ sub onSelectedItemEvent(msg)
             m.global.queueManager.callFunc("resetShuffle")
             m.global.queueManager.callFunc("push", selectedItem.json)
             m.global.queueManager.callFunc("playQueue")
+        else if isStringEqual(selectedItemType, "radiostation")
+            CreateRadioStation(selectedItem)
         else if selectedItemType = "audiobook"
             ' Display playback options dialog
             showPlaybackOptionDialog = false
@@ -1055,7 +1064,7 @@ sub onPlayAlbumEvent(msg)
 
     m.global.queueManager.callFunc("resetShuffle")
     m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
-    m.global.queueManager.callFunc("playQueue")
+    m.global.queueManager.callFunc("playQueue", true)
 end sub
 
 sub onShuffleAlbumEvent(msg)
@@ -1065,18 +1074,48 @@ sub onShuffleAlbumEvent(msg)
     m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
     m.global.queueManager.callFunc("setShuffle", true)
 
-    m.global.queueManager.callFunc("playQueue")
+    m.global.queueManager.callFunc("playQueue", true)
 end sub
 
 sub onPlaySongEvent(msg)
     ' User has selected audio they want us to play
-    startLoadingSpinner()
     selectedIndex = msg.getData()
     screenContent = msg.getRoSGNode()
+
+    songList = screenContent.findNode("songList")
+    if isValid(songList) and isStringEqual(songList.selectionSource, KeyCode.PLAY)
+        songList.selectionSource = string.EMPTY
+        playAlbumSongInList(screenContent, selectedIndex)
+        return
+    end if
+
+    if isAudioMiniPlayerVisibleForListPlayback()
+        playAlbumSongInList(screenContent, selectedIndex, false)
+        return
+    end if
+
+    startLoadingSpinner()
+    m.global.queueManager.callFunc("resetShuffle")
+    m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
+    m.global.queueManager.callFunc("setPosition", selectedIndex)
+    m.global.queueManager.callFunc("playQueue", true)
+end sub
+
+sub playAlbumSongInList(screenContent as object, selectedIndex as integer, toggleCurrentPlayback = true as boolean)
+    if toggleCurrentPlayback
+        if toggleActiveAudioPlayback()
+            showAudioMiniPlayerForListPlayback()
+            return
+        end if
+    end if
+
+    selectedSong = screenContent.albumData.getChild(selectedIndex)
+    if not isValid(selectedSong) then return
 
     m.global.queueManager.callFunc("resetShuffle")
     m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
     m.global.queueManager.callFunc("setPosition", selectedIndex)
+    showAudioMiniPlayerForListPlayback()
     m.global.queueManager.callFunc("playQueue")
 end sub
 
@@ -1208,11 +1247,61 @@ end sub
 
 ' User clicked on an item from a playlist
 sub onPlaylistItemSelectedEvent(msg)
-    startLoadingSpinner()
     selectedIndex = msg.getData()
     screenContent = msg.getRoSGNode()
 
-    MainAction.playItem(screenContent.listData.getChildren(-1, 0), { method: "set", resetShuffle: true, position: selectedIndex })
+    playlist = screenContent.findNode("playlist")
+    if isValid(playlist) and isStringEqual(playlist.selectionSource, KeyCode.PLAY)
+        playlist.selectionSource = string.EMPTY
+        playPlaylistItemInList(screenContent, selectedIndex)
+        return
+    end if
+
+    if isAudioMiniPlayerVisibleForListPlayback()
+        playPlaylistItemInList(screenContent, selectedIndex, false)
+        return
+    end if
+
+    startLoadingSpinner()
+    MainAction.playItem(screenContent.listData.getChildren(-1, 0), { method: "set", resetShuffle: true, showAudioPlayerView: true, position: selectedIndex })
+end sub
+
+sub playPlaylistItemInList(screenContent as object, selectedIndex as integer, toggleCurrentPlayback = true as boolean)
+    if toggleCurrentPlayback
+        if toggleActiveAudioPlayback()
+            showAudioMiniPlayerForListPlayback()
+            return
+        end if
+    end if
+
+    selectedItem = screenContent.listData.getChild(selectedIndex)
+    if not isValid(selectedItem) then return
+
+    m.global.queueManager.callFunc("resetShuffle")
+    m.global.queueManager.callFunc("set", screenContent.listData.getChildren(-1, 0))
+    m.global.queueManager.callFunc("setPosition", selectedIndex)
+    showAudioMiniPlayerForListPlayback()
+    m.global.queueManager.callFunc("playQueue")
+end sub
+
+function isAudioMiniPlayerVisibleForListPlayback() as boolean
+    scene = m.scene
+    if not isValid(scene) then return false
+
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return false
+
+    return audioMiniPlayer.callFunc("isVisible")
+end function
+
+sub showAudioMiniPlayerForListPlayback()
+    scene = m.scene
+    if not isValid(scene) then return
+
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return
+
+    audioMiniPlayer.callFunc("setVisible", true)
 end sub
 
 sub onPlayArtistSelectedEvent(msg)
@@ -1632,6 +1721,28 @@ sub onDataReturnedEvent(msg)
         return
     end if
 
+    if isStringEqual(selectedPopupID, "nameButton")
+        radioStationName = chainLookup(popupNode, "returndata.text")
+        if not isValid(radioStationName) then return
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        activeScene.radioStationName = radioStationName
+        return
+    end if
+
+    if isStringEqual(selectedPopupID, "subtitleButton")
+        radioStationSubtitle = chainLookup(popupNode, "returndata.text")
+        if not isValid(radioStationSubtitle) then return
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        activeScene.radioStationSubtitle = radioStationSubtitle
+        return
+    end if
+
     if isStringEqual(selectedPopupID, "libraryitem")
         if not isValid(itemID) then return
         if not isString(selectedPopupButton) then return
@@ -1901,18 +2012,24 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
     end if
 
     ' Mark item as played
-    if isStringEqual(selectedPopupButton, tr("Mark As Played"))
-        MainAction.setPlayed(itemID, true)
+    if isStringEqual(selectedPopupButton, tr("Delete Radio Station"))
+        radioStationList = chainLookupReturn(m.global.session, "user.settings.radioStations", "[]")
+        radioStationList = ParseJSON(radioStationList)
+
+        updatedRadioStationList = []
+
+        for each radioStation in radioStationList
+            if not isStringEqual(radioStation.LookupCI("id"), params.LookupCI("id"))
+                radioStation.id = `radio${updatedRadioStationList.count()}`
+                updatedRadioStationList.push(radioStation)
+            end if
+        end for
+        set_user_setting(`radioStations`, FormatJson(updatedRadioStationList))
 
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group)
             if isStringEqual(group.subtype(), "home")
                 group.callFunc("refresh")
-                return
-            end if
-
-            if isStringEqual(group.subtype(), "TVSeasonDetails")
-                group.refreshSeasonDetailsData = not group.refreshSeasonDetailsData
                 return
             end if
         end if
@@ -1936,6 +2053,18 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
                 return
             end if
         end if
+
+        return
+    end if
+
+    ' Add item to playlist
+    if isStringEqual(selectedPopupButton, tr("Add To Playlist"))
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        MainAction.onPlaylistButtonClicked({
+            itemContent: {
+                id: itemID
+            }
+        })
 
         return
     end if

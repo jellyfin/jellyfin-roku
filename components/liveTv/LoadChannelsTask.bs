@@ -1,17 +1,22 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/LiveTVChannelTitle.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.filter = "All"
     m.top.sortField = "SortName"
     m.top.functionName = "loadChannels"
+    m.top.favoritesAtTop = false
 end sub
 
 sub loadChannels()
 
     m.top.totalRecordCount = 0
     results = []
+    favoriteResults = []
+    standardResults = []
 
     sort_field = m.top.sortField
 
@@ -27,7 +32,7 @@ sub loadChannels()
         SortOrder: sort_order,
         UserId: m.global.session.user.id,
         EnableFavoriteSorting: true,
-        EnableUserData: false,
+        EnableUserData: true,
         AddCurrentProgram: false,
         recursive: true
     }
@@ -60,10 +65,29 @@ sub loadChannels()
 
     m.top.totalRecordCount = data.TotalRecordCount
 
+    ' The TV guide builds every channel row up front, so make each row cheap: read the
+    ' (shared) channel-title setting once instead of each row re-reading it from m.global,
+    ' and defer logo-URL building. Both otherwise allocate a regex per row.
+    titleFormat = chainLookupReturn(m.global.session, "user.settings.tvChannelTitleInfo", LiveTVChannelTitle.NUMBERANDNAME)
+
     for each item in data.Items
         channel = createObject("roSGNode", "ChannelData")
+        channel.titleFormat = titleFormat
+        channel.deferPoster = true
         channel.json = item
-        results.push(channel)
+
+        if chainLookupReturn(item, "UserData.IsFavorite", false)
+            channel.favorite = true
+        end if
+
+        if m.top.favoritesAtTop and channel.favorite
+            favoriteResults.push(channel)
+        else
+            standardResults.push(channel)
+        end if
     end for
+
+    results.Append(favoriteResults)
+    results.Append(standardResults)
     m.top.channels = results
 end sub

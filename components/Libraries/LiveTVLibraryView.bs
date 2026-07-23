@@ -25,6 +25,8 @@ sub init()
     m.tvGuide = invalid
     m.channelFocused = invalid
 
+    m.epgLaunchBeaconSignaled = false
+
     m.data = CreateObject("roSGNode", "ContentNode")
 
     m.itemGrid = m.top.findNode("itemGrid")
@@ -49,8 +51,12 @@ sub init()
     'set voice help text
     m.voiceBox.hintText = tr("Use voice remote to search")
 
-    'Item sort - maybe load defaults from user prefs?
-    m.sortField = "SortName"
+    channelOrder = chainLookupReturn(m.global.session, "display.livetv.sortField", LiveTVChannelSortOrder.NUMBER)
+    if isStringEqual(channelOrder, LiveTVChannelSortOrder.DATEPLAYED)
+        m.sortField = "DatePlayed"
+    else
+        m.sortField = "SortName"
+    end if
     m.sortAscending = true
 
     m.filter = "All"
@@ -205,7 +211,8 @@ sub setLiveTvOptions(options)
         { "Title": tr("TV Guide"), "Name": "tvGuide" }
     ]
     options.sort = [
-        { "Title": tr("TITLE"), "Name": "SortName" }
+        { "Title": tr("TITLE"), "Name": "SortName" },
+        { "Title": tr("RECENTLY_WATCHED"), "Name": "DatePlayed" }
     ]
     options.filter = [
         { "Title": tr("All"), "Name": "All" },
@@ -417,16 +424,11 @@ sub optionsClosed()
         else
             m.view = "livetv"
             set_user_setting("display.livetv.landing", "channels")
-            if isValid(m.tvGuide)
-                m.tvGuide.opacity = 0
-            end if
             m.alpha.visible = true
             m.itemGrid.opacity = 1
 
-            if isValid(m.tvGuide)
-                ' Try to hide the TV Guide
-                m.top.removeChild(m.tvGuide)
-            end if
+            ' Fully tear down the guide so nothing leaks across re-entry
+            destroyTVGuide()
         end if
         reload = true
     end if
@@ -450,6 +452,9 @@ sub optionsClosed()
     end if
 
     if reload
+        if isValid(m.scheduleGrid)
+            m.scheduleGrid.getParent().callFunc("loadChannelList")
+        end if
         m.loadedRows = 0
         m.loadedItems = 0
         m.data = CreateObject("roSGNode", "ContentNode")
@@ -472,13 +477,32 @@ sub optionsClosed()
     end if
 end sub
 
+' Tear down the cached TV Guide instance and release its observers/tasks/content.
+sub destroyTVGuide()
+    if not isValid(m.tvGuide) then return
+
+    m.tvGuide.unobserveField("watchChannel")
+    m.tvGuide.unobserveField("focusedChannel")
+    m.tvGuide.callFunc("dispose")
+    m.top.removeChild(m.tvGuide)
+
+    m.tvGuide = invalid
+    m.scheduleGrid = invalid
+end sub
+
 sub showTVGuide()
-    if not isValid(m.tvGuide)
-        m.tvGuide = createObject("roSGNode", "Schedule")
+    ' Always start from a fresh Schedule instance. Reusing a cached guide leaked
+    ' observers/tasks and an ever-growing content tree across open/close cycles,
+    ' which progressively slowed navigation (issue #598).
+    destroyTVGuide()
+
+    m.tvGuide = createObject("roSGNode", "Schedule")
+    if not m.epgLaunchBeaconSignaled
         m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
-        m.tvGuide.observeField("watchChannel", "onChannelSelected")
-        m.tvGuide.observeField("focusedChannel", "onChannelFocused")
+        m.epgLaunchBeaconSignaled = true
     end if
+    m.tvGuide.observeField("watchChannel", "onChannelSelected")
+    m.tvGuide.observeField("focusedChannel", "onChannelFocused")
 
     m.tvGuide.filter = m.filter
     m.tvGuide.searchTerm = m.voiceBox.text

@@ -38,7 +38,6 @@ sub clear()
     m.queue = []
     m.queueTypes = []
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
-    setForceTranscode(PlaybackMethod.PLAYNORMALLY)
 
     setPosition(0)
     if not m.bypassNextPreferredAudioTrackIndexReset
@@ -207,13 +206,19 @@ function peek()
 end function
 
 ' Play items in queue
-sub playQueue()
+sub playQueue(showAudioPlayerView = false as boolean)
     m.isPlaying = true
     nextItem = getCurrentItem()
-    if not isValid(nextItem) then return
+    if not isValid(nextItem)
+        stopLoadingSpinner()
+        return
+    end if
 
     nextItemMediaType = getItemType(nextItem)
-    if nextItemMediaType = "" then return
+    if nextItemMediaType = ""
+        stopLoadingSpinner()
+        return
+    end if
 
     if isChainValid(nextItem, "json.ExtraType")
         m.getLastKnownItemExtraType = nextItem.json.ExtraType
@@ -224,12 +229,12 @@ sub playQueue()
     m.getLastKnownItemID = nextItem.id
 
     if nextItemMediaType = "audio"
-        CreateAudioPlayerView()
+        CreateAudioPlayerView(showAudioPlayerView)
         return
     end if
 
     if nextItemMediaType = "audiobook"
-        CreateAudioPlayerView()
+        CreateAudioPlayerView(showAudioPlayerView)
         return
     end if
 
@@ -267,6 +272,8 @@ sub playQueue()
         CreateVideoPlayerView()
         return
     end if
+
+    stopLoadingSpinner()
 end sub
 
 ' Remove item at end of play queue
