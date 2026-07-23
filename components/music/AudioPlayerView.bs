@@ -906,7 +906,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 return true
             end if
 
-            if key = KeyCode.OK or key = KeyCode.PLAY
+            if isStringEqual(key, KeyCode.OK)
                 currentItem = m.global.queueManager.callFunc("getCurrentItem")
 
                 if isChainValid(currentItem, "AlbumId")
@@ -967,7 +967,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 return true
             end if
 
-            if key = KeyCode.OK or key = KeyCode.PLAY
+            if isStringEqual(key, KeyCode.OK)
                 currentItem = m.global.queueManager.callFunc("getCurrentItem")
 
                 if isChainValid(currentItem, "ArtistItems")

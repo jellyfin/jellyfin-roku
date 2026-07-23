@@ -2571,6 +2571,90 @@
         <source>Playback Mode</source>
         <translation>Modo de reproducción</translation>
     </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Estaciones de radio</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Pistas con más reproducciones</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Pistas con menos reproducciones</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Reproducir las pistas con más reproducciones de manera aleatoria</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Reproducir las pistas con menos reproducciones de manera aleatoria</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Pulsa Reproducir/Pausa para ir al botón OK</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nombre de la estación</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nombre para identificar a la estación de radio</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Lista de años incluidos en el contenido de la estación</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Campo que ordenará los medios antes de filtrar</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Límite de ítems</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Número máximo de ítems cargados</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Crear estación</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Subtítulo</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Corta descripción de la estación de radio</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Lista de géneros incluidos en el contenido de la estación</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Dirección que ordenará los medios antes de filtrar</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Color de fondo</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Color de fondo para la pantalla principal</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>El servidor no ha encontrado medios que correspondan con los criterios de los filtros para esta estación de radio.</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Ningún medio corresponde a los criterios de la estación de radio</translation>
+    </message>
 </context>
 <context>
     <name></name>

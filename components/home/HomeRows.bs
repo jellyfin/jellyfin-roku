@@ -1,3 +1,4 @@
+import "pkg:/components/home/RadioStations.bs"
 import "pkg:/source/constants/HomeRowItemSizes.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
@@ -219,11 +220,15 @@ sub setRowItemSize()
 
     homeSections = m.top.content.getChildren(-1, 0)
     newSizeArray = CreateObject("roArray", homeSections.count(), false)
+    variableWidthArray = CreateObject("roArray", homeSections.count(), false)
 
     for i = 0 to homeSections.count() - 1
         newSizeArray[i] = isValid(homeSections[i].cursorSize) ? homeSections[i].cursorSize : homeRowItemSizes.WIDE_POSTER
+        variableWidthArray[i] = isStringEqual(homeSections[i].title, tr("On Now"))
     end for
+
     m.top.rowItemSize = newSizeArray
+    m.top.variableWidthItems = variableWidthArray
 
     ' If we have processed the expected number of content rows, stop the loading timer and run the complete function
     if m.expectedRowCount = m.processedRowCount
@@ -315,11 +320,6 @@ sub createLibraryRow()
 
     sectionName = tr("My Media")
 
-    ' We don't refresh library data, so if section already exists, exit
-    if sectionExists(sectionName)
-        ' return
-    end if
-
     row = CreateObject("roSGNode", "HomeRow")
     row.title = sectionName
     row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
@@ -332,8 +332,22 @@ sub createLibraryRow()
 
     ' Row already exists, replace it with new content
     if sectionExists(sectionName)
-        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+        sectionIndex = getSectionIndex(sectionName)
+        restoreFocusedColumn = invalid
+        rowItemFocused = chainLookupReturn(m.top, "rowItemFocused", invalid)
+        if isValidAndNotEmpty(rowItemFocused) and rowItemFocused[0] = sectionIndex
+            restoreFocusedColumn = rowItemFocused[1]
+        end if
+
+        m.top.content.replaceChild(row, sectionIndex)
         setRowItemSize()
+
+        if isValid(restoreFocusedColumn) and row.getChildCount() > 0
+            if restoreFocusedColumn >= row.getChildCount() then restoreFocusedColumn = row.getChildCount() - 1
+            if restoreFocusedColumn < 0 then restoreFocusedColumn = 0
+            m.top.jumpToRowItem = [sectionIndex, restoreFocusedColumn]
+        end if
+
         return
     end if
 
@@ -508,45 +522,47 @@ end sub
 sub createRadioStationsRow()
     m.processedRowCount++
     sectionName = tr("Radio Stations")
-
     row = m.top.content.CreateChild("HomeRow")
     row.title = sectionName
     row.imageWidth = homeRowItemSizes.MUSIC_ALBUM[0]
     row.cursorSize = homeRowItemSizes.MUSIC_ALBUM
 
-    item = CreateObject("roSGNode", "HomeData")
-    item.id = "mostplayed"
-    item.posterURL = "pkg:/images/icons/mostplayed.png"
-    item.type = ItemType.RADIOSTATION
-    item.usePoster = false
-    item.imageWidth = row.imageWidth
-    item.json = {
-        id: "mostplayed",
-        PlaylistID: "mostplayed",
-        IsFolder: true,
-        Name: tr("Most Played Tracks"),
-        Subtitle: tr("Shuffle play your most played tracks"),
-        Type: ItemType.RADIOSTATION,
-        CollectionType: "radioStation"
-    }
-    row.appendChild(item)
+    radioStationList = getListOfRadioStations()
 
-    item = CreateObject("roSGNode", "HomeData")
-    item.id = "leastplayed"
-    item.posterURL = "pkg:/images/icons/leastplayed.png"
-    item.type = ItemType.RADIOSTATION
-    item.usePoster = false
-    item.imageWidth = row.imageWidth
-    item.json = {
-        id: "leastplayed",
-        PlaylistID: "leastplayed",
-        IsFolder: true,
-        Name: tr("Least Played Tracks"),
-        Subtitle: tr("Shuffle play your least played tracks"),
-        Type: ItemType.RADIOSTATION,
-        CollectionType: "radioStation"
-    }
-    row.appendChild(item)
+    radioStationList.push({
+        id: "createstation",
+        backgroundColor: ColorPalette.TRIADBLUE,
+        posterURL: "pkg:/images/icons/leastplayed.png",
+        name: tr("Create Station"),
+        subtitle: tr("Choose options for a new radio station"),
+        action: "createstation"
+    })
+
+    for each station in radioStationList
+        item = CreateObject("roSGNode", "HomeData")
+        item.id = station.LookupCI("id")
+        item.posterURL = station.LookupCI("posterURL")
+        item.type = ItemType.RADIOSTATION
+        item.usePoster = false
+        item.imageWidth = row.imageWidth
+        item.json = {
+            id: station.LookupCI("id"),
+            PlaylistID: station.LookupCI("id"),
+            IsFolder: true,
+            Name: station.LookupCI("name"),
+            BackgroundColor: station.LookupCI("backgroundColor"),
+            Subtitle: station.LookupCI("subtitle"),
+            Type: ItemType.RADIOSTATION,
+            CollectionType: "radioStation",
+            sortBy: station.LookupCI("sortBy"),
+            sortOrder: station.LookupCI("sortOrder"),
+            limit: station.LookupCI("limit"),
+            filters: station.LookupCI("filters"),
+            action: station.LookupCI("action")
+        }
+
+        row.appendChild(item)
+    end for
 
     if sectionExists(sectionName)
         m.top.content.replaceChild(row, getSectionIndex(sectionName))

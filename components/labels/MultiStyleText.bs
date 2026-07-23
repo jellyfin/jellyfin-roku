@@ -3,17 +3,48 @@ import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    setFont()
-    m.top.observeFieldScoped("font", "onFontChanged")
+    m.top.observeFieldScoped("drawingStyles", "onDrawingStylesChanged")
 end sub
 
 sub setFont()
+    if not isValidAndNotEmpty(m.top.drawingStyles) then return
     if not isValidAndNotEmpty(m.global.fallbackFont) then return
     if not chainLookupReturn(m.global.session, "user.settings.useFallbackFont", false) then return
 
-    m.top.font.uri = m.global.fallbackFont.regular
+    drawingStyles = formatJson(m.top.drawingStyles)
+
+    regularFonts = [
+        "font:TinySystemFontFile",
+        "font:SmallerSystemFontFile",
+        "font:SmallestSystemFontFile",
+        "font:SmallSystemFontFile",
+        "font:MediumSystemFontFile",
+        "font:LargeSystemFontFile",
+        "font:LargestSystemFontFile",
+        "font:ExtraLargeSystemFontFile"
+    ]
+
+    boldFonts = [
+        "font:TinyBoldSystemFontFile",
+        "font:SmallerBoldSystemFontFile",
+        "font:SmallestBoldSystemFontFile",
+        "font:SmallBoldSystemFontFile",
+        "font:MediumBoldSystemFontFile",
+        "font:LargeBoldSystemFontFile",
+        "font:ExtraLargeBoldSystemFontFile"
+    ]
+
+    for each font in regularFonts
+        drawingStyles = drawingStyles.replace(font, m.global.fallbackFont.regular)
+    end for
+
+    for each font in boldFonts
+        drawingStyles = drawingStyles.replace(font, m.global.fallbackFont.bold)
+    end for
+
+    m.top.drawingStyles = ParseJSON(drawingStyles)
 end sub
 
-sub onFontChanged()
+sub onDrawingStylesChanged()
     setFont()
 end sub

@@ -2478,5 +2478,65 @@
         <source>Unknown Album</source>
         <translation>Album Inconnu</translation>
     </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Station radio</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Pistes les plus jouées</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Pistes les moins jouées</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Lecture aléatoire des pistes les plus jouées</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Lecture aléatoire des pistes les moins jouées</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nom de la station</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Nombre maximum d&apos;articles à charger</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Créer une station</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Sous-titres</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Description courte de la station radio</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Liste des genres à inclure dans le contenu de la station</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Couleur d&apos;arrière-plan</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Couleur d&apos;arrière-plan à utiliser pour le bloc d&apos;écran d&apos;accueil</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>Le serveur n&apos;a trouvé aucun média correspondant aux critères de filtrage pour cette station radio.</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Aucun média ne correspond aux critères de cette station radio</translation>
+    </message>
 </context>
 </TS>
