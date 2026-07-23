@@ -46,6 +46,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if key = "back"
+        confirmExit = chainLookupReturn(m.global.session, "user.settings.`global.confirmexit`", false)
+        if confirmExit
+            activeScene = m.global.sceneManager.callFunc("getActiveScene")
+            if isValid(activeScene) and activeScene.isSubType("Home")
+                m.global.sceneManager.callFunc("optionDialog", "confirmexit", tr("Confirm Exit"), [tr("Are you sure you want to exit Jellyfin?")], [tr("No, Cancel"), tr("Yes")], {})
+                return true
+            end if
+        end if
+
         m.global.sceneManager.callFunc("popScene")
         return true
     end if

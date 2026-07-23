@@ -102,5 +102,9 @@
   {
     "description": "Fix autoplayed episodes not starting from the beginning",
     "author": "brianpardy"
+  },
+  {
+    "description": "Add setting to show a confirmation prompt before pressing BACK exits Jellyfin",
+    "author": "TnUC-Creations"
   }
 ]

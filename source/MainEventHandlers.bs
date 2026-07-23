@@ -1673,6 +1673,13 @@ sub onDataReturnedEvent(msg)
     selectedPopupAction = chainLookup(popupNode, "returndata.indexselected")
     selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
 
+    if isStringEqual(selectedPopupID, "confirmexit")
+        if selectedPopupAction = 1
+            m.scene.exit = true
+        end if
+        return
+    end if
+
     if isStringEqual(selectedPopupID, "newPlaylist")
         newPlaylistName = chainLookup(popupNode, "returndata.text")
 
