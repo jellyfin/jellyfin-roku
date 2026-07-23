@@ -220,11 +220,15 @@ sub setRowItemSize()
 
     homeSections = m.top.content.getChildren(-1, 0)
     newSizeArray = CreateObject("roArray", homeSections.count(), false)
+    variableWidthArray = CreateObject("roArray", homeSections.count(), false)
 
     for i = 0 to homeSections.count() - 1
         newSizeArray[i] = isValid(homeSections[i].cursorSize) ? homeSections[i].cursorSize : homeRowItemSizes.WIDE_POSTER
+        variableWidthArray[i] = isStringEqual(homeSections[i].title, tr("On Now"))
     end for
+
     m.top.rowItemSize = newSizeArray
+    m.top.variableWidthItems = variableWidthArray
 
     ' If we have processed the expected number of content rows, stop the loading timer and run the complete function
     if m.expectedRowCount = m.processedRowCount
@@ -316,11 +320,6 @@ sub createLibraryRow()
 
     sectionName = tr("My Media")
 
-    ' We don't refresh library data, so if section already exists, exit
-    if sectionExists(sectionName)
-        ' return
-    end if
-
     row = CreateObject("roSGNode", "HomeRow")
     row.title = sectionName
     row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
@@ -333,8 +332,22 @@ sub createLibraryRow()
 
     ' Row already exists, replace it with new content
     if sectionExists(sectionName)
-        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+        sectionIndex = getSectionIndex(sectionName)
+        restoreFocusedColumn = invalid
+        rowItemFocused = chainLookupReturn(m.top, "rowItemFocused", invalid)
+        if isValidAndNotEmpty(rowItemFocused) and rowItemFocused[0] = sectionIndex
+            restoreFocusedColumn = rowItemFocused[1]
+        end if
+
+        m.top.content.replaceChild(row, sectionIndex)
         setRowItemSize()
+
+        if isValid(restoreFocusedColumn) and row.getChildCount() > 0
+            if restoreFocusedColumn >= row.getChildCount() then restoreFocusedColumn = row.getChildCount() - 1
+            if restoreFocusedColumn < 0 then restoreFocusedColumn = 0
+            m.top.jumpToRowItem = [sectionIndex, restoreFocusedColumn]
+        end if
+
         return
     end if
 

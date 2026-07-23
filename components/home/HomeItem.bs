@@ -409,6 +409,14 @@ sub displayProgramInfo(itemData as object)
     m.itemPoster.uri = itemData.usePoster ? itemData.thumbnailURL : ImageURL(itemData.json.ChannelId)
     m.itemPoster.loadDisplayMode = "scaleToFill"
 
+    if isValid(itemData.FHDItemWidth)
+        realWidth = itemData.FHDItemWidth
+        m.itemPoster.width = realWidth
+        m.itemText.maxWidth = realWidth - 8
+        m.itemTextExtra.width = realWidth - 8
+        m.backdrop.width = realWidth
+    end if
+
     ' Set Episode title if available
     if isValid(itemData.json.EpisodeTitle)
         m.itemTextExtra.text = itemData.json.EpisodeTitle

@@ -56,6 +56,10 @@
     "author": "VX-101"
   },
   {
+    "description": "Auto-advance focus between sign-in form fields",
+    "author": "ferezvi"
+  },
+  {
     "description": "Route Play/Pause button presses to audio mini-player when cursor is on album details",
     "author": "VX-101"
   },
@@ -86,5 +90,17 @@
   {
     "description": "Add automatic wrapping for long caption lines",
     "author": "ferezvi"
+  },
+  {
+    "description": "Preserve My Media tile focus after returning to home screen",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix paused mini-player audio blocking video playback",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix full audio player Play/Pause on song title and artist name focus",
+    "author": "VX-101"
   }
 ]
