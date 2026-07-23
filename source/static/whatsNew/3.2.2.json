@@ -106,5 +106,9 @@
   {
     "description": "Add setting to show a confirmation prompt before pressing BACK exits Jellyfin",
     "author": "TnUC-Creations"
+  },
+  {
+    "description": "Preserve home Favorites focus after returning from an item",
+    "author": "VX-101"
   }
 ]
