@@ -116,7 +116,7 @@
     "author": "FractalBoy"
   },
   {
-    "description": "Add Force Transcode (Allow Remux) option for live TV",
+    "description": "Add Force Transcode (Allow Remux) option to live TV force transcoding setting",
     "author": "FractalBoy"
   }
 ]
