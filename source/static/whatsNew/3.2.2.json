@@ -110,5 +110,13 @@
   {
     "description": "Preserve home Favorites focus after returning from an item",
     "author": "VX-101"
+  },
+  {
+    "description": "Stop forcing HLS for live TV",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Add Force Transcode (Allow Remux) option to live TV force transcoding setting",
+    "author": "FractalBoy"
   }
 ]

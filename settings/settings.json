@@ -159,6 +159,10 @@
                 "id": "playNormally"
               },
               {
+                "title": "Force Transcode (Allow Remux)",
+                "id": "forceTranscodeAllowRemux"
+              },
+              {
                 "title": "Force Transcode (Remux Disabled)",
                 "id": "forceTranscodeDisableRemux"
               }
