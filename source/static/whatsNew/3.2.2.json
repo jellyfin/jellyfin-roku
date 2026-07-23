@@ -104,7 +104,7 @@
     "author": "brianpardy"
   },
   {
-    "description": "Add an optional confirmation prompt before exiting the app",
+    "description": "Add setting to show a confirmation prompt before pressing BACK exits Jellyfin",
     "author": "TnUC-Creations"
   }
 ]
