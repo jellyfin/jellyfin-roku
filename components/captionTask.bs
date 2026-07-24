@@ -754,6 +754,6 @@ function getLineHeights() as object
 
     return {
         single: singleLineHeight,
-        multi: Int(twoLinesTotal / 2)
+        multi: twoLinesTotal - singleLineHeight
     }
 end function
