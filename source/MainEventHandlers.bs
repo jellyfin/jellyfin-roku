@@ -1022,6 +1022,10 @@ sub onPlaySeasonFromStartEvent(msg)
     end if
 
     m.global.queueManager.callFunc("clear")
+    for each item in listOfEpisodes.items
+        item.startingPoint = 0
+    end for
+
     m.global.queueManager.callFunc("set", listOfEpisodes.items)
     m.global.queueManager.callFunc("playQueue")
 end sub
@@ -1668,6 +1672,13 @@ sub onDataReturnedEvent(msg)
     params = chainLookup(popupNode, "returndata.params")
     selectedPopupAction = chainLookup(popupNode, "returndata.indexselected")
     selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
+
+    if isStringEqual(selectedPopupID, "confirmexit")
+        if selectedPopupAction = 1
+            m.scene.exit = true
+        end if
+        return
+    end if
 
     if isStringEqual(selectedPopupID, "newPlaylist")
         newPlaylistName = chainLookup(popupNode, "returndata.text")
