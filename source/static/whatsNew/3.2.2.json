@@ -118,5 +118,9 @@
   {
     "description": "Add Force Transcode (Allow Remux) option to live TV force transcoding setting",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Add automatic wrapping for long subtitle lines that have no position property",
+    "author": "ferezvi"
   }
 ]
