@@ -113,6 +113,9 @@
     <field id="videoEndingTime" type="string" />
     <field id="remainingPositionTime" type="float" />
     <field id="live" type="boolean" />
+    <field id="isRecording" type="boolean" />
+    <field id="recordingOffset" type="integer" />
+    <field id="recordingStartTime" type="longinteger" />
     <field id="progressDuration" type="integer" />
     <field id="liveTvStartTime" type="longinteger" />
     <field id="liveTvStartOffset" type="integer" />
