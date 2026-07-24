@@ -88,10 +88,6 @@
     "author": "1hitsong"
   },
   {
-    "description": "Add automatic wrapping for long caption lines",
-    "author": "ferezvi"
-  },
-  {
     "description": "Preserve My Media tile focus after returning to home screen",
     "author": "VX-101"
   },
@@ -122,5 +118,9 @@
   {
     "description": "Add Force Transcode (Allow Remux) option to live TV force transcoding setting",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Add automatic wrapping for long subtitle lines that have no position property",
+    "author": "ferezvi"
   }
 ]
