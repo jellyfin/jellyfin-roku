@@ -2,5 +2,9 @@
   {
     "description": "Fix Resume Series skipping resumable first episode",
     "author": "brianpardy"
+  },
+  {
+    "description": "Only enter Season or Episode grids when there is content to display",
+    "author": "michaelcresswell"
   }
 ]
