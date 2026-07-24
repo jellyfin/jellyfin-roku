@@ -196,11 +196,30 @@ namespace quickplay
             })
 
             if isValid(data) and isValidAndNotEmpty(data.Items)
-                ' play the resumable episode
-                if isValid(data.Items[0].UserData) and isValid(data.Items[0].UserData.PlaybackPositionTicks)
-                    data.Items[0].startingPoint = data.Items[0].userdata.PlaybackPositionTicks
+                ' data may not be sorted properly
+                ' fallback to first listed resumable episode
+                nextEpisodeIndex = 0
+
+                minArrayIndex = -1
+                minIndexNumber = 2147483647
+
+                for i = 0 to data.Items.Count() - 1
+                    curIndex = data.Items[i].IndexNumber
+                    if curIndex < minIndexNumber
+                        minIndexNumber = curIndex
+                        minArrayIndex = i
+                    end if
+                end for
+
+                if minArrayIndex <> -1
+                    nextEpisodeIndex = minArrayIndex
                 end if
-                m.global.queueManager.callFunc("push", data.Items[0])
+
+                ' play the resumable episode
+                if isValid(data.Items[nextEpisodeIndex].UserData) and isValid(data.Items[nextEpisodeIndex].UserData.PlaybackPositionTicks)
+                    data.Items[nextEpisodeIndex].startingPoint = data.Items[nextEpisodeIndex].userdata.PlaybackPositionTicks
+                end if
+                m.global.queueManager.callFunc("push", data.Items[nextEpisodeIndex])
                 return
             end if
         else
