@@ -9,6 +9,8 @@ import "pkg:/source/utils/config.bs"
 const SCREEN_PADDING = 60
 const LOWEST_CAPTION = 1080 - SCREEN_PADDING
 const VIEWABLE_AREA = 1080 - 2 * SCREEN_PADDING
+' Maximum width allowed before caption text wraps to the next line
+const SAFE_TEXT_WIDTH = Int(1920 * 0.75)
 
 sub init()
     m.top.playerState = MediaPlaybackState.STOPPED
@@ -55,6 +57,9 @@ sub init()
     end if
     ' Calculate and store the max line height for all font variants (used for per-line backgrounds)
     m.lineHeights = getLineHeights()
+
+    ' Hidden label used to measure caption text for word wrapping.
+    createMeasureLabel()
 
 end sub
 
@@ -110,6 +115,270 @@ function newRect(lg, id as string, styledText = invalid, drawingStyles = invalid
     return rect
 end function
 
+' Creates a hidden MultiStyleLabel used to measure rendered text width for
+' caption word wrapping. It remains attached so boundingRect() returns
+' valid dimensions.
+sub createMeasureLabel()
+    m.measureGroup = CreateObject("roSGNode", "Group")
+    m.measureLabel = CreateObject("roSGNode", "MultiStyleLabel")
+    m.measureLabel.drawingStyles = {
+        "default": { "fontUri": m.fonts.regular, "fontSize": m.fontSize, "color": m.textColor }
+    }
+    m.measureGroup.appendChild(m.measureLabel)
+    m.top.appendChild(m.measureGroup)
+end sub
+
+' Wraps caption text so no visual line exceeds maxWidth pixels while
+' preserving inline style tags across inserted line breaks.
+function wrapLongLines(text as string, maxWidth as integer) as string
+    lines = text.split(Chr(10))
+    wrapped = []
+    for each line in lines
+        wrapped.push(wrapSingleLine(line, maxWidth))
+    end for
+    return wrapped.join(Chr(10))
+end function
+
+' Maximum number of visual lines a caption may be balanced across.
+const MAX_BALANCED_LINES = 3
+
+' Balances wrapped caption lines by redistributing words across up to
+' MAX_BALANCED_LINES lines. Originally this only balanced when exactly 2
+' lines were produced; that missed cases where 2 lines were both close to
+' maxWidth and a 3-line split would read better. This version searches for
+' the minimum line count that fits, then balances within that count.
+function balanceCaptionLines(text as string, maxWidth as integer) as string
+    lines = text.split(Chr(10))
+
+    ' Nothing to balance for single-line captions
+    if lines.count() < 2
+        return text
+    end if
+
+    words = []
+    for each line in lines
+        for each word in line.split(" ")
+            if word.Len() > 0 then words.push(word)
+        end for
+    end for
+
+    if words.count() < 3
+        return text
+    end if
+
+    ' Find the smallest line count (2 or 3) that fits every word under maxWidth,
+    ' probed with a simple greedy wrap.
+    targetLineCount = 0
+    for candidateCount = 2 to MAX_BALANCED_LINES
+        if candidateCount >= words.count()
+            exit for
+        end if
+        if canFitInLines(words, candidateCount, maxWidth)
+            targetLineCount = candidateCount
+            exit for
+        end if
+    end for
+
+    ' No arrangement fits within MAX_BALANCED_LINES; keep the original wrap.
+    if targetLineCount = 0
+        return text
+    end if
+
+    bestSplit = findBestSplit(words, targetLineCount, maxWidth)
+    if bestSplit = invalid
+        return text
+    end if
+
+    return bestSplit.join(Chr(10))
+end function
+
+' Checks whether words can be greedily wrapped into lineCount lines (or fewer)
+' without exceeding maxWidth on any line.
+function canFitInLines(words as object, lineCount as integer, maxWidth as integer) as boolean
+    linesUsed = 1
+    currentLine = ""
+
+    for each word in words
+        candidate = currentLine
+        if candidate.Len() > 0 then candidate += " "
+        candidate += word
+
+        if measureCaptionWidth(candidate) > maxWidth and currentLine.Len() > 0
+            linesUsed++
+            if linesUsed > lineCount then return false
+            currentLine = word
+            if measureCaptionWidth(currentLine) > maxWidth then return false
+        else
+            currentLine = candidate
+        end if
+    end for
+
+    return true
+end function
+
+' Finds the split of words into exactly lineCount lines that minimizes the
+' gap between the widest and narrowest line, keeping every line under
+' maxWidth. Brute-forced over split points; cheap given typical caption
+' word counts.
+function findBestSplit(words as object, lineCount as integer, maxWidth as integer) as object
+    splitCombinations = generateSplitCombinations(words.count(), lineCount)
+
+    bestLines = invalid
+    bestScore = invalid
+
+    for each split in splitCombinations
+        candidateLines = []
+        widths = []
+        start = 0
+        valid = true
+
+        for each cut in split
+            segment = words.slice(start, cut).join(" ")
+            width = measureCaptionWidth(segment)
+            if width > maxWidth
+                valid = false
+                exit for
+            end if
+            candidateLines.push(segment)
+            widths.push(width)
+            start = cut
+        end for
+
+        if not valid then continue for
+
+        maxW = widths[0]
+        minW = widths[0]
+        for each w in widths
+            if w > maxW then maxW = w
+            if w < minW then minW = w
+        end for
+        score = maxW - minW
+
+        if bestScore = invalid or score < bestScore
+            bestScore = score
+            bestLines = candidateLines
+        end if
+    end for
+
+    return bestLines
+end function
+
+' Generates every way to place (lineCount - 1) internal cut points across
+' wordCount words. E.g. 3 lines / 5 words -> [[1,2,5],[1,3,5],[1,4,5],[2,3,5]...]
+function generateSplitCombinations(wordCount as integer, lineCount as integer) as object
+    cutsNeeded = lineCount - 1
+    combinations = []
+
+    if cutsNeeded = 1
+        for i = 1 to wordCount - 1
+            combinations.push([i, wordCount])
+        end for
+    else if cutsNeeded = 2
+        for i = 1 to wordCount - 2
+            for j = i + 1 to wordCount - 1
+                combinations.push([i, j, wordCount])
+            end for
+        end for
+    end if
+
+    return combinations
+end function
+
+function measureCaptionWidth(text as string) as integer
+    m.measureLabel.text = text
+    return m.measureLabel.boundingRect().width
+end function
+
+function wrapSingleLine(line as string, maxWidth as integer) as string
+    ' Tokenize into tags vs. plain text
+    tokens = []
+    position = 0
+    lineLen = line.Len()
+    while position < lineLen
+        if line.Mid(position, 1) = "<"
+            tagEnd = line.Instr(position, ">")
+            if tagEnd = -1
+                tokens.push({ type: "text", value: line.Mid(position) })
+                position = lineLen
+            else
+                tokens.push({ type: "tag", value: line.Mid(position, tagEnd - position + 1) })
+                position = tagEnd + 1
+            end if
+        else
+            nextTag = line.Instr(position, "<")
+            if nextTag = -1
+                tokens.push({ type: "text", value: line.Mid(position) })
+                position = lineLen
+            else
+                tokens.push({ type: "text", value: line.Mid(position, nextTag - position) })
+                position = nextTag
+            end if
+        end if
+    end while
+
+    ' Expand plain-text tokens into words/spaces so we can break between them
+    expanded = []
+    for each token in tokens
+        if token.type = "tag"
+            expanded.push(token)
+        else
+            words = token.value.split(" ")
+            for i = 0 to words.count() - 1
+                if words[i].Len() > 0
+                    expanded.push({ type: "word", value: words[i] })
+                end if
+                if i < words.count() - 1
+                    expanded.push({ type: "space" })
+                end if
+            end for
+        end if
+    end for
+
+    openTags = []
+    output = ""
+    currentPlainText = ""
+
+    for each token in expanded
+        if token.type = "tag"
+            output += token.value
+            if token.value.StartsWith("</")
+                if openTags.count() > 0 then openTags.pop()
+            else
+                openTags.push(token.value)
+            end if
+        else if token.type = "space"
+            output += " "
+            currentPlainText += " "
+        else
+            candidateText = currentPlainText + token.value
+            m.measureLabel.text = candidateText
+            candidateWidth = m.measureLabel.boundingRect().width
+
+            if candidateWidth > maxWidth and currentPlainText.Trim().Len() > 0
+                ' Close currently open tags, break the line, then reopen
+                ' them so styling continues on the next visual line
+                for i = openTags.count() - 1 to 0 step -1
+                    tagName = openTags[i].Mid(1, openTags[i].Len() - 2)
+                    spacePos = tagName.Instr(0, " ")
+                    if spacePos <> -1 then tagName = tagName.Left(spacePos)
+                    output += `</${tagName}>`
+                end for
+                output += Chr(10)
+                for each tag in openTags
+                    output += tag
+                end for
+                currentPlainText = token.value
+                output += token.value
+            else
+                currentPlainText = candidateText
+                output += token.value
+            end if
+        end if
+    end for
+
+    return output
+end function
+
 sub updateCaption()
     if LCase(m.top.playerState.right(1)) = "w"
         m.top.playerState = m.top.playerState.left(len (m.top.playerState) - 1)
@@ -128,6 +397,15 @@ sub updateCaption()
         if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
 
             fullText = entry["text"].Join(Chr(10))
+
+            captionPosition = chainLookupReturn(entry["styles"], "position", string.EMPTY)
+
+            ' Only wrap captions without explicit position cues.
+            if isStringEqual(captionPosition, string.EMPTY)
+                fullText = wrapLongLines(fullText, SAFE_TEXT_WIDTH)
+                ' Balance automatically wrapped lines for better visual distribution.
+                fullText = balanceCaptionLines(fullText, SAFE_TEXT_WIDTH)
+            end if
 
             ' look for style tags
             currentStyle = {
@@ -305,7 +583,10 @@ sub updateCaption()
 
             lines = newLayoutGroup(label)
             rect = newRect(lines, entry.LookupCI("id"), styledText, drawingStyles)
-            finalStyles = prepareStyles(entry["styles"], rect, entry["text"].count())
+            ' Use the post-wrap line count (not the original VTT line count),
+            ' since wrapping may have split a line into more visual lines
+            wrappedLineCount = styledText.split(Chr(10)).count()
+            finalStyles = prepareStyles(entry["styles"], rect, wrappedLineCount)
             rect.translation = finalStyles.translation
 
             adjustForCaptionOverlaps(rect, captions)
@@ -367,7 +648,7 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
     finalStyles = { translation: [960, LOWEST_CAPTION] }
 
     verticalPosition = LOWEST_CAPTION
-    horizontalPositon = 960 - (rect.BoundingRect().width / 2)
+    horizontalPosition = 960 - (rect.BoundingRect().width / 2)
 
     ' Use isValid instead of isValidAndNotEmpty to allow empty style objects ({})
     ' to continue processing. An empty AA is valid — it just has no explicit cues.
@@ -390,10 +671,10 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
 
     ' Position
     if not isStringEqual(captionPosition, string.EMPTY)
-        horizontalPositon = processPositionCue(captionPosition, rect.BoundingRect().width)
+        horizontalPosition = processPositionCue(captionPosition, rect.BoundingRect().width)
     end if
 
-    finalStyles.translation = [horizontalPositon, verticalPosition]
+    finalStyles.translation = [horizontalPosition, verticalPosition]
 
     return finalStyles
 end function

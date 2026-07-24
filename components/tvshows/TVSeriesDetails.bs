@@ -376,7 +376,14 @@ end function
 
 sub onShuffleEpisodeDataLoaded()
     m.getShuffleEpisodesTask.unobserveField("data")
-    m.global.queueManager.callFunc("set", m.getShuffleEpisodesTask.data.items)
+    shuffledItems = m.getShuffleEpisodesTask.data.items
+
+    ' Force all shuffled episodes to start from beginning
+    for each item in shuffledItems
+        item.startingPoint = 0
+    end for
+
+    m.global.queueManager.callFunc("set", shuffledItems)
     m.global.queueManager.callFunc("playQueue")
 end sub
 
