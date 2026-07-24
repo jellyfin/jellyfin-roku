@@ -1736,7 +1736,7 @@
     </message>
     <message>
         <source>Select Subtitles</source>
-        <translation>اختيار التردمات</translation>
+        <translation>اختيار الترجمات</translation>
     </message>
     <message>
         <source>Select Language</source>
@@ -2554,6 +2554,14 @@
     <message>
         <source>Name to identify radio station</source>
         <translation>اسم تعريف محطة الاذاعة</translation>
+    </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>تأكيد الخروج</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>اظهار رسالة التأكيد قبل الخروج من صفحة Jellyfin الرئيسية.</translation>
     </message>
 </context>
 </TS>
