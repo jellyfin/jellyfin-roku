@@ -126,5 +126,9 @@
   {
     "description": "Improve reliability of loading the entire live TV guide",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Fix Play button at series level does not play series",
+    "author": "brianpardy"
   }
 ]
