@@ -130,11 +130,14 @@ end sub
 
 ' Wraps caption text so no visual line exceeds maxWidth pixels while
 ' preserving inline style tags across inserted line breaks.
+' Balances per original line so wrapping never merges separate VTT lines
+' (e.g. dialogue turns) together.
 function wrapLongLines(text as string, maxWidth as integer) as string
     lines = text.split(Chr(10))
     wrapped = []
     for each line in lines
-        wrapped.push(wrapSingleLine(line, maxWidth))
+        singleWrapped = wrapSingleLine(line, maxWidth)
+        wrapped.push(balanceCaptionLines(singleWrapped, maxWidth))
     end for
     return wrapped.join(Chr(10))
 end function
@@ -401,10 +404,9 @@ sub updateCaption()
             captionPosition = chainLookupReturn(entry["styles"], "position", string.EMPTY)
 
             ' Only wrap captions without explicit position cues.
+            ' Balancing now happens inside wrapLongLines.
             if isStringEqual(captionPosition, string.EMPTY)
                 fullText = wrapLongLines(fullText, SAFE_TEXT_WIDTH)
-                ' Balance automatically wrapped lines for better visual distribution.
-                fullText = balanceCaptionLines(fullText, SAFE_TEXT_WIDTH)
             end if
 
             ' look for style tags
