@@ -66,10 +66,6 @@ sub init()
     m.LoadChannelsTask.sortAscending = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortAscending`", true)
     m.LoadChannelsTask.favoritesAtTop = chainLookupReturn(m.global.session, "user.settings.`ui.guide.favorites.at.top`", false)
 
-    m.LoadScheduleTask = createObject("roSGNode", "LoadScheduleTask")
-    m.LoadScheduleTask.startTime = m.gridStartDate.ToISOString()
-    m.LoadScheduleTask.endTime = m.gridEndDate.ToISOString()
-
     m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
 
@@ -95,20 +91,6 @@ sub loadChannelList()
     m.LoadChannelsTask.control = TaskControl.RUN
 end sub
 
-' Join channel ids into the comma-separated form the schedule endpoint expects.
-function joinChannelIds(ids) as string
-    result = ""
-    if isValid(ids) and ids.count() > 0
-        for i = 0 to ids.count() - 1
-            if i > 0
-                result = result + ", "
-            end if
-            result = result + ids[i]
-        end for
-    end if
-    return result
-end function
-
 ' Reset progressive-load state so the next channel load starts a fresh initial window.
 sub resetScheduleProgress()
     m.allChannelsLoaded = false
@@ -121,8 +103,6 @@ sub resetScheduleProgress()
 
     ' Reset the loaded horizon back to the initial narrow window
     m.gridEndDate.FromSeconds(m.gridStartDate.AsSeconds() + (m.initialWindowHours * 60 * 60))
-    m.LoadScheduleTask.startTime = m.gridStartDate.ToISOString()
-    m.LoadScheduleTask.endTime = m.gridEndDate.ToISOString()
 end sub
 
 sub onFilterSet()
@@ -140,8 +120,6 @@ sub onFilterSet()
     m.scheduleGrid.content = m.gridData
 
     m.LoadChannelsTask.channels = []
-    m.LoadScheduleTask.schedule = []
-    m.LoadScheduleTask.channelIds = string.EMPTY
 
     m.loadedChannels = {}
     m.channelIdList = []
@@ -233,9 +211,23 @@ sub loadScheduleBatch()
 
     channelSlice = m.channelIdList.slice(m.channelBatchOffset, m.channelBatchOffset + m.currentBatchSize)
 
-    m.LoadScheduleTask.control = TaskControl.STOP
+    startScheduleTask(channelSlice, m.gridStartDate.ToISOString(), m.gridEndDate.ToISOString())
+end sub
+
+' Create a fresh LoadScheduleTask instance and start it. Stops any previous
+' instance first to avoid leaked threads (Task nodes auto-stop when orphaned,
+' but explicit stop is cleaner).
+sub startScheduleTask(channelIds, startTime, endTime)
+    if isValid(m.LoadScheduleTask)
+        m.LoadScheduleTask.control = TaskControl.STOP
+        m.LoadScheduleTask.unobserveField("schedule")
+    end if
+
+    m.LoadScheduleTask = createObject("roSGNode", "LoadScheduleTask")
+    m.LoadScheduleTask.startTime = startTime
+    m.LoadScheduleTask.endTime = endTime
+    m.LoadScheduleTask.channelIds = channelIds
     m.LoadScheduleTask.observeField("schedule", "onScheduleLoaded")
-    m.LoadScheduleTask.channelIds = joinChannelIds(channelSlice)
     m.LoadScheduleTask.control = TaskControl.RUN
 end sub
 
@@ -284,7 +276,6 @@ sub onScheduleLoaded()
     end if
     stopLoadingSpinner()
 
-    m.LoadScheduleTask.schedule = invalid
 
     if isFirstPaint
         m.awaitingFirstPaint = false
@@ -372,7 +363,7 @@ sub onBgExpandTimerFire()
     end if
 
     ' Yield to in-flight loads (scroll expansion shares the same task node).
-    if isStringEqual(m.LoadScheduleTask.state, TaskControl.RUN) then return
+    if isStringEqual(chainLookup(m.LoadScheduleTask, "state"), TaskControl.RUN) then return
 
     expandScheduleWindow(m.backgroundExpandStep)
 end sub
@@ -385,12 +376,7 @@ sub expandScheduleWindow(stepHours)
     m.gridEndDate.FromSeconds(m.gridEndDate.AsSeconds() + (stepHours * 60 * 60))
     sliceEnd = m.gridEndDate.ToISOString()
 
-    m.LoadScheduleTask.observeField("schedule", "onScheduleLoaded")
-
-    m.LoadScheduleTask.channelIds = joinChannelIds(m.channelIdList)
-    m.LoadScheduleTask.startTime = sliceStart
-    m.LoadScheduleTask.endTime = sliceEnd
-    m.LoadScheduleTask.control = TaskControl.RUN
+    startScheduleTask(m.channelIdList, sliceStart, sliceEnd)
 end sub
 
 sub onProgramFocused()
@@ -503,7 +489,7 @@ sub onGridScrolled()
     ' fast scrolling and scrolling beyond that horizon.)
     if m.scheduleGrid.leftEdgeTargetTime + (6 * 60 * 60) > m.gridEndDate.AsSeconds()
         ' Ensure the task is not already (still) running.
-        if not isStringEqual(m.LoadScheduleTask.state, TaskControl.RUN)
+        if not isStringEqual(chainLookup(m.LoadScheduleTask, "state"), TaskControl.RUN)
             expandScheduleWindow(6)
         end if
     end if
@@ -542,8 +528,8 @@ sub onRecordSeriesChannelSelected()
 end sub
 
 sub onRecordOperationDone()
-    if m.RecordProgramTask.recordSeries = true and m.LoadScheduleTask.state <> "run"
-        m.LoadScheduleTask.control = "RUN"
+    if m.RecordProgramTask.recordSeries = true and not isStringEqual(chainLookup(m.LoadSchedule, "state"), TaskControl.RUN)
+        startScheduleTask(m.channelIdList, m.gridStartDate.ToISOString(), m.gridEndDate.ToISOString())
     else
         ' This reloads just the details for the currently selected program, so that we don't have to
         ' reload the entire grid...

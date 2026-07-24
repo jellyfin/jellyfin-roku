@@ -122,5 +122,9 @@
   {
     "description": "Add automatic wrapping for long subtitle lines that have no position property",
     "author": "ferezvi"
+  },
+  {
+    "description": "Improve reliability of loading the entire live TV guide",
+    "author": "FractalBoy"
   }
 ]

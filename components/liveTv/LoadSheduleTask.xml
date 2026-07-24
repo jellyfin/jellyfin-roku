@@ -4,7 +4,7 @@
   <interface>
     <field id="startTime" type="string" />
     <field id="endTime" type="string" />
-    <field id="channelIds" type="string" />
+    <field id="channelIds" type="array" />
     <field id="schedule" type="array" />
   </interface>
 </component>
