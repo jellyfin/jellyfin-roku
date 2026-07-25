@@ -2538,5 +2538,41 @@
         <source>No media matched radio station criteria</source>
         <translation>Aucun média ne correspond aux critères de cette station radio</translation>
     </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>Confirmer sortie</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>Afficher une fenêtre de confirmation avant de quitter Jellyfin depuis l&apos;écran d&apos;accueil.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>Êtes-vous sûr de vouloir quitter Jellyfin ?</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Appuyez sur « Lecture/Pause » pour passer au bouton « OK »</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nom permettant d&apos;identifier la station de radio</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Liste des années à inclure dans le contenu de la station</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Champ selon lequel trier les médias avant de les tronquer à la limite</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Limte d&apos;élément</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Instruction de trier les supports avant de les couper à la limite</translation>
+    </message>
 </context>
 </TS>
