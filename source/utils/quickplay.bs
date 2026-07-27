@@ -201,9 +201,9 @@ namespace quickplay
                 nextEpisodeIndex = 0
 
                 minArrayIndex = -1
-                minIndexNumber = 2147483647
+                minIndexNumber = data.Items[0].IndexNumber
 
-                for i = 0 to data.Items.Count() - 1
+                for i = 1 to data.Items.Count() - 1
                     curIndex = data.Items[i].IndexNumber
                     if curIndex < minIndexNumber
                         minIndexNumber = curIndex
