@@ -1736,7 +1736,7 @@
     </message>
     <message>
         <source>Select Subtitles</source>
-        <translation>اختيار التردمات</translation>
+        <translation>اختيار الترجمات</translation>
     </message>
     <message>
         <source>Select Language</source>
@@ -2554,6 +2554,62 @@
     <message>
         <source>Name to identify radio station</source>
         <translation>اسم تعريف محطة الاذاعة</translation>
+    </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>تأكيد الخروج</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>اظهار رسالة التأكيد قبل الخروج من صفحة Jellyfin الرئيسية.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>هل أنت متأكد من رغبتك في الخروج من Jellyfin؟</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>لائحة بالأنواع للتضمين في محتوى المحطة</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>وصف مختصر لمحطة الاذاعة</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>ترجمة</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>تكوين محطة</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>لائحة بالسنوات للتضمين في محتوى المحطة</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>حقل لترتيب الوسيطة قبل الانقطاع عند الحدود</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>حدود العنصر</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>أقصى عدد للعناصر المحملة</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>خلط أكثر المسارات تشغيلا لك</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>خلط أقل المسارات تشغيلا لك</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>اضغط تشغيل\إيقاف مؤقت للقفز إلى زر تم</translation>
     </message>
 </context>
 </TS>

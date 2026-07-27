@@ -532,7 +532,7 @@ sub optionDialog(id, title, message, buttons, params)
     end if
 
     dialog.message = message
-    if isStringEqual(type(buttons[0]), "rostring")
+    if isString(buttons[0])
         dialog.buttons = buttons
     else
         objectTitles = []

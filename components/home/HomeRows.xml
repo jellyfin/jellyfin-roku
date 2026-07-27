@@ -4,6 +4,8 @@
     <field id="selectedItem" type="node" alwaysNotify="true" />
     <field id="quickPlayNode" type="node" />
     <function name="updateHomeRows" />
+    <function name="isFocusOnFavoriteRow" />
+    <function name="reloadFavorites" />
     <function name="loadLibraries" />
   </interface>
 </component>
