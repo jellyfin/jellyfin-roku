@@ -147,10 +147,14 @@ sub createCueBackgroundBox(rect as object, lg as object, styledText as string, d
         end if
 
         extraTop = 0
-        if isFirstLine then extraTop = bgPadding
+        if isFirstLine
+            extraTop = bgPadding
+        end if
 
         extraBottom = 0
-        if isLastLine then extraBottom = bgPadding
+        if isLastLine
+            extraBottom = bgPadding
+        end if
 
         bg = CreateObject("roSGNode", "Rectangle")
         bg.height = boxHeight + extraTop + extraBottom
