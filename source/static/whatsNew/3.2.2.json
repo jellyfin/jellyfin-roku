@@ -130,5 +130,9 @@
   {
     "description": "Fix play button on TV series screen",
     "author": "brianpardy"
+  },
+  {
+    "description": "Fix top-positioned subtitles from rendering with too much vertical margin",
+    "author": "ferezvi"
   }
 ]
