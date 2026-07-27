@@ -56,6 +56,10 @@
     "author": "VX-101"
   },
   {
+    "description": "Auto-advance focus between sign-in form fields",
+    "author": "ferezvi"
+  },
+  {
     "description": "Route Play/Pause button presses to audio mini-player when cursor is on album details",
     "author": "VX-101"
   },
@@ -84,7 +88,51 @@
     "author": "1hitsong"
   },
   {
-    "description": "Fix top-positioned subtitles rendering with too much vertical margin",
+    "description": "Preserve My Media tile focus after returning to home screen",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix paused mini-player audio blocking video playback",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix full audio player Play/Pause on song title and artist name focus",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix autoplayed episodes not starting from the beginning",
+    "author": "brianpardy"
+  },
+  {
+    "description": "Add setting to show a confirmation prompt before pressing BACK exits Jellyfin",
+    "author": "TnUC-Creations"
+  },
+  {
+    "description": "Preserve home Favorites focus after returning from an item",
+    "author": "VX-101"
+  },
+  {
+    "description": "Stop forcing HLS for live TV",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Add Force Transcode (Allow Remux) option to live TV force transcoding setting",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Add automatic wrapping for long subtitle lines that have no position property",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Improve reliability of loading the entire live TV guide",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Fix play button on TV series screen",
+    "author": "brianpardy"
+  },
+  {
+    "description": "Fix top-positioned subtitles from rendering with too much vertical margin",
     "author": "ferezvi"
   }
 ]

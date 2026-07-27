@@ -2435,6 +2435,102 @@
         <source>Unknown Album</source>
         <translation>Album Inconnu</translation>
     </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>Confirmer sortie</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>Afficher une fenêtre de confirmation avant de quitter Jellyfin depuis l&apos;écran d&apos;accueil.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>Êtes-vous sûr de vouloir quitter Jellyfin ?</translation>
+    </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Station radio</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Pistes les plus jouées</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Pistes les moins jouées</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Lecture aléatoire des pistes les plus jouées</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Lecture aléatoire des pistes les moins jouées</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Appuyez sur « Lecture/Pause » pour passer au bouton « OK »</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nom de la station</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nom permettant d&apos;identifier la station de radio</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Liste des années à inclure dans le contenu de la station</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Champ selon lequel trier les médias avant de les tronquer à la limite</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Limte d&apos;élément</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Nombre maximum d&apos;éléments à charger</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Créer une station</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Sous-titre</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Description courte de la station radio</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Liste des genres à inclure dans le contenu de la station</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Instruction de trier les supports avant de les couper à la limite</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Couleur d&apos;arrière-plan</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Couleur d&apos;arrière-plan à utiliser pour le bloc d&apos;écran d&apos;accueil</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>Le serveur n&apos;a trouvé aucun média correspondant aux critères de filtrage pour cette station radio.</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Aucun média ne correspond aux critères de cette station radio</translation>
+    </message>
 </context>
 <context>
     <name></name>
