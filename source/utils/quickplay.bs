@@ -199,21 +199,14 @@ namespace quickplay
                 ' data may not be sorted properly
                 ' fallback to first listed resumable episode
                 nextEpisodeIndex = 0
-
-                minArrayIndex = -1
                 minIndexNumber = data.Items[0].IndexNumber
-
                 for i = 1 to data.Items.Count() - 1
                     curIndex = data.Items[i].IndexNumber
                     if curIndex < minIndexNumber
                         minIndexNumber = curIndex
-                        minArrayIndex = i
+                        nextEpisodeIndex = i
                     end if
                 end for
-
-                if minArrayIndex <> -1
-                    nextEpisodeIndex = minArrayIndex
-                end if
 
                 ' play the resumable episode
                 if isValid(data.Items[nextEpisodeIndex].UserData) and isValid(data.Items[nextEpisodeIndex].UserData.PlaybackPositionTicks)
