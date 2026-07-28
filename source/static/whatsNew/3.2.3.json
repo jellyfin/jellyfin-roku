@@ -2,5 +2,9 @@
   {
     "description": "Fix Resume Series skipping resumable first episode",
     "author": "brianpardy"
+  },
+  {
+    "description": "Fix crash when media parts data is in an unexpected state",
+    "author": "1hitsong"
   }
 ]
