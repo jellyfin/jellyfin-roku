@@ -496,8 +496,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if isStringEqual(key, KeyCode.DOWN)
             if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "down"
-                if seasonRow.content.getChildCount() = 0
-                    return true
+                if m.buttonGrp.blockDown
+                    return false
                 end if
 
                 m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
@@ -583,3 +583,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+sub checkGridItemCount()
+    m.buttonGrp.blockDown = m.seasons.content.getChildCount() = 0
+end sub
