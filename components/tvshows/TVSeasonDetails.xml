@@ -119,8 +119,8 @@
     <field id="quickPlayNode" type="node" />
     <field id="seasonData" type="node" onChange="setSeasonLoading" />
     <field id="objects" alias="picker.objects" />
-    <field id="episodeObjects" type="assocarray" alwaysNotify="true" onChange="onObjectsChanged" />
-    <field id="extrasObjects" type="assocarray" />
+    <field id="episodeObjects" type="assocarray" alwaysNotify="true" onChange="checkGridItemCount" />
+    <field id="extrasObjects" type="assocarray" alwaysNotify="true" onChange="checkGridItemCount" />
     <field id="playSeasonFromStart" type="bool" />
     <field id="shufflePlay" type="bool" />
     <function name="updateSeason" />

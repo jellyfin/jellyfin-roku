@@ -525,11 +525,11 @@ sub openMorePopup()
     m.global.sceneManager.callFunc("optionDialog", "libraryitem", m.top.seasonData.json.LookupCI("name") ?? tr("Options"), [], dialogData, paramData)
 end sub
 
-sub onObjectsChanged()
-    if not isChainValid(m.top.episodeObjects, "items")
+sub checkGridItemCount()
+    if not isChainValid(m.top.objects, "items")
         itemCount = 0
     else
-        itemCount = m.top.episodeObjects.LookupCI("items").count()
+        itemCount = m.top.objects.LookupCI("items").count()
     end if
 
     m.buttonGrp.blockDown = itemCount = 0
@@ -600,6 +600,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
                         m.extras.text = tr("Extras")
                         m.top.objects = m.top.episodeObjects
                     end if
+
+                    checkGridItemCount()
 
                     return true
                 end if
