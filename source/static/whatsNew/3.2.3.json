@@ -10,5 +10,9 @@
   {
     "description": "Stop OSD dismissal by keypress from unpausing playback",
     "author": "Catmasterson"
+  },
+  {
+    "description": "Fix possible crash on home screen On Now row",
+    "author": "1hitsong"
   }
 ]

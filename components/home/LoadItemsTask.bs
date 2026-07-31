@@ -396,7 +396,7 @@ function loadLiveTVOnNow() as object
     for each item in data.Items
         tmp = CreateObject("roSGNode", "HomeData")
         imageTags = item.LookupCI("ImageTags")
-        isThumbImage = chainLookupReturn(imageTags, ImageType.THUMB, false)
+        isThumbImage = isValidAndNotEmpty(chainLookup(imageTags, ImageType.THUMB))
 
         tmp.addField("FHDItemWidth", "float", false)
         tmp.FHDItemWidth = calculateOnNowItemWidth(item.LookupCI("PrimaryImageAspectRatio"), isThumbImage)
