@@ -206,7 +206,8 @@ sub additionalPartsChanged()
         end if
     end if
 
-    if m.top.additionalParts.parts.TotalRecordCount = 0
+    totalPartsCount = chainLookupReturn(m.top.additionalParts, "parts.TotalRecordCount", 0)
+    if totalPartsCount = 0
         if isValid(partButton)
             m.buttonGrp.content.removeChild(partButton)
             calculateButtonThumbProperties()
