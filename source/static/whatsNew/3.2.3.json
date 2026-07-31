@@ -10,5 +10,9 @@
   {
     "description": "Stop OSD dismissal by keypress from unpausing playback",
     "author": "Catmasterson"
+  },
+  {
+    "description": "Improve playback of recordings that are currently in process",
+    "author": "VTRunner"
   }
 ]
