@@ -922,7 +922,7 @@ sub FilterDataLoaded(msg)
         if isValidAndNotEmpty(data.Tags)
             ' If we already have tag filter data, reuse it
             if isValidAndNotEmpty(m.options.LookupCI("filteredOptions"))
-                options.filter.push({ "Title": tr("Tags"), "Name": "Tags", "Options": m.options.LookupCI("filteredOptions"), "Delimiter": "|", "CheckedState": m.options.LookupCI("filteredOptionsCheckedState") })
+                options.filter.push({ "Title": tr("Tags"), "Name": "Tags", "data": data.Tags, "Options": m.options.LookupCI("filteredOptions"), "Delimiter": "|", "CheckedState": m.options.LookupCI("filteredOptionsCheckedState") })
             else
                 options.filter.push({ "Title": tr("Tags"), "Name": "Tags", "Options": data.Tags, "Delimiter": "|", "CheckedState": [] })
             end if

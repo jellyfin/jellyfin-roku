@@ -199,7 +199,9 @@ sub processTagSearch()
 
     filterItem = m.top.options.filter[m.filterMenu.itemFocused]
 
-    for each filterItemOption in filterItem.options
+    dataSource = filterItem.data ?? filterItem.options
+
+    for each filterItemOption in dataSource
         tag = toString(filterItemOption)
         if LCase(tag).Instr(m.tagFilter) > -1
             filteredTags.push(filterItemOption)
