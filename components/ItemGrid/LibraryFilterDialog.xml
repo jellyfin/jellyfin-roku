@@ -61,6 +61,15 @@
         width="600"
         visible="false"
         translation="[900, 250]" />
+      <Text
+        id="noResultsText"
+        text="Your search returned no tags."
+        horizAlign="Left"
+        font="font:MediumSystemFont"
+        wrap="true"
+        width="600"
+        visible="false"
+        translation="[900, 250]" />
       <CheckList
         opacity="0"
         translation="[900, 200]"

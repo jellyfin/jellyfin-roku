@@ -15,6 +15,9 @@ sub init()
     m.tooManyTagsError = false
     m.tooManyResultsText = m.top.findNode("tooManyResultsText")
     m.tooManyResultsText.font.size = 30
+    m.noTagsError = false
+    m.noResultsText = m.top.findNode("noResultsText")
+    m.noResultsText.font.size = 30
     m.tagSearchButton = m.top.findNode("tagSearchButton")
     m.tagSearchButton.background = ColorPalette.LIGHTBLUE
     m.tagSearchButton.color = ColorPalette.DARKGREY
@@ -115,6 +118,10 @@ sub onFilterFocusChange()
             m.tooManyResultsText.visible = true
             m.scrollBar.visible = false
             hideChecklist()
+        else if m.noTagsError
+            m.noResultsText.visible = true
+            m.scrollBar.visible = false
+            hideChecklist()
         else
             if isValidAndNotEmpty(m.tagFilter)
                 if m.filterOptionsMenu.content.getChildCount() > 5
@@ -133,6 +140,7 @@ sub onFilterFocusChange()
         m.filterOptionsBackdrop.height = 505
         m.filterOptionsBackdrop.translation = [855, 180]
         m.tooManyResultsText.visible = false
+        m.noResultsText.visible = false
         m.scrollBar.visible = false
     end if
 
@@ -184,6 +192,10 @@ end sub
 
 sub processTagSearch()
     filteredTags = []
+    m.noTagsError = false
+    m.noResultsText.visible = false
+    m.tooManyTagsError = false
+    m.tooManyResultsText.visible = false
 
     filterItem = m.top.options.filter[m.filterMenu.itemFocused]
 
@@ -210,6 +222,20 @@ sub processTagSearch()
         end if
     end for
 
+    if filteredTags.count() = 0
+        m.noTagsError = true
+        m.noResultsText.visible = true
+        m.scrollBar.visible = false
+        hideChecklist()
+        entry = CreateObject("roSGNode", "OptionNode")
+        entry.title = filterItem.Title
+        entry.name = filterItem.Name
+        entry.delimiter = filterItem.Delimiter
+        m.filterMenu.content.replaceChild(entry, m.filterMenu.itemFocused)
+        m.filterOptionsMenu.content = m.filterMenu.content.getChild(m.filterMenu.itemFocused)
+        return
+    end if
+
     entry = CreateObject("roSGNode", "OptionNode")
     entry.title = filterItem.Title
     entry.name = filterItem.Name
@@ -226,8 +252,6 @@ sub processTagSearch()
     m.top.filteredOptions = filteredTags
     m.top.filteredOptionsCheckedState = []
 
-    m.tooManyTagsError = false
-    m.tooManyResultsText.visible = false
     calculateButtonThumbProperties()
     showChecklist()
     m.tagSearchButton.focus = false
@@ -250,6 +274,7 @@ sub optionsSet()
             if isValid(filterItem.options)
                 if isStringEqual(entry.name, "Tags")
                     filteredTags = []
+                    m.noTagsError = false
                     for each filterItemOption in filterItem.options
                         tag = toString(filterItemOption)
                         if LCase(tag).Instr(m.tagFilter) > -1
@@ -478,7 +503,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.submitButton.isInFocusChain()
             if not isStringEqual(m.top.filter, "Tags")
                 m.tagFilter = string.EMPTY
-                ' m.top.filteredOptions = []
                 m.top.filteredOptionsCheckedState = []
             end if
 
@@ -488,6 +512,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 filterOptions: m.top.filterOptions
             }
 
+            m.noTagsError = false
+            m.noResultsText.visible = false
             m.top.visible = false
             m.submitButton.focus = false
             m.filterMenu.jumpToItem = 0

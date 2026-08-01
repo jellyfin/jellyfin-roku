@@ -2635,5 +2635,9 @@
             <source>Search Tags</source>
             <translation>Search Tags</translation>
         </message>
+        <message>
+            <source>Your search returned no tags.</source>
+            <translation>Your search returned no tags.</translation>
+        </message>
     </context>
 </TS>
