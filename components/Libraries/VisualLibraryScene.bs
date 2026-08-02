@@ -52,6 +52,7 @@ sub setupNodes()
     m.genreList = m.top.findNode("genrelist")
     m.infoGroup = m.top.findNode("infoGroup")
     m.star = m.top.findNode("star")
+    m.chipsRow = m.top.findNode("chipsRow")
     m.dropdownOptionGroup = m.top.findNode("dropdownOptionGroup")
     m.dropdownOptionGroup.observeFieldScoped("showOptions", "onShowOptionsChange")
     m.dropdownOptionGroup.observeFieldScoped("exit", "onExit")
@@ -419,6 +420,8 @@ sub loadInitialItems()
     end if
 
     m.dropdownOptionGroup.translation = "[100, 540]"
+    m.dropdownOptionGroup.translation = "[100, 540]"
+
     if m.dropdownOptionGroup.opacity < 1
         m.itemGrid.translation = "[100, 520]"
     else
@@ -446,11 +449,11 @@ sub loadInitialItems()
         if m.dropdownOptionGroup.opacity < 1
             m.itemGrid.translation = "[100, 60]"
         else
-            m.itemGrid.translation = "[100, 210]"
+            m.itemGrid.translation = "[100, 260]"
         end if
 
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
-        m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
+        m.itemGridMove.keyValue = "[[100, 260], [100, 60]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptionGroup.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
@@ -466,11 +469,11 @@ sub loadInitialItems()
         if m.dropdownOptionGroup.opacity < 1
             m.itemGrid.translation = "[100, 60]"
         else
-            m.itemGrid.translation = "[100, 210]"
+            m.itemGrid.translation = "[100, 260]"
         end if
 
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
-        m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
+        m.itemGridMove.keyValue = "[[100, 260], [100, 60]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptionGroup.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
@@ -486,11 +489,11 @@ sub loadInitialItems()
         if m.dropdownOptionGroup.opacity < 1
             m.itemGrid.translation = "[100, 60]"
         else
-            m.itemGrid.translation = "[100, 210]"
+            m.itemGrid.translation = "[100, 260]"
         end if
 
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
-        m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
+        m.itemGridMove.keyValue = "[[100, 260], [100, 60]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptionGroup.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
@@ -860,13 +863,26 @@ sub setSelectedOptions(options)
             o.Selected = true
             m.dropdownOptionGroup@.setText("filterButton", tr(o.LookupCI("title")))
             m.options.filter = o.Name
+
+            displayChip = false
+            if not isAllValid([o.options, m.filterOptions])
+                displayChip = true
+            else if o.options.Count() = 0 or m.filterOptions.Count() = 0
+                displayChip = true
+            end if
+
+            if displayChip
+                m.chipsRow@.addChip("filter", string.EMPTY, tr(o.LookupCI("title")))
+            end if
         end if
 
         ' Select selected filter options
         if isValid(o.options) and isValid(m.filterOptions)
             if o.options.Count() > 0 and m.filterOptions.Count() > 0
                 if LCase(o.Name) = LCase(m.filterOptions.keys()[0])
+
                     selectedFilterOptions = m.filterOptions[m.filterOptions.keys()[0]].split(o.delimiter)
+                    m.chipsRow@.addChip("filter", tr(o.LookupCI("title")), selectedFilterOptions.join(", "))
                     checkedState = []
 
                     for each availableFilterOption in o.options
@@ -949,6 +965,8 @@ end sub
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
     itemData = msg.GetData()
+
+    m.chipsRow@.setTotalCount(`${m.loadItemsTask.totalRecordCount} items`)
 
     if not isValidAndNotEmpty(itemData)
         stopLoadingSpinner()
@@ -1415,6 +1433,13 @@ sub onSearchTermChanged()
     processDropdownState(m.top.searchTerm)
     m.dropdownOptionGroup@.setSearchHintText(m.top.searchTerm)
 
+    if isValidAndNotEmpty(m.top.searchTerm)
+        m.chipsRow@.removeChip("filter")
+        m.chipsRow@.addChip("search", tr("Search Term"), m.top.searchTerm)
+    else
+        m.chipsRow@.removeChip("search")
+    end if
+
     if m.bypassSearchEvent
         m.bypassSearchEvent = false
         return
@@ -1450,6 +1475,12 @@ sub alphaSelectedChanged()
 
     m.genreData = CreateObject("roSGNode", "ContentNode")
     m.genreList.content = m.genreData
+
+    if isValidAndNotEmpty(m.top.alphaSelected)
+        m.chipsRow@.addChip("startswith", tr("Starts With"), m.top.alphaSelected)
+    else
+        m.chipsRow@.removeChip("startswith")
+    end if
 
     m.loadItemsTask.nameStartsWith = m.top.alphaSelected
     m.dropdownOptionGroup@.setText("voiceBox", string.EMPTY)
