@@ -53,5 +53,26 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
+    if key = "left" or key = "right"
+        if not isValidAndNotEmpty(m.top.rowItemFocused) then return false
+        if not isValid(m.top.content) or m.top.content.getChildCount() = 0 then return false
+
+        row = m.top.content.getChild(0)
+        if not isValid(row) then return false
+
+        lastIndex = row.getChildCount() - 1
+        focusedIndex = m.top.rowItemFocused[1]
+
+        if key = "left" and focusedIndex = 0
+            m.top.jumpToRowItem = [0, lastIndex]
+            return true
+        end if
+
+        if key = "right" and focusedIndex = lastIndex
+            m.top.jumpToRowItem = [0, 0]
+            return true
+        end if
+    end if
+
     return false
 end function
