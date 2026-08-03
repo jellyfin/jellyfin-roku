@@ -14,5 +14,13 @@
   {
     "description": "Fix possible crash on home screen On Now row",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add row to home screen for favorite Live TV channels",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix Live TV Guide sort",
+    "author": "michaelcresswell"
   }
 ]
