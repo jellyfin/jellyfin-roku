@@ -16,7 +16,11 @@
     "author": "1hitsong"
   },
   {
-    "description": "Add favorites row for Live TV channels",
+    "description": "Add row to home screen for favorite Live TV channels",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix Live TV Guide sort",
     "author": "michaelcresswell"
   }
 ]
