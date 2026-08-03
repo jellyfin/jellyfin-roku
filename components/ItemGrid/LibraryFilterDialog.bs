@@ -243,16 +243,20 @@ sub processTagSearch()
     entry.name = filterItem.Name
     entry.delimiter = filterItem.Delimiter
 
+    checkedState = []
+
     for each filterItemOption in filteredTags
         entryOption = entry.CreateChild("ContentNode")
         entryOption.title = toString(filterItemOption)
+        checkedState.push(inArray(m.top.filteredOptions, toString(filterItemOption)))
     end for
 
     m.filterMenu.content.replaceChild(entry, m.filterMenu.itemFocused)
     m.filterOptionsMenu.content = m.filterMenu.content.getChild(m.filterMenu.itemFocused)
 
     m.top.filteredOptions = filteredTags
-    m.top.filteredOptionsCheckedState = []
+    m.top.filteredOptionsCheckedState = checkedState
+    m.filterOptionsMenu.checkedState = checkedState
 
     calculateButtonThumbProperties()
     showChecklist()
