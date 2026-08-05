@@ -1,0 +1,22 @@
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/config.bs"
+
+sub init()
+    m.top.functionName = "loadRecordingTimer"
+
+end sub
+
+sub loadRecordingTimer()
+
+    data = api.liveTV.GetTimerByID(m.top.timerId)
+
+    if not isValid(data)
+        m.top.timerDetails = {}
+        return
+    end if
+
+    recordingTimer = createObject("roSGNode", "RecordingTimerData")
+    recordingTimer.json = data
+    m.top.recordingTimerDetails = recordingTimer
+
+end sub
