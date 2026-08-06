@@ -250,9 +250,13 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     ' If forceTranscode setting is enabled, but we haven't set the transcode codec yet, set it now and update Playback Info
     if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
-        setTranscodeCodec(video, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
-    else if meta.live and isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscodeLiveTV`", PlaybackMethod.PLAYNORMALLY))
-        setTranscodeCodec(video, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+        setTranscodeCodec(video, PlaybackMethod.FORCETRANSCODEDISABLEREMUX, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+    else if meta.live
+        forceTranscode = chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscodeLiveTV`", PlaybackMethod.PLAYNORMALLY)
+
+        if not isStringEqual(forceTranscode, PlaybackMethod.PLAYNORMALLY)
+            setTranscodeCodec(video, forceTranscode, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+        end if
     end if
 
     addSubtitlesToVideo(video, meta)
@@ -272,7 +276,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     if meta.live
         video.content.live = true
-        video.content.StreamFormat = "hls"
     end if
 
     video.container = getContainerType(meta)
@@ -360,12 +363,12 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     video.content = authRequest(video.content)
 end sub
 
-sub setTranscodeCodec(video as object, mediaSourceId as dynamic, audio_stream_idx as integer, subtitle_idx as integer, playbackPosition as longinteger)
+sub setTranscodeCodec(video as object, forceTranscode as string, mediaSourceId as dynamic, audio_stream_idx as integer, subtitle_idx as integer, playbackPosition as longinteger)
     if not isStringEqual(m.global.queueManager.callFunc("getTranscodeCodec"), string.EMPTY) then return
 
     for i = 0 to m.playbackInfo.MediaSources[0].MediaStreams.Count() - 1
         if m.playbackInfo.MediaSources[0].MediaStreams[i].Type = "Video"
-            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec ?? string.EMPTY)
+            m.global.queueManager.callFunc("setForceTranscode", forceTranscode, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec ?? string.EMPTY)
             exit for
         end if
     end for
@@ -551,6 +554,7 @@ sub addNextEpisodesToQueue(showID, additionalPartsCount as integer, queueLimit a
 
     if isValid(data) and data.Items.Count() > 1
         for i = 1 to data.Items.Count() - 1
+            data.Items[i].startingPoint = 0
             m.global.queueManager.callFunc("push", data.Items[i])
         end for
     end if

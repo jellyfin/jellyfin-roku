@@ -220,11 +220,17 @@ sub setRowItemSize()
 
     homeSections = m.top.content.getChildren(-1, 0)
     newSizeArray = CreateObject("roArray", homeSections.count(), false)
+    variableWidthArray = CreateObject("roArray", homeSections.count(), false)
 
     for i = 0 to homeSections.count() - 1
         newSizeArray[i] = isValid(homeSections[i].cursorSize) ? homeSections[i].cursorSize : homeRowItemSizes.WIDE_POSTER
+        variableWidthArray[i] = isStringEqual(homeSections[i].title, tr("On Now"))
     end for
+
     m.top.rowItemSize = newSizeArray
+    m.top.variableWidthItems = variableWidthArray
+
+    restoreFavoriteFocusForRefresh()
 
     ' If we have processed the expected number of content rows, stop the loading timer and run the complete function
     if m.expectedRowCount = m.processedRowCount
@@ -316,11 +322,6 @@ sub createLibraryRow()
 
     sectionName = tr("My Media")
 
-    ' We don't refresh library data, so if section already exists, exit
-    if sectionExists(sectionName)
-        ' return
-    end if
-
     row = CreateObject("roSGNode", "HomeRow")
     row.title = sectionName
     row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
@@ -333,8 +334,22 @@ sub createLibraryRow()
 
     ' Row already exists, replace it with new content
     if sectionExists(sectionName)
-        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+        sectionIndex = getSectionIndex(sectionName)
+        restoreFocusedColumn = invalid
+        rowItemFocused = chainLookupReturn(m.top, "rowItemFocused", invalid)
+        if isValidAndNotEmpty(rowItemFocused) and rowItemFocused[0] = sectionIndex
+            restoreFocusedColumn = rowItemFocused[1]
+        end if
+
+        m.top.content.replaceChild(row, sectionIndex)
         setRowItemSize()
+
+        if isValid(restoreFocusedColumn) and row.getChildCount() > 0
+            if restoreFocusedColumn >= row.getChildCount() then restoreFocusedColumn = row.getChildCount() - 1
+            if restoreFocusedColumn < 0 then restoreFocusedColumn = 0
+            m.top.jumpToRowItem = [sectionIndex, restoreFocusedColumn]
+        end if
+
         return
     end if
 
@@ -603,30 +618,67 @@ sub updateHomeRows()
     processUserSections()
 end sub
 
+sub reloadFavorites()
+    if not favoriteSectionExists() then return
+
+    m.favoriteFocusForRefresh = getFavoriteFocusState()
+    m.favoritesReloadOnly = true
+    m.LoadFavoritesTask.observeField("content", "updateFavoritesItems")
+    m.LoadFavoritesTask.control = TaskControl.RUN
+end sub
+
 ' updateFavoritesItems: Processes LoadFavoritesTask content. Removes, Creates, or Updates favorites row as needed
 '
 sub updateFavoritesItems()
-    m.processedRowCount++
+    standaloneReload = (m.favoritesReloadOnly = true)
+    m.favoritesReloadOnly = false
+    if not standaloneReload then m.processedRowCount++
+
     favoriteRows = m.LoadFavoritesTask.content
     m.LoadFavoritesTask.unobserveField("content")
     m.LoadFavoritesTask.content = []
 
     insertIndex = getFirstFavoriteSectionIndex()
-    removeFavoriteSections()
 
     if not isValidAndNotEmpty(favoriteRows)
+        removeFavoriteSections()
         setRowItemSize()
         return
     end if
 
+    activeFavoriteTitles = {}
     for each favoriteRowData in favoriteRows
-        row = createFavoriteRowFromData(favoriteRowData)
+        rowTitle = favoriteRowData.LookupCI("title")
+        row = invalid
+        currentIndex = getFavoriteSectionIndexByTitle(rowTitle)
+
+        if currentIndex >= 0
+            row = m.top.content.getChild(currentIndex)
+            if favoriteRowItemsMatch(row, favoriteRowData)
+                updateFavoriteRowMetadata(row, favoriteRowData)
+            else
+                updateFavoriteRowFromData(row, favoriteRowData)
+            end if
+
+            if currentIndex <> insertIndex
+                m.top.content.removeChildIndex(currentIndex)
+                if currentIndex < insertIndex then insertIndex--
+                m.top.content.insertChild(row, insertIndex)
+            end if
+        else
+            row = createFavoriteRowFromData(favoriteRowData)
+            if isValid(row)
+                m.top.content.insertChild(row, insertIndex)
+            end if
+        end if
+
         if isValid(row)
-            m.top.content.insertChild(row, insertIndex)
+            activeFavoriteTitles[normalizeSectionTitle(rowTitle)] = true
             insertIndex++
         end if
     end for
 
+    removeFavoriteSectionsExcept(activeFavoriteTitles)
     setRowItemSize()
 end sub
 
@@ -652,6 +704,72 @@ function createFavoriteRowFromData(rowData as object) as object
     return row
 end function
 
+sub updateFavoriteRowMetadata(row as object, rowData as object)
+    if not isValid(row) then return
+
+    rowType = rowData.LookupCI("rowType") ?? "wide"
+    rowSize = getFavoriteRowItemSize(rowType)
+
+    row.title = rowData.LookupCI("title")
+    row.imageWidth = rowSize[0]
+    row.cursorSize = rowSize
+
+    for each item in row.getChildren(-1, 0)
+        item.usePoster = isStringEqual(rowType, "poster")
+        item.imageWidth = row.imageWidth
+    end for
+end sub
+
+sub updateFavoriteRowFromData(row as object, rowData as object)
+    if not isValid(row) then return
+    if not isValidAndNotEmpty(chainLookupReturn(rowData, "items", [])) then return
+
+    rowType = rowData.LookupCI("rowType") ?? "wide"
+    rowSize = getFavoriteRowItemSize(rowType)
+
+    row.title = rowData.LookupCI("title")
+    row.imageWidth = rowSize[0]
+    row.cursorSize = rowSize
+
+    if row.getChildCount() > 0
+        row.removeChildrenIndex(row.getChildCount(), 0)
+    end if
+
+    for each item in rowData.items
+        item.usePoster = isStringEqual(rowType, "poster")
+        item.imageWidth = row.imageWidth
+        row.appendChild(item)
+    end for
+end sub
+
+function favoriteRowItemsMatch(row as object, rowData as object) as boolean
+    if not isValid(row) then return false
+    if not isValidAndNotEmpty(chainLookupReturn(rowData, "items", [])) then return false
+    if row.getChildCount() <> rowData.items.count() then return false
+
+    for i = 0 to rowData.items.count() - 1
+        if not isStringEqual(getFavoriteItemId(row.getChild(i)), getFavoriteItemId(rowData.items[i]))
+            return false
+        end if
+    end for
+
+    return true
+end function
+
+function getFavoriteItemId(item as dynamic) as dynamic
+    if not isValid(item) then return invalid
+
+    itemId = item.LookupCI("id")
+    if isValidAndNotEmpty(itemId) then return itemId
+
+    itemJson = item.LookupCI("json")
+    if isValid(itemJson)
+        return itemJson.LookupCI("id")
+    end if
+
+    return invalid
+end function
+
 function getFavoriteRowItemSize(rowType as string) as object
     if isStringEqual(rowType, "poster") then return homeRowItemSizes.MOVIE_POSTER
     if isStringEqual(rowType, "album") then return homeRowItemSizes.MUSIC_ALBUM
@@ -663,11 +781,17 @@ end function
 function isFavoriteSectionTitle(sectionTitle as dynamic) as boolean
     if not isValid(sectionTitle) then return false
 
-    searchSectionTitle = sectionTitle.Replace(" ", "")
-    favoritesTitle = tr("Favorites").Replace(" ", "")
-    favoriteTitlePrefix = tr("Favorite").Replace(" ", "")
+    searchSectionTitle = normalizeSectionTitle(sectionTitle)
+    favoritesTitle = tr("Favorites").Replace(" ", String.EMPTY)
+    favoriteTitlePrefix = tr("Favorite").Replace(" ", String.EMPTY)
 
     return isStringEqual(searchSectionTitle, favoritesTitle) or searchSectionTitle.StartsWith(favoriteTitlePrefix)
+end function
+
+function normalizeSectionTitle(sectionTitle as dynamic) as string
+    if not isValid(sectionTitle) then return String.EMPTY
+
+    return sectionTitle.Replace(" ", String.EMPTY)
 end function
 
 function favoriteSectionExists() as boolean
@@ -680,6 +804,109 @@ function favoriteSectionExists() as boolean
 
     return false
 end function
+
+function isFocusOnFavoriteRow() as boolean
+    rowItemFocused = chainLookupReturn(m.top, "rowItemFocused", invalid)
+    if not isValidAndNotEmpty(rowItemFocused) then return false
+    if not isValid(m.top.content) then return false
+
+    focusedRow = m.top.content.getChild(rowItemFocused[0])
+    if not isValid(focusedRow) then return false
+
+    return isFavoriteSectionTitle(focusedRow.title)
+end function
+
+sub restoreFavoriteFocusForRefresh()
+    if not isValid(m.favoriteFocusForRefresh) then return
+    if not isValid(m.top.content) then return
+
+    targetIndex = getFavoriteSectionIndexByTitle(m.favoriteFocusForRefresh.rowTitle)
+    if targetIndex < 0 then targetIndex = getExistingFavoriteSectionIndex()
+    if targetIndex < 0
+        m.favoriteFocusForRefresh = invalid
+        return
+    end if
+
+    targetRow = m.top.content.getChild(targetIndex)
+    if not isValid(targetRow) then return
+
+    itemCount = targetRow.getChildCount()
+    if itemCount = 0
+        m.favoriteFocusForRefresh = invalid
+        return
+    end if
+
+    column = getFavoriteItemIndexById(targetRow, m.favoriteFocusForRefresh.itemId)
+    if column < 0 then column = m.favoriteFocusForRefresh.column
+    if column >= itemCount then column = itemCount - 1
+    if column < 0 then column = 0
+
+    rowItemFocused = chainLookupReturn(m.top, "rowItemFocused", invalid)
+    if isValidAndNotEmpty(rowItemFocused)
+        if rowItemFocused[0] = targetIndex and rowItemFocused[1] = column
+            m.favoriteFocusForRefresh = invalid
+            return
+        end if
+    end if
+
+    m.top.jumpToRowItem = [targetIndex, column]
+    m.favoriteFocusForRefresh = invalid
+end sub
+
+function getFavoriteFocusState() as dynamic
+    rowItemFocused = chainLookupReturn(m.top, "rowItemFocused", invalid)
+    if not isValidAndNotEmpty(rowItemFocused) then return invalid
+    if not isValid(m.top.content) then return invalid
+
+    focusedRow = m.top.content.getChild(rowItemFocused[0])
+    if not isValid(focusedRow) then return invalid
+    if not isFavoriteSectionTitle(focusedRow.title) then return invalid
+
+    focusedItem = focusedRow.getChild(rowItemFocused[1])
+
+    return {
+        rowTitle: focusedRow.title,
+        itemId: getFavoriteItemId(focusedItem),
+        column: rowItemFocused[1]
+    }
+end function
+
+function getFavoriteItemIndexById(row as object, itemId as dynamic) as integer
+    if not isValid(row) then return -1
+    if not isValidAndNotEmpty(itemId) then return -1
+
+    for i = 0 to row.getChildCount() - 1
+        currentItemId = getFavoriteItemId(row.getChild(i))
+        if isValidAndNotEmpty(currentItemId) and isStringEqual(currentItemId, itemId)
+            return i
+        end if
+    end for
+
+    return -1
+end function
+
+function getExistingFavoriteSectionIndex() as integer
+    if not isValid(m.top.content) then return -1
+
+    homeSections = m.top.content.getChildren(-1, 0)
+    i = 0
+    for each section in homeSections
+        if isFavoriteSectionTitle(section.title) then return i
+        i++
+    end for
+
+    return -1
+end function
+
+' cancelFavoriteFocusForNavigation: User input after returning should win over the async restore.
+sub cancelFavoriteFocusForNavigation(key as string)
+    if not isValid(m.favoriteFocusForRefresh) then return
+
+    cancelKeyCodes = [KeyCode.LEFT, KeyCode.RIGHT, KeyCode.UP, KeyCode.DOWN, KeyCode.BACK, KeyCode.OK, KeyCode.PLAY, KeyCode.OPTIONS]
+    if inArray(cancelKeyCodes, key)
+        m.favoriteFocusForRefresh = invalid
+    end if
+end sub
 
 ' getFirstFavoriteSectionIndex: Preserves the configured Favorites placement when inserting split rows
 '
@@ -696,6 +923,24 @@ function getFirstFavoriteSectionIndex() as integer
     return getOriginalSectionIndex("favorites")
 end function
 
+function getFavoriteSectionIndexByTitle(sectionTitle as dynamic) as integer
+    if not isValid(sectionTitle) then return -1
+    if not isValid(m.top.content) then return -1
+
+    searchSectionTitle = normalizeSectionTitle(sectionTitle)
+    homeSections = m.top.content.getChildren(-1, 0)
+
+    i = 0
+    for each section in homeSections
+        if isFavoriteSectionTitle(section.title) and isStringEqual(normalizeSectionTitle(section.title), searchSectionTitle)
+            return i
+        end if
+        i++
+    end for
+
+    return -1
+end function
+
 sub removeFavoriteSections()
     if not isValid(m.top.content) then return
 
@@ -704,6 +949,20 @@ sub removeFavoriteSections()
 
     for i = homeSections.count() - 1 to 0 step -1
         if isFavoriteSectionTitle(homeSections[i].title)
+            m.top.content.removeChildIndex(i)
+        end if
+    end for
+end sub
+
+sub removeFavoriteSectionsExcept(sectionTitles as object)
+    if not isValid(m.top.content) then return
+
+    homeSections = m.top.content.getChildren(-1, 0)
+    if homeSections.count() = 0 then return
+
+    for i = homeSections.count() - 1 to 0 step -1
+        sectionTitle = homeSections[i].title
+        if isFavoriteSectionTitle(sectionTitle) and not sectionTitles.DoesExist(normalizeSectionTitle(sectionTitle))
             m.top.content.removeChildIndex(i)
         end if
     end for
@@ -979,6 +1238,7 @@ sub updateOnNowItems()
 end sub
 
 sub itemSelected()
+    m.favoriteFocusForRefresh = invalid
     m.selectedRowItem = m.top.rowItemSelected
     m.top.selectedItem = m.top.content.getChild(m.top.rowItemSelected[0]).getChild(m.top.rowItemSelected[1])
     ' Invalidate to prevent the item selected event from double firing
@@ -987,7 +1247,9 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if press
-        if key = KeyCode.PLAY
+        cancelFavoriteFocusForNavigation(key)
+
+        if isStringEqual(key, KeyCode.PLAY)
             itemToPlay = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
             if isValid(itemToPlay)
                 m.top.quickPlayNode = itemToPlay

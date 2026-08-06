@@ -15,7 +15,7 @@ sub loadSchedule()
         EnableImages: false,
         EnableTotalRecordCount: false,
         EnableUserData: false,
-        channelIds: m.top.channelIds,
+        ChannelIds: m.top.channelIds,
         MaxStartDate: m.top.endTime,
         MinEndDate: m.top.startTime
     }

@@ -2655,6 +2655,18 @@
         <source>No media matched radio station criteria</source>
         <translation>Ningún medio corresponde a los criterios de la estación de radio</translation>
     </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>Confirmar salida</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>Mostrar un mensaje de confirmación antes de salir de Jellyfin desde la pantalla de inicio.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>¿Estás seguro de que quieres salir de Jellyfin?</translation>
+    </message>
 </context>
 <context>
     <name></name>
