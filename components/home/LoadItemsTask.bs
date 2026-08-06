@@ -509,7 +509,8 @@ function getFavoriteRowDefinitions() as object
         { title: `${tr("Favorite")} ${tr("Cast & Crew")}`, queryType: "people", rowType: "poster" },
         { title: `${tr("Favorite")} ${tr("Artists")}`, queryType: "artists", rowType: "album" },
         { title: `${tr("Favorite")} ${tr("Albums")}`, includeItemTypes: ItemType.MUSICALBUM, rowType: "album" },
-        { title: `${tr("Favorite")} ${tr("Songs")}`, includeItemTypes: ItemType.AUDIO, rowType: "album" }
+        { title: `${tr("Favorite")} ${tr("Songs")}`, includeItemTypes: ItemType.AUDIO, rowType: "album" },
+        { title: `${tr("Favorite")} ${tr("Channels")}`, includeItemTypes: ItemType.TVCHANNEL, rowType: "wide" }
     ]
 end function
 
