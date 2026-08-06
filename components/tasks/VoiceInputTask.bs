@@ -36,7 +36,7 @@ sub runLoop()
                 ' Send Now Playing metadata to Roku OS
             else if isStringEqual(msg.getField(), "nowPlayingData")
                 data = msg.getData()
-                if isValid(data) and isValid(data.title)
+                if isChainValid(data, "title")
                     appMgr = CreateObject("roAppManager")
                     ' Roku Voice reads Now Playing metadata from roAppManager.
                     ' Keep this in TASK context; calling roAppManager from SceneGraph nodes fails.

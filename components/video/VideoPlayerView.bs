@@ -743,15 +743,15 @@ sub onVideoContentLoaded()
     itemData = m.global.queueManager.callFunc("getCurrentItem")
     if isValid(itemData)
         json = itemData.json ?? itemData
-        mediaItemType = LCase(json.Type ?? "")
+        mediaItemType = LCase(json.Type ?? string.EMPTY)
         if isStringEqual(mediaItemType, "episode")
             season = isValid(json.ParentIndexNumber) ? StrI(json.ParentIndexNumber).trim() : "0"
             episode = isValid(json.IndexNumber) ? StrI(json.IndexNumber).trim() : "0"
-            seriesName = json.SeriesName ?? json.Name ?? json.title ?? ""
-            episodeName = json.Name ?? json.title ?? ""
-            displayTitle = `${seriesName} - S${Left("0" + season, 2)}E${Left("0" + episode, 2)} - ${episodeName}`
+            seriesName = json.SeriesName ?? json.Name ?? json.title ?? string.EMPTY
+            episodeName = json.Name ?? json.title ?? string.EMPTY
+            displayTitle = `${seriesName} - S${season}E${episode} - ${episodeName}`
         else
-            contentName = json.Name ?? json.title ?? ""
+            contentName = json.Name ?? json.title ?? string.EMPTY
             displayTitle = isValid(json.ProductionYear) ? `${contentName} (${json.ProductionYear})` : contentName
         end if
         m.top.nowPlayingMetadata = { title: displayTitle, contentType: mediaItemType }
