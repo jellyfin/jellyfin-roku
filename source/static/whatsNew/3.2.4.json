@@ -2,5 +2,9 @@
   {
     "description": "Improve playback of recordings that are currently in process",
     "author": "VTRunner"
+  },
+  {
+    "description": "Clear stale artist presentation state when switching to Music genres",
+    "author": "VX-101"
   }
 ]

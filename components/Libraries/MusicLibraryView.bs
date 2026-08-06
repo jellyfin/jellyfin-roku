@@ -370,8 +370,7 @@ sub loadInitialItems()
         m.loadItemsTask.itemType = ""
         m.loadItemsTask.recursive = true
         m.loadItemsTask.view = "Genres"
-        m.artistLogo.visible = false
-        m.selectedArtistName.visible = false
+        clearMusicArtistPresentation()
     end if
 
     setColumnSizes()
@@ -741,6 +740,24 @@ end sub
 'Set Selected Artist Genres
 sub SetGenres(artistGenres)
     m.selectedArtistGenres.text = artistGenres.join(", ")
+end sub
+
+sub clearMusicArtistPresentation()
+    m.loadLogoTask.unobserveField("content")
+    m.loadLogoTask.control = TaskControl.STOP
+    m.loadLogoTask.content = []
+
+    m.artistLogo.visible = false
+    m.artistLogo.uri = String.EMPTY
+    m.selectedArtistName.visible = false
+    m.selectedArtistName.text = String.EMPTY
+    m.selectedArtistGenres.visible = false
+    m.selectedArtistGenres.text = String.EMPTY
+    m.selectedArtistSongCount.visible = false
+    m.selectedArtistSongCount.text = String.EMPTY
+    m.selectedArtistAlbumCount.visible = false
+    m.selectedArtistAlbumCount.text = String.EMPTY
+    m.backdropImage@.clearImage()
 end sub
 
 '
