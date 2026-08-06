@@ -9,6 +9,7 @@ import "pkg:/source/utils/misc.bs"
 const MAXTAGCOUNT = 50
 
 sub init()
+    m.selectedOptions = []
     m.tagFilter = string.EMPTY
     m.top.filter = "All"
     m.originalOptions = {}
@@ -248,7 +249,9 @@ sub processTagSearch()
     for each filterItemOption in filteredTags
         entryOption = entry.CreateChild("ContentNode")
         entryOption.title = toString(filterItemOption)
-        checkedState.push(inArray(m.top.filteredOptions, toString(filterItemOption)))
+        if isValidAndNotEmpty(m.selectedOptions)
+            checkedState.push(inArray(m.selectedOptions, toString(filterItemOption)))
+        end if
     end for
 
     m.filterMenu.content.replaceChild(entry, m.filterMenu.itemFocused)
@@ -381,7 +384,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 if m.filterOptionsMenu.checkedState.count() > MAXTAGCOUNT then return false
             end if
 
-            selectedOptions = []
+            m.selectedOptions = []
             for i = 0 to m.filterOptionsMenu.checkedState.count() - 1
                 if m.filterOptionsMenu.checkedState[i]
                     selectedFilterContent = m.filterOptionsMenu.content.getChild(i)
@@ -389,17 +392,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
                     selectedValue = toString(selectedFilterContent.title)
                     selectedValue = selectedValue.replace("Photo Album", ItemType.PHOTOALBUM)
-                    selectedOptions.push(selectedValue)
+                    m.selectedOptions.push(selectedValue)
                 end if
             end for
 
-            if selectedOptions.Count() > 0
+            if m.selectedOptions.Count() > 0
                 m.filterMenu.checkedItem = m.filterMenu.itemFocused
                 m.selectedFilterIndex = m.filterMenu.itemFocused
                 m.top.filter = m.filterMenu.content.getChild(m.filterMenu.itemFocused).Name
 
                 newFilter = {}
-                newFilter[m.top.filter] = selectedOptions.join(m.filterMenu.content.getChild(m.filterMenu.itemFocused).delimiter)
+                newFilter[m.top.filter] = m.selectedOptions.join(m.filterMenu.content.getChild(m.filterMenu.itemFocused).delimiter)
                 m.top.filterOptions = newFilter
             else
                 m.filterMenu.checkedItem = 0
