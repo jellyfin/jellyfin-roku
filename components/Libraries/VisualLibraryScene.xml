@@ -35,8 +35,9 @@
     <Animation id="toggleDropdownOptionsAnimation" duration="1" repeat="false" easeFunction="linear">
       <FloatFieldInterpolator id="dropdownOptionsFade" key="[0.0, 1.0]" keyValue="[1.00, 0.00]" fieldToInterp="dropdownOptionGroup.opacity" />
       <Vector2DFieldInterpolator id="dropdownOptionsMove" key="[0.1, .9]" keyValue="[[100, 60], [100, 0]]" fieldToInterp="dropdownOptionGroup.translation" />
-      <Vector2DFieldInterpolator id="itemGridMove" key="[0.1, .9]" keyValue="[[100, 260], [100, 60]]" fieldToInterp="itemGrid.translation" />
-      <Vector2DFieldInterpolator id="genreListMove" key="[0.1, .9]" keyValue="[[100, 260], [100, 60]]" fieldToInterp="genrelist.translation" />
+      <Vector2DFieldInterpolator id="itemGridMove" key="[0.1, .9]" keyValue="[[100, 260], [100, 120]]" fieldToInterp="itemGrid.translation" />
+      <Vector2DFieldInterpolator id="chipsRowMove" key="[0.1, .9]" keyValue="[[100, 200], [100, 60]]" fieldToInterp="chipsRow.translation" />
+      <Vector2DFieldInterpolator id="genreListMove" key="[0.1, .9]" keyValue="[[100, 260], [100, 120]]" fieldToInterp="genrelist.translation" />
     </Animation>
 
     <Text id="selectedItemName" visible="false" translation="[120, 40]" wrap="true" font="font:LargeBoldSystemFont" width="850" height="196" horizAlign="left" vertAlign="center" />

@@ -31,6 +31,7 @@ sub setupNodes()
 
     m.toggleDropdownOptionsAnimation = m.top.findNode("toggleDropdownOptionsAnimation")
     m.dropdownOptionsMove = m.top.findNode("dropdownOptionsMove")
+    m.chipsRowMove = m.top.findNode("chipsRowMove")
     m.itemGridMove = m.top.findNode("itemGridMove")
     m.genreListMove = m.top.findNode("genreListMove")
     m.dropdownOptionsFade = m.top.findNode("dropdownOptionsFade")
@@ -420,15 +421,16 @@ sub loadInitialItems()
     end if
 
     m.dropdownOptionGroup.translation = "[100, 540]"
-    m.dropdownOptionGroup.translation = "[100, 540]"
+    m.chipsRow.translation = "[100, 680]"
 
     if m.dropdownOptionGroup.opacity < 1
         m.itemGrid.translation = "[100, 520]"
     else
-        m.itemGrid.translation = "[100, 670]"
+        m.itemGrid.translation = "[100, 740]"
     end if
     m.dropdownOptionsMove.keyValue = "[[100, 540], [100, 480]]"
-    m.itemGridMove.keyValue = "[[100, 670], [100, 520]]"
+    m.chipsRowMove.keyValue = "[[100, 680], [100, 540]]"
+    m.itemGridMove.keyValue = "[[100, 740], [100, 600]]"
 
     m.emptyText.translation = "[0, 750]"
     m.itemGrid.itemSpacing = "[20, 20]"
@@ -453,9 +455,11 @@ sub loadInitialItems()
         end if
 
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
-        m.itemGridMove.keyValue = "[[100, 260], [100, 60]]"
+        m.chipsRowMove.keyValue = "[[100, 200], [100, 60]]"
+        m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptionGroup.translation = "[100, 60]"
+        m.chipsRow.translation = "[100, 200]"
         m.itemGrid.numRows = "3"
         m.selectedItemOverview.visible = false
         m.selectedItemName.visible = false
@@ -473,9 +477,11 @@ sub loadInitialItems()
         end if
 
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
-        m.itemGridMove.keyValue = "[[100, 260], [100, 60]]"
+        m.chipsRowMove.keyValue = "[[100, 200], [100, 60]]"
+        m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptionGroup.translation = "[100, 60]"
+        m.chipsRow.translation = "[100, 200]"
         m.itemGrid.numRows = "3"
         m.selectedItemOverview.visible = false
         m.selectedItemName.visible = false
@@ -493,9 +499,11 @@ sub loadInitialItems()
         end if
 
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
-        m.itemGridMove.keyValue = "[[100, 260], [100, 60]]"
+        m.chipsRowMove.keyValue = "[[100, 200], [100, 60]]"
+        m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptionGroup.translation = "[100, 60]"
+        m.chipsRow.translation = "[100, 200]"
         m.itemGrid.numRows = "3"
         m.selectedItemOverview.visible = false
         m.selectedItemName.visible = false
@@ -1134,6 +1142,7 @@ end sub
 sub toggleDropdownOptions(runInReverse = false as boolean)
     m.dropdownOptionsFade.reverse = runInReverse
     m.dropdownOptionsMove.reverse = runInReverse
+    m.chipsRowMove.reverse = runInReverse
     m.itemGridMove.reverse = runInReverse
     m.genreListMove.reverse = runInReverse
 
