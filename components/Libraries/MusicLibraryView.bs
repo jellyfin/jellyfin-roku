@@ -26,6 +26,7 @@ sub setupNodes()
     m.emptyText = m.top.findNode("emptyText")
     m.backdropImage = m.top.findNode("backdropImage")
     m.selectedArtistName = m.top.findNode("selectedArtistName")
+    m.selectedArtistCreditedFor = m.top.findNode("selectedArtistCreditedFor")
     m.selectedArtistSongCount = m.top.findNode("selectedArtistSongCount")
     m.selectedArtistAlbumCount = m.top.findNode("selectedArtistAlbumCount")
     m.selectedArtistGenres = m.top.findNode("selectedArtistGenres")
@@ -142,10 +143,15 @@ sub init()
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
     m.loadLogoTask = createObject("roSGNode", "LoadItemsTask2")
+    m.loadArtistStatsTask = createObject("roSGNode", "MusicArtistStatsTask")
     m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
+    m.artistStatsCache = {}
+    m.selectedArtistStatsId = string.EMPTY
+    m.selectedArtistStatsFilter = string.EMPTY
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
+    m.loadArtistStatsTask.observeField("content", "ArtistStatsLoaded")
     m.loadItemsTask.totalRecordCount = 0
 end sub
 
@@ -627,6 +633,7 @@ sub LogoImageLoaded(msg)
     if data.Count() > 0
         m.artistLogo.uri = data[0]
         m.artistLogo.visible = true
+        m.selectedArtistName.visible = false
     else
         m.selectedArtistName.visible = true
     end if
@@ -697,6 +704,7 @@ sub ItemDataLoaded(msg)
         m.artistLogo.visible = false
         m.selectedArtistName.visible = false
         m.selectedArtistGenres.visible = false
+        m.selectedArtistCreditedFor.visible = false
         m.selectedArtistSongCount.visible = false
         m.selectedArtistAlbumCount.visible = false
 
@@ -719,22 +727,198 @@ end sub
 '
 'Set Selected Artist Song Count
 sub SetSongCount(totalCount)
-    appendText = " " + tr("Songs")
-    if totalCount = 1
-        appendText = " " + tr("Song")
+    if not isValid(totalCount)
+        m.selectedArtistSongCount.visible = false
+        m.selectedArtistSongCount.text = string.EMPTY
+        return
     end if
 
-    m.selectedArtistSongCount.text = totalCount.tostr() + appendText
+    m.selectedArtistSongCount.text = getFormattedMusicCountText(totalCount, "Song", "Songs")
+    m.selectedArtistSongCount.visible = true
 end sub
+
 '
 'Set Selected Artist Album Count
 sub SetAlbumCount(totalCount)
-    appendText = " " + tr("Albums")
-    if totalCount = 1
-        appendText = " " + tr("Album")
+    if not isValid(totalCount)
+        m.selectedArtistAlbumCount.visible = false
+        m.selectedArtistAlbumCount.text = string.EMPTY
+        return
     end if
 
-    m.selectedArtistAlbumCount.text = totalCount.tostr() + appendText
+    m.selectedArtistAlbumCount.text = getFormattedMusicCountText(totalCount, "Album", "Albums")
+    m.selectedArtistAlbumCount.visible = true
+end sub
+
+sub SetCreditedArtistCounts(songCount, albumCount)
+    setSelectedArtistStatsLayout(true)
+    m.selectedArtistCreditedFor.text = tr("Credited for:")
+    m.selectedArtistCreditedFor.visible = true
+    m.selectedArtistSongCount.text = getFormattedMusicCountText(songCount, "Song", "Songs")
+    m.selectedArtistSongCount.visible = true
+    m.selectedArtistAlbumCount.text = getFormattedMusicCountText(albumCount, "Album", "Albums")
+    m.selectedArtistAlbumCount.visible = true
+end sub
+
+sub setSelectedArtistStatsLayout(useCreditedLayout as boolean)
+    m.selectedArtistCreditedFor.visible = false
+    m.selectedArtistCreditedFor.text = string.EMPTY
+
+    if useCreditedLayout
+        m.selectedArtistSongCount.translation = "[140, 300]"
+        m.selectedArtistAlbumCount.translation = "[140, 340]"
+        m.selectedArtistGenres.translation = "[120, 380]"
+        return
+    end if
+
+    m.selectedArtistSongCount.translation = "[120, 270]"
+    m.selectedArtistAlbumCount.translation = "[120, 310]"
+    m.selectedArtistGenres.translation = "[120, 350]"
+end sub
+
+sub clearSelectedArtistDetails()
+    m.loadLogoTask.unobserveField("content")
+    m.loadLogoTask.control = TaskControl.STOP
+    m.loadLogoTask.content = []
+    m.loadArtistStatsTask.control = TaskControl.STOP
+    m.loadArtistStatsTask.content = {}
+    m.selectedArtistStatsId = string.EMPTY
+    m.selectedArtistStatsFilter = string.EMPTY
+    m.artistLogo.visible = false
+    m.artistLogo.uri = string.EMPTY
+    m.selectedArtistName.visible = false
+    m.selectedArtistName.text = string.EMPTY
+    m.selectedArtistGenres.visible = false
+    m.selectedArtistGenres.text = string.EMPTY
+
+end sub
+
+function showFocusedMusicDetailsFromGrid(focusedItem) as boolean
+    if not isMusicArtistPresentationView() then return false
+    if not m.itemGrid.isinFocusChain() then return false
+
+    if not isChainValid(focusedItem, "json") then return false
+
+    itemData = focusedItem.json
+    clearSelectedArtistDetails()
+
+    if isValid(itemData.Genres)
+        SetGenres(itemData.Genres)
+        m.selectedArtistGenres.visible = true
+    else
+        SetGenres([])
+    end if
+
+    if isValid(itemData.Name)
+        SetName(itemData.Name)
+        m.selectedArtistName.visible = false
+    else
+        SetName(string.EMPTY)
+    end if
+
+    if isValid(itemData.Id)
+        loadSelectedArtistStats(itemData.Id)
+        m.loadLogoTask.itemId = itemData.Id
+        m.loadLogoTask.itemType = "LogoImage"
+        m.loadLogoTask.observeField("content", "LogoImageLoaded")
+        m.loadLogoTask.control = TaskControl.RUN
+    else if isValidAndNotEmpty(m.selectedArtistName.text)
+        m.selectedArtistName.visible = true
+    end if
+
+    if isStringEqual(m.view, "ArtistsPresentation") or isStringEqual(m.view, "AlbumArtistsPresentation")
+        m.backdropImage@.changeImage(focusedItem.backdropUrl ?? string.EMPTY)
+    end if
+
+    return true
+end function
+
+function isMusicArtistPresentationView() as boolean
+    return isStringEqual(m.view, "ArtistsPresentation") or isStringEqual(m.view, "AlbumArtistsPresentation")
+end function
+
+function getSelectedArtistStatsFilter() as string
+    if isStringEqual(m.view, "AlbumArtistsPresentation") then return "AlbumArtistIds"
+    return "ArtistIds"
+end function
+
+function getArtistStatsCacheKey(artistId as string, artistStatsFilter as string) as string
+    return artistStatsFilter + ":" + artistId
+end function
+
+sub clearSelectedArtistCounts()
+    setSelectedArtistStatsLayout(false)
+    m.selectedArtistSongCount.visible = false
+    m.selectedArtistSongCount.text = string.EMPTY
+    m.selectedArtistAlbumCount.visible = false
+    m.selectedArtistAlbumCount.text = string.EMPTY
+end sub
+
+sub loadSelectedArtistStats(artistId as string)
+    artistStatsFilter = getSelectedArtistStatsFilter()
+    m.selectedArtistStatsId = artistId
+    m.selectedArtistStatsFilter = artistStatsFilter
+    clearSelectedArtistCounts()
+
+    cacheKey = getArtistStatsCacheKey(artistId, artistStatsFilter)
+    if m.artistStatsCache.DoesExist(cacheKey)
+        applySelectedArtistStats(m.artistStatsCache[cacheKey])
+        return
+    end if
+
+    m.loadArtistStatsTask.control = TaskControl.STOP
+    m.loadArtistStatsTask.content = {}
+    m.loadArtistStatsTask.artistId = artistId
+    m.loadArtistStatsTask.artistStatsFilter = artistStatsFilter
+    m.loadArtistStatsTask.control = TaskControl.RUN
+end sub
+
+sub ArtistStatsLoaded(msg)
+    stats = msg.GetData()
+    if not isValid(stats) then return
+    if not isValidAndNotEmpty(stats.id) then return
+    if not isValidAndNotEmpty(stats.artistStatsFilter) then return
+
+    m.loadArtistStatsTask.control = TaskControl.STOP
+    m.artistStatsCache.AddReplace(getArtistStatsCacheKey(stats.id, stats.artistStatsFilter), stats)
+
+    if not isStringEqual(stats.id, m.selectedArtistStatsId) then return
+    if not isStringEqual(stats.artistStatsFilter, m.selectedArtistStatsFilter) then return
+    ' Alpha focus keeps the last artist presentation visible while its stats finish loading.
+    if not m.itemGrid.isinFocusChain() and not m.alphaMenu.isinFocusChain() then return
+    if not isMusicArtistPresentationView() then return
+
+    applySelectedArtistStats(stats)
+end sub
+
+function getFormattedMusicCountText(totalCount, singularLabel as string, pluralLabel as string) as string
+    if not isValid(totalCount) then return string.EMPTY
+
+    label = pluralLabel
+    if totalCount = 1 then label = singularLabel
+
+    return totalCount.ToStr().trim() + " " + tr(label)
+end function
+
+sub applySelectedArtistStats(stats)
+    if isStringEqual(stats.artistStatsFilter, "ArtistIds") and isValid(stats.songCount) and isValid(stats.albumCount)
+        SetCreditedArtistCounts(stats.songCount, stats.albumCount)
+        return
+    end if
+
+    setSelectedArtistStatsLayout(false)
+
+    if isValid(stats.songCount)
+        SetSongCount(stats.songCount)
+    else
+        SetSongCount(invalid)
+    end if
+
+    if isValid(stats.albumCount)
+        SetAlbumCount(stats.albumCount)
+    else
+        SetAlbumCount(invalid)
+    end if
 end sub
 
 '
@@ -770,6 +954,7 @@ sub onItemFocused()
     m.artistLogo.visible = false
     m.selectedArtistName.visible = false
     m.selectedArtistGenres.visible = false
+    m.selectedArtistCreditedFor.visible = false
     m.selectedArtistSongCount.visible = false
     m.selectedArtistAlbumCount.visible = false
 
@@ -778,7 +963,8 @@ sub onItemFocused()
         loadMoreData()
     end if
 
-    m.selectedFavoriteItem = getItemFocused()
+    focusedItem = getItemFocused()
+    m.selectedFavoriteItem = focusedItem
 
     if isStringEqual(m.view, "albums") or isStringEqual(m.top.parentItem.json.type, "musicgenre")
         return
@@ -792,59 +978,7 @@ sub onItemFocused()
         return
     end if
 
-    if not m.selectedArtistGenres.visible
-        m.selectedArtistGenres.visible = true
-    end if
-
-    if not m.selectedArtistSongCount.visible
-        m.selectedArtistSongCount.visible = true
-    end if
-
-    if not m.selectedArtistAlbumCount.visible
-        m.selectedArtistAlbumCount.visible = true
-    end if
-
-    if not isChainValid(m.selectedFavoriteItem, "json") then return
-
-    itemData = m.selectedFavoriteItem.json
-
-    if isValid(itemData.SongCount)
-        SetSongCount(itemData.SongCount)
-    else
-        SetSongCount("")
-    end if
-
-    if isValid(itemData.AlbumCount)
-        SetAlbumCount(itemData.AlbumCount)
-    else
-        SetAlbumCount("")
-    end if
-
-    if isValid(itemData.Genres)
-        SetGenres(itemData.Genres)
-    else
-        SetGenres([])
-    end if
-
-    if isValid(itemData.Name)
-        SetName(itemData.Name)
-    else
-        SetName("")
-    end if
-
-    m.loadLogoTask.itemId = itemData.id
-    m.loadLogoTask.itemType = "LogoImage"
-    m.loadLogoTask.observeField("content", "LogoImageLoaded")
-    m.loadLogoTask.control = TaskControl.RUN
-
-    ' Set Background to item backdrop
-    if isStringEqual(m.view, "ArtistsPresentation")
-        m.backdropImage@.changeImage(m.selectedFavoriteItem.backdropUrl ?? string.EMPTY)
-    end if
-
-    if isStringEqual(m.view, "albumartistspresentation")
-        m.backdropImage@.changeImage(m.selectedFavoriteItem.backdropUrl ?? string.EMPTY)
-    end if
+    showFocusedMusicDetailsFromGrid(focusedItem)
 end sub
 
 sub setFieldText(field, value)
@@ -1037,6 +1171,8 @@ sub alphaSelectedChanged()
         end if
     end if
 
+    clearSelectedArtistDetails()
+    clearSelectedArtistCounts()
     m.loadItemsTask.control = TaskControl.STOP
     m.loadedRows = 0
     m.loadedItems = 0

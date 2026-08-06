@@ -6,5 +6,9 @@
   {
     "description": "Add ability to filter by tag to visual libraries",
     "author": "1hitsong"
+  },
+  {
+    "description": "Improve music artist presentation and detail stats",
+    "author": "VX-101"
   }
 ]
