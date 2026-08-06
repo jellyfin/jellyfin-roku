@@ -55,7 +55,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = "left" or key = "right"
         if not isValidAndNotEmpty(m.top.rowItemFocused) then return false
-        if not isValid(m.top.content) or m.top.content.getChildCount() = 0 then return false
+        if not isValid(m.top.content) or m.top.content.getChildCount() < 2 then return false
 
         row = m.top.content.getChild(0)
         if not isValid(row) then return false

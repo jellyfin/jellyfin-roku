@@ -22,5 +22,9 @@
   {
     "description": "Fix Live TV Guide sort",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Add wraparound login user navigation",
+    "author": "geryonghost"
   }
 ]
