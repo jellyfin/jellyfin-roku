@@ -51,13 +51,8 @@ sub init()
     'set voice help text
     m.voiceBox.hintText = tr("Use voice remote to search")
 
-    channelOrder = chainLookupReturn(m.global.session, "display.livetv.sortField", LiveTVChannelSortOrder.NUMBER)
-    if isStringEqual(channelOrder, LiveTVChannelSortOrder.DATEPLAYED)
-        m.sortField = "DatePlayed"
-    else
-        m.sortField = "SortName"
-    end if
-    m.sortAscending = true
+    m.sortField = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortField`", "SortName")
+    m.sortAscending = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortAscending`", true)
 
     m.filter = "All"
 
@@ -123,21 +118,11 @@ sub loadInitialItems()
         m.alpha.visible = true
         m.itemGrid.opacity = 1
     end if
-    m.sortField = m.global.session.user.settings["display.livetv.sortField"]
-    sortAscendingStr = m.global.session.user.settings["display.livetv.sortAscending"]
+    m.sortField = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortField`", "SortName")
+    m.sortAscending = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortAscending`", true)
     m.filter = m.global.session.user.settings["display.livetv.filter"]
 
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
-
-    if not isValidAndNotEmpty(m.sortField)
-        m.sortField = "SortName"
-    end if
-
-    if sortAscendingStr = invalid or sortAscendingStr = true
-        m.sortAscending = true
-    else
-        m.sortAscending = false
-    end if
 
     m.loadItemsTask.itemId = m.top.parentItem.Id
 
