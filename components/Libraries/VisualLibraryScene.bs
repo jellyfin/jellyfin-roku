@@ -879,8 +879,14 @@ sub setSelectedOptions(options)
                 displayChip = true
             end if
 
+            if isStringEqual(tr(o.LookupCI("title")), tr("All"))
+                displayChip = false
+            end if
+
             if displayChip
                 m.chipsRow@.addChip("filter", string.EMPTY, tr(o.LookupCI("title")))
+            else
+                m.chipsRow@.removeChip("filter")
             end if
         end if
 

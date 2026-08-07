@@ -5,10 +5,10 @@
         <ScrollingText id="buttonText" font="font:SmallSystemFont" horizAlign="center" vertAlign="center" opacity="0" height="0" />
 
         <Animation id="toggleAnimation" duration="1" repeat="false" easeFunction="linear">
-            <FloatFieldInterpolator id="backgroundFade" key="[0.0, 1.0]" keyValue="[1.00, 0.00]" fieldToInterp="buttonBackground.opacity" />
-            <FloatFieldInterpolator id="textFade" key="[0.0, 1.0]" keyValue="[1.00, 0.00]" fieldToInterp="buttonText.opacity" />
-            <FloatFieldInterpolator id="backgroundHeight" key="[0.1, .9]" keyValue="[0, 0]" fieldToInterp="buttonBackground.height" />
-            <FloatFieldInterpolator id="textHeight" key="[0.1, .9]" keyValue="[0, 0]" fieldToInterp="buttonText.height" />
+            <FloatFieldInterpolator id="backgroundFade" key="[0.1, 0.9]" keyValue="[1.00, 0.00]" fieldToInterp="buttonBackground.opacity" />
+            <FloatFieldInterpolator id="textFade" key="[0.1, 0.9]" keyValue="[1.00, 0.00]" fieldToInterp="buttonText.opacity" />
+            <FloatFieldInterpolator id="backgroundHeight" key="[0.0, 1.0]" keyValue="[0, 0]" fieldToInterp="buttonBackground.height" />
+            <FloatFieldInterpolator id="textHeight" key="[0.0, 1.0]" keyValue="[0, 0]" fieldToInterp="buttonText.height" />
         </Animation>
     </children>
     <interface>

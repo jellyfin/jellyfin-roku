@@ -26,7 +26,7 @@
 
     <DropdownMenuRow
       id="dropdownOptionGroup"
-      translation="[100, 60]" />
+      translation="[100, 120]" />
 
     <ChipsRow
       id="chipsRow"
