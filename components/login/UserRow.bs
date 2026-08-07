@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -31,11 +32,17 @@ end sub
 
 function setData()
     if m.top.itemContent = invalid
+        m.allowWraparoundNavigation = false
+        m.lastUserIndex = 0
         data = CreateObject("roSGNode", "ContentNode")
         return data
     end if
 
     userData = m.top.itemContent
+    userCount = userData.count()
+    m.allowWraparoundNavigation = userCount > 1
+    m.lastUserIndex = userCount - 1
+
     data = CreateObject("roSGNode", "ContentNode")
     row = data.CreateChild("ContentNode")
     for each item in userData
@@ -53,22 +60,18 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if key = "left" or key = "right"
+    if inArray([KeyCode.LEFT, KeyCode.RIGHT], key)
         if not isValidAndNotEmpty(m.top.rowItemFocused) then return false
-        if not isValid(m.top.content) or m.top.content.getChildCount() < 2 then return false
+        if not m.allowWraparoundNavigation then return false
 
-        row = m.top.content.getChild(0)
-        if not isValid(row) then return false
-
-        lastIndex = row.getChildCount() - 1
         focusedIndex = m.top.rowItemFocused[1]
 
-        if key = "left" and focusedIndex = 0
-            m.top.jumpToRowItem = [0, lastIndex]
+        if isStringEqual(KeyCode.LEFT, key) and focusedIndex = 0
+            m.top.jumpToRowItem = [0, m.lastUserIndex]
             return true
         end if
 
-        if key = "right" and focusedIndex = lastIndex
+        if isStringEqual(KeyCode.RIGHT, key) and focusedIndex = m.lastUserIndex
             m.top.jumpToRowItem = [0, 0]
             return true
         end if
