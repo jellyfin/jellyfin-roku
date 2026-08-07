@@ -88,11 +88,8 @@ end sub
 sub setFavoriteButtonStyle(isFocused as boolean)
     if not isValid(m.favoriteIcon) then return
 
-    if m.currentItemIsFavorite
-        m.favoriteIcon.uri = "pkg:/images/icons/heart_checked_mini.png"
-    else
-        m.favoriteIcon.uri = "pkg:/images/icons/heart_mini.png"
-    end if
+    m.favoriteIcon.uri = "pkg:/images/icons/heart_mini.png"
+    m.favoriteIcon.blendColor = m.currentItemIsFavorite ? ColorPalette.RED : ColorPalette.WHITE
 
     m.favoriteIcon.opacity = isFocused ? 1 : .85
 
