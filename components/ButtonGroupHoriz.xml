@@ -2,5 +2,6 @@
 <component name="ButtonGroupHoriz" extends="ButtonGroup">
   <interface>
     <field id="escape" type="string" alwaysNotify="true" />
+    <field id="blockDown" type="bool" />
   </interface>
 </component>

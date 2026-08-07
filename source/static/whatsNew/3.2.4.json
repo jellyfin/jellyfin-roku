@@ -6,5 +6,9 @@
   {
     "description": "Add ability to filter by tag to visual libraries",
     "author": "1hitsong"
+  },
+  {
+    "description": "Only enter TV season and episode grids when there is content to display",
+    "author": "michaelcresswell"
   }
 ]
