@@ -1,5 +1,6 @@
 import "pkg:/components/manager/ViewCreator.bs"
 import "pkg:/source/enums/CollectionType.bs"
+import "pkg:/source/enums/FavoriteStatus.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
@@ -1880,6 +1881,23 @@ sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
     end if
 end sub
 
+sub updateAlbumTrackFavoriteState(itemID as string, isFavorite as boolean)
+    activeScene = m.global.sceneManager.callFunc("getActiveScene")
+    if not isValid(activeScene) or not isStringEqual(activeScene.subtype(), "AlbumView") then return
+
+    songList = activeScene.findNode("songList")
+    if not isValid(songList) or not isValid(songList.content) then return
+
+    for each song in songList.content.getChildren(-1, 0)
+        songID = chainLookupReturn(song, "id", String.EMPTY)
+        if isStringEqual(songID, itemID)
+            song.favorite = isFavorite
+            song.favoriteStatus = isFavorite ? FavoriteStatus.FAVORITE : FavoriteStatus.NOT_FAVORITE
+            return
+        end if
+    end for
+end sub
+
 sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, params as object)
     if isStringEqual(selectedPopupButton, tr("Play Track"))
         quickplay.audio({
@@ -1967,11 +1985,13 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
 
     if isStringEqual(selectedPopupButton, tr("Add To Favorites"))
         MainAction.addItemToFavorites(itemID)
+        updateAlbumTrackFavoriteState(itemID, true)
         return
     end if
 
     if isStringEqual(selectedPopupButton, tr("Remove From Favorites"))
         MainAction.removeItemFromFavorites(itemID)
+        updateAlbumTrackFavoriteState(itemID, false)
         return
     end if
 

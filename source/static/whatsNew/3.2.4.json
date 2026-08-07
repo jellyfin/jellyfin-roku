@@ -18,5 +18,9 @@
   {
     "description": "Fix crash when pressing * on user select screen when no users are shown",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add favorite indicators to album track lists",
+    "author": "VX-101"
   }
 ]

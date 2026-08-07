@@ -273,7 +273,10 @@ namespace MainAction
                 return
             end if
             if isStringEqual(group.subtype(), "albumView")
-                group.IsFavorite = true
+                pageItemID = chainLookupReturn(group, "pageContent.id", String.EMPTY)
+                if isStringEqual(pageItemID, itemID)
+                    group.IsFavorite = true
+                end if
             end if
         end if
     end sub
@@ -288,7 +291,10 @@ namespace MainAction
                 return
             end if
             if isStringEqual(group.subtype(), "albumView")
-                group.IsFavorite = false
+                pageItemID = chainLookupReturn(group, "pageContent.id", String.EMPTY)
+                if isStringEqual(pageItemID, itemID)
+                    group.IsFavorite = false
+                end if
             end if
         end if
     end sub

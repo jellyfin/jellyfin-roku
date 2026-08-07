@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/FavoriteStatus.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
@@ -203,15 +204,6 @@ sub adjustForMiniPlayer(audioMiniPlayerVisible = false)
     if m.songList.numRows <> newNumberOfRows
         focusedItem = m.songList.itemFocused
         m.songList.numRows = newNumberOfRows
-
-        tempData = CreateObject("roSGNode", "ContentNode")
-        tempData.appendChildren(m.top.albumData.getChildren(-1, 0))
-
-        data = CreateObject("roSGNode", "ContentNode")
-        m.top.albumData = data
-        m.songList.content = data
-        data.appendChildren(tempData.getChildren(-1, 0))
-
         m.songList.jumpToItem = focusedItem
     end if
 end sub
@@ -334,21 +326,39 @@ end sub
 sub refreshAlbumTrackList()
     if not isChainValid(m.top.pageContent, "id") then return
 
-    m.focusedItem = m.songList.itemFocused
     m.LoadAlbumTask = CreateObject("roSGNode", "LoadAlbumTask")
     m.LoadAlbumTask.id = m.top.pageContent.id
     m.LoadAlbumTask.observeField("albumDetails", "onAlbumDetailsLoaded")
     m.LoadAlbumTask.control = TaskControl.RUN
 end sub
 
+sub updateAlbumTrackPlayCounts(albumDetails as dynamic)
+    if not isValid(albumDetails) or not isValid(m.top.albumData) then return
+
+    existingSongsByID = {}
+    for each existingSong in m.top.albumData.getChildren(-1, 0)
+        songID = chainLookupReturn(existingSong, "id", string.EMPTY)
+        if isValidAndNotEmpty(songID)
+            existingSongsByID.AddReplace(songID, existingSong)
+        end if
+    end for
+
+    for each refreshedSong in albumDetails.getChildren(-1, 0)
+        songID = chainLookupReturn(refreshedSong, "id", string.EMPTY)
+        existingSong = existingSongsByID.LookupCI(songID)
+        if isValid(existingSong)
+            existingSong.playCount = refreshedSong.playCount
+        end if
+    end for
+end sub
+
 sub onAlbumDetailsLoaded()
     m.LoadAlbumTask.unobserveField("albumDetails")
     m.LoadAlbumTask.control = TaskControl.STOP
 
-    m.songList.doneLoading = false
-    m.songList.observeField("doneLoading", "onDoneLoading")
-    albumDetails = m.LoadAlbumTask.albumDetails
-    m.top.albumData = albumDetails
+    ' Update the rendered rows in place so refreshes preserve list focus.
+    updateAlbumTrackPlayCounts(m.LoadAlbumTask.albumDetails)
+    stopLoadingSpinner()
 end sub
 
 ' Populate on screen text variables
@@ -717,11 +727,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if m.songList.hasFocus()
-        if key = KeyCode.OPTIONS
+        if isStringEqual(key, KeyCode.OPTIONS)
             focusedSong = m.songList.content.getChild(m.songList.itemFocused)
             if not isValidAndNotEmpty(focusedSong) then return false
 
-            dialogData = [tr("Add To Playlist")]
+            favoriteOptionText = chainLookupReturn(focusedSong, "favorite", false) ? tr("Remove From Favorites") : tr("Add To Favorites")
+            dialogData = [favoriteOptionText, tr("Add To Playlist")]
             m.global.sceneManager.callFunc("optionDialog", "libraryitem", focusedSong.LookupCI("title") ?? tr("Options"), [], dialogData, { id: focusedSong.LookupCI("id") })
 
             return true
@@ -951,11 +962,6 @@ sub onDoneLoading()
 
     if m.loadStatus = ViewLoadStatus.INIT
         m.loadStatus = ViewLoadStatus.FIRSTLOAD
-    end if
-
-    if isValid(m.focusedItem)
-        m.songList.jumpToItem = m.focusedItem
-        m.focusedItem = invalid
     end if
 
     scene = m.top.getScene()
