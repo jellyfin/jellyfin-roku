@@ -130,6 +130,7 @@ function LoginFlow()
                             unset_user_setting("token")
                             unset_user_setting("username")
                         else
+                            handleAboutMeFailure(currentUserResponse.code)
                             forceServerSelect = true
                             goto start_login
                         end if
@@ -193,7 +194,7 @@ function LoginFlow()
                         goto start_login
                     end if
                 else
-                    print "Server connection failed with status: "; currentUserResponse.code
+                    handleAboutMeFailure(currentUserResponse.code)
                     forceServerSelect = true
                     goto start_login
                 end if
@@ -1234,4 +1235,13 @@ sub playbackOptionDialog(time as longinteger, meta as object)
     end if
     stopLoadingSpinner()
     m.global.sceneManager.callFunc("optionDialog", "playback", tr("Playback Options"), [], resumeData, { id: string.EMPTY })
+end sub
+
+sub handleAboutMeFailure(code as integer)
+    print "Server connection failed with status: "; code
+    if code = 503
+        show_dialog(tr("The server is still starting up. Please try again."), [tr("OK")], 0)
+    else
+        show_dialog(tr("The server is temporarily unavailable. Please try again."), [tr("OK")], 0)
+    end if
 end sub
