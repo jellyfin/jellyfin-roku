@@ -10,5 +10,9 @@
   {
     "description": "Only enter TV season and episode grids when there is content to display",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Add view all tiles to home favorites rows",
+    "author": "VX-101"
   }
 ]

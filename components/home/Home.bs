@@ -333,6 +333,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.homeRows.hasFocus()
             focusedItem = m.homeRows.content.getChild(m.homeRows.rowItemFocused[0]).getChild(m.homeRows.rowItemFocused[1])
             if not isValidAndNotEmpty(focusedItem) then return false
+            if chainLookupReturn(focusedItem, "json.FavoriteViewAll", false) then return true
 
             ' Skip loading playlists and mylist data for radio stations
             if inArray([ItemType.RADIOSTATION], focusedItem.LookupCI("type"))
