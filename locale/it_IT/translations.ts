@@ -2374,6 +2374,14 @@
         <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
         <translation>Usa a tuo rischio e pericolo. Non possiamo garantire che funzioni. \n 1. Questa funzione potrebbe non funzionare su questo dispositivo, ma funzionare su altri \n 2. Alcune opzioni di velocità potrebbero non funzionare su questo dispositivo, ma funzionare su altri \n 3. Roku potrebbe bloccare questa funzione senza avvisi; anche se il client Jellyfin non si aggiorna</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Il server si sta ancora avviando. Riprova.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Il server è temporaneamente non disponibile. Riprova.</translation>
+    </message>
 </context>
 <context>
     <name></name>

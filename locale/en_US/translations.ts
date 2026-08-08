@@ -2639,5 +2639,13 @@
             <source>Your search returned no tags.</source>
             <translation>Your search returned no tags.</translation>
         </message>
+        <message>
+            <source>The server is still starting up. Please try again.</source>
+            <translation>The server is still starting up. Please try again.</translation>
+        </message>
+        <message>
+            <source>The server is temporarily unavailable. Please try again.</source>
+            <translation>The server is temporarily unavailable. Please try again.</translation>
+        </message>
     </context>
 </TS>

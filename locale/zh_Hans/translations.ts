@@ -2246,5 +2246,13 @@
         <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
         <translation>触发转码时内嵌所有字幕，以确保转码后字幕同步，但会降低转码速度。</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>服务器仍在启动中。请重试。</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>服务器暂时不可用。请重试。</translation>
+    </message>
 </context>
 </TS>

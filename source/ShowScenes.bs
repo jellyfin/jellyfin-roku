@@ -5,6 +5,7 @@ const minimumServerVersion = [10, 9, 0]
 
 function LoginFlow()
     'Collect Jellyfin server and user information
+    forceServerSelect = false
     start_login:
 
     serverUrl = get_setting("server")
@@ -22,7 +23,8 @@ function LoginFlow()
     end if
 
     m.serverSelection = "Saved"
-    if startOver or invalidServer
+    if startOver or invalidServer or forceServerSelect
+        forceServerSelect = false
         SendPerformanceBeacon("AppDialogInitiate") ' Roku Performance monitoring - Dialog Starting
         m.serverSelection = CreateServerGroup()
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
@@ -121,12 +123,18 @@ function LoginFlow()
                 if myToken <> invalid
                     ' check if token is valid
                     session.user.Update("authToken", myToken)
-                    currentUser = AboutMe()
-                    if currentUser = invalid
-                        unset_user_setting("token")
-                        unset_user_setting("username")
+                    currentUserResponse = AboutMe()
+                    if currentUserResponse.body = invalid
+                        if currentUserResponse.code = 401
+                            unset_user_setting("token")
+                            unset_user_setting("username")
+                        else
+                            handleAboutMeFailure(currentUserResponse.code)
+                            forceServerSelect = true
+                            goto start_login
+                        end if
                     else
-                        session.user.Login(currentUser, true)
+                        session.user.Login(currentUserResponse.body, true)
                         LoadUserAbilities()
                         return true
                     end if
@@ -168,23 +176,29 @@ function LoginFlow()
             session.user.Update("authToken", myAuthToken)
             session.user.Update("name", myUsername)
 
-            currentUser = AboutMe()
-            if currentUser = invalid
-                'Try to login without password. If the token is valid, we're done
-                userData = get_token(myUsername, "")
-                if isValid(userData)
-                    session.user.Login(userData, true)
-                    LoadUserAbilities()
-                    return true
+            currentUserResponse = AboutMe()
+            if currentUserResponse.body = invalid
+                if currentUserResponse.code = 401
+                    'Try to login without password. If the token is valid, we're done
+                    userData = get_token(myUsername, "")
+                    if isValid(userData)
+                        session.user.Login(userData, true)
+                        LoadUserAbilities()
+                        return true
+                    else
+                        print "Auth failed. Password required"
+                        print "delete token and restart login flow"
+                        unset_user_setting("token")
+                        unset_user_setting("username")
+                        goto start_login
+                    end if
                 else
-                    print "Auth failed. Password required"
-                    print "delete token and restart login flow"
-                    unset_user_setting("token")
-                    unset_user_setting("username")
+                    handleAboutMeFailure(currentUserResponse.code)
+                    forceServerSelect = true
                     goto start_login
                 end if
             else
-                session.user.Login(currentUser, true)
+                session.user.Login(currentUserResponse.body, true)
             end if
         else
             print "No auth token found in registry"
@@ -1183,4 +1197,13 @@ sub playbackOptionDialog(time as longinteger, meta as object)
     end if
     stopLoadingSpinner()
     m.global.sceneManager.callFunc("optionDialog", "playback", tr("Playback Options"), [], resumeData, { id: string.EMPTY })
+end sub
+
+sub handleAboutMeFailure(code as integer)
+    print "Server connection failed with status: "; code
+    if code = 503
+        show_dialog(tr("The server is still starting up. Please try again."), [tr("OK")], 0)
+    else
+        show_dialog(tr("The server is temporarily unavailable. Please try again."), [tr("OK")], 0)
+    end if
 end sub

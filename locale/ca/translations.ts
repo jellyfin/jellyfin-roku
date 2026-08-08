@@ -2551,5 +2551,13 @@
         <source>The server found no media matching the filter criteria for this radio station.</source>
         <translation>El servidor no ha trobat mitjans que encaixin amb els criteris dels filtres per a aquesta estació de ràdio.</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>El servidor encara s'està iniciant. Torneu-ho a provar.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>El servidor no està disponible temporalment. Torneu-ho a provar.</translation>
+    </message>
 </context>
 </TS>

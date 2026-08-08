@@ -2603,6 +2603,14 @@
         <source>No media matched radio station criteria</source>
         <translation>Keine Medien passten zum Radiosenderkriterium</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Der Server startet noch. Bitte versuchen Sie es erneut.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Der Server ist vorübergehend nicht verfügbar. Bitte versuchen Sie es erneut.</translation>
+    </message>
 </context>
 <context>
     <name></name>
