@@ -2502,6 +2502,14 @@
         <source>Select trickplay display format.</source>
         <translation>Selcione o formato de exibição dos controles de reprodução.</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>O servidor ainda está iniciando. Por favor, tente novamente.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>O servidor está temporariamente indisponível. Por favor, tente novamente.</translation>
+    </message>
 </context>
 <context>
     <name></name>

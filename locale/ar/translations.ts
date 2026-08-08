@@ -2623,5 +2623,13 @@
         <source>Your search returned no tags.</source>
         <translation>بحثك لم يعثر على وسوم.</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>الخادم لا يزال قيد التشغيل. يرجى المحاولة مرة أخرى.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>الخادم غير متوفر مؤقتًا. يرجى المحاولة مرة أخرى.</translation>
+    </message>
 </context>
 </TS>

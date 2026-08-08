@@ -2227,5 +2227,13 @@
         <source>No other titles found in your library.</source>
         <translation>Inga andra titlar funna i ditt bibliotek.</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Servern startar fortfarande. Försök igen.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Servern är tillfälligt otillgänglig. Försök igen.</translation>
+    </message>
 </context>
 </TS>
