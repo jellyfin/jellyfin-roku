@@ -2563,5 +2563,13 @@
         <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
         <translation>La cerca ha retornat més de 50 etiquetes. Refeu la cerca per reduir el nombre d&apos;etiquetes coincidents.</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>El servidor encara s'està iniciant. Torneu-ho a provar.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>El servidor no està disponible temporalment. Torneu-ho a provar.</translation>
+    </message>
 </context>
 </TS>

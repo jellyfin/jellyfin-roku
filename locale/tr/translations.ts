@@ -2207,5 +2207,13 @@
         <translation>Kod dönüştürme tetiklendiğinde tüm altyazıları videoya yaz. Bu, kod dönüştürme işleminden sonra altyazı senkronizasyonunun sağlanması anlamına gelir ancak kod dönüştürme hızının düşmesine neden olur.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Sunucu hala başlatılıyor. Lütfen tekrar deneyin.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Sunucu geçici olarak kullanım dışı. Lütfen tekrar deneyin.</translation>
+    </message>
 </context>
 </TS>
