@@ -2611,5 +2611,17 @@
         <source>Press Play/Pause to jump to OK button</source>
         <translation>اضغط تشغيل\إيقاف مؤقت للقفز إلى زر تم</translation>
     </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>أعاد بحثك 50 أكثر من وسما. أعد البحث لتقليل عدد الوسوم المطابقة.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>بحث الوسوم</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>بحثك لم يعثر على وسوم.</translation>
+    </message>
 </context>
 </TS>

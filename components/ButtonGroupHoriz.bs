@@ -16,7 +16,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if target < 0 then return false
         m.top.focusButton = target
         return true
-    else if key = "up" or key = "down"
+    else if key = "up"
+        m.top.escape = key
+        return true
+    else if key = "down"
+        if m.top.blockDown
+            return false
+        end if
         m.top.escape = key
         return true
     end if
