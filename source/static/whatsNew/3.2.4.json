@@ -14,5 +14,9 @@
   {
     "description": "Add view all tiles to home favorites rows",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix crash when pressing * on user select screen when no users are shown",
+    "author": "1hitsong"
   }
 ]
