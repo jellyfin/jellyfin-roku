@@ -3,6 +3,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/sdk.bs"
 import "pkg:/source/constants/HomeRowItemSizes.bs"
+import "pkg:/source/enums/FavoriteViewAllRoute.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
@@ -500,17 +501,17 @@ end function
 '
 function getFavoriteRowDefinitions() as object
     return [
-        { rowKey: "movies", title: `${tr("Favorite")} ${tr("Movies")}`, includeItemTypes: ItemType.MOVIE, rowType: "poster" },
-        { rowKey: "shows", title: `${tr("Favorite")} ${tr("Shows")}`, includeItemTypes: ItemType.SERIES, rowType: "poster" },
-        { rowKey: "episodes", title: `${tr("Favorite")} ${tr("Episodes")}`, includeItemTypes: ItemType.EPISODE, rowType: "wide" },
-        { rowKey: "videos", title: `${tr("Favorite")} ${tr("Videos")}`, includeItemTypes: `${ItemType.VIDEO},${ItemType.MUSICVIDEO}`, rowType: "wide" },
-        { rowKey: "collections", title: `${tr("Favorite")} ${tr("Collections")}`, includeItemTypes: ItemType.BOXSET, rowType: "poster" },
-        { rowKey: "playlists", title: `${tr("Favorite")} ${tr("Playlists")}`, includeItemTypes: ItemType.PLAYLIST, rowType: "album" },
-        { rowKey: "people", title: `${tr("Favorite")} ${tr("Cast & Crew")}`, queryType: ItemType.PERSON, rowType: "poster" },
-        { rowKey: "artists", title: `${tr("Favorite")} ${tr("Artists")}`, queryType: ItemType.MUSICARTIST, rowType: "album" },
-        { rowKey: "albums", title: `${tr("Favorite")} ${tr("Albums")}`, includeItemTypes: ItemType.MUSICALBUM, rowType: "album" },
-        { rowKey: "songs", title: `${tr("Favorite")} ${tr("Songs")}`, includeItemTypes: ItemType.AUDIO, rowType: "album" },
-        { rowKey: "channels", title: `${tr("Favorite")} ${tr("Channels")}`, includeItemTypes: ItemType.TVCHANNEL, rowType: "wide" }
+        { rowKey: "movies", title: `${tr("Favorite")} ${tr("Movies")}`, includeItemTypes: ItemType.MOVIE, rowType: "poster", route: FavoriteViewAllRoute.VISUAL, mediaType: ItemType.MOVIE, view: "presentation" },
+        { rowKey: "shows", title: `${tr("Favorite")} ${tr("Shows")}`, includeItemTypes: ItemType.SERIES, rowType: "poster", route: FavoriteViewAllRoute.VISUAL, mediaType: ItemType.SERIES, view: "presentation" },
+        { rowKey: "episodes", title: `${tr("Favorite")} ${tr("Episodes")}`, includeItemTypes: ItemType.EPISODE, rowType: "wide", route: FavoriteViewAllRoute.VISUAL, mediaType: ItemType.SERIES, view: "Episodes" },
+        { rowKey: "videos", title: `${tr("Favorite")} ${tr("Videos")}`, includeItemTypes: `${ItemType.VIDEO},${ItemType.MUSICVIDEO}`, rowType: "wide", route: FavoriteViewAllRoute.VISUAL, mediaType: ItemType.MUSICVIDEO, view: "grid" },
+        { rowKey: "collections", title: `${tr("Favorite")} ${tr("Collections")}`, includeItemTypes: ItemType.BOXSET, rowType: "poster", route: FavoriteViewAllRoute.VISUAL, mediaType: ItemType.BOXSET, view: "presentation" },
+        { rowKey: "playlists", title: `${tr("Favorite")} ${tr("Playlists")}`, includeItemTypes: ItemType.PLAYLIST, rowType: "album", route: FavoriteViewAllRoute.MUSIC, view: "Playlists" },
+        { rowKey: "people", title: `${tr("Favorite")} ${tr("Cast & Crew")}`, queryType: ItemType.PERSON, rowType: "poster", route: FavoriteViewAllRoute.OTHER },
+        { rowKey: "artists", title: `${tr("Favorite")} ${tr("Artists")}`, queryType: ItemType.MUSICARTIST, rowType: "album", route: FavoriteViewAllRoute.MUSIC, view: "ArtistsPresentation" },
+        { rowKey: "albums", title: `${tr("Favorite")} ${tr("Albums")}`, includeItemTypes: ItemType.MUSICALBUM, rowType: "album", route: FavoriteViewAllRoute.MUSIC, view: "Albums" },
+        { rowKey: "songs", title: `${tr("Favorite")} ${tr("Songs")}`, includeItemTypes: ItemType.AUDIO, rowType: "album", route: FavoriteViewAllRoute.MUSIC, view: "Songs" },
+        { rowKey: "channels", title: `${tr("Favorite")} ${tr("Channels")}`, includeItemTypes: ItemType.TVCHANNEL, rowType: "wide", route: FavoriteViewAllRoute.LIVETV }
     ]
 end function
 
@@ -598,6 +599,9 @@ function createFavoriteViewAllHomeData(favoriteRow as object, sortField as strin
         FavoriteViewAll: true,
         IncludeItemTypes: favoriteRow.LookupCI("includeItemTypes") ?? string.EMPTY,
         QueryType: favoriteRow.LookupCI("queryType") ?? string.EMPTY,
+        LibraryViewRoute: favoriteRow.LookupCI("route") ?? FavoriteViewAllRoute.OTHER,
+        LibraryViewMediaType: favoriteRow.LookupCI("mediaType") ?? string.EMPTY,
+        LibraryViewInitialView: favoriteRow.LookupCI("view") ?? string.EMPTY,
         SortBy: sortField,
         SortOrder: sortOrder
     }

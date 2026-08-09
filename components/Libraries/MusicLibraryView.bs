@@ -16,6 +16,7 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub setupNodes()
+    m.favoriteViewAllInitialized = false
     m.toggleDropdownOptionsAnimation = m.top.findNode("toggleDropdownOptionsAnimation")
     m.dropdownOptionsMove = m.top.findNode("dropdownOptionsMove")
     m.itemGridMove = m.top.findNode("itemGridMove")
@@ -163,7 +164,7 @@ sub onSortChange(sortChoice)
     m.dropdownOptionGroup@.setSortAscending(true)
     m.sortAscending = true
 
-    set_user_setting("display." + m.settingID + ".sortField", m.sortField)
+    setLibraryUserSetting("sortField", m.sortField)
 
     m.loadedRows = 0
     m.loadedItems = 0
@@ -183,7 +184,7 @@ sub onViewChange(viewChoice)
     m.view = viewChoice.LookupCI("name")
     m.dropdownOptionGroup@.setText("viewButton", tr(viewChoice.LookupCI("title")))
 
-    set_user_setting("display." + m.settingID + ".landing", m.view)
+    setLibraryUserSetting("landing", m.view)
 
     ' Reset any filtering or search terms
     m.bypassSearchEvent = true
@@ -191,16 +192,16 @@ sub onViewChange(viewChoice)
     m.top.alphaSelected = string.EMPTY
     m.loadItemsTask.NameStartsWith = " "
     m.loadItemsTask.searchTerm = string.EMPTY
-    m.filter = "All"
+    if not isFavoriteViewAll() then m.filter = "All"
     m.filterOptions = {}
     m.sortField = "SortName"
     m.sortAscending = true
 
     ' Reset view to defaults
-    set_user_setting("display." + m.settingID + ".sortField", m.sortField)
-    set_user_setting("display." + m.settingID + ".sortAscending", "true")
-    set_user_setting("display." + m.settingID + ".filter", m.filter)
-    set_user_setting("display." + m.settingID + ".filterOptions", FormatJson(m.filterOptions))
+    setLibraryUserSetting("sortField", m.sortField)
+    setLibraryUserSetting("sortAscending", "true")
+    setLibraryUserSetting("filter", m.filter)
+    setLibraryUserSetting("filterOptions", FormatJson(m.filterOptions))
 
     m.getFiltersTask.control = "RUN"
 
@@ -223,7 +224,7 @@ sub onSortOrderChange(sortOrderChoice)
     m.dropdownOptionGroup@.setSortAscending(m.sortAscending)
     m.dropdownOptionGroup@.setText("sortOrderButton", tr(sortOrderChoice.LookupCI("title")))
 
-    set_user_setting("display." + m.settingID + ".sortAscending", m.sortAscending.toStr())
+    setLibraryUserSetting("sortAscending", m.sortAscending.toStr())
 
     m.loadedRows = 0
     m.loadedItems = 0
@@ -274,11 +275,22 @@ sub loadInitialItems()
         m.settingID = m.top.parentItem.Id
     end if
 
-    m.sortField = m.global.session.user.settings["display." + m.settingID + ".sortField"]
-    m.sortAscending = m.global.session.user.settings["display." + m.settingID + ".sortAscending"]
-    m.filter = m.global.session.user.settings["display." + m.settingID + ".filter"]
-    m.filterOptions = m.global.session.user.settings["display." + m.settingID + ".filterOptions"]
-    m.view = m.global.session.user.settings["display." + m.settingID + ".landing"]
+    if not isFavoriteViewAll()
+        m.sortField = m.global.session.user.settings["display." + m.settingID + ".sortField"]
+        m.sortAscending = m.global.session.user.settings["display." + m.settingID + ".sortAscending"]
+        m.filter = m.global.session.user.settings["display." + m.settingID + ".filter"]
+        m.filterOptions = m.global.session.user.settings["display." + m.settingID + ".filterOptions"]
+        m.view = m.global.session.user.settings["display." + m.settingID + ".landing"]
+    end if
+
+    if isFavoriteViewAll() and not m.favoriteViewAllInitialized
+        m.sortField = chainLookupReturn(m.top.parentItem, "json.SortBy", "SortName")
+        m.sortAscending = isStringEqual(chainLookupReturn(m.top.parentItem, "json.SortOrder", "Ascending"), "Ascending")
+        m.filter = "Favorites"
+        m.filterOptions = "{}"
+        m.view = chainLookupReturn(m.top.parentItem, "json.LibraryViewInitialView", "ArtistsPresentation")
+        m.favoriteViewAllInitialized = true
+    end if
 
     if not isValidAndNotEmpty(m.sortField) then m.sortField = "SortName"
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
@@ -294,7 +306,9 @@ sub loadInitialItems()
         if not isStringEqual(m.view, "albums") then m.view = "albums"
     end if
 
-    m.filterOptions = ParseJson(m.filterOptions)
+    if inArray(["roString", "String"], type(m.filterOptions))
+        m.filterOptions = ParseJson(m.filterOptions)
+    end if
 
     m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 
@@ -339,6 +353,12 @@ sub loadInitialItems()
     if isStringEqual(m.view, "albums")
         m.loadItemsTask.itemType = "MusicAlbum"
         m.top.imageDisplayMode = "scaleToFit"
+    else if isStringEqual(m.view, "songs")
+        m.loadItemsTask.itemType = ItemType.AUDIO
+        m.top.imageDisplayMode = "scaleToFit"
+    else if isStringEqual(m.view, "playlists")
+        m.loadItemsTask.itemType = ItemType.PLAYLIST
+        m.top.imageDisplayMode = "scaleToFit"
     else if isStringEqual(m.view, "albumartistsgrid")
         m.loadItemsTask.itemType = "AlbumArtists"
     else if isStringEqual(m.view, "albumartistspresentation")
@@ -354,7 +374,10 @@ sub loadInitialItems()
         end if
         m.dropdownOptionsMove.keyValue = "[[100, 540], [100, 480]]"
         m.itemGridMove.keyValue = "[[100, 670], [100, 520]]"
+    else if isStringEqual(m.view, "artistsgrid")
+        m.loadItemsTask.itemType = ItemType.MUSICARTIST
     else if isStringEqual(m.view, "ArtistsPresentation")
+        m.loadItemsTask.itemType = ItemType.MUSICARTIST
         m.emptyText.translation = "[0, 750]"
         m.itemGrid.translation = "[100, 670]"
         m.itemGrid.numRows = "2"
@@ -374,6 +397,17 @@ sub loadInitialItems()
         m.selectedArtistName.visible = false
     end if
 
+    if isFavoriteViewAll()
+        m.loadItemsTask.itemId = string.EMPTY
+        m.loadItemsTask.recursive = true
+        m.loadItemsTask.genreIds = string.EMPTY
+        m.loadItemsTask.metadata = {
+            favoriteViewAll: true,
+            includeItemTypes: m.loadItemsTask.itemType,
+            queryType: m.loadItemsTask.itemType
+        }
+    end if
+
     setColumnSizes()
 
     m.loadItemsTask.control = TaskControl.RUN
@@ -381,7 +415,7 @@ sub loadInitialItems()
     m.getFiltersTask.observeField("filters", "FilterDataLoaded")
     m.getFiltersTask.params = {
         userid: m.global.session.user.id,
-        parentid: m.top.parentItem.Id
+        parentid: getLibraryQueryParentId()
     }
     m.getFiltersTask.control = TaskControl.RUN
 end sub
@@ -425,7 +459,7 @@ sub onOptionsVisibleChange()
     if m.options.filter <> m.filter
         m.filter = m.options.filter
         reload = true
-        set_user_setting("display." + m.settingID + ".filter", m.options.filter)
+        setLibraryUserSetting("filter", m.options.filter)
     end if
 
     if not isValid(m.options.filterOptions)
@@ -435,7 +469,7 @@ sub onOptionsVisibleChange()
     if not AssocArrayEqual(m.options.filterOptions, m.filterOptions)
         m.filterOptions = m.options.filterOptions
         reload = true
-        set_user_setting("display." + m.settingID + ".filterOptions", FormatJson(m.options.filterOptions))
+        setLibraryUserSetting("filterOptions", FormatJson(m.options.filterOptions))
     end if
 
     if reload
@@ -466,13 +500,13 @@ sub FilterDataLoaded(msg)
     if not isValid(data) then return
 
     ' Add Music filters from the API data
-    if inArray(["musicartist", "albumartists"], LCase(m.loadItemsTask.itemType))
+    if not isFavoriteViewAll() and inArray(["musicartist", "albumartists"], LCase(m.loadItemsTask.itemType))
         if isValid(data.genres)
             options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
         end if
     end if
 
-    if LCase(m.loadItemsTask.itemType) = "musicalbum"
+    if not isFavoriteViewAll() and isStringEqual(m.loadItemsTask.itemType, ItemType.MUSICALBUM)
         if isValid(data.genres)
             options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
         end if
@@ -488,6 +522,10 @@ end sub
 
 ' Data to display when options button selected
 sub setSelectedOptions(options)
+
+    if isFavoriteViewAll() and isChainValid(options, "sort")
+        m.sortField = getMatchingSortField(m.sortField, options.sort)
+    end if
 
     ' Set selected view option
     for each o in options.views
@@ -549,14 +587,34 @@ function setMusicOptions() as object
         filter: []
     }
 
-    options.views = [
-        { "Title": tr("Artists (Presentation)"), "Name": "ArtistsPresentation", "Track": { "description": tr("Artists (Presentation)") } },
-        { "Title": tr("Artists (Grid)"), "Name": "ArtistsGrid", "Track": { "description": tr("Artists (Grid)") } },
-        { "Title": tr("Album Artists (Presentation)"), "Name": "AlbumArtistsPresentation", "Track": { "description": tr("Album Artists (Presentation)") } },
-        { "Title": tr("Album Artists (Grid)"), "Name": "AlbumArtistsGrid", "Track": { "description": tr("Album Artists (Grid)") } },
-        { "Title": tr("Albums"), "Name": "Albums", "Track": { "description": tr("Albums") } },
-        { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } }
-    ]
+    if isFavoriteViewAll()
+        favoriteItemType = chainLookupReturn(m.top.parentItem, "json.QueryType", string.EMPTY)
+        if not isValidAndNotEmpty(favoriteItemType)
+            favoriteItemType = chainLookupReturn(m.top.parentItem, "json.IncludeItemTypes", string.EMPTY)
+        end if
+
+        if isStringEqual(favoriteItemType, ItemType.MUSICARTIST)
+            options.views = [
+                { "Title": tr("Artists (Presentation)"), "Name": "ArtistsPresentation", "Track": { "description": tr("Artists (Presentation)") } },
+                { "Title": tr("Artists (Grid)"), "Name": "ArtistsGrid", "Track": { "description": tr("Artists (Grid)") } }
+            ]
+        else if isStringEqual(favoriteItemType, ItemType.MUSICALBUM)
+            options.views = [{ "Title": tr("Albums"), "Name": "Albums", "Track": { "description": tr("Albums") } }]
+        else if isStringEqual(favoriteItemType, ItemType.AUDIO)
+            options.views = [{ "Title": tr("Songs"), "Name": "Songs", "Track": { "description": tr("Songs") } }]
+        else if isStringEqual(favoriteItemType, ItemType.PLAYLIST)
+            options.views = [{ "Title": tr("Playlists"), "Name": "Playlists", "Track": { "description": tr("Playlists") } }]
+        end if
+    else
+        options.views = [
+            { "Title": tr("Artists (Presentation)"), "Name": "ArtistsPresentation", "Track": { "description": tr("Artists (Presentation)") } },
+            { "Title": tr("Artists (Grid)"), "Name": "ArtistsGrid", "Track": { "description": tr("Artists (Grid)") } },
+            { "Title": tr("Album Artists (Presentation)"), "Name": "AlbumArtistsPresentation", "Track": { "description": tr("Album Artists (Presentation)") } },
+            { "Title": tr("Album Artists (Grid)"), "Name": "AlbumArtistsGrid", "Track": { "description": tr("Album Artists (Grid)") } },
+            { "Title": tr("Albums"), "Name": "Albums", "Track": { "description": tr("Albums") } },
+            { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } }
+        ]
+    end if
 
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
@@ -615,6 +673,20 @@ function getCollectionType() as string
     else
         return LCase(m.top.parentItem.CollectionType)
     end if
+end function
+
+function isFavoriteViewAll() as boolean
+    return chainLookupReturn(m.top.parentItem, "json.FavoriteViewAll", false)
+end function
+
+sub setLibraryUserSetting(settingName as string, value)
+    if isFavoriteViewAll() then return
+    set_user_setting(`display.${m.settingID}.${settingName}`, value)
+end sub
+
+function getLibraryQueryParentId() as string
+    if isFavoriteViewAll() then return string.EMPTY
+    return m.top.parentItem.Id
 end function
 
 '
@@ -780,7 +852,7 @@ sub onItemFocused()
 
     m.selectedFavoriteItem = getItemFocused()
 
-    if isStringEqual(m.view, "albums") or isStringEqual(m.top.parentItem.json.type, "musicgenre")
+    if inArray(["albums", "songs", "playlists"], LCase(m.view)) or isStringEqual(m.top.parentItem.json.type, "musicgenre")
         return
     end if
 
@@ -947,7 +1019,7 @@ sub setDropdownDisabledState(disabledState = false as boolean)
 end sub
 
 sub resetDropdownsToDefaultState()
-    m.filter = "All"
+    if not isFavoriteViewAll() then m.filter = "All"
     m.filterOptions = {}
     if isStringEqual(getCollectionType(), ItemType.BOXSET)
         m.sortField = "PremiereDate,SortName"
@@ -959,12 +1031,12 @@ sub resetDropdownsToDefaultState()
     m.sortAscending = true
 
     ' Reset view to defaults
-    set_user_setting("display." + m.settingID + ".sortField", m.sortField)
-    set_user_setting("display." + m.settingID + ".sortAscending", "true")
-    set_user_setting("display." + m.settingID + ".filter", m.filter)
-    set_user_setting("display." + m.settingID + ".filterOptions", FormatJson(m.filterOptions))
+    setLibraryUserSetting("sortField", m.sortField)
+    setLibraryUserSetting("sortAscending", "true")
+    setLibraryUserSetting("filter", m.filter)
+    setLibraryUserSetting("filterOptions", FormatJson(m.filterOptions))
 
-    if not isStringEqual(m.view, "Genres")
+    if not isFavoriteViewAll() and not isStringEqual(m.view, "Genres")
         set_user_setting(`display.${m.top.mediaType}library.defaultview`, m.view)
     end if
 
@@ -1083,7 +1155,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if isStringEqual(key, KeyCode.OPTIONS)
         focusedItem = getItemFocused()
-        if not isValid(focusedItem) then return false
+        ' Consume Options until the grid has a focused item.
+        if not isValid(focusedItem) then return true
 
         popupTitle = focusedItem.LookupCI("title")
 

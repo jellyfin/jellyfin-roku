@@ -21,6 +21,7 @@ const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .66307
 sub init()
     m.top.imageDisplayMode = "scaleToZoom"
     m.top.showItemTitles = chainLookupReturn(m.global.session, "user.settings.`itemgrid.gridTitles`", "showonhover")
+    m.favoriteViewAllInitialized = false
 
     m.loadItemsTask1 = createObject("roSGNode", "LoadItemsTask")
 
@@ -77,13 +78,7 @@ sub init()
     m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
     m.getPlaylistDataTask = createObject("roSGNode", "GetPlaylistDataTask")
 
-    posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
-
-    if isStringEqual(posterOrientation, ImageLayout.DEFAULT)
-        setColumnSizes(ImageLayout.PORTRAIT)
-    else
-        setColumnSizes(posterOrientation)
-    end if
+    setConfiguredColumnSizes()
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
@@ -116,6 +111,16 @@ sub createItemGrid()
     m.itemGrid.observeField("itemSelected", "onItemSelected")
     m.itemGrid.content = m.data
     m.itemGrid.setFocus(true)
+end sub
+
+sub setConfiguredColumnSizes()
+    posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+
+    if isStringEqual(posterOrientation, ImageLayout.DEFAULT)
+        posterOrientation = ImageLayout.PORTRAIT
+    end if
+
+    setColumnSizes(posterOrientation)
 end sub
 
 sub setColumnSizes(layout = ImageLayout.PORTRAIT as string)
@@ -160,10 +165,6 @@ sub loadInitialItems()
     startLoadingSpinner()
     favoriteViewAll = isFavoriteViewAll()
 
-    if favoriteViewAll
-        m.top.optionsAvailable = false
-    end if
-
     if isStringEqual(m.top.parentItem.json.Type, "CollectionFolder")
         m.top.HomeLibraryItem = m.top.parentItem.Id
     end if
@@ -173,23 +174,30 @@ sub loadInitialItems()
     end if
 
     ' Read view/sort/filter settings
-    if favoriteViewAll
+    if not favoriteViewAll or not m.favoriteViewAllInitialized
+        if isStringEqual(m.top.parentItem.collectionType, "music")
+            m.view = m.global.session.user.settings["display.music.view"]
+            m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
+            sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+            m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+        else
+            m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
+            sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+            m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+            m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
+            m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+        end if
+    else
+        sortAscendingStr = m.sortAscending
+    end if
+
+    if favoriteViewAll and not m.favoriteViewAllInitialized
         m.sortField = chainLookupReturn(m.top.parentItem, "json.SortBy", "SortName")
         sortAscendingStr = isStringEqual(chainLookupReturn(m.top.parentItem, "json.SortOrder", "Ascending"), "Ascending")
         m.filter = "Favorites"
         m.filterOptions = "{}"
-        m.view = string.EMPTY
-    else if isStringEqual(m.top.parentItem.collectionType, "music")
-        m.view = m.global.session.user.settings["display.music.view"]
-        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-        sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
-        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
-    else
-        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-        sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
-        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
-        m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
-        m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+        m.view = "default"
+        m.favoriteViewAllInitialized = true
     end if
 
     if isStringEqual(getCollectionType(), "tvshows")
@@ -208,7 +216,9 @@ sub loadInitialItems()
         end if
     end if
 
-    m.filterOptions = ParseJson(m.filterOptions)
+    if inArray(["roString", "String"], type(m.filterOptions))
+        m.filterOptions = ParseJson(m.filterOptions)
+    end if
 
     if not isValid(sortAscendingStr) or sortAscendingStr = true
         m.sortAscending = true
@@ -218,7 +228,7 @@ sub loadInitialItems()
 
     if favoriteViewAll
         m.loadItemsTask.itemId = string.EMPTY
-        m.loadItemsTask.itemType = string.EMPTY
+        m.loadItemsTask.itemType = chainLookupReturn(m.top.parentItem, "json.IncludeItemTypes", chainLookupReturn(m.top.parentItem, "json.QueryType", string.EMPTY))
         m.loadItemsTask.recursive = true
         m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.genreIds = string.EMPTY
@@ -418,6 +428,10 @@ end sub
 ' Data to display when options button selected
 sub setSelectedOptions(options)
 
+    if isFavoriteViewAll() and isChainValid(options, "sort")
+        m.sortField = getMatchingSortField(m.sortField, options.sort)
+    end if
+
     ' Set selected view option
     for each o in options.views
         if o.Name = m.view
@@ -611,6 +625,16 @@ function isFavoriteViewAll() as boolean
     return chainLookupReturn(m.top.parentItem, "json.FavoriteViewAll", false)
 end function
 
+function isFavoritePeopleViewAll() as boolean
+    queryType = chainLookupReturn(m.top.parentItem, "json.QueryType", string.EMPTY)
+    return isFavoriteViewAll() and isStringEqual(queryType, ItemType.PERSON)
+end function
+
+sub setLibraryUserSetting(settingName as string, value)
+    if isFavoriteViewAll() then return
+    set_user_setting(`display.${m.top.parentItem.Id}.${settingName}`, value)
+end sub
+
 ' Search string array for search value. Return if it's found
 function inStringArray(array, searchValue) as boolean
     for each item in array
@@ -626,13 +650,17 @@ sub SetUpOptions()
     options.favorite = []
 
     if isFavoriteViewAll()
-        options.views = []
-        options.sort = []
-        m.options.options = options
-        return
-    end if
-
-    if isStringEqual(getCollectionType(), "movies")
+        setDefaultOptions(options)
+        if isFavoritePeopleViewAll()
+            ' /Persons ignores view and sort options.
+            options.views = []
+            options.sort = []
+        end if
+        options.filter = [
+            { "Title": tr("All"), "Name": "All" },
+            { "Title": tr("Favorites"), "Name": "Favorites" }
+        ]
+    else if isStringEqual(getCollectionType(), "movies")
         setMoviesOptions(options)
     else if inStringArray(["boxsets", "Boxset"], getCollectionType())
         return
@@ -644,6 +672,10 @@ sub SetUpOptions()
         setMusicOptions(options)
     else
         setDefaultOptions(options)
+    end if
+
+    if isFavoriteViewAll() and isChainValid(options, "sort")
+        m.sortField = getMatchingSortField(m.sortField, options.sort)
     end if
 
     ' Set selected view option
@@ -671,6 +703,13 @@ sub SetUpOptions()
             m.options.filter = o.Name
         end if
     end for
+
+    if isFavoritePeopleViewAll()
+        ' Keep hidden options unchanged when the dialog closes.
+        m.options.view = m.view
+        m.options.sortField = m.sortField
+        m.options.sortAscending = m.sortAscending
+    end if
 
     m.options.options = options
 end sub
@@ -870,7 +909,7 @@ end sub
 
 'Check if options updated and any reloading required
 sub optionsClosed()
-    if isStringEqual(m.top.parentItem.Type, "CollectionFolder") or isStringEqual(m.top.parentItem.Type, "Folder") or isStringEqual(m.top.parentItem.CollectionType, "CollectionFolder")
+    if not isFavoriteViewAll() and (isStringEqual(m.top.parentItem.Type, "CollectionFolder") or isStringEqual(m.top.parentItem.Type, "Folder") or isStringEqual(m.top.parentItem.CollectionType, "CollectionFolder"))
         ' Did the user just request "Random" on a PhotoAlbum?
         if m.options.view = "singlephoto"
             set_user_setting("photos.slideshow", "false")
@@ -889,24 +928,26 @@ sub optionsClosed()
     if isStringEqual(m.top.parentItem.collectionType, "music")
         if not isStringEqual(m.options.view, m.view)
             m.view = m.options.view
-            set_user_setting("display.music.view", m.view)
+            if not isFavoriteViewAll() then set_user_setting("display.music.view", m.view)
             reload = true
         end if
     else
-        m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+        if not isFavoriteViewAll()
+            m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+        end if
         if not isStringEqual(m.options.view, m.view)
             'reload and store new view setting
             m.view = m.options.view
             m.filter = "All"
             m.filterOptions = {}
-            set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
-            set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
-            set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
+            setLibraryUserSetting("filter", m.filter)
+            setLibraryUserSetting("filterOptions", FormatJson(m.filterOptions))
+            setLibraryUserSetting("landing", m.view)
             reload = true
         end if
     end if
 
-    if not isStringEqual(m.options.sortField, m.sortField) or not isStringEqual(m.options.sortAscending, m.sortAscending)
+    if not isStringEqual(m.options.sortField, m.sortField) or not (m.options.sortAscending = m.sortAscending)
         m.sortField = m.options.sortField
         m.sortAscending = m.options.sortAscending
         reload = true
@@ -918,15 +959,15 @@ sub optionsClosed()
             sortAscendingStr = "false"
         end if
 
-        set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
-        set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", sortAscendingStr)
+        setLibraryUserSetting("sortField", m.sortField)
+        setLibraryUserSetting("sortAscending", sortAscendingStr)
     end if
 
     if not isStringEqual(m.options.filter, m.filter)
         m.filter = m.options.filter
         reload = true
         'Store filter setting
-        set_user_setting("display." + m.top.parentItem.Id + ".filter", m.options.filter)
+        setLibraryUserSetting("filter", m.options.filter)
     end if
 
     if not isValid(m.options.filterOptions)
@@ -936,7 +977,7 @@ sub optionsClosed()
     if not AssocArrayEqual(m.options.filterOptions, m.filterOptions)
         m.filterOptions = m.options.filterOptions
         reload = true
-        set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.options.filterOptions))
+        setLibraryUserSetting("filterOptions", FormatJson(m.options.filterOptions))
     end if
 
     if reload
@@ -944,6 +985,7 @@ sub optionsClosed()
         m.loadedItems = 0
         m.top.removeChild(m.itemGrid)
         createItemGrid()
+        setConfiguredColumnSizes()
         m.data = CreateObject("roSGNode", "ContentNode")
         m.itemGrid.content = m.data
         loadInitialItems()
@@ -983,7 +1025,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         group.lastFocus = topGrp
     end if
 
-    if isStringEqual(key, KeyCode.OPTIONS) and not isStringEqual(getCollectionType(), "nextup") and not isFavoriteViewAll()
+    if isStringEqual(key, KeyCode.OPTIONS) and not isStringEqual(getCollectionType(), "nextup")
         if isStringEqual(getCollectionType(), "playlists")
             itemToPlay = getItemFocused()
             if not isValid(itemToPlay) then return true

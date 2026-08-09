@@ -16,6 +16,7 @@ const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .925
 sub init()
     m.top.imageDisplayMode = "scaleToZoom"
     m.top.showItemTitles = "showonhover"
+    m.favoriteViewAllInitialized = false
 
     overhang = m.top.getScene().findNode("overhang")
     overhang.isVisible = false
@@ -105,23 +106,47 @@ sub loadInitialItems()
         m.top.HomeLibraryItem = m.top.parentItem.Id
     end if
 
+    ' Keep shortcut state separate from Live TV settings.
+    m.settingID = isFavoriteViewAll() ? m.top.parentItem.Id : "livetv"
+    settingPrefix = `display.${m.settingID}`
+    favoriteViewAll = isFavoriteViewAll()
+
     ' Read view/sort/filter settings
     ' Translate between app and server nomenclature
-    viewSetting = m.global.session.user.settings["display.livetv.landing"]
-    if viewSetting = "guide"
-        m.view = "tvGuide"
-    else
-        m.view = "livetv"
-        if isValid(m.tvGuide)
-            m.tvGuide.opacity = 0
+    if not favoriteViewAll
+        userSettings = chainLookupReturn(m.global.session, "user.settings", {})
+        viewSetting = userSettings[settingPrefix + ".landing"]
+        if isStringEqual(viewSetting, "guide")
+            m.view = "tvGuide"
+        else
+            m.view = "livetv"
+            if isValid(m.tvGuide)
+                m.tvGuide.opacity = 0
+            end if
+            m.alpha.visible = true
+            m.itemGrid.opacity = 1
         end if
-        m.alpha.visible = true
-        m.itemGrid.opacity = 1
+        m.sortField = userSettings[settingPrefix + ".sortField"]
+        m.sortAscending = userSettings[settingPrefix + ".sortAscending"]
+        m.filter = userSettings[settingPrefix + ".filter"]
     end if
-    m.sortField = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortField`", "SortName")
-    m.sortAscending = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortAscending`", true)
-    m.filter = m.global.session.user.settings["display.livetv.filter"]
 
+    ' Seed once; preserve later All/Favorites changes.
+    if favoriteViewAll and not m.favoriteViewAllInitialized
+        m.view = "livetv"
+        m.sortField = chainLookupReturn(m.top.parentItem, "json.SortBy", "SortName")
+        m.sortAscending = isStringEqual(chainLookupReturn(m.top.parentItem, "json.SortOrder", "Ascending"), "Ascending")
+        m.filter = "Favorites"
+        m.favoriteViewAllInitialized = true
+    end if
+
+    if not isValidAndNotEmpty(m.sortField) then m.sortField = "SortName"
+    if not isValid(m.sortAscending) then m.sortAscending = true
+    if isStringEqual(type(m.sortAscending), "roString")
+        m.sortAscending = isStringEqual(m.sortAscending, "true")
+    else if not isStringEqual(type(m.sortAscending), "roBoolean")
+        m.sortAscending = true
+    end if
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
 
     m.loadItemsTask.itemId = m.top.parentItem.Id
@@ -141,13 +166,13 @@ sub loadInitialItems()
     m.loadItemsTask.filter = m.filter
     m.loadItemsTask.startIndex = 0
 
-    ' Load Item Types
+    ' Blank parent queries all channels; filter applies Favorites or All.
     m.loadItemsTask.itemType = "TvChannel"
     m.loadItemsTask.itemId = " "
     ' For LiveTV, we want to "Fit" the item images, not zoom
     m.top.imageDisplayMode = "scaleToFit"
 
-    if m.global.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
+    if isStringEqual(m.view, "tvGuide") and m.options.view <> "livetv"
         showTvGuide()
     end if
 
@@ -191,10 +216,11 @@ end sub
 
 ' Set Live TV view, sort, and filter options
 sub setLiveTvOptions(options)
-    options.views = [
-        { "Title": tr("Channels"), "Name": "livetv" },
-        { "Title": tr("TV Guide"), "Name": "tvGuide" }
-    ]
+    options.views = [{ "Title": tr("Channels"), "Name": "livetv" }]
+    ' TV Guide cannot preserve the shortcut filter.
+    if not isFavoriteViewAll()
+        options.views.push({ "Title": tr("TV Guide"), "Name": "tvGuide" })
+    end if
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName" },
         { "Title": tr("RECENTLY_WATCHED"), "Name": "DatePlayed" }
@@ -217,6 +243,15 @@ function getCollectionType() as string
     end if
 end function
 
+function isFavoriteViewAll() as boolean
+    return chainLookupReturn(m.top.parentItem, "json.FavoriteViewAll", false)
+end function
+
+sub setLibraryUserSetting(settingName as string, value)
+    if isFavoriteViewAll() then return
+    set_user_setting(`display.${m.settingID}.${settingName}`, value)
+end sub
+
 ' Search string array for search value. Return if it's found
 function inStringArray(array, searchValue) as boolean
     for each item in array
@@ -232,6 +267,10 @@ sub SetUpOptions()
     options.favorite = []
 
     setLiveTvOptions(options)
+
+    if isFavoriteViewAll() and isChainValid(options, "sort")
+        m.sortField = getMatchingSortField(m.sortField, options.sort)
+    end if
 
     ' Set selected view option
     for each o in options.views
@@ -281,7 +320,7 @@ sub ItemDataLoaded(msg)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.alphaMenu
     else
-        if not isStringEqual(m.global.session.user.settings["display.livetv.landing"], "guide") or isStringEqual(m.options.view, "livetv")
+        if not isStringEqual(m.view, "tvGuide") or isStringEqual(m.options.view, "livetv")
             m.itemGrid.setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.itemGrid
@@ -305,7 +344,7 @@ sub ItemDataLoaded(msg)
         m.emptyText.visible = true
     end if
 
-    if not isStringEqual(m.global.session.user.settings["display.livetv.landing"], "guide") or isStringEqual(m.options.view, "livetv")
+    if not isStringEqual(m.view, "tvGuide") or isStringEqual(m.options.view, "livetv")
         stopLoadingSpinner()
     end if
 end sub
@@ -403,12 +442,12 @@ sub optionsClosed()
     if not isStringEqual(m.options.view, m.view)
         if isStringEqual(m.options.view, "tvGuide")
             m.view = "tvGuide"
-            set_user_setting("display.livetv.landing", "guide")
+            setLibraryUserSetting("landing", "guide")
             showTVGuide()
             return
         else
             m.view = "livetv"
-            set_user_setting("display.livetv.landing", "channels")
+            setLibraryUserSetting("landing", "channels")
             m.alpha.visible = true
             m.itemGrid.opacity = 1
 
@@ -424,8 +463,8 @@ sub optionsClosed()
         m.sortAscending = m.options.sortAscending
         reload = true
 
-        set_user_setting("display.livetv.sortField", m.sortField)
-        set_user_setting("display.livetv.sortAscending", m.sortAscending.tostr())
+        setLibraryUserSetting("sortField", m.sortField)
+        setLibraryUserSetting("sortAscending", m.sortAscending.toStr())
     end if
 
     ' Check if filter option changed
@@ -433,7 +472,7 @@ sub optionsClosed()
         m.filter = m.options.filter
         reload = true
         'Store filter setting
-        set_user_setting("display.livetv.filter", m.options.filter)
+        setLibraryUserSetting("filter", m.options.filter)
     end if
 
     if reload
