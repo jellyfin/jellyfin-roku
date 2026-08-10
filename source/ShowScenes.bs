@@ -5,7 +5,6 @@ const minimumServerVersion = [10, 9, 0]
 
 function LoginFlow()
     'Collect Jellyfin server and user information
-    forceServerSelect = false
     start_login:
 
     serverUrl = get_setting("server")
@@ -23,8 +22,7 @@ function LoginFlow()
     end if
 
     m.serverSelection = "Saved"
-    if startOver or invalidServer or forceServerSelect
-        forceServerSelect = false
+    if startOver or invalidServer
         SendPerformanceBeacon("AppDialogInitiate") ' Roku Performance monitoring - Dialog Starting
         m.serverSelection = CreateServerGroup()
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
@@ -130,7 +128,6 @@ function LoginFlow()
                             unset_user_setting("username")
                         else
                             handleAboutMeFailure(currentUserResponse.code)
-                            forceServerSelect = true
                             goto start_login
                         end if
                     else
@@ -194,7 +191,6 @@ function LoginFlow()
                     end if
                 else
                     handleAboutMeFailure(currentUserResponse.code)
-                    forceServerSelect = true
                     goto start_login
                 end if
             else
@@ -1200,6 +1196,8 @@ sub playbackOptionDialog(time as longinteger, meta as object)
 end sub
 
 sub handleAboutMeFailure(code as integer)
+    unset_setting("active_user")
+    stopLoadingSpinner()
     print "Server connection failed with status: "; code
     if code = 503
         show_dialog(tr("The server is still starting up. Please try again."), [tr("OK")], 0)
