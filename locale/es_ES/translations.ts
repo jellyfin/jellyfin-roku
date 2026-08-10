@@ -2667,6 +2667,14 @@
         <source>Are you sure you want to exit Jellyfin?</source>
         <translation>¿Estás seguro de que quieres salir de Jellyfin?</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>El servidor aún se está iniciando. Por favor, inténtelo de nuevo.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>El servidor no está disponible temporalmente. Por favor, inténtelo de nuevo.</translation>
+    </message>
 </context>
 <context>
     <name></name>

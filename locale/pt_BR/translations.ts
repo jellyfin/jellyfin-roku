@@ -2634,6 +2634,14 @@
         <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
         <translation>Sua pesquisa retornou mais de 50 tags. Refine a pesquisa para reduzir o número de tags encontradas.</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>O servidor ainda está iniciando. Por favor, tente novamente.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>O servidor está temporariamente indisponível. Por favor, tente novamente.</translation>
+    </message>
 </context>
 <context>
     <name></name>

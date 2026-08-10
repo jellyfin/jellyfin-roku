@@ -2436,5 +2436,13 @@
         <source>Search Unavailable</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>სერვერი ჯერ კიდევ ირთვება. გთხოვთ, სცადოთ თავიდან.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>სერვერი დროებით მიუწვდომელია. გთხოვთ, სცადოთ თავიდან.</translation>
+    </message>
 </context>
 </TS>

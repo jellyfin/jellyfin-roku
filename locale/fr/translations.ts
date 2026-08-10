@@ -2586,5 +2586,13 @@
         <source>Your search returned no tags.</source>
         <translation>Votre recherche n&apos;a donné aucun résultat.</translation>
     </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Le serveur est toujours en cours de démarrage. Veuillez réessayer.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Le serveur est temporairement indisponible. Veuillez réessayer.</translation>
+    </message>
 </context>
 </TS>
