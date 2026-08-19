@@ -1,0 +1,6 @@
+enum FavoriteViewAllRoute
+    LIVETV = "livetv"
+    MUSIC = "music"
+    OTHER = "other"
+    VISUAL = "visual"
+end enum

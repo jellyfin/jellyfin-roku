@@ -16,14 +16,15 @@ sub init()
     background.blendColor = ColorPalette.LIGHTGREY
 
     m.buttons = m.top.findNode("buttons")
-    m.buttons.buttons = [tr("TAB_VIEW"), tr("TAB_SORT"), tr("TAB_FILTER")]
-    m.buttons.selectedIndex = MenuType.SORT
+    m.buttons.visible = false
 
     m.favoriteMenu = m.top.findNode("favoriteMenu")
     m.selectedFavoriteItem = m.top.findNode("selectedFavoriteItem")
 
     m.selectedSortIndex = 0
     m.selectedItem = MenuType.SORT
+    m.availableMenus = []
+    m.menuButtonsConfigured = false
 
     viewMenu = m.top.findNode("viewMenu")
     viewMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -68,6 +69,50 @@ sub init()
 
     m.buttons.observeField("focusedIndex", "buttonFocusChanged")
     m.favoriteMenu.observeField("buttonSelected", "toggleFavorite")
+end sub
+
+function menuHasItems(menuIndex as integer) as boolean
+    menu = m.menus[menuIndex]
+    if not isChainValid(menu, "content") then return false
+    return menu.content.getChildCount() > 0
+end function
+
+sub configureMenuButtons()
+    if m.menuButtonsConfigured then return
+
+    ' Show tabs only for menus with choices.
+    buttonLabels = []
+    availableMenus = []
+
+    if menuHasItems(MenuType.VIEW)
+        buttonLabels.push(tr("TAB_VIEW"))
+        availableMenus.push(MenuType.VIEW)
+    end if
+    if menuHasItems(MenuType.SORT)
+        buttonLabels.push(tr("TAB_SORT"))
+        availableMenus.push(MenuType.SORT)
+    end if
+    if menuHasItems(MenuType.FILTER)
+        buttonLabels.push(tr("TAB_FILTER"))
+        availableMenus.push(MenuType.FILTER)
+    end if
+
+    if availableMenus.Count() = 0 then return
+
+    selectedButtonIndex = 0
+    for i = 0 to availableMenus.Count() - 1
+        if availableMenus[i] = MenuType.SORT
+            selectedButtonIndex = i
+            exit for
+        end if
+    end for
+
+    m.availableMenus = availableMenus
+    m.selectedItem = availableMenus[selectedButtonIndex]
+    m.buttons.selectedIndex = selectedButtonIndex
+    m.buttons.buttons = buttonLabels
+    m.buttons.visible = true
+    m.menuButtonsConfigured = true
 end sub
 
 sub showChecklist()
@@ -207,11 +252,17 @@ sub optionsSet()
         m.menus[2].content = filterContent
         m.menus[2].checkedItem = 0
     end if
+
+    configureMenuButtons()
 end sub
 
 ' Switch menu shown when button focus changes
 sub buttonFocusChanged()
-    if m.buttons.focusedIndex = m.selectedItem
+    focusedButtonIndex = m.buttons.focusedIndex
+    if focusedButtonIndex < 0 or focusedButtonIndex >= m.availableMenus.Count() then return
+
+    focusedMenu = m.availableMenus[focusedButtonIndex]
+    if focusedMenu = m.selectedItem
         if m.buttons.hasFocus()
             m.buttons.setFocus(false)
             m.menus[m.selectedItem].setFocus(false)
@@ -222,9 +273,9 @@ sub buttonFocusChanged()
         end if
     end if
     m.fadeOutAnimOpacity.fieldToInterp = m.menus[m.selectedItem].id + ".opacity"
-    m.fadeInAnimOpacity.fieldToInterp = m.menus[m.buttons.focusedIndex].id + ".opacity"
+    m.fadeInAnimOpacity.fieldToInterp = m.menus[focusedMenu].id + ".opacity"
     m.fadeAnim.control = AnimationControl.START
-    m.selectedItem = m.buttons.focusedIndex
+    m.selectedItem = focusedMenu
 end sub
 
 sub toggleFavorite()

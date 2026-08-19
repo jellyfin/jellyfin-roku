@@ -40,6 +40,7 @@ end sub
 ' When options are fully displayed, set focus and selected option
 sub renderChanged()
     if m.top.renderTracking = "full"
+        if m.buttonCount = 0 then return
         highlightSelected(m.selectedFocusedIndex, false)
         m.top.setfocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
@@ -80,6 +81,7 @@ end sub
 sub highlightSelected(index as integer, animate = true)
 
     val = m.buttonGroup.getChild(index)
+    if not isValid(val) then return
     rect = val.ancestorBoundingRect(m.top)
 
     if animate = true
