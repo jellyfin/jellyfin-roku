@@ -388,6 +388,9 @@ sub updateCaption()
         return
     end if
 
+    ' Keep last captions visible while paused instead of clearing them.
+    if isStringEqual(m.top.playerState, "pausedon") then return
+
     m.top.currentCaption = []
 
     if not isStringEqual(m.top.playerState, "playingon") then return
