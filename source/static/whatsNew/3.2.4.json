@@ -18,5 +18,9 @@
   {
     "description": "Fix crash when pressing * on user select screen when no users are shown",
     "author": "1hitsong"
+  },
+  {
+    "description": "Scroll guide to current time after watching Live TV",
+    "author": "FractalBoy"
   }
 ]
