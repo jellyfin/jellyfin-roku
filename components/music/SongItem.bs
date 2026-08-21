@@ -1,3 +1,6 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/FavoriteStatus.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -9,6 +12,17 @@ sub init()
     m.trackNumber = m.top.findNode("trackNumber")
     if isValid(m.trackNumber)
         m.trackNumber.font.size = 28
+    end if
+
+    m.favoriteIcon = m.top.findNode("favoriteIcon")
+    if isValid(m.favoriteIcon)
+        m.favoriteIcon.blendColor = ColorPalette.RED
+    end if
+
+    m.favoriteStatusUnknown = m.top.findNode("favoriteStatusUnknown")
+    if isValid(m.favoriteStatusUnknown)
+        m.favoriteStatusUnknown.color = ColorPalette.RED
+        m.favoriteStatusUnknown.font.size = 28
     end if
 
     m.tracklength = m.top.findNode("tracklength")
@@ -23,8 +37,30 @@ sub init()
 end sub
 
 sub itemContentChanged()
-    itemData = m.top.itemContent
-    if itemData = invalid then return
+    if isValid(m.itemData)
+        m.itemData.unobserveFieldScoped("favorite")
+        m.itemData.unobserveFieldScoped("favoriteStatus")
+        m.itemData.unobserveFieldScoped("playCount")
+    end if
+
+    m.itemData = m.top.itemContent
+    if not isValid(m.itemData)
+        if isValid(m.favoriteIcon)
+            m.favoriteIcon.visible = false
+        end if
+        if isValid(m.favoriteStatusUnknown)
+            m.favoriteStatusUnknown.visible = false
+        end if
+        return
+    end if
+
+    m.itemData.observeFieldScoped("favorite", "onFavoriteChanged")
+    m.itemData.observeFieldScoped("favoriteStatus", "onFavoriteChanged")
+    m.itemData.observeFieldScoped("playCount", "onPlayCountChanged")
+    onFavoriteChanged()
+    onPlayCountChanged()
+
+    itemData = m.itemData
 
     title = []
 
@@ -50,8 +86,35 @@ sub itemContentChanged()
         m.tracklength.text = ticksToHuman(itemData.LookupCI("RunTimeTicks"))
     end if
 
-    playCount = itemData.LookupCI("playCount")
-    if isValid(playCount)
-        m.playCount.text = `${playCount}`
+end sub
+
+sub onFavoriteChanged()
+    if not isValid(m.favoriteIcon) or not isValid(m.favoriteStatusUnknown) or not isValid(m.itemData) then return
+
+    itemFavoriteStatus = chainLookupReturn(m.itemData, "favoriteStatus", string.EMPTY)
+    if isStringEqual(itemFavoriteStatus, FavoriteStatus.UNKNOWN)
+        m.favoriteIcon.visible = false
+        m.favoriteStatusUnknown.visible = true
+        return
     end if
+
+    m.favoriteStatusUnknown.visible = false
+    if isStringEqual(itemFavoriteStatus, FavoriteStatus.FAVORITE)
+        m.favoriteIcon.visible = true
+        return
+    end if
+
+    if isStringEqual(itemFavoriteStatus, FavoriteStatus.NOT_FAVORITE)
+        m.favoriteIcon.visible = false
+        return
+    end if
+
+    m.favoriteIcon.visible = chainLookupReturn(m.itemData, "favorite", false)
+end sub
+
+sub onPlayCountChanged()
+    if not isValid(m.playCount) or not isValid(m.itemData) then return
+
+    playCount = chainLookupReturn(m.itemData, "playCount", invalid)
+    m.playCount.text = isValid(playCount) ? `${playCount}` : string.EMPTY
 end sub
