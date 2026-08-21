@@ -8,6 +8,18 @@
     "author": "1hitsong"
   },
   {
+    "description": "Only enter TV season and episode grids when there is content to display",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Add view all tiles to home favorites rows",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix crash when pressing * on user select screen when no users are shown",
+    "author": "1hitsong"
+  },
+  {
     "description": "Add item count and filter chips to library screens",
     "author": "1hitsong"
   }

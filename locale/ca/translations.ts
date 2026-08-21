@@ -2551,5 +2551,17 @@
         <source>The server found no media matching the filter criteria for this radio station.</source>
         <translation>El servidor no ha trobat mitjans que encaixin amb els criteris dels filtres per a aquesta estació de ràdio.</translation>
     </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>La cerca no ha trobat etiquetes.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Etiquetes de cerca</translation>
+    </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>La cerca ha retornat més de 50 etiquetes. Refeu la cerca per reduir el nombre d&apos;etiquetes coincidents.</translation>
+    </message>
 </context>
 </TS>
