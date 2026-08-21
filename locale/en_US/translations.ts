@@ -2639,5 +2639,13 @@
             <source>Your search returned no tags.</source>
             <translation>Your search returned no tags.</translation>
         </message>
+        <message>
+            <source>Search Term</source>
+            <translation>Search Term</translation>
+        </message>
+        <message>
+            <source>Starts With</source>
+            <translation>Starts With</translation>
+        </message>
     </context>
 </TS>
