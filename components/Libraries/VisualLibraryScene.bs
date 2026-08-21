@@ -867,6 +867,8 @@ sub setSelectedOptions(options)
 
     ' Set selected filter
     for each o in options.filter
+        haveSelectedFilterOptions = false
+
         if o.Name = m.filter
             o.Selected = true
             m.dropdownOptionGroup@.setText("filterButton", tr(o.LookupCI("title")))
@@ -883,37 +885,43 @@ sub setSelectedOptions(options)
                 displayChip = false
             end if
 
+            if isValid(o.options) and isValid(m.filterOptions)
+                if o.options.Count() > 0 and m.filterOptions.Count() > 0
+                    if LCase(o.Name) = LCase(m.filterOptions.keys()[0])
+                        haveSelectedFilterOptions = true
+                    end if
+                end if
+            end if
+
             if displayChip
                 m.chipsRow@.addChip("filter", string.EMPTY, tr(o.LookupCI("title")))
             else
-                m.chipsRow@.removeChip("filter")
+                if not haveSelectedFilterOptions
+                    m.chipsRow@.removeChip("filter")
+                end if
             end if
         end if
 
         ' Select selected filter options
-        if isValid(o.options) and isValid(m.filterOptions)
-            if o.options.Count() > 0 and m.filterOptions.Count() > 0
-                if LCase(o.Name) = LCase(m.filterOptions.keys()[0])
+        if haveSelectedFilterOptions
+            selectedFilterOptions = m.filterOptions[m.filterOptions.keys()[0]].split(o.delimiter)
+            m.chipsRow@.addChip("filter", tr(o.LookupCI("title")), selectedFilterOptions.join(", "))
+            checkedState = []
 
-                    selectedFilterOptions = m.filterOptions[m.filterOptions.keys()[0]].split(o.delimiter)
-                    m.chipsRow@.addChip("filter", tr(o.LookupCI("title")), selectedFilterOptions.join(", "))
-                    checkedState = []
+            for each availableFilterOption in o.options
+                matchFound = false
 
-                    for each availableFilterOption in o.options
-                        matchFound = false
+                for each selectedFilterOption in selectedFilterOptions
+                    if LCase(toString(availableFilterOption).trim()) = LCase(selectedFilterOption.trim())
+                        matchFound = true
+                    end if
+                end for
 
-                        for each selectedFilterOption in selectedFilterOptions
-                            if LCase(toString(availableFilterOption).trim()) = LCase(selectedFilterOption.trim())
-                                matchFound = true
-                            end if
-                        end for
+                checkedState.push(matchFound)
+            end for
 
-                        checkedState.push(matchFound)
-                    end for
+            o.checkedState = checkedState
 
-                    o.checkedState = checkedState
-                end if
-            end if
         end if
     end for
 
