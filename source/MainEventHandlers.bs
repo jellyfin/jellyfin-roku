@@ -1,5 +1,6 @@
 import "pkg:/components/manager/ViewCreator.bs"
 import "pkg:/source/enums/CollectionType.bs"
+import "pkg:/source/enums/FavoriteViewAllRoute.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
@@ -745,6 +746,28 @@ sub onRefreshMovieDetailsDataEvent()
     stopLoadingSpinner()
 end sub
 
+function openFavoriteViewAll(selectedItem as object) as boolean
+    if not chainLookupReturn(selectedItem, "json.FavoriteViewAll", false) then return false
+
+    route = chainLookupReturn(selectedItem, "json.LibraryViewRoute", FavoriteViewAllRoute.OTHER)
+
+    if isStringEqual(route, FavoriteViewAllRoute.VISUAL)
+        mediaType = chainLookupReturn(selectedItem, "json.LibraryViewMediaType", string.EMPTY)
+        group = CreateVisualLibraryScene(selectedItem, mediaType)
+    else if isStringEqual(route, FavoriteViewAllRoute.MUSIC)
+        group = CreateMusicLibraryView(selectedItem)
+    else if isStringEqual(route, FavoriteViewAllRoute.LIVETV)
+        group = CreateLiveTVLibraryView(selectedItem)
+    else
+        group = CreateOtherLibrary(selectedItem)
+    end if
+
+    if not isValid(group) then return false
+
+    m.global.sceneManager.callFunc("pushScene", group)
+    return true
+end function
+
 sub onSelectedItemEvent(msg)
     ' If you select a library from ANYWHERE, follow this flow
     selectedItem = msg.getData()
@@ -756,6 +779,8 @@ sub onSelectedItemEvent(msg)
             ' If button selected is a string, lcase it
             if isStringEqual(type(selectedItemType), "rostring") then selectedItemType = LCase(selectedItemType)
         end if
+
+        if openFavoriteViewAll(selectedItem) then return
 
         if isStringEqual(selectedItemType, "collectionfolder")
             onLibrarySelection(selectedItem)

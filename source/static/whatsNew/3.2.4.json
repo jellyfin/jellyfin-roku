@@ -18,5 +18,9 @@
   {
     "description": "Fix crash when pressing * on user select screen when no users are shown",
     "author": "1hitsong"
+  },
+  {
+    "description": "Route Home Favorites View All tiles to their corresponding library views",
+    "author": "VX-101"
   }
 ]

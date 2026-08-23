@@ -24,6 +24,7 @@ const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .66307
 sub setupNodes()
     m.top.imageDisplayMode = "scaleToZoom"
     m.top.showItemTitles = "showonhover"
+    m.favoriteViewAllInitialized = false
 
     m.librarySettings = m.top.findNode("librarySettings")
     m.librarySettings.observeFieldScoped("selected", "onLibrarySettingsSelected")
@@ -78,11 +79,15 @@ sub onExit()
             m.alphaMenu.setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.alphaMenu
-        else
+        else if not isFavoriteViewAll()
             m.librarySettings.setFocus(true)
             m.librarySettings.highlighted = true
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.librarySettings
+        else
+            m.itemGrid.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.itemGrid
         end if
 
         return
@@ -285,11 +290,24 @@ sub loadInitialItems()
         toggleDropdownOptions(true)
     end if
 
-    m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-    m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
-    m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
-    m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
-    m.sortAscending = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+    if not isFavoriteViewAll()
+        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
+        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+        m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
+        m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+        m.sortAscending = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+    end if
+
+    if isFavoriteViewAll() and not m.favoriteViewAllInitialized
+        m.sortField = chainLookupReturn(m.top.parentItem, "json.SortBy", "SortName")
+        m.filter = "Favorites"
+        m.filterOptions = "{}"
+        m.view = chainLookupReturn(m.top.parentItem, "json.LibraryViewInitialView", "presentation")
+        m.sortAscending = isStringEqual(chainLookupReturn(m.top.parentItem, "json.SortOrder", "Ascending"), "Ascending")
+        m.favoriteViewAllInitialized = true
+    end if
+
+    m.librarySettings.visible = not isFavoriteViewAll()
 
     ' If user has not set a preferred view for this folder, check if they've set a default view
     if not isValid(m.view)
@@ -328,7 +346,9 @@ sub loadInitialItems()
         if not inArray(["presentation", "grid"], m.view) then m.view = "presentation"
     end if
 
-    m.filterOptions = ParseJson(m.filterOptions)
+    if inArray(["roString", "String"], type(m.filterOptions))
+        m.filterOptions = ParseJson(m.filterOptions)
+    end if
 
     m.loadItemsTask.searchTerm = m.top.searchTerm
     m.loadItemsTask.sortField = m.sortField
@@ -415,6 +435,17 @@ sub loadInitialItems()
             m.loadItemsTask.genreIds = m.top.parentItem.id
             m.loadItemsTask.itemType = ItemType.MUSICVIDEO
             m.loadItemsTask.recursive = true
+        end if
+    end if
+
+    if isFavoriteViewAll()
+        m.loadItemsTask.itemId = string.EMPTY
+        m.loadItemsTask.recursive = true
+        m.loadItemsTask.studioIds = string.EMPTY
+        m.loadItemsTask.genreIds = string.EMPTY
+
+        if inArray([ItemType.BOXSET, ItemType.MUSICVIDEO], m.top.mediaType)
+            m.loadItemsTask.itemType = chainLookupReturn(m.top.parentItem, "json.IncludeItemTypes", m.top.mediaType)
         end if
     end if
 
@@ -580,7 +611,7 @@ sub loadInitialItems()
     m.getFiltersTask.observeField("filters", "FilterDataLoaded")
     m.getFiltersTask.params = {
         userid: m.global.session.user.id,
-        parentid: m.top.parentItem.Id,
+        parentid: getLibraryQueryParentId(),
         includeitemtypes: m.loadItemsTask.itemType
     }
     m.getFiltersTask.control = "RUN"
@@ -657,7 +688,7 @@ function setMovieOptions() as object
         { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
     ]
 
-    if not isStringEqual(m.top.mediaType, ItemType.MYLIST)
+    if not isFavoriteViewAll() and not isStringEqual(m.top.mediaType, ItemType.MYLIST)
         options.views.push({ "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } })
     end if
 
@@ -706,6 +737,13 @@ function setMovieOptions() as object
         ]
     end if
 
+    if isFavoriteViewAll()
+        options.filter = [
+            { "Title": tr("All"), "Name": "All" },
+            { "Title": tr("Favorites"), "Name": "Favorites" }
+        ]
+    end if
+
     return options
 end function
 
@@ -716,9 +754,12 @@ function setMusicVideoOptions() as object
 
     options.views = [
         { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
-        { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } },
-        { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } }
+        { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
     ]
+
+    if not isFavoriteViewAll()
+        options.views.push({ "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } })
+    end if
 
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
@@ -752,6 +793,13 @@ function setMusicVideoOptions() as object
         options.views = [
             { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
             { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
+        ]
+    end if
+
+    if isFavoriteViewAll()
+        options.filter = [
+            { "Title": tr("All"), "Name": "All" },
+            { "Title": tr("Favorites"), "Name": "Favorites" }
         ]
     end if
 
@@ -789,12 +837,21 @@ function setSeriesOptions() as object
         filter: []
     }
 
-    options.views = [
-        { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
-        { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } },
-        { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } },
-        { "Title": tr("Episodes"), "Name": "Episodes", "Track": { "description": tr("Episodes") } }
-    ]
+    if isFavoriteViewAll() and isStringEqual(chainLookupReturn(m.top.parentItem, "json.IncludeItemTypes", string.EMPTY), ItemType.EPISODE)
+        options.views = [{ "Title": tr("Episodes"), "Name": "Episodes", "Track": { "description": tr("Episodes") } }]
+    else if isFavoriteViewAll()
+        options.views = [
+            { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
+            { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
+        ]
+    else
+        options.views = [
+            { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
+            { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } },
+            { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } },
+            { "Title": tr("Episodes"), "Name": "Episodes", "Track": { "description": tr("Episodes") } }
+        ]
+    end if
 
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
@@ -827,16 +884,42 @@ function setSeriesOptions() as object
         ]
     end if
 
+    if isFavoriteViewAll()
+        options.filter = [
+            { "Title": tr("All"), "Name": "All" },
+            { "Title": tr("Favorites"), "Name": "Favorites" }
+        ]
+    end if
+
     return options
 end function
 
 ' Return parent collection type
 function getCollectionType() as string
+    if isFavoriteViewAll() then return m.top.mediaType
     return m.top.parentItem.collectionType ?? m.top.parentItem.Type
+end function
+
+function isFavoriteViewAll() as boolean
+    return chainLookupReturn(m.top.parentItem, "json.FavoriteViewAll", false)
+end function
+
+sub setLibraryUserSetting(settingName as string, value)
+    if isFavoriteViewAll() then return
+    set_user_setting(`display.${m.top.parentItem.Id}.${settingName}`, value)
+end sub
+
+function getLibraryQueryParentId() as string
+    if isFavoriteViewAll() then return string.EMPTY
+    return m.top.parentItem.Id
 end function
 
 ' Data to display when options button selected
 sub setSelectedOptions(options)
+
+    if isFavoriteViewAll() and isChainValid(options, "sort")
+        m.sortField = getMatchingSortField(m.sortField, options.sort)
+    end if
 
     ' Set selected view option
     for each o in options.views
@@ -904,7 +987,7 @@ sub FilterDataLoaded(msg)
     if not isValid(data) then return
 
     ' Add filters from the API data
-    if inArray(["presentation", "grid"], m.view)
+    if inArray(["presentation", "grid"], m.view) and not isFavoriteViewAll()
         options.filter.push({ "Title": tr("Features"), "Name": "Features", "Options": ["Subtitles", "Special Features", "Theme Song", "Theme Video"], "Delimiter": "|", "CheckedState": [] })
 
         if isValidAndNotEmpty(data.genres)
@@ -1346,7 +1429,7 @@ sub setDropdownDisabledState(disabledState = false as boolean)
 end sub
 
 sub resetDropdownsToDefaultState()
-    m.filter = "All"
+    if not isFavoriteViewAll() then m.filter = "All"
     m.filterOptions = {}
     if isStringEqual(getCollectionType(), ItemType.BOXSET)
         m.sortField = "PremiereDate,SortName"
@@ -1368,17 +1451,17 @@ sub resetDropdownsToDefaultState()
     m.dropdownOptionGroup@.setSortAscending(true)
 
     ' Reset view to defaults
-    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
-    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
-    set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
-    set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
+    setLibraryUserSetting("sortField", m.sortField)
+    setLibraryUserSetting("sortAscending", "true")
+    setLibraryUserSetting("filter", m.filter)
+    setLibraryUserSetting("filterOptions", FormatJson(m.filterOptions))
 
-    if not isStringEqual(m.view, "Genres")
+    if not isFavoriteViewAll() and not isStringEqual(m.view, "Genres")
         set_user_setting(`display.${m.top.mediaType}library.defaultview`, m.view)
     end if
 
     m.dropdownOptionGroup@.setText("sortOrderButton", tr("Ascending"))
-    m.dropdownOptionGroup@.setText("filterButton", tr("All"))
+    m.dropdownOptionGroup@.setText("filterButton", tr(m.filter))
 
     m.getFiltersTask.control = "RUN"
 end sub
@@ -1485,7 +1568,7 @@ sub onOptionsVisibleChange()
     if m.options.filter <> m.filter
         m.filter = m.options.filter
         reload = true
-        set_user_setting("display." + m.top.parentItem.Id + ".filter", m.options.filter)
+        setLibraryUserSetting("filter", m.options.filter)
     end if
 
     if not isValid(m.options.filterOptions)
@@ -1495,7 +1578,7 @@ sub onOptionsVisibleChange()
     if not AssocArrayEqual(m.options.filterOptions, m.filterOptions)
         m.filterOptions = m.options.filterOptions
         reload = true
-        set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.options.filterOptions))
+        setLibraryUserSetting("filterOptions", FormatJson(m.options.filterOptions))
     end if
 
     if reload
@@ -1529,7 +1612,7 @@ sub onSortChange(sortChoice)
     m.dropdownOptionGroup@.setSortAscending(true)
     m.sortAscending = true
 
-    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+    setLibraryUserSetting("sortField", m.sortField)
 
     m.loadedRows = 0
     m.loadedItems = 0
@@ -1555,7 +1638,7 @@ sub onViewChange(viewChoice)
     m.view = viewChoice.LookupCI("name")
     m.dropdownOptionGroup@.setText("viewButton", tr(viewChoice.LookupCI("title")))
 
-    set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
+    setLibraryUserSetting("landing", m.view)
 
     ' Reset any filtering or search terms
     m.bypassSearchEvent = true
@@ -1563,7 +1646,7 @@ sub onViewChange(viewChoice)
     m.top.alphaSelected = string.EMPTY
     m.loadItemsTask.NameStartsWith = " "
     m.loadItemsTask.searchTerm = string.EMPTY
-    m.filter = "All"
+    if not isFavoriteViewAll() then m.filter = "All"
     m.filterOptions = {}
     if isStringEqual(getCollectionType(), ItemType.BOXSET)
         m.sortField = "PremiereDate,SortName"
@@ -1576,12 +1659,12 @@ sub onViewChange(viewChoice)
     m.dropdownOptionGroup@.setSortAscending(true)
 
     ' Reset view to defaults
-    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
-    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
-    set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
-    set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
+    setLibraryUserSetting("sortField", m.sortField)
+    setLibraryUserSetting("sortAscending", "true")
+    setLibraryUserSetting("filter", m.filter)
+    setLibraryUserSetting("filterOptions", FormatJson(m.filterOptions))
 
-    if not isStringEqual(m.view, "Genres")
+    if not isFavoriteViewAll() and not isStringEqual(m.view, "Genres")
         set_user_setting(`display.${m.top.mediaType}library.defaultview`, m.view)
     end if
 
@@ -1630,7 +1713,7 @@ sub onSortOrderChange(sortOrderChoice)
     m.dropdownOptionGroup@.setSortAscending(m.sortAscending)
     m.dropdownOptionGroup@.setText("sortOrderButton", tr(sortOrderChoice.LookupCI("title")))
 
-    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", m.sortAscending.toStr())
+    setLibraryUserSetting("sortAscending", m.sortAscending.toStr())
 
     m.loadedRows = 0
     m.loadedItems = 0
@@ -1640,6 +1723,7 @@ sub onSortOrderChange(sortOrderChoice)
 end sub
 
 sub onLibrarySettingsSelected()
+    if isFavoriteViewAll() then return
     m.global.sceneManager.callFunc("librarySettingDialog", tr("Library Settings"))
 end sub
 
@@ -1648,7 +1732,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if isStringEqual(key, KeyCode.DOWN)
         if m.alphaMenu.isinFocusChain()
-            if m.alphaMenu.itemFocused = m.alphaMenu.numRows - 1
+            if m.alphaMenu.itemFocused = m.alphaMenu.numRows - 1 and not isFavoriteViewAll()
                 m.librarySettings.setFocus(true)
                 m.librarySettings.highlighted = true
                 return true
@@ -1668,7 +1752,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if isStringEqual(key, KeyCode.UP)
         if m.alphaMenu.isinFocusChain()
-            if m.alphaMenu.itemFocused = 0
+            if m.alphaMenu.itemFocused = 0 and not isFavoriteViewAll()
                 m.librarySettings.setFocus(true)
                 m.librarySettings.highlighted = true
                 return true
@@ -1748,6 +1832,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if isStringEqual(key, KeyCode.LEFT)
         alphaDisplayed = m.alpha.callFunc("getDisplay")
         if not alphaDisplayed
+            if isFavoriteViewAll() then return false
+
             if not m.librarySettings.highlighted
                 m.librarySettings.setFocus(true)
                 m.librarySettings.highlighted = true

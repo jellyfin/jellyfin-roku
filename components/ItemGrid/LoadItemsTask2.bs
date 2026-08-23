@@ -22,28 +22,30 @@ function loadFavoriteViewAllItems(params as object) as dynamic
     isArtistQuery = isStringEqual(queryType, ItemType.MUSICARTIST)
     useLocalAlphaFilter = isLocalHashFilter or (isValidAndNotEmpty(nameStartsWith) and not isArtistQuery)
     useLocalPaging = isPeopleQuery or useLocalAlphaFilter
+    isBoundedPeopleQuery = isPeopleQuery and not useLocalAlphaFilter
 
     if useLocalPaging
         params.Delete("NameStartsWith")
         params.Delete("NameLessThan")
         params.Delete("NameStartsWithOrGreater")
         params.Delete("StartIndex")
-        params.Delete("limit")
+        if isBoundedPeopleQuery
+            ' People lacks start-index paging. Fetch only the prefix needed for this page.
+            params.limit = requestedStartIndex + requestedLimit
+        else
+            params.Delete("limit")
+        end if
     end if
 
     params.Delete("parentid")
     params.Delete("IncludeItemTypes")
     params.UserId = m.global.session.user.id
     params.recursive = true
-    params.Filters = "IsFavorite"
-    params.IsFavorite = true
-
     if not useLocalPaging
         return fetchFavoriteViewAllItems(params, queryType, includeItemTypes)
     end if
 
-    ' People do not support a server start index, and local alpha filtering needs the whole
-    ' favorites list. Cache that list so follow-up pages can be sliced locally.
+    ' Cache locally paged results so follow-up pages can reuse a complete list or prefix.
     cacheKey = FormatJson({
         queryType: queryType,
         includeItemTypes: includeItemTypes,
@@ -51,10 +53,21 @@ function loadFavoriteViewAllItems(params as object) as dynamic
         nameLessThan: nameLessThan,
         sortBy: chainLookupReturn(params, "SortBy", string.EMPTY),
         sortOrder: chainLookupReturn(params, "SortOrder", string.EMPTY),
-        searchTerm: chainLookupReturn(params, "searchTerm", string.EMPTY)
+        searchTerm: chainLookupReturn(params, "searchTerm", string.EMPTY),
+        filters: chainLookupReturn(params, "Filters", string.EMPTY)
     })
 
-    if requestedStartIndex > 0 and isChainValid(m.favoriteViewAllAlphaCache, "data") and isStringEqual(chainLookupReturn(m.favoriteViewAllAlphaCache, "key", string.EMPTY), cacheKey)
+    useCachedData = requestedStartIndex > 0 and isChainValid(m.favoriteViewAllAlphaCache, "data") and isStringEqual(chainLookupReturn(m.favoriteViewAllAlphaCache, "key", string.EMPTY), cacheKey)
+    if useCachedData and isBoundedPeopleQuery
+        cachedCount = chainLookupReturn(m.favoriteViewAllAlphaCache, "data.Items", []).Count()
+        cachedTotal = chainLookupReturn(m.favoriteViewAllAlphaCache, "data.TotalRecordCount", invalid)
+        requestedCount = requestedStartIndex + requestedLimit
+        cacheIsComplete = false
+        if isValid(cachedTotal) then cacheIsComplete = cachedCount >= cachedTotal
+        useCachedData = cachedCount >= requestedCount or cacheIsComplete
+    end if
+
+    if useCachedData
         data = m.favoriteViewAllAlphaCache.data
     else
         data = fetchFavoriteViewAllItems(params, queryType, includeItemTypes)
@@ -281,21 +294,21 @@ sub loadItems()
     else if isStringEqual(m.top.view, "Genres")
         url = "Genres"
         params.append({ UserId: m.global.session.user.id, includeItemTypes: m.top.itemType })
-    else if m.top.ItemType = "MusicArtist"
+    else if isStringEqual(m.top.ItemType, ItemType.MUSICARTIST)
         url = "Artists"
         params.append({
             UserId: m.global.session.user.id,
             Fields: "Genres"
         })
         params.IncludeItemTypes = "MusicAlbum,Audio"
-    else if m.top.ItemType = "AlbumArtists"
+    else if isStringEqual(m.top.ItemType, "AlbumArtists")
         url = "Artists/AlbumArtists"
         params.append({
             UserId: m.global.session.user.id,
             Fields: "Genres"
         })
         params.IncludeItemTypes = "MusicAlbum,Audio"
-    else if m.top.ItemType = "MusicAlbum"
+    else if isStringEqual(m.top.ItemType, ItemType.MUSICALBUM)
         url = "Items"
         params.append({ ImageTypeLimit: 1, UserId: m.global.session.user.id })
         ' Request Primary artwork (album cover) and Backdrop as fallback
@@ -511,20 +524,33 @@ sub loadItems()
 
                 else if item.Type = "Studio"
                     tmp = CreateObject("roSGNode", "FolderData")
-                else if item.Type = "MusicAlbum"
+                else if isStringEqual(item.Type, ItemType.MUSICALBUM)
                     tmp = CreateObject("roSGNode", "MusicAlbumData")
                     tmp.type = "MusicAlbum"
                     if isChainValid(item, "ImageTags.Primary")
                         tmp.posterURL = ImageURL(item.id, "Primary")
                     end if
-                else if item.Type = "MusicArtist"
+                else if isStringEqual(item.Type, ItemType.MUSICARTIST)
                     tmp = CreateObject("roSGNode", "MusicArtistData")
                 else if isStringEqual(item.Type, ItemType.PERSON)
                     tmp = CreateObject("roSGNode", "PersonData")
-                else if item.Type = "Audio"
+                else if isStringEqual(item.Type, ItemType.AUDIO)
                     tmp = CreateObject("roSGNode", "MusicSongData")
                     tmp.type = "Audio"
-                    tmp.image = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280, "quality": "90" })
+                    albumId = chainLookupReturn(item, "AlbumId", chainLookupReturn(item, "ParentId", string.EMPTY))
+                    albumPrimaryImageTag = chainLookupReturn(item, "AlbumPrimaryImageTag", string.EMPTY)
+                    itemPrimaryImageTag = chainLookupReturn(item, "ImageTags.Primary", string.EMPTY)
+                    imageParams = { "maxHeight": 280, "maxWidth": 280, "quality": "90" }
+
+                    if isValidAndNotEmpty(albumId) and isValidAndNotEmpty(albumPrimaryImageTag)
+                        imageParams.tag = albumPrimaryImageTag
+                        tmp.posterURL = api.items.GetImageURL(albumId, ImageType.PRIMARY, 0, imageParams)
+                    else if isValidAndNotEmpty(itemPrimaryImageTag)
+                        imageParams.tag = itemPrimaryImageTag
+                        tmp.posterURL = api.items.GetImageURL(item.id, ImageType.PRIMARY, 0, imageParams)
+                    else
+                        tmp.posterURL = "pkg:/images/icons/album.png"
+                    end if
                 else if item.Type = "MusicGenre"
                     tmp = CreateObject("roSGNode", "FolderData")
                     tmp.title = item.name

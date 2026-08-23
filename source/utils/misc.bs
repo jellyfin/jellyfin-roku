@@ -331,6 +331,29 @@ function isStringEqual(input1, input2) as boolean
     return LCase(input1) = LCase(input2)
 end function
 
+function getMatchingSortField(sortField as string, sortOptions as object, fallbackSortField = "SortName" as string) as string
+    if not isValidAndNotEmpty(sortOptions) then return sortField
+
+    fallback = string.EMPTY
+    for each option in sortOptions
+        optionName = chainLookupReturn(option, "Name", string.EMPTY)
+        sortParts = optionName.Split(",")
+        primarySortField = string.EMPTY
+        if sortParts.Count() > 0 then primarySortField = sortParts[0]
+
+        if isStringEqual(optionName, sortField) or isStringEqual(primarySortField, sortField)
+            return optionName
+        end if
+
+        if isStringEqual(optionName, fallbackSortField) or isStringEqual(primarySortField, fallbackSortField)
+            fallback = optionName
+        end if
+    end for
+
+    if isValidAndNotEmpty(fallback) then return fallback
+    return chainLookupReturn(sortOptions[0], "Name", sortField)
+end function
+
 ' Returns whether or not all items in passed array are valid
 function isAllValid(input as object) as boolean
     for each item in input
