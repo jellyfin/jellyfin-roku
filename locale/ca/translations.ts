@@ -46,7 +46,7 @@
     </message>
     <message>
         <source>Play</source>
-        <translation>Reproducció</translation>
+        <translation>Reprodueix</translation>
     </message>
     <message>
         <source>Please sign in</source>
@@ -1664,7 +1664,7 @@
     </message>
     <message>
         <source>mins</source>
-        <translation>mins</translation>
+        <translation>minuts</translation>
     </message>
     <message>
         <source>In My List</source>
@@ -2562,6 +2562,30 @@
     <message>
         <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
         <translation>La cerca ha retornat més de 50 etiquetes. Refeu la cerca per reduir el nombre d&apos;etiquetes coincidents.</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Reprodueix des de l&apos;inici</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Reprèn des de</translation>
+    </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>Confirma la sortida</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>Mostra un missatge de confirmació abans de sortir de Jellyfin des de la pantalla d&apos;inici.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>N&apos;esteu segur, que voleu sortir de Jellyfin?</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+        <translation>Roku havia calculat que podia reproduir directament aquest contingut multimèdia, però la durada de la reproducció era incorrecta.</translation>
     </message>
 </context>
 </TS>
