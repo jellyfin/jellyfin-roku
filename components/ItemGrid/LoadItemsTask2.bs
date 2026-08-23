@@ -3,9 +3,159 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ImageType.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
+
+function loadFavoriteViewAllItems(params as object) as dynamic
+    queryType = chainLookupReturn(m.top.metadata, "queryType", string.EMPTY)
+    includeItemTypes = chainLookupReturn(m.top.metadata, "includeItemTypes", string.EMPTY)
+    nameStartsWith = chainLookupReturn(params, "NameStartsWith", string.EMPTY)
+    nameLessThan = chainLookupReturn(params, "NameLessThan", string.EMPTY)
+    requestedStartIndex = chainLookupReturn(params, "StartIndex", 0)
+    requestedLimit = chainLookupReturn(params, "limit", 0)
+    ' Letters filter server-side for artists (avoids fetching every favorite artist);
+    ' the "#" bucket (NameLessThan) always filters locally so special characters after Z match
+    isLocalHashFilter = isValidAndNotEmpty(nameLessThan)
+    isPeopleQuery = isStringEqual(queryType, ItemType.PERSON)
+    isArtistQuery = isStringEqual(queryType, ItemType.MUSICARTIST)
+    useLocalAlphaFilter = isLocalHashFilter or (isValidAndNotEmpty(nameStartsWith) and not isArtistQuery)
+    useLocalPaging = isPeopleQuery or useLocalAlphaFilter
+
+    if useLocalPaging
+        params.Delete("NameStartsWith")
+        params.Delete("NameLessThan")
+        params.Delete("NameStartsWithOrGreater")
+        params.Delete("StartIndex")
+        params.Delete("limit")
+    end if
+
+    params.Delete("parentid")
+    params.Delete("IncludeItemTypes")
+    params.UserId = m.global.session.user.id
+    params.recursive = true
+    params.Filters = "IsFavorite"
+    params.IsFavorite = true
+
+    if not useLocalPaging
+        return fetchFavoriteViewAllItems(params, queryType, includeItemTypes)
+    end if
+
+    ' People do not support a server start index, and local alpha filtering needs the whole
+    ' favorites list. Cache that list so follow-up pages can be sliced locally.
+    cacheKey = FormatJson({
+        queryType: queryType,
+        includeItemTypes: includeItemTypes,
+        nameStartsWith: nameStartsWith,
+        nameLessThan: nameLessThan,
+        sortBy: chainLookupReturn(params, "SortBy", string.EMPTY),
+        sortOrder: chainLookupReturn(params, "SortOrder", string.EMPTY),
+        searchTerm: chainLookupReturn(params, "searchTerm", string.EMPTY)
+    })
+
+    if requestedStartIndex > 0 and isChainValid(m.favoriteViewAllAlphaCache, "data") and isStringEqual(chainLookupReturn(m.favoriteViewAllAlphaCache, "key", string.EMPTY), cacheKey)
+        data = m.favoriteViewAllAlphaCache.data
+    else
+        data = fetchFavoriteViewAllItems(params, queryType, includeItemTypes)
+        if useLocalAlphaFilter
+            data = filterFavoriteViewAllAlphaItems(data, nameStartsWith, nameLessThan)
+        end if
+        m.favoriteViewAllAlphaCache = { key: cacheKey, data: data }
+    end if
+
+    return pageFavoriteViewAllItems(data, requestedStartIndex, requestedLimit)
+end function
+
+function fetchFavoriteViewAllItems(params as object, queryType as string, includeItemTypes as string) as dynamic
+    if isStringEqual(queryType, ItemType.PERSON)
+        return api.persons.Get(params)
+    end if
+
+    ' /Artists items may not carry user favorite state, so rely on the server-side filter alone
+    if isStringEqual(queryType, ItemType.MUSICARTIST)
+        params.Fields = "Genres"
+        params.IncludeItemTypes = `${ItemType.MUSICALBUM},${ItemType.AUDIO}`
+        return api.artists.Get(params)
+    end if
+
+    if isValidAndNotEmpty(includeItemTypes)
+        params.IncludeItemTypes = includeItemTypes
+    end if
+
+    params.ImageTypeLimit = 1
+    params.EnableImageTypes = `${ImageType.PRIMARY},${ImageType.BACKDROP},${ImageType.BANNER},${ImageType.THUMB}`
+
+    return api.items.Get(params)
+end function
+
+function filterFavoriteViewAllAlphaItems(data as dynamic, nameStartsWith as string, nameLessThan as string) as dynamic
+    if not isChainValid(data, "Items") then return data
+
+    filteredItems = []
+    for each item in data.Items
+        itemName = getFavoriteViewAllAlphaName(item)
+        if isFavoriteViewAllAlphaMatch(itemName, nameStartsWith, nameLessThan)
+            filteredItems.push(item)
+        end if
+    end for
+
+    data.AddReplace("Items", filteredItems)
+    data.AddReplace("TotalRecordCount", filteredItems.Count())
+
+    return data
+end function
+
+function pageFavoriteViewAllItems(data as dynamic, startIndex as integer, limit as integer) as dynamic
+    if not isChainValid(data, "Items") then return data
+
+    if startIndex < 0 then startIndex = 0
+    if limit < 0 then limit = 0
+
+    totalCount = data.Items.Count()
+    pagedItems = []
+
+    if startIndex < totalCount
+        lastIndex = totalCount - 1
+        if limit > 0 and startIndex + limit - 1 < lastIndex
+            lastIndex = startIndex + limit - 1
+        end if
+
+        for i = startIndex to lastIndex
+            pagedItems.push(data.Items[i])
+        end for
+    end if
+
+    ' Return a fresh response so paging never mutates the cached filtered list
+    return {
+        Items: pagedItems,
+        TotalRecordCount: chainLookupReturn(data, "TotalRecordCount", totalCount)
+    }
+end function
+
+function getFavoriteViewAllAlphaName(item as object) as string
+    if isStringEqual(chainLookupReturn(item, "Type", string.EMPTY), ItemType.EPISODE)
+        seriesName = chainLookupReturn(item, "SeriesName", string.EMPTY)
+        if isValidAndNotEmpty(seriesName) then return seriesName
+    end if
+
+    return chainLookupReturn(item, "Name", string.EMPTY)
+end function
+
+function isFavoriteViewAllAlphaMatch(itemName as string, nameStartsWith as string, nameLessThan as string) as boolean
+    if not isValidAndNotEmpty(itemName) then return false
+
+    if isValidAndNotEmpty(nameStartsWith)
+        return isStringEqual(Left(itemName, Len(nameStartsWith)), nameStartsWith)
+    end if
+
+    if isStringEqual(nameLessThan, "A")
+        firstCharacter = UCase(Left(itemName, 1))
+        return firstCharacter < "A" or firstCharacter > "Z"
+    end if
+
+    return true
+end function
 
 sub init()
     m.top.filter = "All"
@@ -117,7 +267,12 @@ sub loadItems()
         params.append({ IncludeItemTypes: m.top.ItemType })
     end if
 
-    if m.top.ItemType = "LiveTV"
+    url = string.EMPTY
+    favoriteViewAll = chainLookupReturn(m.top.metadata, "favoriteViewAll", false)
+
+    if favoriteViewAll
+        data = loadFavoriteViewAllItems(params)
+    else if m.top.ItemType = "LiveTV"
         url = "LiveTv/Channels"
         params.append({ UserId: m.global.session.user.id })
     else if m.top.view = "Networks"
@@ -199,34 +354,36 @@ sub loadItems()
         url = "Items"
     end if
 
-    resp = APIRequest(url, params)
-    data = getJson(resp)
+    if not favoriteViewAll
+        resp = APIRequest(url, params)
+        data = getJson(resp)
 
-    ' If user has filtered by #, include special characters sorted after Z as well
-    if isValid(params.NameLessThan)
-        if LCase(params.NameLessThan) = "a"
-            ' Use same params except for name filter param
-            params.NameLessThan = ""
-            params.NameStartsWithOrGreater = "z"
+        ' If user has filtered by #, include special characters sorted after Z as well
+        if isValid(params.NameLessThan)
+            if LCase(params.NameLessThan) = "a"
+                ' Use same params except for name filter param
+                params.NameLessThan = ""
+                params.NameStartsWithOrGreater = "z"
 
-            ' Perform 2nd API lookup for items starting with Z or greater
-            startsWithZAndGreaterResp = APIRequest(url, params)
-            startsWithZAndGreaterData = getJson(startsWithZAndGreaterResp)
+                ' Perform 2nd API lookup for items starting with Z or greater
+                startsWithZAndGreaterResp = APIRequest(url, params)
+                startsWithZAndGreaterData = getJson(startsWithZAndGreaterResp)
 
-            if isValidAndNotEmpty(startsWithZAndGreaterData)
-                specialCharacterItems = []
+                if isValidAndNotEmpty(startsWithZAndGreaterData)
+                    specialCharacterItems = []
 
-                ' Filter out items starting with Z
-                for each item in startsWithZAndGreaterData.Items
-                    itemName = LCase(item.name)
-                    if not itemName.StartsWith("z")
-                        specialCharacterItems.Push(item)
-                    end if
-                end for
+                    ' Filter out items starting with Z
+                    for each item in startsWithZAndGreaterData.Items
+                        itemName = LCase(item.name)
+                        if not itemName.StartsWith("z")
+                            specialCharacterItems.Push(item)
+                        end if
+                    end for
 
-                ' Append data to results from before A
-                data.Items.Append(specialCharacterItems)
-                data.TotalRecordCount += specialCharacterItems.Count()
+                    ' Append data to results from before A
+                    data.Items.Append(specialCharacterItems)
+                    data.TotalRecordCount += specialCharacterItems.Count()
+                end if
             end if
         end if
     end if
@@ -362,6 +519,8 @@ sub loadItems()
                     end if
                 else if item.Type = "MusicArtist"
                     tmp = CreateObject("roSGNode", "MusicArtistData")
+                else if isStringEqual(item.Type, ItemType.PERSON)
+                    tmp = CreateObject("roSGNode", "PersonData")
                 else if item.Type = "Audio"
                     tmp = CreateObject("roSGNode", "MusicSongData")
                     tmp.type = "Audio"

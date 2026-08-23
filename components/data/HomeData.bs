@@ -129,6 +129,26 @@ sub setData()
         m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.posterUrl = m.top.thumbnailURL
+    else if isStringEqual(datum.type, ItemType.AUDIO)
+        params = { "height": 261, "width": 261, "maxHeight": 261, "maxWidth": 261 }
+
+        if isChainValid(datum, "ImageTags.Primary")
+            params["Tag"] = datum.ImageTags.Primary
+            m.top.posterURL = ImageURL(datum.LookupCI("Id"), ImageType.PRIMARY, params)
+        end if
+
+        if isValidAndNotEmpty(datum.LookupCI("AlbumId")) and isValidAndNotEmpty(datum.LookupCI("AlbumPrimaryImageTag"))
+            params["Tag"] = datum.LookupCI("AlbumPrimaryImageTag")
+            m.top.thumbnailURL = ImageURL(datum.LookupCI("AlbumId"), ImageType.PRIMARY, params)
+
+            if not isValidAndNotEmpty(m.top.posterURL)
+                m.top.posterURL = m.top.thumbnailURL
+            end if
+        end if
+
+        if not isValidAndNotEmpty(m.top.posterURL)
+            m.top.posterURL = "pkg:/images/icons/album.png"
+        end if
     else if isStringEqual(datum.type, ItemType.PERSON)
         params = { "maxHeight": 261, "maxWidth": 464 }
 

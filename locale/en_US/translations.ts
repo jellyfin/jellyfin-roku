@@ -2627,5 +2627,17 @@
             <source>No media matched radio station criteria</source>
             <translation>No media matched radio station criteria</translation>
         </message>
+        <message>
+            <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+            <translation>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</translation>
+        </message>
+        <message>
+            <source>Search Tags</source>
+            <translation>Search Tags</translation>
+        </message>
+        <message>
+            <source>Your search returned no tags.</source>
+            <translation>Your search returned no tags.</translation>
+        </message>
     </context>
 </TS>

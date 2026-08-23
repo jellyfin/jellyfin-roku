@@ -500,25 +500,30 @@ end function
 '
 function getFavoriteRowDefinitions() as object
     return [
-        { title: `${tr("Favorite")} ${tr("Movies")}`, includeItemTypes: ItemType.MOVIE, rowType: "poster" },
-        { title: `${tr("Favorite")} ${tr("Shows")}`, includeItemTypes: ItemType.SERIES, rowType: "poster" },
-        { title: `${tr("Favorite")} ${tr("Episodes")}`, includeItemTypes: ItemType.EPISODE, rowType: "wide" },
-        { title: `${tr("Favorite")} ${tr("Videos")}`, includeItemTypes: `${ItemType.VIDEO},${ItemType.MUSICVIDEO}`, rowType: "wide" },
-        { title: `${tr("Favorite")} ${tr("Collections")}`, includeItemTypes: ItemType.BOXSET, rowType: "poster" },
-        { title: `${tr("Favorite")} ${tr("Playlists")}`, includeItemTypes: ItemType.PLAYLIST, rowType: "album" },
-        { title: `${tr("Favorite")} ${tr("Cast & Crew")}`, queryType: "people", rowType: "poster" },
-        { title: `${tr("Favorite")} ${tr("Artists")}`, queryType: "artists", rowType: "album" },
-        { title: `${tr("Favorite")} ${tr("Albums")}`, includeItemTypes: ItemType.MUSICALBUM, rowType: "album" },
-        { title: `${tr("Favorite")} ${tr("Songs")}`, includeItemTypes: ItemType.AUDIO, rowType: "album" },
-        { title: `${tr("Favorite")} ${tr("Channels")}`, includeItemTypes: ItemType.TVCHANNEL, rowType: "wide" }
+        { rowKey: "movies", title: `${tr("Favorite")} ${tr("Movies")}`, includeItemTypes: ItemType.MOVIE, rowType: "poster" },
+        { rowKey: "shows", title: `${tr("Favorite")} ${tr("Shows")}`, includeItemTypes: ItemType.SERIES, rowType: "poster" },
+        { rowKey: "episodes", title: `${tr("Favorite")} ${tr("Episodes")}`, includeItemTypes: ItemType.EPISODE, rowType: "wide" },
+        { rowKey: "videos", title: `${tr("Favorite")} ${tr("Videos")}`, includeItemTypes: `${ItemType.VIDEO},${ItemType.MUSICVIDEO}`, rowType: "wide" },
+        { rowKey: "collections", title: `${tr("Favorite")} ${tr("Collections")}`, includeItemTypes: ItemType.BOXSET, rowType: "poster" },
+        { rowKey: "playlists", title: `${tr("Favorite")} ${tr("Playlists")}`, includeItemTypes: ItemType.PLAYLIST, rowType: "album" },
+        { rowKey: "people", title: `${tr("Favorite")} ${tr("Cast & Crew")}`, queryType: ItemType.PERSON, rowType: "poster" },
+        { rowKey: "artists", title: `${tr("Favorite")} ${tr("Artists")}`, queryType: ItemType.MUSICARTIST, rowType: "album" },
+        { rowKey: "albums", title: `${tr("Favorite")} ${tr("Albums")}`, includeItemTypes: ItemType.MUSICALBUM, rowType: "album" },
+        { rowKey: "songs", title: `${tr("Favorite")} ${tr("Songs")}`, includeItemTypes: ItemType.AUDIO, rowType: "album" },
+        { rowKey: "channels", title: `${tr("Favorite")} ${tr("Channels")}`, includeItemTypes: ItemType.TVCHANNEL, rowType: "wide" }
     ]
+end function
+
+function getFavoriteHomeRowLimit() as integer
+    return 25
 end function
 
 function getFavoriteQueryParams(sortField as string, sortOrder as string) as object
     return {
         userid: m.global.session.user.id,
         Filters: "IsFavorite",
-        Limit: 25,
+        IsFavorite: true,
+        Limit: getFavoriteHomeRowLimit() + 1,
         recursive: true,
         sortby: sortField,
         sortOrder: sortOrder,
@@ -557,7 +562,9 @@ function createFavoriteHomeData(item as object) as object
         IndexNumber: item.LookupCI("IndexNumber"),
         OfficialRating: item.LookupCI("OfficialRating"),
         Album: item.LookupCI("Album"),
+        AlbumId: item.LookupCI("AlbumId"),
         AlbumArtist: item.LookupCI("AlbumArtist"),
+        AlbumPrimaryImageTag: item.LookupCI("AlbumPrimaryImageTag"),
         ChildCount: item.LookupCI("ChildCount"),
         CollectionType: item.LookupCI("CollectionType"),
         PrimaryImageTag: primaryImageTag,
@@ -574,14 +581,53 @@ function createFavoriteHomeData(item as object) as object
     return tmp
 end function
 
-function createFavoriteHomeItems(data as object) as object
+function createFavoriteViewAllHomeData(favoriteRow as object, sortField as string, sortOrder as string) as object
+    tmp = CreateObject("roSGNode", "HomeData")
+    iconUrl = "pkg:/images/icons/gridView.png"
+    rowKey = favoriteRow.LookupCI("rowKey")
+
+    tmp.posterURL = string.EMPTY
+    tmp.thumbnailURL = string.EMPTY
+    tmp.widePosterURL = string.EMPTY
+    tmp.iconURL = iconUrl
+    tmp.json = {
+        Id: `favorite-${rowKey}`,
+        Name: tr("View All"),
+        Type: ItemType.FOLDER,
+        CollectionType: "favorites",
+        FavoriteViewAll: true,
+        IncludeItemTypes: favoriteRow.LookupCI("includeItemTypes") ?? string.EMPTY,
+        QueryType: favoriteRow.LookupCI("queryType") ?? string.EMPTY,
+        SortBy: sortField,
+        SortOrder: sortOrder
+    }
+
+    return tmp
+end function
+
+function createFavoriteHomeItems(data as object, favoriteRow as object, sortField as string, sortOrder as string) as object
     results = []
 
     if not isChainValid(data, "Items") then return results
 
+    favoriteRowLimit = getFavoriteHomeRowLimit()
+    count = 0
+    addViewAll = false
+
     for each item in data.Items
-        results.push(createFavoriteHomeData(item))
+        if count < favoriteRowLimit
+            results.push(createFavoriteHomeData(item))
+        else
+            addViewAll = true
+            exit for
+        end if
+
+        count++
     end for
+
+    if addViewAll
+        results.push(createFavoriteViewAllHomeData(favoriteRow, sortField, sortOrder))
+    end if
 
     return results
 end function
@@ -596,9 +642,9 @@ function loadFavorites() as object
         queryType = favoriteRow.LookupCI("queryType") ?? string.EMPTY
         params = getFavoriteQueryParams(sortField, sortOrder)
 
-        if isStringEqual(queryType, "people")
+        if isStringEqual(queryType, ItemType.PERSON)
             data = api.persons.Get(params)
-        else if isStringEqual(queryType, "artists")
+        else if isStringEqual(queryType, ItemType.MUSICARTIST)
             params.IncludeItemTypes = `${ItemType.MUSICALBUM},${ItemType.AUDIO}`
             data = api.artists.Get(params)
         else
@@ -606,7 +652,7 @@ function loadFavorites() as object
             data = api.items.Get(params)
         end if
 
-        items = createFavoriteHomeItems(data)
+        items = createFavoriteHomeItems(data, favoriteRow, sortField, sortOrder)
 
         if isValidAndNotEmpty(items)
             results.push({
