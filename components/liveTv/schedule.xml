@@ -28,5 +28,6 @@
     <field id="filter" type="string" value="" onChange="onFilterSet" />
     <field id="searchTerm" type="string" value="" onChange="onSearchTermSet" />
     <function name="loadChannelList" />
+    <function name="updateTime" />
   </interface>
 </component>

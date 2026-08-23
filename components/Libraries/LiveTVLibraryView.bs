@@ -68,6 +68,8 @@ sub init()
     m.alphaMenu = m.alpha.findNode("alphaMenu")
 
     m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+
+    m.top.observeField("visible", "onVisibleChange")
 end sub
 
 sub setColumnSizes(layout = ImageLayout.PORTRAIT as string)
@@ -618,3 +620,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+sub onVisibleChange()
+    if m.top.visible and isValid(m.tvGuide)
+        m.tvGuide.callFunc("updateTime")
+    end if
+end sub
