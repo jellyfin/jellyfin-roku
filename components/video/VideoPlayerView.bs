@@ -739,6 +739,23 @@ sub onVideoContentLoaded()
     m.playbackTestComplete = videoContent[0].content.live
 
     m.top.content = videoContent[0].content
+    ' Build enriched Now Playing metadata for Roku Voice "what's playing" command
+    itemData = m.global.queueManager.callFunc("getCurrentItem")
+    if isValid(itemData)
+        json = itemData.json ?? itemData
+        mediaItemType = LCase(json.Type ?? string.EMPTY)
+        if isStringEqual(mediaItemType, "episode")
+            season = isValid(json.ParentIndexNumber) ? StrI(json.ParentIndexNumber).trim() : "0"
+            episode = isValid(json.IndexNumber) ? StrI(json.IndexNumber).trim() : "0"
+            seriesName = json.SeriesName ?? json.Name ?? json.title ?? string.EMPTY
+            episodeName = json.Name ?? json.title ?? string.EMPTY
+            displayTitle = `${seriesName} - S${season}E${episode} - ${episodeName}`
+        else
+            contentName = json.Name ?? json.title ?? string.EMPTY
+            displayTitle = isValid(json.ProductionYear) ? `${contentName} (${json.ProductionYear})` : contentName
+        end if
+        m.top.nowPlayingMetadata = { title: displayTitle, contentType: mediaItemType }
+    end if
     m.top.PlaySessionId = videoContent[0].PlaySessionId
     m.top.videoId = videoContent[0].id
     m.top.container = videoContent[0].container
