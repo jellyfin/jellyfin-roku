@@ -40,15 +40,15 @@ sub loadItems()
         end if
     end if
 
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
     if m.top.selectedAudioStreamIndex = 0
-        currentItem = m.global.queueManager.callFunc("getCurrentItem")
         if isChainValid(currentItem, "json")
             m.top.selectedAudioStreamIndex = FindPreferredAudioStream(currentItem.json.MediaStreams)
         end if
     end if
 
     id = m.top.itemId
-    mediaSourceId = invalid
+    mediaSourceId = isChainValid(currentItem, "mediaSourceId") ? currentItem.mediaSourceId : invalid
     audio_stream_idx = m.top.selectedAudioStreamIndex
 
     m.top.content = [LoadItems_VideoPlayer(id, mediaSourceId, audio_stream_idx)]
@@ -238,32 +238,56 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     ' PlayStart requires the time to be in seconds
     video.content.PlayStart = int(playbackPosition / 10000000)
 
-    if not isValid(mediaSourceId) then mediaSourceId = video.id
+    if not isValid(mediaSourceId) or mediaSourceId = "" or mediaSourceId = video.id
+        if isChainValid(meta, "json.MediaSources") and isValidAndNotEmpty(meta.json.MediaSources)
+            mediaSourceId = meta.json.MediaSources[0].id
+        else
+            mediaSourceId = video.id
+        end if
+    end if
     if meta.live then mediaSourceId = ""
 
-    m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+    options = { "mustTranscode": m.top.mustTranscode }
+    m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition, options)
     if not isValid(m.playbackInfo)
         video.errorMsg = "Error loading playback info"
         video.content = invalid
         return
     end if
 
+    if not isChainValid(m.playbackInfo, "MediaSources") or not isValidAndNotEmpty(m.playbackInfo.MediaSources) or not isValid(m.playbackInfo.MediaSources[0])
+        m.playbackInfo = meta.json
+    end if
+
+    selectedSource = getSelectedMediaSource(m.playbackInfo.MediaSources, mediaSourceId)
+    if not isValid(selectedSource)
+        selectedSource = m.playbackInfo.MediaSources[0]
+    end if
+
     ' If forceTranscode setting is enabled, but we haven't set the transcode codec yet, set it now and update Playback Info
     if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
         setTranscodeCodec(video, PlaybackMethod.FORCETRANSCODEDISABLEREMUX, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+        selectedSource = getSelectedMediaSource(m.playbackInfo.MediaSources, mediaSourceId)
+        if not isValid(selectedSource) then selectedSource = m.playbackInfo.MediaSources[0]
     else if meta.live
         forceTranscode = chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscodeLiveTV`", PlaybackMethod.PLAYNORMALLY)
 
         if not isStringEqual(forceTranscode, PlaybackMethod.PLAYNORMALLY)
             setTranscodeCodec(video, forceTranscode, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+            selectedSource = getSelectedMediaSource(m.playbackInfo.MediaSources, mediaSourceId)
+            if not isValid(selectedSource) then selectedSource = m.playbackInfo.MediaSources[0]
         end if
     end if
 
-    addSubtitlesToVideo(video, meta)
+    addSubtitlesToVideo(video, meta, selectedSource)
 
     ' Use either the user's selected subtitles, or the default track
     if m.top.selectedSubtitleIndex = SubtitleSelection.NOTSET
-        video.SelectedSubtitle = m.playbackInfo.MediaSources[0].LookupCI("DefaultSubtitleStreamIndex")
+        if isValid(selectedSource)
+            video.SelectedSubtitle = selectedSource.LookupCI("DefaultSubtitleStreamIndex")
+        else
+            video.SelectedSubtitle = SubtitleSelection.NOTSET
+        end if
     else
         video.SelectedSubtitle = m.top.selectedSubtitleIndex
     end if
@@ -280,33 +304,29 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     video.container = getContainerType(meta)
 
-    if not isValid(m.playbackInfo.MediaSources[0])
-        m.playbackInfo = meta.json
-    end if
-
-    addAudioStreamsToVideo(video)
+    addAudioStreamsToVideo(video, selectedSource)
     if meta.live
         video.transcodeParams = {
-            "MediaSourceId": m.playbackInfo.MediaSources[0].Id,
-            "LiveStreamId": m.playbackInfo.MediaSources[0].LiveStreamId,
+            "MediaSourceId": selectedSource.Id,
+            "LiveStreamId": selectedSource.LiveStreamId,
             "PlaySessionId": video.PlaySessionId
         }
     end if
 
 
     ' 'TODO: allow user selection of subtitle track before playback initiated, for now set to no subtitles
-    video.directPlaySupported = m.playbackInfo.MediaSources[0].SupportsDirectPlay
+    video.directPlaySupported = selectedSource.SupportsDirectPlay
 
     ' For h264/hevc video, Roku spec states that it supports specfic encoding levels
     ' The device can decode content with a Higher Encoding level but may play it back with certain
     ' artifacts. If the user preference is set, and the only reason the server says we need to
     ' transcode is that the Encoding Level is not supported, then try to direct play but silently
     ' fall back to the transcode if that fails.
-    if m.playbackInfo.MediaSources[0].MediaStreams.Count() > 0 and meta.live = false
-        tryDirectPlay = m.global.session.user.settings["playback.tryDirect.h264ProfileLevel"] and m.playbackInfo.MediaSources[0].MediaStreams[0].codec = "h264"
-        tryDirectPlay = tryDirectPlay or (m.global.session.user.settings["playback.tryDirect.hevcProfileLevel"] and m.playbackInfo.MediaSources[0].MediaStreams[0].codec = "hevc")
-        if tryDirectPlay and isValid(m.playbackInfo.MediaSources[0].TranscodingUrl)
-            transcodingReasons = getTranscodeReasons(m.playbackInfo.MediaSources[0].TranscodingUrl)
+    if isValid(selectedSource.MediaStreams) and selectedSource.MediaStreams.Count() > 0 and meta.live = false
+        tryDirectPlay = m.global.session.user.settings["playback.tryDirect.h264ProfileLevel"] and selectedSource.MediaStreams[0].codec = "h264"
+        tryDirectPlay = tryDirectPlay or (m.global.session.user.settings["playback.tryDirect.hevcProfileLevel"] and selectedSource.MediaStreams[0].codec = "hevc")
+        if tryDirectPlay and isValid(selectedSource.TranscodingUrl)
+            transcodingReasons = getTranscodeReasons(selectedSource.TranscodingUrl)
             if transcodingReasons.Count() = 1 and transcodingReasons[0] = "VideoLevelNotSupported"
                 video.directPlaySupported = true
                 video.transcodeAvailable = true
@@ -319,22 +339,22 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     if video.directPlaySupported or (attemptDirectPlaySetting and not m.top.mustTranscode and not meta.live)
         video.isTranscoded = false
-        addVideoContentURL(video, mediaSourceId, audio_stream_idx)
+        addVideoContentURL(video, mediaSourceId, audio_stream_idx, selectedSource)
         setCertificateAuthority(video.content)
         video.content = authRequest(video.content)
         return
     end if
 
     ' Stream media From URL
-    if isHTTPStream()
+    if isHTTPStream(selectedSource)
         video.isTranscoded = false
-        video.content.url = m.playbackInfo.MediaSources[0].Path
+        video.content.url = selectedSource.Path
         setCertificateAuthority(video.content)
         return
     end if
 
     ' Transcode media
-    if m.playbackInfo.MediaSources[0].TranscodingUrl = invalid
+    if selectedSource.TranscodingUrl = invalid
         ' If server does not provide a transcode URL, display a message to the user
         m.global.sceneManager.callFunc("userMessage", tr("Error Getting Playback Information"), tr("An error was encountered while playing this item. Server did not provide required transcoding data."))
         video.errorMsg = "Error getting playback information"
@@ -347,56 +367,81 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     ' If transcoding and burnInSubtitlesIfTrancoding is enabled, zero out SubtitleProfiles
     if chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true) and meta.live = false and shouldBurnInSelectedSubtitle(m.playbackInfo, m.top.selectedSubtitleIndex)
         m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition, {
-            emptySubtitleProfiles: true
+            emptySubtitleProfiles: true,
+            mustTranscode: true
         })
-        ' Re-posting playback info will generate a new PlaysessionId
-        video.PlaySessionId = m.playbackInfo.PlaySessionId
-        video.subtitlesBurnedIn = true
+        if isValid(m.playbackInfo)
+            ' Re-posting playback info will generate a new PlaysessionId
+            video.PlaySessionId = m.playbackInfo.PlaySessionId
+            video.subtitlesBurnedIn = true
+            selectedSource = getSelectedMediaSource(m.playbackInfo.MediaSources, mediaSourceId)
+            if not isValid(selectedSource) then selectedSource = m.playbackInfo.MediaSources[0]
+        end if
     end if
 
     ' Get transcoding reason
-    video.transcodeReasons = getTranscodeReasons(m.playbackInfo.MediaSources[0].TranscodingUrl)
-    video.content.url = buildURL(m.playbackInfo.MediaSources[0].TranscodingUrl)
+    video.transcodeReasons = getTranscodeReasons(selectedSource.TranscodingUrl)
+    video.content.url = buildURL(selectedSource.TranscodingUrl)
     video.isTranscoded = true
 
     setCertificateAuthority(video.content)
     video.content = authRequest(video.content)
 end sub
 
+function getSelectedMediaSource(mediaSources as object, mediaSourceId as dynamic) as object
+    if not isValidAndNotEmpty(mediaSources) then return invalid
+    if isValid(mediaSourceId) and mediaSourceId <> ""
+        for each source in mediaSources
+            if source.id = mediaSourceId or source.LookupCI("Id") = mediaSourceId
+                return source
+            end if
+        end for
+    end if
+    return mediaSources[0]
+end function
+
 sub setTranscodeCodec(video as object, forceTranscode as string, mediaSourceId as dynamic, audio_stream_idx as integer, subtitle_idx as integer, playbackPosition as longinteger)
     if not isStringEqual(m.global.queueManager.callFunc("getTranscodeCodec"), string.EMPTY) then return
 
-    for i = 0 to m.playbackInfo.MediaSources[0].MediaStreams.Count() - 1
-        if m.playbackInfo.MediaSources[0].MediaStreams[i].Type = "Video"
-            m.global.queueManager.callFunc("setForceTranscode", forceTranscode, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec ?? string.EMPTY)
-            exit for
-        end if
-    end for
+    selectedSource = getSelectedMediaSource(m.playbackInfo.MediaSources, mediaSourceId)
+    if not isValid(selectedSource) then selectedSource = m.playbackInfo.MediaSources[0]
 
-    m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
+    if isValid(selectedSource.MediaStreams)
+        for i = 0 to selectedSource.MediaStreams.Count() - 1
+            if selectedSource.MediaStreams[i].Type = "Video"
+                m.global.queueManager.callFunc("setForceTranscode", forceTranscode, selectedSource.MediaStreams[i].Codec ?? string.EMPTY)
+                exit for
+            end if
+        end for
+    end if
+
+    options = { "mustTranscode": true }
+    m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition, options)
     if not isValid(m.playbackInfo)
         video.errorMsg = "Error loading playback info"
         video.content = invalid
     end if
 end sub
 
-function isHTTPStream() as boolean
-    if not m.playbackInfo.MediaSources[0].LookupCI("isremote") then return false
-    if not isStringEqual(m.playbackInfo.MediaSources[0].LookupCI("VideoType"), "VideoFile") then return false
+function isHTTPStream(selectedSource as object) as boolean
+    if not isValid(selectedSource) then return false
+    if not selectedSource.LookupCI("isremote") then return false
+    if not isStringEqual(selectedSource.LookupCI("VideoType"), "VideoFile") then return false
     return true
 end function
 
-sub addVideoContentURL(video, mediaSourceId, audio_stream_idx)
-    protocol = LCase(m.playbackInfo.MediaSources[0].Protocol)
+sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, selectedSource as object)
+    if not isValid(selectedSource) then return
+    protocol = LCase(selectedSource.Protocol ?? "")
     if protocol <> "file"
-        uri = ParsedUrl(m.playbackInfo.MediaSources[0].Path)
+        uri = ParsedUrl(selectedSource.Path)
         if isLocalhost(uri.host)
             ' if the domain of the URI is local to the server,
             ' create a new URI by appending the received path to the server URL
             ' later we will substitute the users provided URL for this case
             video.content.url = buildURL(uri.path)
         else
-            video.content.url = m.playbackInfo.MediaSources[0].Path
+            video.content.url = selectedSource.Path
         end if
     else
         params = {
@@ -418,9 +463,10 @@ end sub
 ' addAudioStreamsToVideo: Add audio stream data to video
 '
 ' @param {dynamic} video component to add fullAudioData to
-sub addAudioStreamsToVideo(video)
+sub addAudioStreamsToVideo(video, selectedSource as object)
+    if not isValid(selectedSource) or not isValid(selectedSource.MediaStreams) then return
     audioStreams = []
-    mediaStreams = m.playbackInfo.MediaSources[0].MediaStreams
+    mediaStreams = selectedSource.MediaStreams
 
     audioStreamCount = 1
     for i = 0 to mediaStreams.Count() - 1
@@ -434,14 +480,12 @@ sub addAudioStreamsToVideo(video)
     video.fullAudioData = audioStreams
 end sub
 
-sub addSubtitlesToVideo(video, meta)
+sub addSubtitlesToVideo(video, meta, selectedSource as object)
     if not isValid(meta) then return
     if not isValid(meta.id) then return
-    if not isValid(m.playbackInfo) then return
-    if not isValidAndNotEmpty(m.playbackInfo.MediaSources) then return
-    if not isValid(m.playbackInfo.MediaSources[0].MediaStreams) then return
+    if not isValid(selectedSource) or not isValid(selectedSource.MediaStreams) then return
 
-    subtitles = sortSubtitles(m.playbackInfo.MediaSources[0].MediaStreams)
+    subtitles = sortSubtitles(selectedSource.MediaStreams)
     safesubs = subtitles["all"]
     subtitleTracks = []
 
