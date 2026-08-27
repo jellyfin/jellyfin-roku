@@ -14,5 +14,6 @@
     <field id="selectedVideoStreamId" type="string" />
     <field id="selectedAudioStreamIndex" type="integer" />
     <field id="favorite" type="boolean" />
+    <field id="watched" type="boolean" />
   </interface>
 </component>
