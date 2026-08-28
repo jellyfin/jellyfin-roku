@@ -389,9 +389,10 @@ sub setMusicAlbumGridPoster(album as object)
 end sub
 
 function MusicArtistSongCount(id as string) as integer
+    ' Match Artist Presentation's credited-song scope; artist and Appears On album counts remain separate.
     data = api.items.Get({
         "UserId": m.global.session.user.id,
-        "AlbumArtistIds": id,
+        "ArtistIds": id,
         "includeitemtypes": ItemType.AUDIO,
         "Recursive": true,
         "EnableTotalRecordCount": true,
