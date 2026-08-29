@@ -2633,5 +2633,13 @@
         <source>Your search returned no tags.</source>
         <translation>Wyszukiwanie nie zwróciło żadnych tagów.</translation>
     </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Wyszukaj określenie</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Zaczyna się od</translation>
+    </message>
 </context>
 </TS>
