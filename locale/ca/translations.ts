@@ -2587,5 +2587,13 @@
         <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
         <translation>Roku havia calculat que podia reproduir directament aquest contingut multimèdia, però la durada de la reproducció era incorrecta.</translation>
     </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Terme de cerca</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Comença per</translation>
+    </message>
 </context>
 </TS>
