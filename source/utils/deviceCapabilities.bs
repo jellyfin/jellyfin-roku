@@ -91,7 +91,7 @@ function GetDirectPlayProfiles() as object
     }
     ' all possible codecs (besides those restricted by user settings)
     videoCodecs = ["h264", "mpeg4 avc", "vp8", "vp9", "h263", "mpeg1"]
-    audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
+    audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
 
     ' check if hevc is disabled
     if globalUserSettings["playback.compatibility.disablehevc"] = false
@@ -146,10 +146,6 @@ function GetDirectPlayProfiles() as object
                 Codec: audioCodec,
                 Container: container
             }).Result
-
-            if isStringEqual(container, "ts") and not inArray(["aac", "ac3", "eac3", "mp3"], audioCodec)
-                canDecode = false
-            end if
 
             if canDecode or (isSurround and isStringEqual(audioCodec, "ac3") and not isStringEqual(container, "mp4"))
                 supportedCodecs[container]["audio"].push(audioCodec)
@@ -348,20 +344,13 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     end for
 
     ' AUDIO CODECS
-    validTsAudio = ["aac", "ac3", "eac3", "mp3"]
-    validMp4Audio = ["aac", "ac3", "eac3", "mp3", "alac", "flac"]
-
     for each container in transcodingContainers
         for each codec in audioCodecs
             if di.CanDecodeAudio({ Codec: codec, Container: container }).result
-                if container = "mp4" and inArray(validMp4Audio, codec)
-                    if mp4AudioCodecs.Instr(0, codec) = -1
-                        mp4AudioCodecs = mp4AudioCodecs + "," + codec
-                    end if
-                else if container = "ts" and inArray(validTsAudio, codec)
-                    if tsAudioCodecs.Instr(0, codec) = -1
-                        tsAudioCodecs = tsAudioCodecs + "," + codec
-                    end if
+                if container = "mp4"
+                    mp4AudioCodecs = mp4AudioCodecs + "," + codec
+                else if container = "ts"
+                    tsAudioCodecs = tsAudioCodecs + "," + codec
                 end if
             end if
         end for
