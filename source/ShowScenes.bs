@@ -239,7 +239,13 @@ sub DeviceOSVersionCheck(OS as object)
     m.scene.isLoading = false
     stopLoadingSpinner()
 
-    show_dialog(`${tr("This Roku will stop receiving Jellyfin for Roku updates on October 1 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS. All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us. You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.")}`, [tr("OK")], 0)
+    warningContent = [
+        "<p>" + tr("This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.") + "</p>",
+        "<p>" + tr("All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us.") + "</p>",
+        "<p>" + tr("You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.") + "</p>"
+    ]
+
+    m.global.sceneManager.callFunc("standardDialog", "Roku OS Version Warning", { data: warningContent })
 
     if isValid(overhang)
         overhang.visible = true
