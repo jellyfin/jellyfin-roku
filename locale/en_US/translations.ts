@@ -2647,5 +2647,9 @@
             <source>Starts With</source>
             <translation>Starts With</translation>
         </message>
+        <message>
+            <source>This Roku will stop receiving Jellyfin for Roku updates on October 1 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS. All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us. You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.</source>
+            <translation>This Roku will stop receiving Jellyfin for Roku updates on October 1 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS. All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us. You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.</translation>
+        </message>
     </context>
 </TS>

@@ -2,6 +2,7 @@ import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/utils/misc.bs"
 
 const minimumServerVersion = [10, 9, 0]
+const minimumRokuOSVersion = [15, 1, 0]
 
 function LoginFlow()
     'Collect Jellyfin server and user information
@@ -197,6 +198,11 @@ function LoginFlow()
         goto start_login
     end if
 
+    if isChainValid(m.global, "device.osversion")
+        OS = m.global.device.osversion
+        DeviceOSVersionCheck(OS)
+    end if
+
     LoadUserAbilities()
     m.global.sceneManager.callFunc("clearScenes")
 
@@ -218,6 +224,19 @@ sub ServerVersionCheck(systemVersion as string)
             LoginFlow()
         end if
     end if
+end sub
+
+sub DeviceOSVersionCheck(OS as object)
+    if not chainLookupReturn(m.global.session, "user.settings.`load.rokuospopup`", false) then return
+    if serverVersionMeetsMinimumRequirements(`${OS.major}.${OS.minor}.${OS.revision}`, minimumRokuOSVersion) then return
+
+    m.scene.isLoading = false
+    stopLoadingSpinner()
+
+    show_dialog(`${tr("This Roku will stop receiving Jellyfin for Roku updates on October 1 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS. All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us. You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.")}`, [tr("OK")], 0)
+
+    m.scene.isLoading = true
+    startLoadingSpinner()
 end sub
 
 sub SaveServerList()
