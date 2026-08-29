@@ -574,6 +574,13 @@ sub SetUpVideoOptions(streams)
 
     setFieldText("rotationWarning", string.EMPTY)
 
+    if not isValidAndNotEmpty(streams)
+        options = {}
+        options.videos = videos
+        m.options.options = options
+        return
+    end if
+
     for i = 0 to streams.Count() - 1
         if LCase(streams[i].VideoType) = VideoType.VIDEOFILE
             videoCodecForDisplay = ""
@@ -634,9 +641,11 @@ sub SetUpAudioOptions(mediaData)
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
     if isChainValid(preferredSubtitle, "StreamIndex")
         selectedSubtitle = preferredSubtitle.StreamIndex
-    else
+    else if isChainValid(mediaData, "MediaSources") and isValidAndNotEmpty(mediaData.MediaSources)
         selectedSubtitle = mediaData.MediaSources[0].LookupCI("DefaultSubtitleStreamIndex")
         if not isValid(selectedSubtitle) then selectedSubtitle = SubtitleSelection.NOTSET
+    else
+        selectedSubtitle = SubtitleSelection.NOTSET
     end if
 
     audioTracks = []
