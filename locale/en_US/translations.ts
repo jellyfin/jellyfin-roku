@@ -2639,5 +2639,29 @@
             <source>Your search returned no tags.</source>
             <translation>Your search returned no tags.</translation>
         </message>
+        <message>
+            <source>Search Term</source>
+            <translation>Search Term</translation>
+        </message>
+        <message>
+            <source>Starts With</source>
+            <translation>Starts With</translation>
+        </message>
+        <message>
+            <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+            <translation>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</translation>
+        </message>
+        <message>
+            <source>All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us.</source>
+            <translation>All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us.</translation>
+        </message>
+        <message>
+            <source>You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.</source>
+            <translation>You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.</translation>
+        </message>
+        <message>
+            <source>Roku OS Version Warning</source>
+            <translation>Roku OS Version Warning</translation>
+        </message>
     </context>
 </TS>
