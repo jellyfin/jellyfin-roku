@@ -20,7 +20,7 @@
     "author": "1hitsong"
   },
   {
-    "description": "fix(Custom Captions): keep captions visible while paused",
+    "description": "Keep custom caption text visible while video is paused",
     "author": "ferezvi"
   }
 ]
