@@ -26,5 +26,9 @@
   {
     "description": "Create warning popup for Rokus running OS versions older than 15.1",
     "author": "1hitsong"
+  },
+  {
+    "description": "Keep custom caption text visible while video is paused",
+    "author": "ferezvi"
   }
 ]
