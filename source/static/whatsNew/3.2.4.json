@@ -38,5 +38,9 @@
   {
     "description": "Add favorite toggle to audio mini player",
     "author": "VX-101"
+  },
+  {
+    "description": "Add premiere date to OSD item details",
+    "author": "michaelcresswell"
   }
 ]
