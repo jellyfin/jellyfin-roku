@@ -2633,5 +2633,29 @@
         <source>Your search returned no tags.</source>
         <translation>Wyszukiwanie nie zwróciło żadnych tagów.</translation>
     </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Wyszukaj określenie</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Zaczyna się od</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>To urządzenie Roku przestanie otrzymywać aktualizacje Jellyfin dla Roku 1 października 2026 r. ze względu na nowe minimalne wymagania systemu operacyjnego Roku 15.1. Możesz nadal korzystać z zainstalowanej aplikacji, ale nigdy się nie zaktualizuje, dopóki nie zaktualizujesz systemu operacyjnego Roku.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Wszystkie wydania zostaną zablokowane, chyba że wprowadzimy tę zmianę. Jesteśmy do tego zmuszeni, więc jeśli Cię to dotyczy, skontaktuj się z Roku. Nie krzycz na nas.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Możesz ukryć to okno, wyłączając ustawienie „Interfejs użytkownika / Ogólne / Pokaż okno z informacją o wersji systemu operacyjnego Roku”.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Ostrzeżenie dotyczące wersji systemu operacyjnego Roku</translation>
+    </message>
 </context>
 </TS>
