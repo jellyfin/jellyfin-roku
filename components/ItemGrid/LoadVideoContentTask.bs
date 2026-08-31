@@ -106,9 +106,9 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         date.FromISO8601String(premiere)
         if not date.AsSeconds() = 0 and not isStringEqual(premiere, "1970-01-01T00:00:00.000000Z")
             if isStringEqual(chainLookupReturn(meta.json, "Type", ItemType.SERIES), ItemType.MOVIE)
-                dateDescriptor = "Released"
+                dateDescriptor = tr("Released")
             else
-                dateDescriptor = "Aired"
+                dateDescriptor = tr("Aired")
             end if
             video.premiere = tr(dateDescriptor) + ": " + date.AsDateString("short-month-no-weekday")
         end if
