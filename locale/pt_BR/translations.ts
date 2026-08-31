@@ -2642,6 +2642,22 @@
         <source>Starts With</source>
         <translation>Começa com</translation>
     </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>Este Roku deixará de receber atualizações do Jellyfin em 1º de outubro de 2026 devido ao novo requisito mínimo do Roku OS 15.1. Você poderá continuar usando o aplicativo instalado, mas ele não receberá novas atualizações a menos que você atualize o Roku OS.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Todos os novos lançamentos serão bloqueados se não fizermos essa alteração. Somos obrigados a fazer isso. Se você for afetado, entre em contato com a Roku. Não desconte a frustração em nós.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Você pode ocultar esta janela desativando a configuração “Interface do usuário / Geral / Exibir aviso da versão do Roku OS”.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Aviso sobre a versão do Roku OS</translation>
+    </message>
 </context>
 <context>
     <name></name>
