@@ -34,5 +34,9 @@
   {
     "description": "Add wraparound login user navigation",
     "author": "geryonghost"
+  },
+  {
+    "description": "Add favorite toggle to audio mini player",
+    "author": "VX-101"
   }
 ]
