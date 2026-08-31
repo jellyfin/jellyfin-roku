@@ -98,6 +98,21 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     video.overview = meta.json.overview
     video.people = meta.json.people
+    premiere = meta.json.premieredate
+    if isValid(premiere)
+        date = CreateObject("roDateTime")
+        date.FromSeconds(0)
+        ' Parse failures silently do not update the date so set to a known value and check if it changed
+        date.FromISO8601String(premiere)
+        if not date.AsSeconds() = 0 and not isStringEqual(premiere, "1970-01-01T00:00:00.000000Z")
+            if isStringEqual(chainLookupReturn(meta.json, "Type", ItemType.SERIES), ItemType.MOVIE)
+                dateDescriptor = "Released"
+            else
+                dateDescriptor = "Aired"
+            end if
+            video.premiere = tr(dateDescriptor) + ": " + date.AsDateString("short-month-no-weekday")
+        end if
+    end if
     if not isValid(video.overview) and isValid(meta.json.CurrentProgram)
         ' Live TV is under CurrentProgram.Overview
         video.overview = meta.json.CurrentProgram.overview

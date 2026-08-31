@@ -454,7 +454,15 @@ sub handleShowVideoOverviewPopupAction()
         end if
     end if
 
-    m.global.sceneManager.callFunc("standardDialog", overviewPopupTitle, { data: ["<p>" + m.overview + "</p>"] })
+    info = []
+    if isValid(m.premiere)
+        info.push("<header>" + m.premiere + "</header>")
+    end if
+    if isValid(m.overview)
+        info.push("<p>" + m.overview + "</p>")
+    end if
+
+    m.global.sceneManager.callFunc("standardDialog", overviewPopupTitle, { data: info })
 end sub
 
 sub handleShowCastCrewPopupAction()
@@ -766,6 +774,7 @@ sub onVideoContentLoaded()
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
     m.overview = videoContent[0].overview
+    m.premiere = videoContent[0].premiere
     m.castPeople = videoContent[0].people
     m.trickplay = videoContent[0].trickplay
     m.top.showID = videoContent[0].showID
