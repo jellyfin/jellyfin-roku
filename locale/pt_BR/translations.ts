@@ -2634,6 +2634,14 @@
         <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
         <translation>Sua pesquisa retornou mais de 50 tags. Refine a pesquisa para reduzir o número de tags encontradas.</translation>
     </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Termo de pesquisa</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Começa com</translation>
+    </message>
 </context>
 <context>
     <name></name>
