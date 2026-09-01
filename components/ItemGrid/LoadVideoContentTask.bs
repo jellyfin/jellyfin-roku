@@ -99,7 +99,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     video.overview = meta.json.overview
     video.people = meta.json.people
     premiere = meta.json.premieredate
-    if isValid(premiere)
+    if isValidAndNotEmpty(premiere)
         date = CreateObject("roDateTime")
         date.FromSeconds(0)
         ' Parse failures silently do not update the date so set to a known value and check if it changed
