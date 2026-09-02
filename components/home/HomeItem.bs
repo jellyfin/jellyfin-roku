@@ -431,7 +431,7 @@ sub displayProgramInfo(itemData as object)
         realWidth = itemData.FHDItemWidth
         m.itemPoster.width = realWidth
         m.itemText.maxWidth = realWidth - 8
-        m.itemTextExtra.width = realWidth - 8
+        m.itemTextExtra.maxWidth = realWidth - 8
         m.backdrop.width = realWidth
     end if
 
