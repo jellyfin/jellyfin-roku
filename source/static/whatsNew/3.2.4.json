@@ -42,5 +42,9 @@
   {
     "description": "Add premiere date to OSD item details",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Improve music artist presentation and detail stats",
+    "author": "VX-101"
   }
 ]

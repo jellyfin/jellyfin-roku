@@ -1160,6 +1160,46 @@
             <translation>Albums</translation>
         </message>
         <message>
+            <source>Appears On</source>
+            <translation>Appears On</translation>
+        </message>
+        <message>
+            <source>Albums (%1)</source>
+            <translation>Albums (%1)</translation>
+        </message>
+        <message>
+            <source>Appears On (%1)</source>
+            <translation>Appears On (%1)</translation>
+        </message>
+        <message>
+            <source>%1 Song</source>
+            <translation>%1 Song</translation>
+        </message>
+        <message>
+            <source>%1 Songs</source>
+            <translation>%1 Songs</translation>
+        </message>
+        <message>
+            <source>%1 Album</source>
+            <translation>%1 Album</translation>
+        </message>
+        <message>
+            <source>%1 Albums</source>
+            <translation>%1 Albums</translation>
+        </message>
+        <message>
+            <source>Credited for:</source>
+            <translation>Credited for:</translation>
+        </message>
+        <message>
+            <source>%1 Appears On Album</source>
+            <translation>%1 Appears On Album</translation>
+        </message>
+        <message>
+            <source>%1 Appears On Albums</source>
+            <translation>%1 Appears On Albums</translation>
+        </message>
+        <message>
             <source>Autoplay Episode Limit</source>
             <translation>Autoplay Episode Limit</translation>
         </message>
