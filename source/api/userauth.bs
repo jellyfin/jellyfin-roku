@@ -22,13 +22,13 @@ function AboutMe(id = "" as string)
         if m.global.session.user.id <> invalid
             id = m.global.session.user.id
         else
-            return invalid
+            return { code: 0, body: invalid }
         end if
     end if
 
     url = Substitute("Users/{0}", id)
     resp = APIRequest(url)
-    return getJson(resp)
+    return getJsonResponse(resp)
 end function
 
 sub SignOut(deleteSavedEntry = true as boolean)

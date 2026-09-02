@@ -46,5 +46,9 @@
   {
     "description": "Improve music artist presentation and detail stats",
     "author": "VX-101"
+  },
+  {
+    "description": "Prevent saved credentials from being erased when login fails during startup",
+    "author": "valtron"
   }
 ]

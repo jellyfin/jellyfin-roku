@@ -108,6 +108,20 @@ function getJson(req)
     return json
 end function
 
+function getJsonResponse(req) as object
+    port = CreateObject("roMessagePort")
+    req.setMessagePort(port)
+    if req.AsyncGetToString()
+        msg = wait(0, port)
+        if type(msg) = "roUrlEvent"
+            code = msg.GetResponseCode()
+            body = ParseJson(msg.GetString())
+            return { code: code, body: body }
+        end if
+    end if
+    return { code: 0, body: invalid }
+end function
+
 function postVoid(req, data = "" as string) as boolean
     req.setMessagePort(CreateObject("roMessagePort"))
     req.AddHeader("Content-Type", "application/json")
