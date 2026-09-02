@@ -2574,5 +2574,41 @@
         <source>Direction to sort media before cutting off at limit</source>
         <translation>Instruction de trier les supports avant de les couper à la limite</translation>
     </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>Votre recherche a donné plus de 50 résultats. Modifiez votre recherche afin de réduire le nombre de résultats correspondants.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Rechercher par mots-clés</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>Votre recherche n&apos;a donné aucun résultat.</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Commence Par</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Toutes les mises à jour seront bloquées si nous ne faisons pas ce changement. Nous sommes contraints d&apos;agir ainsi ; si vous êtes affecté(e)s, veuillez contacter Roku. Merci de ne pas vous emporter contre notre équipe.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Vous pouvez masquer cette pop-up en désactivant le paramètre &quot;Interface utilisateur / Général / Afficher la pop-up de version de l&apos;OS de Roku&quot;.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Avertissement de la version de l&apos;OS de Roku</translation>
+    </message>
+    <message>
+        <source>Search Term</source>
+        <translation type="unfinished">Terme de recherche</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>Cet appareil Roku ne recevra plus de mises à jour de Jellyfin à partir du 1ᵉʳ octobre 2026, en raison de la nouvelle version minimale requise par Roku (OS 15.1). Vous pouvez continuer à utiliser l&apos;application installée, mais elle ne bénéficiera plus d&apos;aucune mise à jour tant que le système d&apos;exploitation de votre Roku ne sera pas mis à niveau.</translation>
+    </message>
 </context>
 </TS>

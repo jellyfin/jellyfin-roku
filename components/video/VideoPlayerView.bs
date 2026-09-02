@@ -454,7 +454,15 @@ sub handleShowVideoOverviewPopupAction()
         end if
     end if
 
-    m.global.sceneManager.callFunc("standardDialog", overviewPopupTitle, { data: ["<p>" + m.overview + "</p>"] })
+    info = []
+    if isValid(m.premiere)
+        info.push("<header>" + m.premiere + "</header>")
+    end if
+    if isValid(m.overview)
+        info.push("<p>" + m.overview + "</p>")
+    end if
+
+    m.global.sceneManager.callFunc("standardDialog", overviewPopupTitle, { data: info })
 end sub
 
 sub handleShowCastCrewPopupAction()
@@ -739,6 +747,23 @@ sub onVideoContentLoaded()
     m.playbackTestComplete = videoContent[0].content.live
 
     m.top.content = videoContent[0].content
+    ' Build enriched Now Playing metadata for Roku Voice "what's playing" command
+    itemData = m.global.queueManager.callFunc("getCurrentItem")
+    if isValid(itemData)
+        json = itemData.json ?? itemData
+        mediaItemType = LCase(json.Type ?? string.EMPTY)
+        if isStringEqual(mediaItemType, "episode")
+            season = isValid(json.ParentIndexNumber) ? StrI(json.ParentIndexNumber).trim() : "0"
+            episode = isValid(json.IndexNumber) ? StrI(json.IndexNumber).trim() : "0"
+            seriesName = json.SeriesName ?? json.Name ?? json.title ?? string.EMPTY
+            episodeName = json.Name ?? json.title ?? string.EMPTY
+            displayTitle = `${seriesName} - S${season}E${episode} - ${episodeName}`
+        else
+            contentName = json.Name ?? json.title ?? string.EMPTY
+            displayTitle = isValid(json.ProductionYear) ? `${contentName} (${json.ProductionYear})` : contentName
+        end if
+        m.top.nowPlayingMetadata = { title: displayTitle, contentType: mediaItemType }
+    end if
     m.top.PlaySessionId = videoContent[0].PlaySessionId
     m.top.videoId = videoContent[0].id
     m.top.container = videoContent[0].container
@@ -749,6 +774,7 @@ sub onVideoContentLoaded()
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
     m.overview = videoContent[0].overview
+    m.premiere = videoContent[0].premiere
     m.castPeople = videoContent[0].people
     m.trickplay = videoContent[0].trickplay
     m.top.showID = videoContent[0].showID

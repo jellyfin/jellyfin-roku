@@ -382,7 +382,7 @@
     </message>
     <message>
         <source>Global</source>
-        <translation>Gerais</translation>
+        <translation>Global</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -915,7 +915,7 @@
     </message>
     <message>
         <source>Global settings that affect everyone that uses this Roku device.</source>
-        <translation>Configurações gerais que afetam todos que usam este dispositivo Roku.</translation>
+        <translation>Configurações globais que afetam todos os usuários deste dispositivo Roku.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -2460,7 +2460,7 @@
     </message>
     <message>
         <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
-        <translation>Use por sua conta e risco. Não garantimos que isso funcionará para você.\n1. Este recurso pode não funcionar neste dispositivo, embora funcione em outros.\n2. Algumas opções de velocidade podem não funcionar neste dispositivo, embora funcionem em outros.\n3. A Roku pode bloquear este recurso sem aviso prévio, mesmo que o cliente Jellyfin não seja atualizado.</translation>
+        <translation>Use por sua conta e risco. Não garantimos que isso funcionará para você.\n1. Este recurso pode não funcionar neste dispositivo, embora funcione em outros.\n2. Algumas opções de velocidade podem não funcionar neste dispositivo, embora funcionem em outros.\n3. A Roku pode bloquear este recurso sem aviso prévio, mesmo que o cliente Jellyfin não seja atualizado</translation>
     </message>
     <message>
         <source>Search Unavailable</source>
@@ -2501,6 +2501,162 @@
     <message>
         <source>Select trickplay display format.</source>
         <translation>Selcione o formato de exibição dos controles de reprodução.</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Padrão</translation>
+    </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Artista desconhecido</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Álbum desconhecido</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Pressione Parar novamente para fechar o reprodutor</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Mais da</translation>
+    </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>Confirmar saída</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>Exibir uma confirmação antes de sair do Jellyfin pela tela inicial.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>Tem certeza de que deseja sair do Jellyfin?</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Modo de reprodução</translation>
+    </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Estações de rádio</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Faixas mais reproduzidas</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Faixas menos reproduzidas</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Reproduzir aleatoriamente suas faixas mais reproduzidas</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Nenhuma mídia correspondeu aos critérios da estação de rádio</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Reproduzir aleatoriamente suas faixas menos reproduzidas</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Pressione Reproduzir/Pausar para ir até o botão OK</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nome da estação</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nome para identificar a estação de rádio</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Lista de anos a incluir no conteúdo da estação</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Campo usado para ordenar as mídias antes de atingir o limite</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Limite de itens</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Número máximo de itens a carregar</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Criar estação</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Subtítulo</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Uma breve descrição da estação de rádio</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Lista de gêneros a incluir no conteúdo da estação</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Direção da ordenação das mídias antes de atingir o limite</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Cor de fundo</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Cor de fundo a ser usada no bloco da tela inicial</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>O servidor não encontrou nenhuma mídia que corresponda aos critérios de filtro desta estação de rádio.</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>Sua pesquisa não encontrou nenhuma tag.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Pesquisar tags</translation>
+    </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>Sua pesquisa retornou mais de 50 tags. Refine a pesquisa para reduzir o número de tags encontradas.</translation>
+    </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Termo de pesquisa</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Começa com</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>Este Roku deixará de receber atualizações do Jellyfin em 1º de outubro de 2026 devido ao novo requisito mínimo do Roku OS 15.1. Você poderá continuar usando o aplicativo instalado, mas ele não receberá novas atualizações a menos que você atualize o Roku OS.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Todos os novos lançamentos serão bloqueados se não fizermos essa alteração. Somos obrigados a fazer isso. Se você for afetado, entre em contato com a Roku. Não desconte a frustração em nós.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Você pode ocultar esta janela desativando a configuração “Interface do usuário / Geral / Exibir aviso da versão do Roku OS”.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Aviso sobre a versão do Roku OS</translation>
     </message>
 </context>
 <context>
