@@ -29,6 +29,11 @@ sub init()
     m.homeRows = m.top.findNode("homeRows")
     m.homeRows.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
+    scene = m.top.getScene()
+    if isValid(scene)
+        m.backdrop = scene.findNode("backdrop")
+    end if
+
     m.buttons = m.top.findNode("buttons")
     m.toggleButtonsAnimation = m.top.findNode("toggleButtonsAnimation")
     m.buttonsFade = m.top.findNode("buttonsFade")
@@ -380,4 +385,16 @@ sub onMetaDataLoaded()
 
     m.loadItemsTask1.itemId = focusedItem.LookupCI("id")
     m.loadItemsTask1.control = TaskControl.RUN
+end sub
+
+sub onHomeItemFocusedChange()
+    if not isValid(m.homeRows.rowItemFocused) then return
+
+    row = m.homeRows.rowItemFocused[0]
+    col = m.homeRows.rowItemFocused[1]
+
+    focusedItem = m.homeRows.content.getChild(row).getChild(col)
+    if not isValid(focusedItem) then return
+
+    m.backdrop.callFunc("setItem", focusedItem)
 end sub
