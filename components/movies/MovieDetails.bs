@@ -248,7 +248,7 @@ sub setBackdropImage(itemData as object)
         imageTag = itemData.BackdropImageTags[0]
     else
         imageVersion = ImageType.PRIMARY
-        imageTag = itemData.ImageTags.Primary
+        imageTag = chainLookup(itemData, "ImageTags.Primary")
     end if
 
     ' Create a blank background so the user's background image doesn't bleed over
@@ -274,10 +274,12 @@ sub setBackdropImage(itemData as object)
     movieBackdrop.width = "1920"
     movieBackdrop.height = "1080"
     movieBackdrop.opacity = .3
-    movieBackdrop.uri = ImageURL(m.top.id, imageVersion, {
-        "maxWidth": 1920,
-        "Tag": imageTag
-    })
+    if isValidAndNotEmpty(imageTag)
+        movieBackdrop.uri = ImageURL(m.top.id, imageVersion, {
+            "maxWidth": 1920,
+            "Tag": imageTag
+        })
+    end if
 
     if not isValid(m.top.findNode("movieBackdrop"))
         m.top.insertChild(movieBackdrop, 1)
@@ -286,7 +288,7 @@ end sub
 
 sub onLogoImageURIChange()
     ' We have exhaused all methods for getting a logo to display
-    if m.top.logoImageURI = "" and not isChainValid(m.top.itemContent.json, "ImageTags.Logo")
+    if m.top.logoImageURI = "" and not isChainValid(m.top.itemContent, "json.ImageTags.Logo")
         return
     end if
 
@@ -401,16 +403,18 @@ sub itemContentChanged()
     setLogoImage(itemData)
 
     ' Set default video source if user hasn't selected one yet
-    if m.top.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
-        for i = 0 to itemData.mediaStreams.Count() - 1
-            if itemData.mediaStreams[i].Type = "Video"
-                m.options.codec = itemData.MediaStreams[i].Codec
-                if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
-                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.options.codec ?? string.EMPTY)
-                    exit for
+    if m.top.selectedVideoStreamId = "" and isValidAndNotEmpty(itemData.MediaSources)
+        if isValidAndNotEmpty(itemData.mediaStreams)
+            for i = 0 to itemData.mediaStreams.Count() - 1
+                if itemData.mediaStreams[i].Type = "Video"
+                    m.options.codec = itemData.MediaStreams[i].Codec
+                    if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
+                        m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.options.codec ?? string.EMPTY)
+                        exit for
+                    end if
                 end if
-            end if
-        end for
+            end for
+        end if
 
         m.top.selectedVideoStreamId = itemData.MediaSources[0].id
     end if
@@ -469,11 +473,13 @@ sub itemContentChanged()
     end if
 
     directors = []
-    for each person in itemData.people
-        if LCase(person.type) = PersonType.DIRECTOR
-            directors.push(person.name)
-        end if
-    end for
+    if isValidAndNotEmpty(itemData.people)
+        for each person in itemData.people
+            if LCase(person.type) = PersonType.DIRECTOR
+                directors.push(person.name)
+            end if
+        end for
+    end if
 
     if isValidAndNotEmpty(directors)
         directorLabel = directors.Count() > 1 ? tr("Directors") : tr("Director")
@@ -568,6 +574,13 @@ sub SetUpVideoOptions(streams)
 
     setFieldText("rotationWarning", string.EMPTY)
 
+    if not isValidAndNotEmpty(streams)
+        options = {}
+        options.videos = videos
+        m.options.options = options
+        return
+    end if
+
     for i = 0 to streams.Count() - 1
         if LCase(streams[i].VideoType) = VideoType.VIDEOFILE
             videoCodecForDisplay = ""
@@ -628,9 +641,11 @@ sub SetUpAudioOptions(mediaData)
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
     if isChainValid(preferredSubtitle, "StreamIndex")
         selectedSubtitle = preferredSubtitle.StreamIndex
-    else
+    else if isChainValid(mediaData, "MediaSources") and isValidAndNotEmpty(mediaData.MediaSources)
         selectedSubtitle = mediaData.MediaSources[0].LookupCI("DefaultSubtitleStreamIndex")
         if not isValid(selectedSubtitle) then selectedSubtitle = SubtitleSelection.NOTSET
+    else
+        selectedSubtitle = SubtitleSelection.NOTSET
     end if
 
     audioTracks = []
@@ -646,28 +661,30 @@ sub SetUpAudioOptions(mediaData)
     subtitleStreamCount = 0
     subtitleStreamForDetails = invalid
     subtitleDefaultStream = invalid
-    for i = 0 to streams.Count() - 1
-        if streams[i].Type = "Audio"
-            rokuTrackName = `#uniq:${streams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
+    if isValidAndNotEmpty(streams)
+        for i = 0 to streams.Count() - 1
+            if streams[i].Type = "Audio"
+                rokuTrackName = `#uniq:${streams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
 
-            audioTracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.selectedAudioStreamIndex = i, "StreamIndex": i, "RokuTrackName": rokuTrackName })
-            if m.top.selectedAudioStreamIndex = i
-                setFieldText("audio_codec", tr("Audio") + ": " + streams[i].displayTitle)
+                audioTracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.selectedAudioStreamIndex = i, "StreamIndex": i, "RokuTrackName": rokuTrackName })
+                if m.top.selectedAudioStreamIndex = i
+                    setFieldText("audio_codec", tr("Audio") + ": " + streams[i].displayTitle)
+                end if
+                audioStreamCount++
             end if
-            audioStreamCount++
-        end if
 
-        if streams[i].Type = "Subtitle"
-            subtitleTracks.push({ "Title": streams[i].displayTitle, "json": streams[i], "Description": streams[i].Title, "Selected": selectedSubtitle = streams[i].index, "StreamIndex": i })
-            subtitleStreamCount++
-            if not isValid(subtitleStreamForDetails)
-                subtitleStreamForDetails = streams[i]
+            if streams[i].Type = "Subtitle"
+                subtitleTracks.push({ "Title": streams[i].displayTitle, "json": streams[i], "Description": streams[i].Title, "Selected": selectedSubtitle = streams[i].index, "StreamIndex": i })
+                subtitleStreamCount++
+                if not isValid(subtitleStreamForDetails)
+                    subtitleStreamForDetails = streams[i]
+                end if
+                if streams[i].LookupCI("IsDefault") = true
+                    subtitleDefaultStream = streams[i]
+                end if
             end if
-            if streams[i].LookupCI("IsDefault") = true
-                subtitleDefaultStream = streams[i]
-            end if
-        end if
-    end for
+        end for
+    end if
 
     if selectedSubtitle = SubtitleSelection.NOTSET
         if isValid(subtitleDefaultStream)
@@ -722,7 +739,7 @@ end sub
 sub SetDefaultAudioTrack(itemData)
     preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
     preferredAudioTrackName = m.global.queueManager.callFunc("getPreferredAudioTrackName")
-    preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
+    preferredLanguage = chainLookup(m.global.session, "user.Configuration.AudioLanguagePreference")
     firstAudioTrack = -1
 
     defaultAudioTrackIndex = getDefaultAudioTrackIndex(itemData.mediaStreams)
@@ -734,40 +751,42 @@ sub SetDefaultAudioTrack(itemData)
     end if
 
     audioStreamCount = 1
-    for i = 0 to itemData.mediaStreams.Count() - 1
-        if itemData.mediaStreams[i].Type = "Audio"
-            rokuTrackName = `#uniq:${itemData.mediaStreams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
+    if isValidAndNotEmpty(itemData.mediaStreams)
+        for i = 0 to itemData.mediaStreams.Count() - 1
+            if itemData.mediaStreams[i].Type = "Audio"
+                rokuTrackName = `#uniq:${itemData.mediaStreams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
 
-            if firstAudioTrack < 0 then firstAudioTrack = i
+                if firstAudioTrack < 0 then firstAudioTrack = i
 
-            if i = defaultAudioTrackIndex then defaultAudioTrackName = rokuTrackName
+                if i = defaultAudioTrackIndex then defaultAudioTrackName = rokuTrackName
 
-            if i = preferredAudioTrackIndex
-                m.global.queueManager.callFunc("setPreferredAudioTrackName", rokuTrackName)
-                preferredAudioTrackName = rokuTrackName
-            end if
-
-            ' No user selection and not configured to play the default, how about a preferred language?
-            if preferredAudioTrackIndex < 0 and isValid(preferredLanguage)
-                if isStringEqual(chainLookupReturn(itemData.mediaStreams[i], "Language", invalid), preferredLanguage)
-                    m.top.selectedAudioStreamIndex = i
+                if i = preferredAudioTrackIndex
                     m.global.queueManager.callFunc("setPreferredAudioTrackName", rokuTrackName)
+                    preferredAudioTrackName = rokuTrackName
+                end if
+
+                ' No user selection and not configured to play the default, how about a preferred language?
+                if preferredAudioTrackIndex < 0 and isValid(preferredLanguage)
+                    if isStringEqual(chainLookupReturn(itemData.mediaStreams[i], "Language", invalid), preferredLanguage)
+                        m.top.selectedAudioStreamIndex = i
+                        m.global.queueManager.callFunc("setPreferredAudioTrackName", rokuTrackName)
+                        setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
+                        return
+                    end if
+                end if
+
+                if isStringEqual(rokuTrackName, preferredAudioTrackName)
+                    m.top.selectedAudioStreamIndex = i
                     setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
                     return
                 end if
+
+                audioStreamCount++
             end if
+        end for
+    end if
 
-            if isStringEqual(rokuTrackName, preferredAudioTrackName)
-                m.top.selectedAudioStreamIndex = i
-                setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
-                return
-            end if
-
-            audioStreamCount++
-        end if
-    end for
-
-    if defaultAudioTrackIndex > -1
+    if defaultAudioTrackIndex > -1 and isValidAndNotEmpty(itemData.mediaStreams)
         m.top.selectedAudioStreamIndex = defaultAudioTrackIndex
         m.global.queueManager.callFunc("setPreferredAudioTrackName", defaultAudioTrackName)
         setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[defaultAudioTrackIndex].displayTitle)
@@ -775,7 +794,7 @@ sub SetDefaultAudioTrack(itemData)
     end if
 
     ' If we got here, then nothing matched.  First track it is...
-    if firstAudioTrack > -1
+    if firstAudioTrack > -1 and isValidAndNotEmpty(itemData.mediaStreams)
         m.top.selectedAudioStreamIndex = firstAudioTrack
         setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[firstAudioTrack].displayTitle)
     end if
@@ -798,8 +817,8 @@ sub setFieldText(field, value)
 end sub
 
 function getRuntime() as integer
-
-    itemData = m.top.itemContent.json
+    itemData = chainLookup(m.top.itemContent, "json")
+    if not isValid(itemData) or not isValid(itemData.RunTimeTicks) then return 0
 
     ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
     ' then 1/60 for seconds to minutess... 1/600,000,000
@@ -807,7 +826,8 @@ function getRuntime() as integer
 end function
 
 function getEndTime() as string
-    itemData = m.top.itemContent.json
+    itemData = chainLookup(m.top.itemContent, "json")
+    if not isValid(itemData) or not isValid(itemData.RunTimeTicks) then return string.EMPTY
 
     date = CreateObject("roDateTime")
     duration_s = int(itemData.RunTimeTicks / 10000000.0)
@@ -836,7 +856,7 @@ sub setWatchedColor()
     watched = m.top.itemContent.watched
     watched_button = m.top.findNode("watched-button")
     if not isValid(watched_button) then return
-    if watched
+    if isValid(watched) and watched
         watched_button.text = tr("Watched")
         watched_button.AUDIO_GUIDE_SUFFIX = tr("Watched")
     else
@@ -1080,15 +1100,16 @@ end function
 
 sub updatePlayButtons(itemData as object)
     playButton = m.top.findNode("play-button")
-    if itemData.UserData.PlaybackPositionTicks > 0
+    playbackPositionTicks = chainLookupReturn(itemData, "UserData.PlaybackPositionTicks", 0)
+    if playbackPositionTicks > 0
         ' Always remove and re-insert to force MarkupList re-render
         if isValid(m.buttonGrp.content.findNode("play-from-beginning-button"))
             m.buttonGrp.content.removeChild(m.playFromBeginningButton)
         end if
         m.buttonGrp.content.insertChild(m.playFromBeginningButton, 1)
         calculateButtonThumbProperties()
-        playButton.text = `${tr("Resume from")} ${ticksToHuman(itemData.UserData.PlaybackPositionTicks)}`
-        playButton.AUDIO_GUIDE_SUFFIX = `${tr("Resume from")} ${ticksToAudioGuide(itemData.UserData.PlaybackPositionTicks)}`
+        playButton.text = `${tr("Resume from")} ${ticksToHuman(playbackPositionTicks)}`
+        playButton.AUDIO_GUIDE_SUFFIX = `${tr("Resume from")} ${ticksToAudioGuide(playbackPositionTicks)}`
         playButton.icon = "pkg:/images/icons/36px/resume.png"
         return
     end if
