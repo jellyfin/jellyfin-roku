@@ -671,12 +671,14 @@ function loadIsInMyList() as object
 
     listData = loadMyList()
 
-    for each item in listData
-        if isStringEqual(m.top.itemId, item.LookupCI("id"))
-            results = [true]
-            exit for
-        end if
-    end for
+    if isValidAndNotEmpty(listData)
+        for each item in listData
+            if isStringEqual(m.top.itemId, item.LookupCI("id"))
+                results = [true]
+                exit for
+            end if
+        end for
+    end if
 
     return results
 end function
@@ -859,22 +861,24 @@ end function
 function loadPeople() as object
     results = []
 
-    for each person in m.top.peopleList
-        tmp = CreateObject("roSGNode", "ExtrasData")
-        tmp.Id = person.Id
-        tmp.labelText = person.Name
-        params = {
-            Tags: person.PrimaryImageTag,
-            MaxWidth: 234,
-            MaxHeight: 330
-        }
-        tmp.posterURL = ImageUrl(person.Id, "Primary", params)
-        tmp.json = {
-            type: person.LookupCI("type"),
-            Role: person.LookupCI("role")
-        }
-        results.push(tmp)
-    end for
+    if isValidAndNotEmpty(m.top.peopleList)
+        for each person in m.top.peopleList
+            tmp = CreateObject("roSGNode", "ExtrasData")
+            tmp.Id = person.Id
+            tmp.labelText = person.Name
+            params = {
+                Tags: person.PrimaryImageTag,
+                MaxWidth: 234,
+                MaxHeight: 330
+            }
+            tmp.posterURL = ImageUrl(person.Id, "Primary", params)
+            tmp.json = {
+                type: person.LookupCI("type"),
+                Role: person.LookupCI("role")
+            }
+            results.push(tmp)
+        end for
+    end if
 
     return results
 end function
