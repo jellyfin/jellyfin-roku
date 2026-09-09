@@ -14,6 +14,9 @@ end sub
 ' Push a new group onto the stack, replacing the existing group on the screen
 sub pushScene(newGroup)
     currentGroup = m.groups.peek()
+
+    updateBackdropVisibility(newGroup)
+
     if isValid(newGroup)
         if isValid(currentGroup)
             'Search through group and store off last focused item
@@ -95,6 +98,8 @@ sub popScene()
     end if
 
     group = m.groups.peek()
+
+    updateBackdropVisibility(group)
 
     if isValid(group)
         registerOverhangData(group)
@@ -597,4 +602,57 @@ end sub
 ' Returns bool indicating if dialog is currently displayed
 function isDialogOpen() as boolean
     return isValid(m.scene.dialog)
+end function
+
+sub updateBackdropVisibility(group as object)
+    if not isValid(group) then return
+
+    scene = m.top.getScene()
+    if not isValid(scene) then return
+
+    backdrop = scene.findNode("backdrop")
+    if not isValid(backdrop) then return
+
+    shouldShow = false
+    for each screenType in getBackdropScreens()
+        if group.isSubType(screenType)
+            shouldShow = true
+            exit for
+        end if
+    end for
+
+    for each screenType in getMemoryReleaseScreens()
+        if group.isSubType(screenType)
+            backdrop.callFunc("prepareForPlayback")
+            exit for
+        end if
+    end for
+
+    backdrop.visible = shouldShow
+end sub
+
+' Screens that show the shared BaseScene-level Backdrop.
+' To enable the backdrop on a new screen: add its component name here,
+' and grab the node in that screen's init() via:
+'   scene = m.top.getScene()
+'   if isValid(scene) then m.backdrop = scene.findNode("backdrop")
+' MovieDetails intentionally excluded: it still manages its own
+' background poster (see setBackdropImage in MovieDetails.bs) and
+' hasn't been migrated to the shared Backdrop yet.
+function getBackdropScreens() as object
+    return [
+        "Home",
+        "TVSeasonDetails",
+        "TVSeriesDetails"
+    ]
+end function
+
+' Screens that should trigger releasing the backdrop poster textures
+' before they take over the screen (frees memory for the video decoder).
+' The backdrop reloads on its own next time setItem() is called, since
+' prepareForPlayback() clears activeBackdrop.uri.
+function getMemoryReleaseScreens() as object
+    return [
+        "VideoPlayer"
+    ]
 end function

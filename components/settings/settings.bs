@@ -411,6 +411,12 @@ sub radioSettingChanged()
         end if
 
         scene.callFunc("setBackgroundImage", selectedBackgroundImage)
+
+        ' Update Backdrop immediately so the new background is used as the default.
+        backdrop = scene.findNode("backdrop")
+        if isValid(backdrop)
+            backdrop.callFunc("setDefaultBackdrop", selectedBackgroundImage)
+        end if
     end if
 
     if isStringEqual(selectedSetting.settingName, "playback.media.forceTranscode")

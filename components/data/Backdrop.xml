@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="Backdrop" extends="Group">
+    <children>
+        <Rectangle
+            id="backdropBlack"
+            width="1920"
+            height="1080"
+            color="0x000000FF"
+            opacity="0" />
+
+        <Poster
+            id="backdropA"
+            loadDisplayMode="scaleToZoom"
+            width="1920"
+            height="1080"
+            opacity="0" />
+
+        <Poster
+            id="backdropB"
+            loadDisplayMode="scaleToZoom"
+            width="1920"
+            height="1080"
+            opacity="0" />
+
+        <Animation
+            id="crossfadeAnimation"
+            duration=".5"
+            repeat="false"
+            easeFunction="linear">
+            <FloatFieldInterpolator
+                id="backdropAFade"
+                key="[0.0, 1.0]"
+                keyValue="[0.00, 0.00]"
+                fieldToInterp="backdropA.opacity" />
+
+            <FloatFieldInterpolator
+                id="backdropBFade"
+                key="[0.0, 1.0]"
+                keyValue="[0.00, 0.00]"
+                fieldToInterp="backdropB.opacity" />
+        </Animation>
+    </children>
+
+    <interface>
+        <function name="setItem" />
+        <function name="setImage" />
+        <function name="clear" />
+        <function name="release" />
+        <function name="setDefaultBackdrop" />
+        <function name="prepareForPlayback" />
+    </interface>
+</component>
