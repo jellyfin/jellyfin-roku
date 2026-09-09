@@ -1768,7 +1768,7 @@
     </message>
     <message>
         <source>AppearsOn</source>
-        <translation>يظهر على</translation>
+        <translation>يظهر قي</translation>
     </message>
     <message>
         <source>Public Profile</source>
@@ -2646,6 +2646,54 @@
     <message>
         <source>Roku OS Version Warning</source>
         <translation>تحذير إصدار Roku OS</translation>
+    </message>
+    <message>
+        <source>Appears On</source>
+        <translation>يظهر على</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>ألبومات (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 أغنية</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>1% اغاني</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>1% ألبوم</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>1% ألبومات</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>تم اعتماده لـ:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>1% يظهر على الألبوم</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>1% يظهر على الألبومات</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>لا يزال اخا\م قيد التشغيل. يرجى المحاولة مجددا.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>الخادم غير متوفر حاليا. يرجى المحاولة مجددا.</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>يظهر على (1%)</translation>
     </message>
 </context>
 </TS>
