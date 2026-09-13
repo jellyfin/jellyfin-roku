@@ -81,9 +81,39 @@ sub setData()
         if datum.ImageTags <> invalid and datum.imageTags.Thumb <> invalid
             imgParams["Tag"] = datum.imageTags.Thumb
             m.top.widePosterUrl = ImageURL(datum.LookupCI("Id"), "Thumb", imgParams)
-        else if datum.BackdropImageTags <> invalid
+        else if isValidAndNotEmpty(datum.BackdropImageTags)
             imgParams["Tag"] = datum.BackdropImageTags[0]
             m.top.widePosterUrl = ImageURL(datum.LookupCI("Id"), "Backdrop", imgParams)
+        end if
+
+        ' If no widePosterUrl has been determined, revert to posterURL
+        if not isValidAndNotEmpty(m.top.widePosterUrl)
+            m.top.widePosterUrl = m.top.posterURL
+        end if
+
+    else if datum.type = "Season"
+        m.top.isWatched = datum.UserData.Played
+
+        m.top.posterURL = ImageURL(datum.LookupCI("Id"), "Primary", { "maxHeight": 384, "maxWidth": 196 })
+
+        imgParams = { "maxHeight": 261 }
+        imgParams.Append({ "maxWidth": 464 })
+
+        ' Add Wide Poster (Season's own Thumb, falling back to parent Series Thumb/Backdrop)
+        if datum.ImageTags <> invalid and datum.ImageTags.Thumb <> invalid
+            imgParams["Tag"] = datum.ImageTags.Thumb
+            m.top.widePosterUrl = ImageURL(datum.LookupCI("Id"), "Thumb", imgParams)
+        else if datum.ParentThumbImageTag <> invalid and isValidAndNotEmpty(datum.ParentThumbItemId)
+            imgParams["Tag"] = datum.ParentThumbImageTag
+            m.top.widePosterUrl = ImageURL(datum.ParentThumbItemId, "Thumb", imgParams)
+        else if isValidAndNotEmpty(datum.ParentBackdropImageTags) and isValidAndNotEmpty(datum.ParentBackdropItemId)
+            imgParams["Tag"] = datum.ParentBackdropImageTags[0]
+            m.top.widePosterUrl = ImageURL(datum.ParentBackdropItemId, "Backdrop", imgParams)
+        end if
+
+        ' If no widePosterUrl has been determined, revert to posterURL
+        if not isValidAndNotEmpty(m.top.widePosterUrl)
+            m.top.widePosterUrl = m.top.posterURL
         end if
 
     else if datum.type = "Movie"
