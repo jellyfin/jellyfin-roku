@@ -5,6 +5,7 @@ sub init()
 
     m.top.observeField("background", "onBackgroundChanged")
     m.top.observeField("icon", "onIconChanged")
+    m.top.observeField("iconBlendColor", "onIconBlendColorChanged")
     m.top.observeField("text", "onTextChanged")
     m.top.observeField("height", "onHeightChanged")
     m.top.observeField("width", "onWidthChanged")
@@ -27,6 +28,10 @@ end sub
 
 sub onIconChanged()
     m.buttonIcon.uri = m.top.icon
+end sub
+
+sub onIconBlendColorChanged()
+    m.buttonIcon.blendColor = m.top.iconBlendColor
 end sub
 
 sub onTextChanged()

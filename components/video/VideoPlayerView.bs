@@ -603,7 +603,8 @@ end sub
 sub updateFavoriteChannelButton()
     if not isValid(m.favoriteChannelButton) then return
 
-    m.favoriteChannelButton.icon = m.channelIsFavorite ? "pkg:/images/icons/favorite_selected.png" : "pkg:/images/icons/favorite.png"
+    m.favoriteChannelButton.icon = m.channelIsFavorite ? "pkg:/images/icons/heart.png" : "pkg:/images/icons/favorite_outline_white.png"
+    m.favoriteChannelButton.iconBlendColor = m.channelIsFavorite ? ColorPalette.RED : ColorPalette.WHITE
 end sub
 
 sub toggleFavoriteChannel()
