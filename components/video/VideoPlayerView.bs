@@ -608,20 +608,12 @@ end sub
 
 sub toggleFavoriteChannel()
     if not isValidAndNotEmpty(m.favoriteChannelId) then return
-    if isValid(m.favoriteChannelTask) and m.favoriteChannelTask.state = TaskControl.RUN then return
+    if isValid(m.favoriteChannelTask)
+        if m.favoriteChannelTask.state = TaskControl.RUN then return
+    end if
 
     m.channelIsFavorite = not m.channelIsFavorite
     updateFavoriteChannelButton()
-
-    currentItem = m.global.queueManager.callFunc("getCurrentItem")
-    if isValid(currentItem) and isStringEqual(currentItem.id, m.favoriteChannelId)
-        currentItem.favorite = m.channelIsFavorite
-        if isChainValid(currentItem, "json.UserData")
-            itemData = currentItem.json
-            itemData.UserData.AddReplace("IsFavorite", m.channelIsFavorite)
-            currentItem.json = itemData
-        end if
-    end if
 
     m.favoriteChannelTask = createObject("roSGNode", "FavoriteItemsTask")
     m.favoriteChannelTask.itemId = m.favoriteChannelId
