@@ -95,6 +95,9 @@ sub init()
 
     m.videocontrols = m.osd.findNode("videoControls")
     m.optioncontrols = m.osd.findNode("optionControls")
+    m.favoriteChannelButton = invalid
+    m.favoriteChannelId = string.EMPTY
+    m.channelIsFavorite = false
     m.progressBarBackground = m.osd.findNode("progressBarBackground")
     m.progressBarGroup = m.osd.findNode("progressBarGroup")
 
@@ -480,6 +483,11 @@ end sub
 sub onOSDAction()
     action = LCase(m.osd.action)
 
+    if action = "favoritechannel"
+        toggleFavoriteChannel()
+        return
+    end if
+
     if action = "hide"
         handleHideAction(false)
         return
@@ -564,6 +572,62 @@ sub onOSDAction()
         setSkipSegmentButtonFocus()
         return
     end if
+end sub
+
+' Show a channel favorite action in the OSD only for Live TV channels.
+sub configureFavoriteChannelButton(video as object)
+    m.favoriteChannelId = chainLookupReturn(video, "favoriteChannelId", string.EMPTY)
+    if not isValidAndNotEmpty(m.favoriteChannelId)
+        if isValid(m.favoriteChannelButton)
+            m.optioncontrols.removeChild(m.favoriteChannelButton)
+            m.favoriteChannelButton = invalid
+        end if
+        return
+    end if
+
+    if not isValid(m.favoriteChannelButton)
+        m.favoriteChannelButton = createObject("roSGNode", "IconButton")
+        m.favoriteChannelButton.id = "favoriteChannel"
+        m.favoriteChannelButton.padding = 16
+        m.favoriteChannelButton.height = 65
+        m.favoriteChannelButton.width = 100
+        m.favoriteChannelButton.background = ColorPalette.DARKGREY
+        m.favoriteChannelButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+        m.optioncontrols.appendChild(m.favoriteChannelButton)
+    end if
+
+    m.channelIsFavorite = chainLookupReturn(video, "isFavoriteChannel", false)
+    updateFavoriteChannelButton()
+end sub
+
+sub updateFavoriteChannelButton()
+    if not isValid(m.favoriteChannelButton) then return
+
+    m.favoriteChannelButton.icon = m.channelIsFavorite ? "pkg:/images/icons/favorite_selected.png" : "pkg:/images/icons/favorite.png"
+    m.favoriteChannelButton.text = m.channelIsFavorite ? tr("Favorited") : tr("Favorite")
+end sub
+
+sub toggleFavoriteChannel()
+    if not isValidAndNotEmpty(m.favoriteChannelId) then return
+    if isValid(m.favoriteChannelTask) and m.favoriteChannelTask.state = TaskControl.RUN then return
+
+    m.channelIsFavorite = not m.channelIsFavorite
+    updateFavoriteChannelButton()
+
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    if isValid(currentItem) and isStringEqual(currentItem.id, m.favoriteChannelId)
+        currentItem.favorite = m.channelIsFavorite
+        if isChainValid(currentItem, "json.UserData")
+            itemData = currentItem.json
+            itemData.UserData.AddReplace("IsFavorite", m.channelIsFavorite)
+            currentItem.json = itemData
+        end if
+    end if
+
+    m.favoriteChannelTask = createObject("roSGNode", "FavoriteItemsTask")
+    m.favoriteChannelTask.itemId = m.favoriteChannelId
+    m.favoriteChannelTask.favTask = m.channelIsFavorite ? "Favorite" : "Unfavorite"
+    m.favoriteChannelTask.control = TaskControl.RUN
 end sub
 
 sub handleShowsyncmenuAction()
@@ -747,6 +811,7 @@ sub onVideoContentLoaded()
     m.playbackTestComplete = videoContent[0].content.live
 
     m.top.content = videoContent[0].content
+    configureFavoriteChannelButton(videoContent[0])
     ' Build enriched Now Playing metadata for Roku Voice "what's playing" command
     itemData = m.global.queueManager.callFunc("getCurrentItem")
     if isValid(itemData)

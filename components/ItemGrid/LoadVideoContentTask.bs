@@ -81,6 +81,17 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     videotype = LCase(meta.type)
 
+    ' ChannelData wraps guide Programs too, so use the server type for the favorite target.
+    sourceType = LCase(chainLookupReturn(meta, "json.Type", string.EMPTY))
+    if isStringEqual(sourceType, ItemType.TVCHANNEL)
+        video.favoriteChannelId = meta.id
+        video.isFavoriteChannel = chainLookupReturn(meta, "json.UserData.IsFavorite", false)
+    else if isStringEqual(sourceType, ItemType.PROGRAM) and isValidAndNotEmpty(meta.json.ChannelId)
+        video.favoriteChannelId = meta.json.ChannelId
+        channel = api.liveTV.GetChannelByID(video.favoriteChannelId, { userId: m.global.session.user.id })
+        video.isFavoriteChannel = chainLookupReturn(channel, "UserData.IsFavorite", false)
+    end if
+
     ' Check for any Live TV streams or Recordings coming from other places other than the TV Guide
     if videotype = "recording" or (isValid(meta.json) and isValid(meta.json.ChannelId))
         if isValid(meta.json.EpisodeTitle)
