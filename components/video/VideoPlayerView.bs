@@ -603,8 +603,7 @@ end sub
 sub updateFavoriteChannelButton()
     if not isValid(m.favoriteChannelButton) then return
 
-    m.favoriteChannelButton.icon = m.channelIsFavorite ? "pkg:/images/icons/heart.png" : "pkg:/images/icons/favorite_outline_white.png"
-    m.favoriteChannelButton.iconBlendColor = m.channelIsFavorite ? ColorPalette.RED : ColorPalette.WHITE
+    m.favoriteChannelButton.icon = m.channelIsFavorite ? "pkg:/images/icons/favorite_selected.png" : "pkg:/images/icons/favorite_outline_white.png"
 end sub
 
 sub toggleFavoriteChannel()
@@ -615,6 +614,7 @@ sub toggleFavoriteChannel()
 
     m.channelIsFavorite = not m.channelIsFavorite
     updateFavoriteChannelButton()
+    m.global.liveTVFavoriteChange = { channelId: m.favoriteChannelId, isFavorite: m.channelIsFavorite }
 
     m.favoriteChannelTask = createObject("roSGNode", "FavoriteItemsTask")
     m.favoriteChannelTask.itemId = m.favoriteChannelId

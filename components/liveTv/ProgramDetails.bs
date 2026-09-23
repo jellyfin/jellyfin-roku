@@ -146,6 +146,12 @@ sub channelUpdated()
     end if
 end sub
 
+sub refreshFavorite()
+    if isValid(m.top.channel)
+        m.favorite.visible = m.top.channel.favorite
+    end if
+end sub
+
 sub programUpdated()
 
     m.top.watchSelectedChannel = false
@@ -412,4 +418,3 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
-

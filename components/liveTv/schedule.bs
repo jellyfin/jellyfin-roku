@@ -91,6 +91,25 @@ sub loadChannelList()
     m.LoadChannelsTask.control = TaskControl.RUN
 end sub
 
+' Keep the cached guide in sync with favorite changes made during playback.
+sub updateChannelFavorite(change as object)
+    if isStringEqual(m.top.filter, "Favorites") or m.LoadChannelsTask.favoritesAtTop
+        loadChannelList()
+        return
+    end if
+
+    index = m.channelIndex[change.channelId]
+    if not isValid(index) then return
+
+    channel = m.gridData.getChild(index)
+    if not isValid(channel) then return
+
+    channel.favorite = change.isFavorite
+    if isValid(m.detailsPane.channel) and isStringEqual(m.detailsPane.channel.id, change.channelId)
+        m.detailsPane.callFunc("refreshFavorite")
+    end if
+end sub
+
 ' Reset progressive-load state so the next channel load starts a fresh initial window.
 sub resetScheduleProgress()
     m.allChannelsLoaded = false
