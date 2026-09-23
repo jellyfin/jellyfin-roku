@@ -604,7 +604,6 @@ sub updateFavoriteChannelButton()
     if not isValid(m.favoriteChannelButton) then return
 
     m.favoriteChannelButton.icon = m.channelIsFavorite ? "pkg:/images/icons/favorite_selected.png" : "pkg:/images/icons/favorite.png"
-    m.favoriteChannelButton.text = m.channelIsFavorite ? tr("Favorited") : tr("Favorite")
 end sub
 
 sub toggleFavoriteChannel()
