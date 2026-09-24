@@ -577,6 +577,22 @@ end sub
 ' Show a channel favorite action in the OSD only for Live TV channels.
 sub configureFavoriteChannelButton(video as object)
     m.favoriteChannelId = chainLookupReturn(video, "favoriteChannelId", string.EMPTY)
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    if not isValidAndNotEmpty(m.favoriteChannelId)
+        m.favoriteChannelId = chainLookupReturn(currentItem, "favoriteChannelId", string.EMPTY)
+    end if
+    if not isValidAndNotEmpty(m.favoriteChannelId)
+        currentType = LCase(chainLookupReturn(currentItem, "type", string.EMPTY))
+        if isStringEqual(currentType, ItemType.TVCHANNEL)
+            m.favoriteChannelId = chainLookupReturn(currentItem, "id", string.EMPTY)
+        else if isStringEqual(currentType, ItemType.PROGRAM)
+            m.favoriteChannelId = chainLookupReturn(currentItem, "json.ChannelId", string.EMPTY)
+            if not isValidAndNotEmpty(m.favoriteChannelId)
+                m.favoriteChannelId = chainLookupReturn(currentItem, "id", string.EMPTY)
+            end if
+        end if
+    end if
+
     if not isValidAndNotEmpty(m.favoriteChannelId)
         if isValid(m.favoriteChannelButton)
             m.optioncontrols.removeChild(m.favoriteChannelButton)
@@ -614,7 +630,12 @@ sub toggleFavoriteChannel()
 
     m.channelIsFavorite = not m.channelIsFavorite
     updateFavoriteChannelButton()
-    m.global.liveTVFavoriteChange = { channelId: m.favoriteChannelId, isFavorite: m.channelIsFavorite }
+    previousScene = m.global.sceneManager.callFunc("getPreviousScene")
+    if isValid(previousScene)
+        if previousScene.isSubType("LiveTVLibraryView")
+            previousScene.callFunc("updateChannelFavorite", { channelId: m.favoriteChannelId, isFavorite: m.channelIsFavorite })
+        end if
+    end if
 
     m.favoriteChannelTask = createObject("roSGNode", "FavoriteItemsTask")
     m.favoriteChannelTask.itemId = m.favoriteChannelId

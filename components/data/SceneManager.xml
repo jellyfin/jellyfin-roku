@@ -5,6 +5,7 @@
     <function name="popScene" />
     <function name="settings" />
     <function name="getActiveScene" />
+    <function name="getPreviousScene" />
     <function name="clearScenes" />
     <function name="clearPreviousScene" />
     <function name="userMessage" />

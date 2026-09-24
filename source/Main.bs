@@ -39,7 +39,6 @@ sub Main (args as dynamic) as void
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
     m.global.addFields({ jumpTo: {} })
     m.global.addFields({ fallbackFont: {} })
-    m.global.addFields({ liveTVFavoriteChange: {} })
 
     m.global.observeField("jumpTo", m.port)
 

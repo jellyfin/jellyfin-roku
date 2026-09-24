@@ -21,7 +21,6 @@ sub init()
     overhang.isVisible = false
 
     m.options = m.top.findNode("options")
-    m.top.observeField("visible", "onVisibilityChanged")
 
     m.tvGuide = invalid
     m.channelFocused = invalid
@@ -71,13 +70,9 @@ sub init()
     m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 end sub
 
-' Apply a favorite change made in the player when this view comes back into focus.
-sub onVisibilityChanged()
-    if not m.top.visible then return
-
-    change = m.global.liveTVFavoriteChange
+' Apply a favorite change made in the player to this cached Live TV view.
+sub updateChannelFavorite(change as object)
     if not isValidAndNotEmpty(chainLookupReturn(change, "channelId", string.EMPTY)) then return
-    m.global.liveTVFavoriteChange = {}
 
     if isValid(m.tvGuide)
         m.tvGuide.callFunc("updateChannelFavorite", change)
