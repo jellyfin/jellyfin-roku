@@ -81,6 +81,41 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     videotype = LCase(meta.type)
 
+    ' The guide's queued channel is authoritative even if a later metadata
+    ' response uses a different item type or omits its channel fields.
+    queuedItem = m.global.queueManager.callFunc("getCurrentItem")
+    queuedType = LCase(chainLookupReturn(queuedItem, "type", string.EMPTY))
+    channelId = chainLookupReturn(queuedItem, "favoriteChannelId", string.EMPTY)
+    if not isValidAndNotEmpty(channelId) and isStringEqual(queuedType, ItemType.TVCHANNEL)
+        channelId = chainLookupReturn(queuedItem, "id", string.EMPTY)
+    else if not isValidAndNotEmpty(channelId) and isStringEqual(queuedType, ItemType.PROGRAM)
+        channelId = chainLookupReturn(queuedItem, "json.ChannelId", string.EMPTY)
+        if not isValidAndNotEmpty(channelId)
+            channelId = chainLookupReturn(queuedItem, "id", string.EMPTY)
+        end if
+    end if
+
+    ' ChannelData wraps guide Programs too, so prefer their channel ID.
+    sourceType = LCase(chainLookupReturn(meta, "json.Type", string.EMPTY))
+    if not isValidAndNotEmpty(channelId)
+        if isStringEqual(videotype, ItemType.TVCHANNEL) or isStringEqual(sourceType, ItemType.PROGRAM)
+            channelId = chainLookupReturn(meta, "json.ChannelId", string.EMPTY)
+            if not isValidAndNotEmpty(channelId) and not isStringEqual(sourceType, ItemType.PROGRAM)
+                channelId = meta.id
+            end if
+        end if
+    end if
+
+    if isValidAndNotEmpty(channelId)
+        video.favoriteChannelId = channelId
+        if isStringEqual(sourceType, ItemType.TVCHANNEL) and isStringEqual(channelId, meta.id)
+            video.isFavoriteChannel = chainLookupReturn(meta, "json.UserData.IsFavorite", false)
+        else
+            channel = api.liveTV.GetChannelByID(channelId, { userId: m.global.session.user.id })
+            video.isFavoriteChannel = chainLookupReturn(channel, "UserData.IsFavorite", false)
+        end if
+    end if
+
     ' Check for any Live TV streams or Recordings coming from other places other than the TV Guide
     if videotype = "recording" or (isValid(meta.json) and isValid(meta.json.ChannelId))
         if isValid(meta.json.EpisodeTitle)
