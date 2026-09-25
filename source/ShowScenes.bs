@@ -1133,6 +1133,7 @@ function CreateLiveTVLibraryView(libraryItem as object) as dynamic
     if not isValid(libraryItem) then return invalid
 
     group = CreateObject("roSGNode", "LiveTVLibraryView")
+    group.initialView = chainLookupReturn(libraryItem, "json.LiveTvLanding", string.EMPTY)
     group.parentItem = libraryItem
     group.optionsAvailable = true
     group.observeFieldScoped("selectedItem", m.port)

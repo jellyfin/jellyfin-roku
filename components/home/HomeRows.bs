@@ -253,7 +253,6 @@ end sub
 ' @param {string} sectionType - Type of section to add
 ' @return {boolean} indicating if the section was handled
 function addHomeSection(sectionType as string) as boolean
-    ' Poster size library items
     if sectionType = "livetv"
         createLiveTVRow()
         return true
@@ -452,9 +451,11 @@ function getSectionIndex(sectionTitle as string) as integer
     return sectionIndex
 end function
 
-' createLiveTVRow: Creates a row displaying the live tv now on section
+' createLiveTVRow: Creates Live TV navigation and the On Now section.
 '
 sub createLiveTVRow()
+    createLiveTVNavigationRow()
+
     sectionName = tr("On Now")
 
     if not sectionExists(sectionName)
@@ -466,6 +467,44 @@ sub createLiveTVRow()
 
     m.LoadOnNowTask.observeField("content", "updateOnNowItems")
     m.LoadOnNowTask.control = "RUN"
+end sub
+
+' createLiveTVNavigationRow: Gives the configured Live TV home section direct
+' links to the two Live TV screens supported by the Roku client.
+sub createLiveTVNavigationRow()
+    sectionName = tr("Live TV")
+
+    for each libraryItem in m.libraryData
+        if isStringEqual(libraryItem.collectionType, "livetv")
+            row = CreateObject("roSGNode", "HomeRow")
+            row.title = sectionName
+            row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
+            row.cursorSize = homeRowItemSizes.WIDE_POSTER
+
+            for each destination in [{ title: tr("TV Guide"), view: "guide" }, { title: tr("Channels"), view: "channels" }]
+                item = CreateObject("roSGNode", "HomeData")
+                item.json = {
+                    Id: libraryItem.id,
+                    Name: destination.title,
+                    Type: ItemType.USERVIEW,
+                    CollectionType: "livetv",
+                    LiveTvLanding: destination.view
+                }
+                item.imageWidth = row.imageWidth
+                row.appendChild(item)
+            end for
+
+            if sectionExists(sectionName)
+                m.top.content.replaceChild(row, getSectionIndex(sectionName))
+            else
+                m.top.content.insertChild(row, getOriginalSectionIndex("livetv"))
+            end if
+            setRowItemSize()
+            return
+        end if
+    end for
+
+    removeHomeSection(sectionName)
 end sub
 
 ' createContinueWatchingRow: Creates a row displaying items the user can continue watching
@@ -1233,7 +1272,9 @@ sub updateOnNowItems()
     end if
 
     ' Row does not exist, insert it into the home view
-    m.top.content.insertChild(row, getOriginalSectionIndex("livetv"))
+    insertIndex = getOriginalSectionIndex("livetv")
+    if sectionExists(tr("Live TV")) then insertIndex++
+    m.top.content.insertChild(row, insertIndex)
     setRowItemSize()
 end sub
 
