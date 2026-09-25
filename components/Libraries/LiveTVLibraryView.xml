@@ -17,6 +17,7 @@
   </children>
   <interface>
     <field id="initialView" type="string" value="" />
+    <function name="updateChannelFavorite" />
     <field id="HomeLibraryItem" type="string" />
     <field id="parentItem" type="node" onChange="loadInitialItems" />
     <field id="selectedItem" type="node" alwaysNotify="true" />
