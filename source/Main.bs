@@ -99,6 +99,9 @@ sub Main (args as dynamic) as void
     device.EnableAudioGuideChangedEvent(true)
     device.EnableLowGeneralMemoryEvent(true)
     device.EnableCodecCapChangedEvent(true)
+    ' Monitor CEC active source status to detect TV power off via CEC
+    cecStatus = CreateObject("roCECStatus")
+    cecStatus.SetMessagePort(m.port)
 
     ' Check if we were sent content to play with the startup command (Deep Link)
     onDeepLinkingEvent(args)
@@ -198,6 +201,8 @@ sub Main (args as dynamic) as void
             onStateEvent(msg)
         else if type(msg) = "roDeviceInfoEvent"
             onRoDeviceInfoEvent(msg)
+        else if type(msg) = "roCECStatusEvent"
+            onCECStatusEvent(msg)
         else if type(msg) = "roInputEvent"
             if msg.IsInput()
                 info = msg.GetInfo()
