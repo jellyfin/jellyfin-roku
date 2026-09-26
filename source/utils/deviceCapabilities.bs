@@ -209,7 +209,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     ' does the users setup support surround sound?
     maxAudioChannels = "2" ' jellyfin expects this as a string
     ' in order of preference from left to right
-    audioCodecs = ["eac3", "ac3", "dts", "mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
+    audioCodecs = ["aac", "eac3", "ac3", "dts", "mp3", "vorbis", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
 
     if di.GetAudioOutputChannel() = "5.1 surround"
         maxAudioChannels = "6"
@@ -490,7 +490,7 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
                                 {
                                     "Condition": "LessThanEqual",
                                     "Property": "AudioChannels",
-                                    "Value": audioChannel,
+                                    "Value": audioChannel.toStr(),
                                     "IsRequired": true
                                 },
                                 {
@@ -509,7 +509,7 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
                                 {
                                     "Condition": "LessThanEqual",
                                     "Property": "AudioChannels",
-                                    "Value": audioChannel,
+                                    "Value": audioChannel.toStr(),
                                     "IsRequired": true
                                 }
                             ]
@@ -1065,7 +1065,7 @@ function getMaxHeightArray() as object
     return {
         "Condition": "LessThanEqual",
         "Property": "Height",
-        "Value": maxVideoHeight,
+        "Value": maxVideoHeight.toStr(),
         "IsRequired": true
     }
 end function
@@ -1097,7 +1097,7 @@ function getMaxWidthArray() as object
     return {
         "Condition": "LessThanEqual",
         "Property": "Width",
-        "Value": maxVideoWidth,
+        "Value": maxVideoWidth.toStr(),
         "IsRequired": true
     }
 end function
