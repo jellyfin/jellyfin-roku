@@ -72,6 +72,11 @@ sub init()
 
     m.isFirstRun = true
 
+    scene = m.top.getScene()
+    if isValid(scene)
+        m.backdrop = scene.findNode("backdrop")
+    end if
+
     setFontSizes()
 end sub
 
@@ -176,6 +181,8 @@ sub updateSeason()
         played: chainLookupReturn(m.top.seasonData.json, "UserData.Played", false),
         unplayedCount: chainLookupReturn(m.top.seasonData.json, "UserData.UnplayedItemCount", 0)
     }
+
+    m.backdrop.callFunc("setItem", m.top.seasonData)
 
     m.tvExtrasTask.seasonID = m.top.seasonData.json.Id
     m.tvExtrasTask.control = TaskControl.RUN
@@ -722,3 +729,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+sub OnScreenHidden()
+    m.backdrop.callFunc("release")
+end sub
