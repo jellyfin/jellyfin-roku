@@ -2663,6 +2663,18 @@
         <source>Roku OS Version Warning</source>
         <translation>Avviso Versione Roku OS</translation>
     </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Appare In</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Appare In (%1)</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Direzione in cui ordinare i contenuti prima di tagliare al limite</translation>
+    </message>
 </context>
 <context>
     <name></name>
