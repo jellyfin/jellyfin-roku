@@ -37,8 +37,13 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         "MaxStaticBitrate": "140000000"
     }
 
-    if isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.FORCELIVETVREMUX)
-        ' We are playing live tv and direct play failed, let's try again but with force remuxing...
+    mustTranscode = isChainValid(options, "mustTranscode") ? options.mustTranscode : false
+    if not isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+        mustTranscode = true
+    end if
+
+    if isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.FORCELIVETVREMUX) or mustTranscode
+        ' Direct play is disabled or failed, request transcode/remux stream from server
         params.EnableDirectPlay = false
     end if
 
