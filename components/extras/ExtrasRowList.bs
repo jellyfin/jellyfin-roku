@@ -122,13 +122,26 @@ sub onPeopleLoaded()
         if not m.top.hasItems then m.top.hasItems = true
         row = m.top.content.createChild("ContentNode")
         row.Title = tr("Cast & Crew")
+        crewCards = {}
         for each person in people
-            if LCase(person.json.LookupCI("type")) = PersonType.ACTOR and isValid(person.json.LookupCI("Role")) and person.json.LookupCI("Role").ToStr().Trim() <> ""
+            creditType = person.json.LookupCI("Type")
+            if LCase(creditType) = PersonType.ACTOR and isValid(person.json.LookupCI("Role")) and person.json.LookupCI("Role").ToStr().Trim() <> ""
                 person.subTitle = `${tr("as")} ${person.json.LookupCI("Role")}`
             else
-                person.subTitle = person.json.LookupCI("Type")
+                person.subTitle = creditType
             end if
             person.Type = capitalize(PersonType.PERSON)
+
+            ' someone credited for several crew jobs is sent once per job, list their jobs on a single card
+            if isMergeableCrewType(creditType) and isValid(person.id)
+                listedCard = crewCards[person.id]
+                if isValid(listedCard)
+                    addCrewJobToCard(listedCard, person.subTitle)
+                    continue for
+                end if
+                crewCards[person.id] = person
+            end if
+
             row.appendChild(person)
         end for
         addRowSize([234, 372])

@@ -1,3 +1,4 @@
+import "pkg:/source/enums/PersonType.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/parsedUrl.bs"
@@ -206,6 +207,25 @@ end function
 function capitalize(input as string) as string
     return UCase(input.left(1)) + input.mid(1)
 end function
+
+' The person types the server sends once per job, meaning someone credited for several
+' jobs of that kind is sent as several people
+function isMergeableCrewType(crewType as string) as boolean
+    lowered = LCase(crewType)
+
+    return lowered = PersonType.DIRECTOR or lowered = PersonType.WRITER or lowered = PersonType.PRODUCER
+end function
+
+' Adds the job of a repeat crew credit to the card already listed for that person, so
+' someone directing and producing the same item reads as "Director / Producer".
+' Jobs already listed on the card are left alone
+sub addCrewJobToCard(card as object, job as string)
+    for each listed in card.subTitle.Split(" / ")
+        if isStringEqual(listed, job) then return
+    end for
+
+    card.subTitle = `${card.subTitle} / ${job}`
+end sub
 
 ' take an incomplete url string and use it to make educated guesses about
 ' the complete url. then tests these guesses to see if it can find a jf server

@@ -37,7 +37,22 @@ sub showCast(people as object)
     content = CreateObject("roSGNode", "ContentNode")
     row = content.createChild("ContentNode")
 
+    crewCards = {}
     for each person in people
+        castRoleType = person.LookupCI("type")
+        if not isValidAndNotEmpty(castRoleType)
+            castRoleType = tr("Unknown")
+        end if
+
+        ' someone credited for several crew jobs is sent once per job, list their jobs on a single card
+        if isMergeableCrewType(castRoleType) and isValid(person.Id)
+            listedCard = crewCards[person.Id]
+            if isValid(listedCard)
+                addCrewJobToCard(listedCard, castRoleType)
+                continue for
+            end if
+        end if
+
         personNode = row.createChild("ExtrasData")
         personNode.id = person.Id
         personNode.labelText = person.Name
@@ -47,16 +62,15 @@ sub showCast(people as object)
             MaxHeight: 330
         })
 
-        castRoleType = person.LookupCI("type")
-        if not isValidAndNotEmpty(castRoleType)
-            castRoleType = tr("Unknown")
-        end if
-
         personRole = person.LookupCI("role")
         if isStringEqual(castRoleType, PersonType.ACTOR) and isValidAndNotEmpty(personRole)
             personNode.subTitle = tr("as %1").Replace("%1", personRole)
         else
             personNode.subTitle = castRoleType
+        end if
+
+        if isMergeableCrewType(castRoleType) and isValid(person.Id)
+            crewCards[person.Id] = personNode
         end if
 
         personNode.json = {
