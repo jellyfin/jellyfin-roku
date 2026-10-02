@@ -276,7 +276,12 @@ end sub
 sub displaySeasonInfo(itemData as object)
     m.itemText.text = itemData.json.SeriesName
     m.itemTextExtra.text = itemData.name
-    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
+
+    if itemData.imageWidth = 180
+        m.itemPoster.uri = itemData.posterURL
+    else
+        m.itemPoster.uri = itemData.widePosterURL
+    end if
 end sub
 
 sub displayTVChannelInfo(itemData as object)
