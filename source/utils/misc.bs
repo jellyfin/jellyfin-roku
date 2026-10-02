@@ -738,6 +738,8 @@ function findDefaultTrack(streams as dynamic)
 end function
 
 function getDefaultAudioTrackIndex(streams as dynamic)
+    if not isValidAndNotEmpty(streams) then return -1
+
     for i = 0 to streams.Count() - 1
         if isStringEqual(streams[i].LookupCI("type"), "audio")
             if chainLookupReturn(streams[i], "IsDefault", false)

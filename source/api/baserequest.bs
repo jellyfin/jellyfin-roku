@@ -89,6 +89,7 @@ function APIRequest(url as string, params = {} as object) as dynamic
 
     req = createObject("roUrlTransfer")
     req.setUrl(full_url)
+    req.RetainBodyOnError(true)
     req = authRequest(req)
     ' SSL cert
     if serverURL.left(8) = "https://"
@@ -180,13 +181,11 @@ function postJson(req, data = "" as string)
         return invalid
     end if
 
-    if resp.getString() = ""
+    if resp.GetString() = ""
         return invalid
     end if
 
-    json = ParseJson(resp.GetString())
-
-    return json
+    return ParseJson(resp.GetString())
 end function
 
 function deleteVoid(req)

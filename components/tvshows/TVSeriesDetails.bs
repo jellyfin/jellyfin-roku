@@ -165,6 +165,7 @@ sub onPosterLoadStatusChanged()
 end sub
 
 sub tryLoadingSeasonPoster()
+    if not isValid(m.seasons.content) then return
     for each season in m.seasons.content.getChildren(-1, 0)
         if isValidAndNotEmpty(season.posterURL)
             m.tvshowPoster.uri = season.posterURL
@@ -176,7 +177,9 @@ end sub
 sub itemContentChanged()
     ' Updates video metadata
     item = m.top.itemContent
+    if not isValid(item) then return
     itemData = item.json
+    if not isValid(itemData) then return
 
     ' Post image may change. We need to again watch load status
     m.tvshowPoster.observeFieldscoped("loadStatus", "onPosterLoadStatusChanged")
@@ -189,30 +192,44 @@ sub itemContentChanged()
 
     setFieldText("title", itemData.name)
 
+    topLevelDetails = m.top.findNode("topLevelDetails")
+
     if type(itemData.RunTimeTicks) = "LongInteger"
         setFieldText("runtime", stri(getRuntime()) + " mins")
     else
-        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("runtimeContainer"))
+        runtimeContainer = m.top.findNode("runtimeContainer")
+        if isValid(topLevelDetails) and isValid(runtimeContainer)
+            topLevelDetails.removeChild(runtimeContainer)
+        end if
     end if
 
     if isChainValid(item, "json.RecursiveItemCount")
         setFieldText("numberofepisodes", stri(item.json.RecursiveItemCount) + " episodes")
     else
-        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("numberofepisodesContainer"))
+        numberofepisodesContainer = m.top.findNode("numberofepisodesContainer")
+        if isValid(topLevelDetails) and isValid(numberofepisodesContainer)
+            topLevelDetails.removeChild(numberofepisodesContainer)
+        end if
     end if
 
     'Check production year, if invalid remove label
     if isValid(itemData.productionYear)
         setFieldText("released", itemData.productionYear)
     else
-        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("releasedContainer"))
+        releasedContainer = m.top.findNode("releasedContainer")
+        if isValid(topLevelDetails) and isValid(releasedContainer)
+            topLevelDetails.removeChild(releasedContainer)
+        end if
     end if
 
     'Check rating, if invalid remove label
     if isValid(itemData.officialRating)
         setFieldText("rating", itemData.officialRating)
     else
-        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("ratingContainer"))
+        ratingContainer = m.top.findNode("ratingContainer")
+        if isValid(topLevelDetails) and isValid(ratingContainer)
+            topLevelDetails.removeChild(ratingContainer)
+        end if
     end if
 
     'Check communityReview, if invalid remove label
@@ -220,10 +237,16 @@ sub itemContentChanged()
         if isValid(itemData.communityRating)
             setFieldText("communityReview", int(itemData.communityRating * 10) / 10)
         else
-            m.top.findNode("topLevelDetails").removeChild(m.top.findNode("communityReviewContainer"))
+            communityReviewContainer = m.top.findNode("communityReviewContainer")
+            if isValid(topLevelDetails) and isValid(communityReviewContainer)
+                topLevelDetails.removeChild(communityReviewContainer)
+            end if
         end if
     else
-        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("communityReviewContainer"))
+        communityReviewContainer = m.top.findNode("communityReviewContainer")
+        if isValid(topLevelDetails) and isValid(communityReviewContainer)
+            topLevelDetails.removeChild(communityReviewContainer)
+        end if
     end if
 
     'History field is set via the function getHistory()
@@ -233,7 +256,10 @@ sub itemContentChanged()
     if isValidAndNotEmpty(itemData.genres)
         setFieldText("genres", itemData.genres.join(", "))
     else
-        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("genresContainer"))
+        genresContainer = m.top.findNode("genresContainer")
+        if isValid(topLevelDetails) and isValid(genresContainer)
+            topLevelDetails.removeChild(genresContainer)
+        end if
     end if
 
     setFieldText("overview", itemData.overview)
@@ -262,6 +288,7 @@ end sub
 
 function getRuntime() as integer
     itemData = m.top.itemContent.json
+    if not isValid(itemData) or not isValid(itemData.RunTimeTicks) then return 0
 
     ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
     ' then 1/60 for seconds to minutess... 1/600,000,000
@@ -270,6 +297,7 @@ end function
 
 function getEndTime() as string
     itemData = m.top.itemContent.json
+    if not isValid(itemData) or not isValid(itemData.RunTimeTicks) then return ""
 
     date = CreateObject("roDateTime")
     duration_s = int(itemData.RunTimeTicks / 10000000.0)
@@ -283,9 +311,11 @@ function getHistory() as string
     itemData = m.top.itemContent.json
     ' Aired Fridays at 9:30 PM on ABC (US)
 
+    if not isValid(itemData) then return ""
+
     airwords = invalid
     studio = invalid
-    if itemData.status = "Ended"
+    if isStringEqual(itemData.status, "Ended")
         verb = "Aired"
     else
         verb = "Airs"
@@ -293,24 +323,41 @@ function getHistory() as string
 
     airdays = itemData.airdays
     airtime = itemData.airtime
-    if isValid(airtime) and airdays.count() = 1
-        airwords = airdays[0] + " at " + airtime
+    if isValidAndNotEmpty(airdays) and isValidAndNotEmpty(airtime)
+        if airdays.count() = 1
+            airwords = airdays[0] + " at " + airtime
+        else
+            airwords = airdays.join(", ") + " at " + airtime
+        end if
+    else if isValidAndNotEmpty(airdays)
+        airwords = airdays.join(", ")
+    else if isValidAndNotEmpty(airtime)
+        airwords = "at " + airtime
     end if
 
-    if itemData.studios.count() > 0
-        studio = itemData.studios[0].name
+    if isValidAndNotEmpty(itemData.studios)
+        firstStudio = itemData.studios[0]
+        if type(firstStudio) = "roAssociativeArray" or type(firstStudio) = "AssociativeArray"
+            studio = chainLookupReturn(firstStudio, "name", invalid)
+        else if type(firstStudio) = "roString" or type(firstStudio) = "String"
+            studio = firstStudio
+        end if
     end if
 
-    if studio = invalid and airwords = invalid
-        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("historyContainer"))
+    if not isValidAndNotEmpty(studio) and not isValidAndNotEmpty(airwords)
+        topLevelDetails = m.top.findNode("topLevelDetails")
+        historyContainer = m.top.findNode("historyContainer")
+        if isValid(topLevelDetails) and isValid(historyContainer)
+            topLevelDetails.removeChild(historyContainer)
+        end if
         return ""
     end if
 
     words = verb
-    if isValid(airwords)
+    if isValidAndNotEmpty(airwords)
         words = words + " " + airwords
     end if
-    if isValid(studio)
+    if isValidAndNotEmpty(studio)
         words = words + " on " + studio
     end if
 
@@ -585,5 +632,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
 end function
 
 sub checkGridItemCount()
-    m.buttonGrp.blockDown = m.seasons.content.getChildCount() = 0
+    if not isValid(m.seasons.content)
+        m.buttonGrp.blockDown = true
+    else
+        m.buttonGrp.blockDown = m.seasons.content.getChildCount() = 0
+    end if
 end sub
