@@ -279,6 +279,8 @@ sub setSiblingData()
         m.osd.nextItemIcon = string.EMPTY
         m.osd.nextItemTitleText = string.EMPTY
     end if
+
+    updateTransportButtonsStatus()
 end sub
 
 ' handleChapterSkipAction: Handles user command to skip chapters in playing video
@@ -289,6 +291,7 @@ sub handleChapterSkipAction(action as string)
     currentChapter = getCurrentChapterIndex()
 
     if action = "chapternext"
+        if not m.osd.chapterNextEnabled then return
         gotoChapter = currentChapter + 1
         ' If there is no next chapter, exit
         if gotoChapter > m.chapters.count() - 1 then return
@@ -297,10 +300,12 @@ sub handleChapterSkipAction(action as string)
         m.top.seek = newPosition
         setVideoEndingTime(newPosition)
         m.positionText.text = secondsToHuman(newPosition, true)
+        updateTransportButtonsStatus(newPosition)
         return
     end if
 
     if action = "chapterback"
+        if not m.osd.chapterBackEnabled then return
         gotoChapter = currentChapter - 1
         ' If there is no previous chapter, restart current chapter
         if gotoChapter < 0 then gotoChapter = 0
@@ -309,6 +314,7 @@ sub handleChapterSkipAction(action as string)
         m.top.seek = newPosition
         setVideoEndingTime(newPosition)
         m.positionText.text = secondsToHuman(newPosition, true)
+        updateTransportButtonsStatus(newPosition)
         return
     end if
 end sub
@@ -318,6 +324,7 @@ end sub
 ' @param {string} action - skip action to take
 sub handleItemSkipAction(action as string)
     if action = "itemnext"
+        if not m.osd.itemNextEnabled then return
         ' If there is something next in the queue, play it
         if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
             m.top.control = VideoControl.STOP
@@ -330,6 +337,7 @@ sub handleItemSkipAction(action as string)
     end if
 
     if action = "itemback"
+        if not m.osd.itemBackEnabled then return
         ' If there is something previous in the queue, play it
         if m.global.queueManager.callFunc("getPosition") > 0
             m.top.control = VideoControl.STOP
@@ -383,14 +391,15 @@ end sub
 
 ' getCurrentChapterIndex: Finds current chapter index
 '
+' @param {dynamic} targetPosition - optional video position in seconds
 ' @return {integer} indicating index of current chapter within chapter data or 0 if chapter lookup fails
 '
-function getCurrentChapterIndex() as integer
+function getCurrentChapterIndex(targetPosition = invalid as dynamic) as integer
     if not isValidAndNotEmpty(m.chapters) then return 0
 
     ' Give a 15 second buffer to compensate for user expectation and roku video position inaccuracy
     ' Web client uses 10 seconds, but this wasn't enough for Roku in testing
-    currentPosition = m.top.position + 15
+    currentPosition = (isValid(targetPosition) ? targetPosition : m.top.position) + 15
     currentChapter = 0
 
     for i = m.chapters.count() - 1 to 0 step -1
@@ -402,6 +411,33 @@ function getCurrentChapterIndex() as integer
 
     return currentChapter
 end function
+
+' updateTransportButtonsStatus: Updates the enabled/disabled state of the OSD transport buttons
+'
+' @param {dynamic} currentPos - optional video position in seconds to use for chapter calculation
+sub updateTransportButtonsStatus(currentPos = invalid as dynamic)
+    if not isValid(m.osd) then return
+
+    ' Queue controls:
+    ' Previous item is enabled only if there is a previous item in the queue
+    m.osd.itemBackEnabled = (m.global.queueManager.callFunc("getPosition") > 0)
+
+    ' Next item is enabled only if there is a next item in the queue
+    m.osd.itemNextEnabled = (m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1)
+
+    ' Chapter controls:
+    ' Check if this media has chapter data (at least 2 chapters needed to skip between them)
+    hasChapters = isValidAndNotEmpty(m.chapters) and m.chapters.count() > 1
+
+    if hasChapters
+        m.osd.chapterBackEnabled = true
+        currentChapter = getCurrentChapterIndex(currentPos)
+        m.osd.chapterNextEnabled = (currentChapter < m.chapters.count() - 1)
+    else
+        m.osd.chapterBackEnabled = false
+        m.osd.chapterNextEnabled = false
+    end if
+end sub
 
 ' handleVideoPlayPauseAction: Handles action to either play or pause the video content
 '
@@ -851,6 +887,7 @@ sub onVideoContentLoaded()
     m.top.audioIndex = videoContent[0].audioIndex
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
+    updateTransportButtonsStatus()
     m.overview = videoContent[0].overview
     m.premiere = videoContent[0].premiere
     m.castPeople = videoContent[0].people
@@ -1883,6 +1920,7 @@ end sub
 sub showOSD(whichfocus as string)
     hideNextItem() ' Hide next up info display when OSD is visible
     setVideoEndingTime()
+    updateTransportButtonsStatus()
     m.osd.visible = true
     m.osd.hasFocus = true
     if whichfocus = "videoControls"
@@ -2096,10 +2134,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.skipSegmentButton.focus = false
             m.top.setFocus(false)
             m.osd.setFocus(true)
-            m.videoControls.setFocus(true)
-            focusedButton = m.videoControls.getChild(m.videocontrols.getChildCount() - 1)
-            focusedButton.focus = true
-            m.osd.callFunc("checkDisplaySiblingItem", focusedButton.id)
+            m.osd.callFunc("focusRightmostVideoControl")
             return true
             ' Move to the progress bar of the OSD
         else if key = KeyCode.UP and m.osd.visible
