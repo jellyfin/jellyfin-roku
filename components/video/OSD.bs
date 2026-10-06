@@ -304,10 +304,21 @@ end function
 ' onTransportButtonStatusChanged: Updates enabled states of bottom transport buttons
 '
 sub onTransportButtonStatusChanged()
-    if isValid(m.itemBack) then m.itemBack.enabled = m.top.itemBackEnabled
-    if isValid(m.chapterBack) then m.chapterBack.enabled = m.top.chapterBackEnabled
-    if isValid(m.chapterNext) then m.chapterNext.enabled = m.top.chapterNextEnabled
-    if isValid(m.itemNext) then m.itemNext.enabled = m.top.itemNextEnabled
+    if isValid(m.itemBack)
+        m.itemBack.enabled = m.top.itemBackEnabled
+    end if
+
+    if isValid(m.chapterBack)
+        m.chapterBack.enabled = m.top.chapterBackEnabled
+    end if
+
+    if isValid(m.chapterNext)
+        m.chapterNext.enabled = m.top.chapterNextEnabled
+    end if
+
+    if isValid(m.itemNext)
+        m.itemNext.enabled = m.top.itemNextEnabled
+    end if
 
     ' If the currently focused button in videoControls is now disabled, reset focus to default
     if isValid(m.videoControls) and m.videoControls.isInFocusChain()
