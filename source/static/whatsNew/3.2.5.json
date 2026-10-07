@@ -6,5 +6,9 @@
   {
     "description": "Optimzie searching",
     "author": "JimDogX"
+  },
+  {
+    "description": "Clear stale artist presentation state when switching to Music genres",
+    "author": "VX-101"
   }
 ]
