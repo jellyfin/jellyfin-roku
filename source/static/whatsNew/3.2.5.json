@@ -1,5 +1,9 @@
 [
   {
+    "description": "Hide OSD controls that aren't available",
+    "author": "JimDogX"
+  },
+  {
     "description": "Optimzie searching",
     "author": "JimDogX"
   }
