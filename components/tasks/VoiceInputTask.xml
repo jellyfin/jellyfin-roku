@@ -10,5 +10,7 @@
         <field id="inputData" type="assocarray" alwaysNotify="true" />
         <!-- Response status to send back to Roku OS after handling a command -->
         <field id="transportResponse" type="assocarray" alwaysNotify="true" />
+        <!-- Now Playing metadata to send to Roku OS -->
+        <field id="nowPlayingData" type="assocarray" alwaysNotify="true" />
     </interface>
 </component>

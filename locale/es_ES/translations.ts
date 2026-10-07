@@ -2667,6 +2667,90 @@
         <source>Are you sure you want to exit Jellyfin?</source>
         <translation>¿Estás seguro de que quieres salir de Jellyfin?</translation>
     </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Aparece en</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Álbumes (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Aparece en (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 Canción</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>%1 Canciones</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>%1 Álbum</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>%1 Álbumes</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Acreditado en:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>%1 Aparece en el álbum</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>%1 Aparece en los álbumes</translation>
+    </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>Tu búsqueda ha devuelto más de 50 tags. Modifica la búsqueda para reducir el número de tags coincidentes.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Buscar Tags</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>Tu búsqueda no ha devuelto ningún tag.</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>El servidor sigue iniciándose. Vuelve a intentarlo.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>El servidor está temporalmente indisponible. Inténtalo de nuevo.</translation>
+    </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Buscar término</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Empieza con</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>Este dispositivo Roku dejará de recibir actualizaciones para Jellyfin para Roku el 1 de octubre de 2026 debido a los nuevos requerimientos mínimos de Roku OS 15.1. Puedes seguir usando la app instalada, pero no recibirá actualizaciones si no actualizas Roku OS.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Todas las actualizaciones serán bloqueadas si no realizamos este cambio. No tenemos poder de decisión ninguno en la materia. Si esto te afecta, contacta con Roku. Te pedimos por favor que no la tomes con nuestro equipo.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Puedes ocultar este popup desactivando el ajuste &quot;Interfaz de usuario / General / Mostrar popup de versión de Roku OS&quot;.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Aviso de la versión de Roku OS</translation>
+    </message>
 </context>
 <context>
     <name></name>

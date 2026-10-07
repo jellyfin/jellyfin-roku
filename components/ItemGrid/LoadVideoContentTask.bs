@@ -81,6 +81,41 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     videotype = LCase(meta.type)
 
+    ' The guide's queued channel is authoritative even if a later metadata
+    ' response uses a different item type or omits its channel fields.
+    queuedItem = m.global.queueManager.callFunc("getCurrentItem")
+    queuedType = LCase(chainLookupReturn(queuedItem, "type", string.EMPTY))
+    channelId = chainLookupReturn(queuedItem, "favoriteChannelId", string.EMPTY)
+    if not isValidAndNotEmpty(channelId) and isStringEqual(queuedType, ItemType.TVCHANNEL)
+        channelId = chainLookupReturn(queuedItem, "id", string.EMPTY)
+    else if not isValidAndNotEmpty(channelId) and isStringEqual(queuedType, ItemType.PROGRAM)
+        channelId = chainLookupReturn(queuedItem, "json.ChannelId", string.EMPTY)
+        if not isValidAndNotEmpty(channelId)
+            channelId = chainLookupReturn(queuedItem, "id", string.EMPTY)
+        end if
+    end if
+
+    ' ChannelData wraps guide Programs too, so prefer their channel ID.
+    sourceType = LCase(chainLookupReturn(meta, "json.Type", string.EMPTY))
+    if not isValidAndNotEmpty(channelId)
+        if isStringEqual(videotype, ItemType.TVCHANNEL) or isStringEqual(sourceType, ItemType.PROGRAM)
+            channelId = chainLookupReturn(meta, "json.ChannelId", string.EMPTY)
+            if not isValidAndNotEmpty(channelId) and not isStringEqual(sourceType, ItemType.PROGRAM)
+                channelId = meta.id
+            end if
+        end if
+    end if
+
+    if isValidAndNotEmpty(channelId)
+        video.favoriteChannelId = channelId
+        if isStringEqual(sourceType, ItemType.TVCHANNEL) and isStringEqual(channelId, meta.id)
+            video.isFavoriteChannel = chainLookupReturn(meta, "json.UserData.IsFavorite", false)
+        else
+            channel = api.liveTV.GetChannelByID(channelId, { userId: m.global.session.user.id })
+            video.isFavoriteChannel = chainLookupReturn(channel, "UserData.IsFavorite", false)
+        end if
+    end if
+
     ' Check for any Live TV streams or Recordings coming from other places other than the TV Guide
     if videotype = "recording" or (isValid(meta.json) and isValid(meta.json.ChannelId))
         if isValid(meta.json.EpisodeTitle)
@@ -98,6 +133,21 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     video.overview = meta.json.overview
     video.people = meta.json.people
+    premiere = meta.json.premieredate
+    if isValidAndNotEmpty(premiere)
+        date = CreateObject("roDateTime")
+        date.FromSeconds(0)
+        ' Parse failures silently do not update the date so set to a known value and check if it changed
+        date.FromISO8601String(premiere)
+        if not date.AsSeconds() = 0 and not isStringEqual(premiere, "1970-01-01T00:00:00.000000Z")
+            if isStringEqual(chainLookupReturn(meta.json, "Type", ItemType.SERIES), ItemType.MOVIE)
+                dateDescriptor = tr("Released")
+            else
+                dateDescriptor = tr("Aired")
+            end if
+            video.premiere = tr(dateDescriptor) + ": " + date.AsDateString("short-month-no-weekday")
+        end if
+    end if
     if not isValid(video.overview) and isValid(meta.json.CurrentProgram)
         ' Live TV is under CurrentProgram.Overview
         video.overview = meta.json.CurrentProgram.overview

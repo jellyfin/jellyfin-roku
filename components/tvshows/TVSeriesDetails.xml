@@ -114,7 +114,7 @@
     <field id="displayResumeButton" type="bool" alwaysNotify="true" onChange="onDisplayResumeButtonChange" />
     <field id="refreshSeasonDetailsData" type="bool" alwaysNotify="true" />
     <field id="itemContent" type="node" onChange="itemContentChanged" />
-    <field id="seasonData" type="node" alias="seasons.content" />
+    <field id="seasonData" type="node" alias="seasons.content" alwaysNotify="true" onChange="checkGridItemCount" />
     <field id="seasonSelected" alias="seasons.itemSelected" alwaysNotify="true" />
     <field id="quickPlayNode" type="node" alwaysNotify="true" />
     <field id="selectedButtonIndex" type="integer" value="-1" />

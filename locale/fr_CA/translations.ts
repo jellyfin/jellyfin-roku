@@ -2531,6 +2531,18 @@
         <source>No media matched radio station criteria</source>
         <translation>Aucun média ne correspond aux critères de cette station radio</translation>
     </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>Votre recherche a donné plus de 50 résultats. Modifiez votre recherche afin de réduire le nombre de résultats correspondants.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Rechercher par mots-clés</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>Votre recherche n&apos;a donné aucun résultat.</translation>
+    </message>
 </context>
 <context>
     <name></name>

@@ -70,6 +70,32 @@ sub init()
     m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 end sub
 
+' Apply a favorite change made in the player to this cached Live TV view.
+sub updateChannelFavorite(change as object)
+    if not isValidAndNotEmpty(chainLookupReturn(change, "channelId", string.EMPTY)) then return
+
+    if isValid(m.tvGuide)
+        m.tvGuide.callFunc("updateChannelFavorite", change)
+    end if
+
+    if isStringEqual(m.filter, "Favorites")
+        m.loadItemsTask.control = TaskControl.STOP
+        m.loadedRows = 0
+        m.loadedItems = 0
+        m.data = CreateObject("roSGNode", "ContentNode")
+        m.itemGrid.content = m.data
+        m.loadItemsTask.startIndex = 0
+        m.loadItemsTask.control = TaskControl.RUN
+    else
+        for each channel in m.data.getChildren(-1, 0)
+            if isStringEqual(channel.id, change.channelId)
+                channel.favorite = change.isFavorite
+                exit for
+            end if
+        end for
+    end if
+end sub
+
 sub setColumnSizes(layout = ImageLayout.PORTRAIT as string)
 
     if isStringEqual(layout, ImageLayout.PORTRAIT)

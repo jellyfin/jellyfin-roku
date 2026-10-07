@@ -1,4 +1,5 @@
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 
@@ -77,7 +78,7 @@ function searchMedia(query as string)
         data = api.items.Get({
             "userid": m.global.session.user.id,
             "searchTerm": query,
-            "fields": "ChildCount, ItemCounts, Genres, RecursiveItemCount",
+            "fields": "RecursiveItemCount",
             "IncludeItemTypes": "LiveTvChannel,Movie,BoxSet,Series,Episode,Video,Audio,MusicAlbum,MusicArtist,Playlist",
             "EnableTotalRecordCount": false,
             "ImageTypeLimit": 1,
@@ -131,7 +132,6 @@ function searchMedia(query as string)
         results = []
         for each item in data.Items
             tmp = CreateObject("roSGNode", "SearchData")
-            tmp.image = PosterImage(item.id)
             tmp.id = item.LookupCI("id")
             tmp.title = item.LookupCI("name")
             tmp.AlbumArtist = item.LookupCI("AlbumArtist")
@@ -387,6 +387,22 @@ sub setMusicAlbumGridPoster(album as object)
     album.sdposterurl = posterURL
 end sub
 
+function MusicArtistSongCount(id as string) as integer
+    ' Match Artist Presentation's credited-song scope; artist and Appears On album counts remain separate.
+    data = api.items.Get({
+        "UserId": m.global.session.user.id,
+        "ArtistIds": id,
+        "includeitemtypes": ItemType.AUDIO,
+        "Recursive": true,
+        "EnableTotalRecordCount": true,
+        "Limit": 0
+    })
+
+    count = chainLookup(data, "TotalRecordCount")
+    if isValid(count) then return count
+
+    return 0
+end function
 ' Get list of songs belonging to an artist
 function GetSongsByArtist(id as string, params = {} as object)
     paramArray = {
@@ -618,14 +634,14 @@ end function
 
 function getFirstEpisodeImage(showId as string, seasonId as string)
     listOfEpisodes = api.shows.GetEpisodes(showId,
-    {
-        seasonId: seasonId,
-        UserId: m.global.session.user.id,
-        limit: 5,
-        enableUserData: false,
-        imageTypeLimit: 1,
-        EnableImageTypes: "Primary"
-    })
+        {
+            seasonId: seasonId,
+            UserId: m.global.session.user.id,
+            limit: 5,
+            enableUserData: false,
+            imageTypeLimit: 1,
+            EnableImageTypes: "Primary"
+        })
 
     for each episode in listOfEpisodes.LookupCI("items")
         if isChainValid(episode, "imagetags.primary")
@@ -643,13 +659,13 @@ end function
 function TVEpisodes(showId as string, seasonId as string) as dynamic
     ' Get and validate data
     data = api.shows.GetEpisodes(showId,
-    {
-        "seasonId": seasonId,
-        "UserId": m.global.session.user.id,
-        ' Add overview to get episode overview without making additional calls
-        ' to ItemMetaData, which is very expensive when done for each episode in a season
-        "fields": "MediaStreams,MediaSources,Overview"
-    })
+        {
+            "seasonId": seasonId,
+            "UserId": m.global.session.user.id,
+            ' Add overview to get episode overview without making additional calls
+            ' to ItemMetaData, which is very expensive when done for each episode in a season
+            "fields": "MediaStreams,MediaSources,Overview"
+        })
 
     if data = invalid or data.Items = invalid then return invalid
 

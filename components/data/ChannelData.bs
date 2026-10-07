@@ -14,6 +14,7 @@ sub setFields()
 
     json = m.top.json
     m.top.id = json.id
+    m.top.favoriteChannelId = json.ChannelId ?? json.id
     if not isStringEqual(channelTitleContent, LiveTVChannelTitle.NAME) and isValid(json.number)
         if isStringEqual(channelTitleContent, LiveTVChannelTitle.NUMBERANDNAME)
             m.top.title = `${tr("CH")} ${json.number} ${json.name}`

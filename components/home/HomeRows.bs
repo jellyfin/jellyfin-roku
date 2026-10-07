@@ -1251,7 +1251,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if isStringEqual(key, KeyCode.PLAY)
             itemToPlay = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
-            if isValid(itemToPlay)
+            ' The synthetic View All tile has no playable server item
+            if isValid(itemToPlay) and not chainLookupReturn(itemToPlay, "json.FavoriteViewAll", false)
                 m.top.quickPlayNode = itemToPlay
             end if
             return true

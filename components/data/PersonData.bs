@@ -4,8 +4,11 @@ import "pkg:/source/utils/config.bs"
 
 sub setFields()
     json = m.top.json
-    m.top.id = json.id
-    m.top.favorite = json.UserData.isFavorite
+    if not isValid(json) then return
+
+    m.top.id = json.LookupCI("id")
+    m.top.title = json.LookupCI("name")
+    m.top.favorite = chainLookupReturn(json, "UserData.isFavorite", false)
     m.top.Type = "Person"
     setPoster()
 end sub

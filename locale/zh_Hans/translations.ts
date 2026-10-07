@@ -2246,5 +2246,46 @@
         <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
         <translation>触发转码时内嵌所有字幕，以确保转码后字幕同步，但会降低转码速度。</translation>
     </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>从头播放</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>再次按停止键以关闭播放器</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>影片</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>默认</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>字幕</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>轨道</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>无默认项</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>更多</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>最近观看</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>没有可用的转换数据。</translation>
+    </message>
 </context>
 </TS>

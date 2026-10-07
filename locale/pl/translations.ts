@@ -2621,5 +2621,89 @@
         <source>Are you sure you want to exit Jellyfin?</source>
         <translation>Czy na pewno chcesz opuścić Jellyfin?</translation>
     </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>Twoje wyszukiwanie zwróciło ponad 50 tagów. Zmień wyszukiwanie, aby zmniejszyć liczbę pasujących tagów.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Wyszukaj tagi</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>Wyszukiwanie nie zwróciło żadnych tagów.</translation>
+    </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Wyszukaj określenie</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Zaczyna się od</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>To urządzenie Roku przestanie otrzymywać aktualizacje Jellyfin dla Roku 1 października 2026 r. ze względu na nowe minimalne wymagania systemu operacyjnego Roku 15.1. Możesz nadal korzystać z zainstalowanej aplikacji, ale nigdy się nie zaktualizuje, dopóki nie zaktualizujesz systemu operacyjnego Roku.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Wszystkie wydania zostaną zablokowane, chyba że wprowadzimy tę zmianę. Jesteśmy do tego zmuszeni, więc jeśli Cię to dotyczy, skontaktuj się z Roku. Nie krzycz na nas.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Możesz ukryć to okno, wyłączając ustawienie „Interfejs użytkownika / Ogólne / Pokaż okno z informacją o wersji systemu operacyjnego Roku”.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Ostrzeżenie dotyczące wersji systemu operacyjnego Roku</translation>
+    </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Pojawia się na</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Albumy (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Pojawia się na (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>Piosenka %1</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>Piosenki %1</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>Album %1</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>Albumy %1</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Autor:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>Pojawia się na albumie %1</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>Pojawia się na albumach %1</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Serwer nadal się uruchamia. Spróbuj ponownie.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Serwer jest tymczasowo niedostępny. Spróbuj ponownie.</translation>
+    </message>
 </context>
 </TS>
