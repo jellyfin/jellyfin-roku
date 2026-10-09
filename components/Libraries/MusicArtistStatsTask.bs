@@ -1,0 +1,50 @@
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.top.functionName = "loadArtistStats"
+end sub
+
+sub loadArtistStats()
+    result = {
+        id: m.top.artistId,
+        artistStatsFilter: getArtistStatsFilter()
+    }
+
+    if not isValidAndNotEmpty(m.top.artistId)
+        m.top.content = result
+        return
+    end if
+
+    songCount = getArtistItemCount(ItemType.AUDIO, result.artistStatsFilter)
+    if isValid(songCount) then result.songCount = songCount
+
+    albumCount = getArtistItemCount(ItemType.MUSICALBUM, result.artistStatsFilter)
+    if isValid(albumCount) then result.albumCount = albumCount
+
+    m.top.content = result
+end sub
+
+function getArtistStatsFilter() as string
+    if isStringEqual(m.top.artistStatsFilter, "AlbumArtistIds") then return "AlbumArtistIds"
+    return "ArtistIds"
+end function
+
+function getArtistItemCount(itemType as string, artistStatsFilter as string) as dynamic
+    params = {
+        "UserId": m.global.session.user.id,
+        "IncludeItemTypes": itemType,
+        "Recursive": true,
+        "EnableTotalRecordCount": true,
+        "Limit": 0
+    }
+    params.AddReplace(artistStatsFilter, m.top.artistId)
+
+    data = api.items.Get(params)
+    count = chainLookup(data, "TotalRecordCount")
+    if isValid(count) then return count
+
+    return invalid
+end function

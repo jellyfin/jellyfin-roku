@@ -2,6 +2,7 @@ import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/utils/misc.bs"
 
 const minimumServerVersion = [10, 9, 0]
+const minimumRokuOSVersion = [15, 1, 0]
 
 function LoginFlow()
     'Collect Jellyfin server and user information
@@ -121,12 +122,17 @@ function LoginFlow()
                 if myToken <> invalid
                     ' check if token is valid
                     session.user.Update("authToken", myToken)
-                    currentUser = AboutMe()
-                    if currentUser = invalid
-                        unset_user_setting("token")
-                        unset_user_setting("username")
+                    currentUserResponse = AboutMe()
+                    if currentUserResponse.body = invalid
+                        if currentUserResponse.code = 401
+                            unset_user_setting("token")
+                            unset_user_setting("username")
+                        else
+                            handleAboutMeFailure(currentUserResponse.code)
+                            goto start_login
+                        end if
                     else
-                        session.user.Login(currentUser, true)
+                        session.user.Login(currentUserResponse.body, true)
                         LoadUserAbilities()
                         return true
                     end if
@@ -168,23 +174,28 @@ function LoginFlow()
             session.user.Update("authToken", myAuthToken)
             session.user.Update("name", myUsername)
 
-            currentUser = AboutMe()
-            if currentUser = invalid
-                'Try to login without password. If the token is valid, we're done
-                userData = get_token(myUsername, "")
-                if isValid(userData)
-                    session.user.Login(userData, true)
-                    LoadUserAbilities()
-                    return true
+            currentUserResponse = AboutMe()
+            if currentUserResponse.body = invalid
+                if currentUserResponse.code = 401
+                    'Try to login without password. If the token is valid, we're done
+                    userData = get_token(myUsername, "")
+                    if isValid(userData)
+                        session.user.Login(userData, true)
+                        LoadUserAbilities()
+                        return true
+                    else
+                        print "Auth failed. Password required"
+                        print "delete token and restart login flow"
+                        unset_user_setting("token")
+                        unset_user_setting("username")
+                        goto start_login
+                    end if
                 else
-                    print "Auth failed. Password required"
-                    print "delete token and restart login flow"
-                    unset_user_setting("token")
-                    unset_user_setting("username")
+                    handleAboutMeFailure(currentUserResponse.code)
                     goto start_login
                 end if
             else
-                session.user.Login(currentUser, true)
+                session.user.Login(currentUserResponse.body, true)
             end if
         else
             print "No auth token found in registry"
@@ -195,6 +206,11 @@ function LoginFlow()
         unset_setting("active_user")
         session.user.Logout()
         goto start_login
+    end if
+
+    if isChainValid(m.global, "device.osversion")
+        OS = m.global.device.osversion
+        DeviceOSVersionCheck(OS)
     end if
 
     LoadUserAbilities()
@@ -218,6 +234,35 @@ sub ServerVersionCheck(systemVersion as string)
             LoginFlow()
         end if
     end if
+end sub
+
+sub DeviceOSVersionCheck(OS as object)
+    if not chainLookupReturn(m.global.session, "user.settings.`load.rokuospopup`", false) then return
+    if serverVersionMeetsMinimumRequirements(`${OS.major}.${OS.minor}.${OS.revision}`, minimumRokuOSVersion) then return
+
+    overhang = m.scene.findNode("overhang")
+    if isValid(overhang)
+        overhang.visible = false
+        overhang.isVisible = false
+    end if
+
+    m.scene.isLoading = false
+    stopLoadingSpinner()
+
+    warningContent = [
+        "<p>" + tr("This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.") + "</p>",
+        "<p>" + tr("All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us.") + "</p>",
+        "<p>" + tr("You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.") + "</p>"
+    ]
+
+    m.global.sceneManager.callFunc("standardDialog", "Roku OS Version Warning", { data: warningContent })
+
+    if isValid(overhang)
+        overhang.visible = true
+        overhang.isVisible = true
+    end if
+    m.scene.isLoading = true
+    startLoadingSpinner()
 end sub
 
 sub SaveServerList()
@@ -873,6 +918,9 @@ function CreateArtistView(artist as object) as dynamic
         group.pageContent = ItemMetaData(artist.id)
         group.musicArtistAlbumData = musicData
         group.musicArtistAppearsOnData = appearsOnData
+        group.songCount = MusicArtistSongCount(artist.id)
+        group.albumCount = isValid(musicData) ? musicData.getChildCount() : 0
+        group.appearsOnCount = isValid(appearsOnData) ? appearsOnData.getChildCount() : 0
         group.artistOverview = ArtistOverview(artist.name)
 
         group.observeField("musicAlbumSelected", m.port)
@@ -1183,4 +1231,15 @@ sub playbackOptionDialog(time as longinteger, meta as object)
     end if
     stopLoadingSpinner()
     m.global.sceneManager.callFunc("optionDialog", "playback", tr("Playback Options"), [], resumeData, { id: string.EMPTY })
+end sub
+
+sub handleAboutMeFailure(code as integer)
+    unset_setting("active_user")
+    stopLoadingSpinner()
+    print "Server connection failed with status: "; code
+    if code = 503
+        show_dialog(tr("The server is still starting up. Please try again."), [tr("OK")], 0)
+    else
+        show_dialog(tr("The server is temporarily unavailable. Please try again."), [tr("OK")], 0)
+    end if
 end sub

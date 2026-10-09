@@ -1160,6 +1160,46 @@
             <translation>Albums</translation>
         </message>
         <message>
+            <source>Appears On</source>
+            <translation>Appears On</translation>
+        </message>
+        <message>
+            <source>Albums (%1)</source>
+            <translation>Albums (%1)</translation>
+        </message>
+        <message>
+            <source>Appears On (%1)</source>
+            <translation>Appears On (%1)</translation>
+        </message>
+        <message>
+            <source>%1 Song</source>
+            <translation>%1 Song</translation>
+        </message>
+        <message>
+            <source>%1 Songs</source>
+            <translation>%1 Songs</translation>
+        </message>
+        <message>
+            <source>%1 Album</source>
+            <translation>%1 Album</translation>
+        </message>
+        <message>
+            <source>%1 Albums</source>
+            <translation>%1 Albums</translation>
+        </message>
+        <message>
+            <source>Credited for:</source>
+            <translation>Credited for:</translation>
+        </message>
+        <message>
+            <source>%1 Appears On Album</source>
+            <translation>%1 Appears On Album</translation>
+        </message>
+        <message>
+            <source>%1 Appears On Albums</source>
+            <translation>%1 Appears On Albums</translation>
+        </message>
+        <message>
             <source>Autoplay Episode Limit</source>
             <translation>Autoplay Episode Limit</translation>
         </message>
@@ -2638,6 +2678,38 @@
         <message>
             <source>Your search returned no tags.</source>
             <translation>Your search returned no tags.</translation>
+        </message>
+        <message>
+            <source>The server is still starting up. Please try again.</source>
+            <translation>The server is still starting up. Please try again.</translation>
+        </message>
+        <message>
+            <source>The server is temporarily unavailable. Please try again.</source>
+            <translation>The server is temporarily unavailable. Please try again.</translation>
+        </message>
+        <message>
+            <source>Search Term</source>
+            <translation>Search Term</translation>
+        </message>
+        <message>
+            <source>Starts With</source>
+            <translation>Starts With</translation>
+        </message>
+        <message>
+            <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+            <translation>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</translation>
+        </message>
+        <message>
+            <source>All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us.</source>
+            <translation>All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us.</translation>
+        </message>
+        <message>
+            <source>You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.</source>
+            <translation>You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.</translation>
+        </message>
+        <message>
+            <source>Roku OS Version Warning</source>
+            <translation>Roku OS Version Warning</translation>
         </message>
     </context>
 </TS>

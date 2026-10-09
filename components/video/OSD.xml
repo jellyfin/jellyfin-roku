@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="OSD" extends="Group" initialFocus="chapterNext">
+<component name="OSD" extends="Group" initialFocus="videoPlayPause">
   <children>
     <Poster uri="pkg:/images/osdBackground.png" width="1920" height="279" />
 
@@ -96,6 +96,11 @@
     <function name="checkDisplaySiblingItem" />
     <function name="clampSeek" />
     <function name="setOsdStatus" />
+    <function name="focusRightmostVideoControl" />
+    <field id="itemBackEnabled" type="boolean" value="false" onChange="onTransportButtonStatusChanged" />
+    <field id="chapterBackEnabled" type="boolean" value="false" onChange="onTransportButtonStatusChanged" />
+    <field id="chapterNextEnabled" type="boolean" value="false" onChange="onTransportButtonStatusChanged" />
+    <field id="itemNextEnabled" type="boolean" value="false" onChange="onTransportButtonStatusChanged" />
     <field id="itemTitleText" type="string" />
     <field id="itemSubtitleText" type="string" />
     <field id="seasonNumber" type="integer" />

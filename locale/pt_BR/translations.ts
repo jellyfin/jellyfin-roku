@@ -2634,6 +2634,78 @@
         <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
         <translation>Sua pesquisa retornou mais de 50 tags. Refine a pesquisa para reduzir o número de tags encontradas.</translation>
     </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Termo de pesquisa</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Começa com</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>Este Roku deixará de receber atualizações do Jellyfin em 1º de outubro de 2026 devido ao novo requisito mínimo do Roku OS 15.1. Você poderá continuar usando o aplicativo instalado, mas ele não receberá novas atualizações a menos que você atualize o Roku OS.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Todos os novos lançamentos serão bloqueados se não fizermos essa alteração. Somos obrigados a fazer isso. Se você for afetado, entre em contato com a Roku. Não desconte a frustração em nós.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Você pode ocultar esta janela desativando a configuração “Interface do usuário / Geral / Exibir aviso da versão do Roku OS”.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Aviso sobre a versão do Roku OS</translation>
+    </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Aparece em</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Álbuns (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Aparece em (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 música</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>%1 músicas</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>%1 álbum</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>%1 álbuns</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Créditos por:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>%1 aparece no álbum</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>%1 aparece nos álbuns</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>O servidor ainda está iniciando. Tente novamente.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>O servidor está temporariamente indisponível. Tente novamente.</translation>
+    </message>
 </context>
 <context>
     <name></name>

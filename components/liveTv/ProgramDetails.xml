@@ -76,6 +76,7 @@
         </Animation>
     </children>
     <interface>
+        <function name="refreshFavorite" />
         <field id="WatchSelectedChannel" type="boolean" value="false" />
         <field id="recordSelectedChannel" type="boolean" value="false" />
         <field id="recordSeriesSelectedChannel" type="boolean" value="false" />
