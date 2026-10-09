@@ -314,8 +314,10 @@ sub setLogoImage(itemData as object)
         return
     end if
 
+    logoURL = ItemImageURL(itemData, ImageType.LOGO, imageSizes.LOGO, false)
+
     ' No logo found
-    if not isChainValid(itemData, "ImageTags.Logo")
+    if not isValidAndNotEmpty(logoURL)
         addTextMovieTitle(itemData)
         return
     end if
@@ -329,12 +331,7 @@ sub setLogoImage(itemData as object)
     movieLogo.translation = [100, 25]
     movieLogo.width = "500"
     movieLogo.height = "250"
-    movieLogo.uri = ImageURL(m.top.id, ImageType.LOGO, {
-        "format": "Png",
-        "maxHeight": 300,
-        "maxWidth": 600,
-        "Tag": itemData.ImageTags.Logo
-    })
+    movieLogo.uri = logoURL
 
     if not isValid(m.top.findNode("movieLogo"))
         m.top.insertChild(movieLogo, 1)

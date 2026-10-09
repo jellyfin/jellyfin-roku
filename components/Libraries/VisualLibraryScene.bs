@@ -169,7 +169,6 @@ sub init()
     m.isInMyListTask.itemsToLoad = "isInMyList"
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
-    m.loadLogoTask = createObject("roSGNode", "LoadItemsTask2")
     m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
 
     'set inital counts for overhang before content is loaded.
@@ -971,26 +970,6 @@ end sub
 
 
 '
-' Logo Image Loaded Event Handler
-sub LogoImageLoaded(msg)
-    data = msg.GetData()
-    m.loadLogoTask.unobserveField("content")
-    m.loadLogoTask.content = []
-
-    if not isStringEqual(m.view, "presentation")
-        m.itemLogo.visible = false
-        return
-    end if
-
-    if data.Count() > 0
-        m.itemLogo.uri = data[0]
-        m.itemLogo.visible = true
-    else
-        m.selectedItemName.visible = true
-    end if
-end sub
-
-'
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
     itemData = msg.GetData()
@@ -1264,10 +1243,7 @@ sub onItemFocused()
         SetOfficialRating(string.EMPTY)
     end if
 
-    m.loadLogoTask.itemId = itemData.id
-    m.loadLogoTask.itemType = "LogoImage"
-    m.loadLogoTask.observeField("content", "LogoImageLoaded")
-    m.loadLogoTask.control = "RUN"
+    ShowLogoOrName(itemData, m.itemLogo, m.selectedItemName)
 
     ' Set Background to item backdrop
     if isStringEqual(m.view, "presentation")
@@ -1275,7 +1251,7 @@ sub onItemFocused()
             m.backdropImage@.changeImage(focusedItem.backdropUrl)
         else if isValidAndNotEmpty(focusedItem.posterUrl)
             ' We have a poster image URL, request a new one at a higher resolution
-            m.backdropImage@.changeImage(api.items.GetImageURL(focusedItem.id, "primary", 0, { "maxHeight": 700, "maxWidth": 1100, "quality": "90" }))
+            m.backdropImage@.changeImage(api.items.GetImageURL(focusedItem.id, "primary", 0, { "maxHeight": 700, "maxWidth": 1100 }))
         end if
     end if
 end sub

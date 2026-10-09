@@ -1,0 +1,20 @@
+' @fileoverview Bounds for requested images, passed as params to ItemImageURL.
+' The server keeps each image's aspect ratio inside the bounds, so one size serves
+' every shape of image (poster, square, wide) shown in the same space.
+
+namespace imageSizes
+    ' Home row tiles (see homeRowItemSizes)
+    const HOME_TILE = { maxWidth: 464, maxHeight: 261 }
+    ' Rows on detail screens: cast, episodes, extras and similar items
+    const DETAIL_ROW = { maxWidth: 502, maxHeight: 402 }
+    ' Main poster on detail screens: people, playlists
+    const DETAIL_POSTER = { maxWidth: 300, maxHeight: 450 }
+    ' Episode list on season screens
+    const EPISODE_LIST = { maxWidth: 400, maxHeight: 250 }
+    ' Album art and playlist covers in music views and the audio player
+    const MUSIC_COVER = { maxWidth: 500, maxHeight: 500 }
+    ' Title logo over the backdrop on library and detail screens
+    const LOGO = { format: "Png", maxWidth: 600, maxHeight: 300 }
+    ' Title logo in the video player
+    const PLAYER_LOGO = { format: "Png", maxWidth: 300, maxHeight: 65 }
+end namespace

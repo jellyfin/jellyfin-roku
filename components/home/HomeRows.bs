@@ -1210,17 +1210,21 @@ sub updateOnNowItems()
     row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
     row.cursorSize = homeRowItemSizes.WIDE_POSTER
 
+    ' Programs with art show it as a poster; the rest show their channel logo
+    row.usePoster = false
     for each item in itemData
-        row.usePoster = false
+        item.usePoster = not isValidAndNotEmpty(item.thumbnailURL) and isValidAndNotEmpty(chainLookup(item, "json.imageURL"))
 
-        if (not isValid(item.thumbnailURL) or item.thumbnailURL = "") and isValid(item.json) and isValid(item.json.imageURL)
+        if item.usePoster
             item.thumbnailURL = item.json.imageURL
             row.usePoster = true
             row.imageWidth = homeRowItemSizes.MOVIE_POSTER[0]
             row.cursorSize = homeRowItemSizes.MOVIE_POSTER
         end if
+    end for
 
-        item.usePoster = row.usePoster
+    ' Size every item the same, whatever order posters appear in
+    for each item in itemData
         item.imageWidth = row.imageWidth
         row.appendChild(item)
     end for
