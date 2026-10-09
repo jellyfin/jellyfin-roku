@@ -10,5 +10,9 @@
   {
     "description": "Clear stale artist presentation state when switching to Music genres",
     "author": "VX-101"
+  },
+  {
+    "description": "Add favorite indicators to album track lists",
+    "author": "VX-101"
   }
 ]

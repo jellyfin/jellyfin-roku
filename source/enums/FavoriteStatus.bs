@@ -1,0 +1,5 @@
+enum FavoriteStatus
+    FAVORITE = "favorite"
+    NOT_FAVORITE = "notFavorite"
+    UNKNOWN = "unknown"
+end enum

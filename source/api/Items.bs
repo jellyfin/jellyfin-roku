@@ -1,4 +1,6 @@
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/api/FavoriteItems.bs"
+import "pkg:/source/enums/FavoriteStatus.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
@@ -409,6 +411,7 @@ function GetSongsByArtist(id as string, params = {} as object)
         "UserId": m.global.session.user.id,
         "AlbumArtistIds": id,
         "includeitemtypes": "Audio",
+        "enableUserData": true,
         "sortBy": "SortName",
         "Recursive": true
     }
@@ -419,7 +422,7 @@ function GetSongsByArtist(id as string, params = {} as object)
     end for
 
     data = api.items.Get(paramArray)
-
+    favoriteItemStatuses = GetFavoriteAudioItemStatuses(chainLookupReturn(data, "Items", []), m.global.session.user.id)
     results = []
     row = CreateObject("roSGNode", "ContentNode")
 
@@ -433,6 +436,9 @@ function GetSongsByArtist(id as string, params = {} as object)
         tmp.type = item.LookupCI("type")
         tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
         tmp.trackNumber = item.LookupCI("IndexNumber")
+        itemFavoriteStatus = chainLookupReturn(favoriteItemStatuses, item.LookupCI("id"), FavoriteStatus.UNKNOWN)
+        tmp.favoriteStatus = itemFavoriteStatus
+        tmp.favorite = isStringEqual(itemFavoriteStatus, FavoriteStatus.FAVORITE)
         results.push(tmp)
     end for
 
@@ -509,11 +515,12 @@ function MusicSongList(id as string)
         "UserId": m.global.session.user.id,
         "parentId": id,
         "includeitemtypes": "Audio",
+        "enableUserData": true,
         "sortBy": "SortName"
     }
 
     data = api.items.Get(params)
-
+    favoriteItemStatuses = GetFavoriteAudioItemStatuses(chainLookupReturn(data, "Items", []), m.global.session.user.id)
     results = []
     row = CreateObject("roSGNode", "ContentNode")
 
@@ -531,6 +538,9 @@ function MusicSongList(id as string)
         tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
         tmp.trackNumber = item.LookupCI("IndexNumber")
         tmp.playCount = chainLookupReturn(item, "UserData.PlayCount", 0)
+        itemFavoriteStatus = chainLookupReturn(favoriteItemStatuses, item.LookupCI("id"), FavoriteStatus.UNKNOWN)
+        tmp.favoriteStatus = itemFavoriteStatus
+        tmp.favorite = isStringEqual(itemFavoriteStatus, FavoriteStatus.FAVORITE)
         results.push(tmp)
     end for
 

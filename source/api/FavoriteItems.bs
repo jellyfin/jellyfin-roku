@@ -1,0 +1,46 @@
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/FavoriteStatus.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/utils/misc.bs"
+
+' Split large favorite-status lookups into manageable requests while still loading every track.
+const FAVORITE_LOOKUP_BATCH_SIZE = 50
+
+function GetFavoriteAudioItemStatuses(items as object, userID as string) as object
+    itemIDs = []
+    favoriteItemStatuses = {}
+    for each item in items
+        itemID = chainLookupReturn(item, "id", string.EMPTY)
+        if isValidAndNotEmpty(itemID)
+            itemIDs.push(itemID)
+            favoriteItemStatuses.AddReplace(itemID, FavoriteStatus.UNKNOWN)
+        end if
+    end for
+
+    if itemIDs.count() = 0 then return favoriteItemStatuses
+
+    for batchOffset = 0 to itemIDs.count() - 1 step FAVORITE_LOOKUP_BATCH_SIZE
+        batchIDs = itemIDs.slice(batchOffset, batchOffset + FAVORITE_LOOKUP_BATCH_SIZE)
+        favoriteData = api.items.Get({
+            UserId: userID,
+            Ids: batchIDs.join(","),
+            enableUserData: true
+        })
+
+        ' Leave only this batch unknown when its ID-scoped lookup fails.
+        if isChainValid(favoriteData, "Items")
+            for each itemID in batchIDs
+                favoriteItemStatuses.AddReplace(itemID, FavoriteStatus.NOT_FAVORITE)
+            end for
+
+            for each item in favoriteData.Items
+                itemID = chainLookupReturn(item, "id", string.EMPTY)
+                if isValidAndNotEmpty(itemID) and chainLookupReturn(item, "UserData.IsFavorite", false)
+                    favoriteItemStatuses.AddReplace(itemID, FavoriteStatus.FAVORITE)
+                end if
+            end for
+        end if
+    end for
+
+    return favoriteItemStatuses
+end function
