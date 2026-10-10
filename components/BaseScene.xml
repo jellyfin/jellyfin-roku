@@ -2,6 +2,7 @@
 <component name="BaseScene" extends="Scene">
   <children>
     <Poster id="imageBackground" uri="" opacity=".2" width="1920" height="1080" />
+    <Backdrop id="backdrop" visible="false" />
     <Group id="content" />
     <JFOverhang id="overhang" />
     <AudioMiniPlayer id="audioMiniPlayer" translation="[0, 935]" />
