@@ -84,7 +84,7 @@ function fetchFavoriteViewAllItems(params as object, queryType as string, includ
     end if
 
     params.ImageTypeLimit = 1
-    params.EnableImageTypes = `${ImageType.PRIMARY},${ImageType.BACKDROP},${ImageType.BANNER},${ImageType.THUMB}`
+    params.EnableImageTypes = `${ImageType.PRIMARY},${ImageType.BACKDROP},${ImageType.BANNER},${ImageType.THUMB},${ImageType.LOGO}`
 
     return api.items.Get(params)
 end function
@@ -174,17 +174,6 @@ sub loadItems()
         sort_order = "Ascending"
     else
         sort_order = "Descending"
-    end if
-
-    if m.top.ItemType = "LogoImage"
-        logoImageExists = api.items.HeadImageURLByName(m.top.itemId, ImageType.LOGO)
-        if logoImageExists
-            m.top.content = [api.items.GetImageURL(m.top.itemId, ImageType.LOGO, 0, { "format": "Png", "maxHeight": 500, "maxWidth": 500, "quality": "90" })]
-        else
-            m.top.content = []
-        end if
-
-        return
     end if
 
     params = {
@@ -306,13 +295,13 @@ sub loadItems()
     else if m.top.ItemType = "audiobooks"
         params.append({ mediaTypes: "Audio", UserId: m.global.session.user.id })
         params.append({ Filters: "IsNotFolder" })
-        params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
+        params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Logo" })
         url = "Items"
     else if LCase(m.top.ItemType) = "nextup"
         url = "Shows/NextUp"
         params.limit = 100 ' If you have more than 100 in your Next Up queue, maybe go outside a bit more.
         params.append({ ImageTypeLimit: 1 })
-        params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
+        params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Logo" })
     else if isStringEqual(m.top.ItemType, "mylist")
         data = api.GetUserViews({ "userId": m.global.session.user.id })
         if not isChainValid(data, "Items") then return
@@ -342,7 +331,7 @@ sub loadItems()
         params.append({
             UserId: m.global.session.user.id,
             ImageTypeLimit: 1,
-            EnableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
+            EnableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}, ${ImageType.LOGO}`,
             Limit: 50,
             EnableTotalRecordCount: false,
             ParentId: playlistID
@@ -397,7 +386,7 @@ sub loadItems()
             if m.top.ItemType = "audiobooks"
                 if item.Type = "AudioBook"
                     tmp = CreateObject("roSGNode", "MusicSongData")
-                    tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280, "quality": "90" })
+                    tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280 })
                     tmp.type = "audiobook"
                     tmp.json = item
                     tmp.title = item.name
@@ -422,7 +411,7 @@ sub loadItems()
                 else if item.type = "Playlist"
                     tmp = CreateObject("roSGNode", "PlaylistData")
                     tmp.type = "Playlist"
-                    tmp.image = PosterImage(item.id, { "maxHeight": 450, "maxWidth": 450, "quality": "90" })
+                    tmp.image = PosterImage(item, imageSizes.MUSIC_COVER)
                 else if item.type = "Episode"
                     tmp = CreateObject("roSGNode", "TVEpisode")
                     tmp.title = item.name
@@ -524,14 +513,14 @@ sub loadItems()
                 else if item.Type = "Audio"
                     tmp = CreateObject("roSGNode", "MusicSongData")
                     tmp.type = "Audio"
-                    tmp.image = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280, "quality": "90" })
+                    tmp.image = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280 })
                 else if item.Type = "MusicGenre"
                     tmp = CreateObject("roSGNode", "FolderData")
                     tmp.title = item.name
                     tmp.parentFolder = m.top.itemId
                     tmp.json = item
                     tmp.type = "Folder"
-                    tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 270, "maxWidth": 270, "quality": "90" })
+                    tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 270, "maxWidth": 270 })
                 else
                     ' print `Unknown Type ${item.Type}`
                 end if

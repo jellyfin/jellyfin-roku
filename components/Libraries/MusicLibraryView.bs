@@ -144,7 +144,6 @@ sub init()
     m.filter = "All"
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
-    m.loadLogoTask = createObject("roSGNode", "LoadItemsTask2")
     m.loadArtistStatsTask = createObject("roSGNode", "MusicArtistStatsTask")
     m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
     m.artistStatsCache = {}
@@ -648,22 +647,6 @@ function getCollectionType() as string
 end function
 
 '
-' Logo Image Loaded Event Handler
-sub LogoImageLoaded(msg)
-    data = msg.GetData()
-    m.loadLogoTask.unobserveField("content")
-    m.loadLogoTask.content = []
-
-    if data.Count() > 0
-        m.artistLogo.uri = data[0]
-        m.artistLogo.visible = true
-        m.selectedArtistName.visible = false
-    else
-        m.selectedArtistName.visible = true
-    end if
-end sub
-
-'
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
     itemData = msg.GetData()
@@ -803,9 +786,6 @@ sub setSelectedArtistStatsLayout(useCreditedLayout as boolean)
 end sub
 
 sub clearSelectedArtistDetails()
-    m.loadLogoTask.unobserveField("content")
-    m.loadLogoTask.control = TaskControl.STOP
-    m.loadLogoTask.content = []
     m.loadArtistStatsTask.control = TaskControl.STOP
     m.loadArtistStatsTask.content = {}
     m.selectedArtistStatsId = string.EMPTY
@@ -844,10 +824,7 @@ function showFocusedMusicDetailsFromGrid(focusedItem) as boolean
 
     if isValid(itemData.Id)
         loadSelectedArtistStats(itemData.Id)
-        m.loadLogoTask.itemId = itemData.Id
-        m.loadLogoTask.itemType = "LogoImage"
-        m.loadLogoTask.observeField("content", "LogoImageLoaded")
-        m.loadLogoTask.control = TaskControl.RUN
+        ShowLogoOrName(itemData, m.artistLogo, m.selectedArtistName)
     else if isValidAndNotEmpty(m.selectedArtistName.text)
         m.selectedArtistName.visible = true
     end if
@@ -954,10 +931,6 @@ sub SetGenres(artistGenres)
 end sub
 
 sub clearMusicArtistPresentation()
-    m.loadLogoTask.unobserveField("content")
-    m.loadLogoTask.control = TaskControl.STOP
-    m.loadLogoTask.content = []
-
     m.artistLogo.visible = false
     m.artistLogo.uri = String.EMPTY
     m.selectedArtistName.visible = false

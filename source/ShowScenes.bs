@@ -711,12 +711,8 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
 
 
     if LCase(movieMetaData.json.type) = "episode" or LCase(movieMetaData.json.type) = "series"
-        if isValid(movieMetaData.json.SeriesID)
-            logoImageExists = api.items.HeadImageURLByName(movieMetaData.json.SeriesID, ImageType.LOGO)
-            if logoImageExists
-                group.logoImageURI = api.items.GetImageURL(movieMetaData.json.SeriesID, ImageType.LOGO, 0, { "format": "Png", "maxHeight": 250, "maxWidth": 500, "quality": "90" })
-            end if
-        end if
+        ' Episodes without their own logo use the series logo
+        group.logoImageURI = ItemImageURL(movieMetaData.json, ImageType.LOGO, imageSizes.LOGO)
     end if
 
     ' watch for button presses
@@ -827,7 +823,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     for each item in apiSeasonData.Items
         tmp = seasonData.createChild("TVSeasonData")
         tmp.json = item
-        tmp.posterURL = api.items.GetImageURL(item.id, ImageType.PRIMARY, 0, { "maxHeight": 320, "maxWidth": 180, "quality": "90" })
+        tmp.posterURL = api.items.GetImageURL(item.id, ImageType.PRIMARY, 0, { "maxHeight": 320, "maxWidth": 180 })
     end for
 
     apiSeriesData = api.items.GetByID(seriesID, {

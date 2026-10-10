@@ -177,45 +177,42 @@ function ItemMetaData(id as string)
     end if
     if data.type = "Movie" or data.type = "MusicVideo"
         tmp = CreateObject("roSGNode", "MovieData")
-        tmp.image = PosterImage(data.id, imgParams)
+        tmp.image = PosterImage(data, imgParams)
         tmp.json = data
         return tmp
     else if data.type = "Series"
         tmp = CreateObject("roSGNode", "SeriesData")
-        tmp.image = PosterImage(data.id)
+        tmp.image = PosterImage(data)
         tmp.json = data
         return tmp
     else if data.type = "Episode"
         tmp = CreateObject("roSGNode", "TVEpisodeData")
-        tmp.image = PosterImage(data.id, imgParams)
+        tmp.image = PosterImage(data, imgParams)
         tmp.json = data
         return tmp
     else if data.type = "Recording"
         tmp = CreateObject("roSGNode", "RecordingData")
-        tmp.image = PosterImage(data.id, imgParams)
+        tmp.image = PosterImage(data, imgParams)
         tmp.json = data
         return tmp
     else if data.type = "BoxSet"
         tmp = CreateObject("roSGNode", "CollectionData")
-        tmp.image = PosterImage(data.id, imgParams)
+        tmp.image = PosterImage(data, imgParams)
         tmp.json = data
         return tmp
     else if data.type = "Playlist"
         tmp = CreateObject("roSGNode", "CollectionData")
-        tmp.image = PosterImage(data.id, {
-            maxHeight: 300,
-            maxWidth: 300
-        })
+        tmp.image = PosterImage(data, imageSizes.DETAIL_POSTER)
         tmp.json = data
         return tmp
     else if data.type = "Season"
         tmp = CreateObject("roSGNode", "TVSeasonData")
-        tmp.image = PosterImage(data.id)
+        tmp.image = PosterImage(data)
         tmp.json = data
         return tmp
     else if data.type = "Video"
         tmp = CreateObject("roSGNode", "VideoData")
-        tmp.image = PosterImage(data.id)
+        tmp.image = PosterImage(data)
         tmp.json = data
         return tmp
     else if data.type = "Trailer"
@@ -228,51 +225,43 @@ function ItemMetaData(id as string)
         return tmp
     else if data.type = "TvChannel" or data.type = "Program"
         tmp = CreateObject("roSGNode", "ChannelData")
-        tmp.image = PosterImage(data.id)
+        tmp.image = PosterImage(data)
         tmp.isFavorite = data.UserData.isFavorite
         tmp.json = data
         return tmp
     else if data.type = "Person"
         tmp = CreateObject("roSGNode", "PersonData")
-        tmp.image = PosterImage(data.id, { "MaxWidth": 300, "MaxHeight": 450 })
+        tmp.image = PosterImage(data, imageSizes.DETAIL_POSTER)
         tmp.json = data
         return tmp
     else if data.type = "MusicArtist"
         ' User clicked on an artist and wants to see the list of their albums
         tmp = CreateObject("roSGNode", "MusicArtistData")
-        tmp.image = PosterImage(data.id)
+        tmp.image = PosterImage(data)
         tmp.json = data
         return tmp
     else if data.type = "MusicAlbum"
         ' User clicked on an album and wants to see the list of songs
         tmp = CreateObject("roSGNode", "MusicAlbumSongListData")
-        tmp.image = PosterImage(data.id)
+        tmp.image = PosterImage(data)
         tmp.json = data
         return tmp
     else if data.type = "Audio"
         ' User clicked on a song and wants it to play
         tmp = CreateObject("roSGNode", "MusicSongData")
 
-        ' Try using song's parent for poster image
-        tmp.image = PosterImage(data.ParentId, { "MaxWidth": 500, "MaxHeight": 500 })
-
-        ' Song's parent poster image is no good, try using the song's poster image
-        if tmp.image = invalid
-            tmp.image = PosterImage(data.id, { "MaxWidth": 500, "MaxHeight": 500 })
-        end if
+        ' Try using song's album or parent for poster image, then the song's own poster image
+        tmp.image = ParentPosterImage(data, imageSizes.MUSIC_COVER)
+        if not isValid(tmp.image) then tmp.image = PosterImage(data, imageSizes.MUSIC_COVER)
 
         tmp.json = data
         return tmp
     else if data.type = "AudioBook"
         tmp = CreateObject("roSGNode", "MusicSongData")
 
-        ' Try using song's parent for poster image
-        tmp.image = PosterImage(data.id, { "MaxWidth": 500, "MaxHeight": 500 })
-
-        ' Song's parent poster image is no good, try using the song's poster image
-        if not isValid(tmp.image)
-            tmp.image = PosterImage(data.ParentId, { "MaxWidth": 500, "MaxHeight": 500 })
-        end if
+        ' Try using the book's own poster image, then its album or parent's poster image
+        tmp.image = PosterImage(data, imageSizes.MUSIC_COVER)
+        if not isValid(tmp.image) then tmp.image = ParentPosterImage(data, imageSizes.MUSIC_COVER)
 
         tmp.json = data
         return tmp
@@ -285,6 +274,19 @@ function ItemMetaData(id as string)
         ' Return json if we don't know what it is
         return data
     end if
+end function
+
+' Returns an ImageData node for the poster of an item's album or parent folder, or invalid when it has none.
+' Uses the album art already in the item's json, and only requests the parent when there is none.
+function ParentPosterImage(item as object, params as object) as dynamic
+    albumArtURL = InheritedItemImageURL(item, ImageType.PRIMARY, params)
+    if isValidAndNotEmpty(albumArtURL) then return ImageDataNode(ImageType.PRIMARY, albumArtURL)
+
+    parentId = item.LookupCI("ParentId")
+    if not isValidAndNotEmpty(parentId) then return invalid
+
+    parent = getJson(APIRequest(`Items/${parentId}`, { userid: m.global.session.user.id }))
+    return PosterImage(parent, params)
 end function
 
 ' Music Artist Data
@@ -317,7 +319,7 @@ function MusicAlbumList(id as string)
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicAlbumData")
 
-        tmp.image = PosterImage(item.id)
+        tmp.image = PosterImage(item)
         tmp.id = item.LookupCI("id")
         tmp.title = getMusicAlbumGridTitle(item)
         tmp.type = item.LookupCI("type")
@@ -356,7 +358,7 @@ function AppearsOnList(id as string)
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicAlbumData")
 
-        tmp.image = PosterImage(item.id)
+        tmp.image = PosterImage(item)
         tmp.id = item.LookupCI("id")
         tmp.title = getMusicAlbumGridTitle(item)
         tmp.type = item.LookupCI("type")
@@ -682,7 +684,7 @@ function TVEpisodes(showId as string, seasonId as string) as dynamic
     results = []
     for each item in data.Items
         tmp = CreateObject("roSGNode", "TVEpisodeData")
-        tmp.posterURL = api.items.GetImageURL(item.LookupCI("id"), ImageType.PRIMARY, 0, { "maxWidth": 400, "maxHeight": 250, "quality": "90" })
+        tmp.posterURL = ItemImageURL(item, ImageType.PRIMARY, imageSizes.EPISODE_LIST)
         tmp.json = item
         tmp.overview = item.overview
         results.push(tmp)
@@ -701,7 +703,7 @@ function TVSeasonExtras(seasonId as string) as dynamic
     results = []
     for each item in data
         tmp = CreateObject("roSGNode", "TVEpisodeData")
-        tmp.image = PosterImage(item.id, { "maxWidth": 400, "maxheight": 250 })
+        tmp.image = PosterImage(item, imageSizes.EPISODE_LIST)
         tmp.json = item
 
         ' Force item type to Video so episode auto queue is not attempted

@@ -106,6 +106,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
+    channel = invalid
     if isValidAndNotEmpty(channelId)
         video.favoriteChannelId = channelId
         if isStringEqual(sourceType, ItemType.TVCHANNEL) and isStringEqual(channelId, meta.id)
@@ -158,7 +159,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     video.content.title = meta.title
     video.showID = meta.showID
 
-    logoLookupID = video.id
     if isStringEqual(videotype, ItemType.TVCHANNEL) and isChainValid(meta, "json.CurrentProgram")
         video.content.contenttype = ItemType.EPISODE
     end if
@@ -181,10 +181,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         video.seasonNumber = meta.json.ParentIndexNumber
         video.episodeNumber = meta.json.IndexNumber
         video.episodeNumberEnd = meta.json.IndexNumberEnd
-
-        if isValid(meta.showID)
-            logoLookupID = meta.showID
-        end if
     end if
 
     video.mediaSegments = {}
@@ -235,19 +231,19 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
-    if isValid(meta.json.extratype)
-        if LCase(meta.json.extratype) = "trailer"
-            if isValidAndNotEmpty(meta.json.parentlogoitemid)
-                logoLookupID = meta.json.parentlogoitemid
-                video.extraType = "trailer"
-            end if
-        end if
-    end if
+    isTrailer = isStringEqual(meta.json.LookupCI("ExtraType"), "trailer")
+    if isTrailer then video.extraType = "trailer"
 
-    logoSource = isStringEqual(videotype, ItemType.TVCHANNEL) ? ImageType.PRIMARY : ImageType.LOGO ' TV Channel logos are stored under '/primary' instead of '/logo'
-    logoImageExists = api.items.HeadImageURLByName(logoLookupID, logoSource)
-    if logoImageExists
-        video.logoImage = api.items.GetImageURL(logoLookupID, logoSource, 0, { "format": "Png", "maxHeight": 65, "maxWidth": 300, "quality": "90" })
+    if isStringEqual(sourceType, ItemType.PROGRAM)
+        ' Guide programs show their channel's logo, which is stored under '/primary'
+        video.logoImage = ItemImageURL(channel, ImageType.PRIMARY, imageSizes.PLAYER_LOGO, false)
+    else if isStringEqual(videotype, ItemType.TVCHANNEL)
+        ' TV Channel logos are stored under '/primary' instead of '/logo'
+        video.logoImage = ItemImageURL(meta.json, ImageType.PRIMARY, imageSizes.PLAYER_LOGO, false)
+    else
+        ' Only episodes and trailers fall back to the series or parent logo
+        inheritLogo = isStringEqual(videotype, ItemType.EPISODE) or isStringEqual(videotype, ItemType.SERIES) or isTrailer
+        video.logoImage = ItemImageURL(meta.json, ImageType.LOGO, imageSizes.PLAYER_LOGO, inheritLogo)
     end if
 
     additionalParts = api.videos.GetAdditionalParts(video.id)
