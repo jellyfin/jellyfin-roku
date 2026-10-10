@@ -8,7 +8,10 @@ import "pkg:/source/utils/misc.bs"
 namespace MainAction
     sub onPlayButtonClicked(activeScene as object)
         startLoadingSpinner()
-        activeScene.itemContent.id = chainLookup(activeScene, "selectedVideoStreamId")
+        videoStreamId = chainLookup(activeScene, "selectedVideoStreamId")
+        if isValidAndNotEmpty(videoStreamId)
+            activeScene.itemContent.mediaSourceId = videoStreamId
+        end if
         ' Use selected audio stream if set by user before playback
         activeScene.itemContent.selectedAudioStreamIndex = chainLookup(activeScene, "selectedAudioStreamIndex") ?? 0
         activeScene.itemContent.startingPoint = 0
@@ -17,7 +20,10 @@ namespace MainAction
 
     sub onResumeButtonClicked(activeScene as object)
         startLoadingSpinner()
-        activeScene.itemContent.id = chainLookup(activeScene, "selectedVideoStreamId")
+        videoStreamId = chainLookup(activeScene, "selectedVideoStreamId")
+        if isValidAndNotEmpty(videoStreamId)
+            activeScene.itemContent.mediaSourceId = videoStreamId
+        end if
         activeScene.itemContent.selectedAudioStreamIndex = chainLookup(activeScene, "selectedAudioStreamIndex") ?? 0
         activeScene.itemContent.startingPoint = chainLookup(activeScene, "itemContent.json.UserData.PlaybackPositionTicks") ?? 0
         playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
