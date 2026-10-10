@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="GridItemSmall" extends="Group">
   <children>
-    <Poster id="backdrop" translation="[0,23]" loadDisplayMode="scaleToZoom" uri="pkg:/images/white.9.png" />
-    <Poster id="itemPoster" translation="[0,23]" loadDisplayMode="scaleToZoom" />
+    <Poster id="backdrop" translation="[0,15]" loadDisplayMode="scaleToZoom" uri="pkg:/images/white.9.png" />
+    <Poster id="itemPoster" translation="[0,15]" loadDisplayMode="scaleToZoom" />
 
     <ScrollingText id="title" horizAlign="center" font="font:SmallSystemFont" repeatCount="0" />
 
