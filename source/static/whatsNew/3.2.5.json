@@ -14,5 +14,9 @@
   {
     "description": "Add favorite indicators to album track lists",
     "author": "VX-101"
+  },
+  {
+    "description": "Only request images the server has",
+    "author": "crobibero"
   }
 ]
