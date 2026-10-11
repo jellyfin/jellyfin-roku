@@ -503,9 +503,7 @@ sub loadItems()
                 else if item.Type = "MusicAlbum"
                     tmp = CreateObject("roSGNode", "MusicAlbumData")
                     tmp.type = "MusicAlbum"
-                    if isChainValid(item, "ImageTags.Primary")
-                        tmp.posterURL = ImageURL(item.id, "Primary")
-                    end if
+                    tmp.posterURL = ItemImageURL(item, ImageType.PRIMARY, {}, false)
                 else if item.Type = "MusicArtist"
                     tmp = CreateObject("roSGNode", "MusicArtistData")
                 else if isStringEqual(item.Type, ItemType.PERSON)

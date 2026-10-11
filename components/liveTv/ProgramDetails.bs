@@ -228,7 +228,7 @@ sub programUpdated()
         end if
     end if
 
-    m.image.uri = ImageURL(prog.id, ImageType.PRIMARY, { "maxHeight": 440, "maxWidth": 295 })
+    m.image.uri = ItemImageURL(prog.json, ImageType.PRIMARY, imageSizes.GRID_POSTER, false)
 
     ' If currently being recorded, change button to "Stop Recording"
     if prog.json.TimerId <> invalid

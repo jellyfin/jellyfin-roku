@@ -449,26 +449,6 @@ function GetSongsByArtist(id as string, params = {} as object)
     return row
 end function
 
-function getPosterURLFromTag(item, params) as string
-    if isValidAndNotEmpty(chainLookup(item, "ImageTags.primary"))
-        if not isValidAndNotEmpty(params.maxHeight)
-            params.append({ "maxHeight": "70" })
-        end if
-
-        if not isValidAndNotEmpty(params.maxWidth)
-            params.append({ "maxWidth": "70" })
-        end if
-
-        if not isValidAndNotEmpty(params.tag)
-            params.append({ "tag": chainLookup(item, "ImageTags.primary") })
-        end if
-
-        return ImageURL(item.LookupCI("id"), ImageType.PRIMARY, params)
-    end if
-
-    return string.EMPTY
-end function
-
 ' Get Items that are under the provided item
 function PlaylistItemList(id as string)
     url = Substitute("Playlists/{0}/Items", id)
@@ -487,7 +467,7 @@ function PlaylistItemList(id as string)
     for each item in data.Items
         tmp = CreateObject("roSGNode", "PlaylistItemData")
 
-        tmp.posterUrl = getPosterURLFromTag(item, {})
+        tmp.posterUrl = ItemImageURL(item, ImageType.PRIMARY, { maxWidth: 70, maxHeight: 70 }, false)
         tmp.id = item.LookupCI("id")
         tmp.title = item.LookupCI("name")
         tmp.artists = item.LookupCI("artists")
@@ -656,11 +636,8 @@ function getFirstEpisodeImage(showId as string, seasonId as string)
         })
 
     for each episode in listOfEpisodes.LookupCI("items")
-        if isChainValid(episode, "imagetags.primary")
-            return ImageURL(episode.LookupCI("id"), ImageType.PRIMARY, {
-                tag: chainLookup(episode, "imagetags.primary")
-            })
-        end if
+        url = ItemImageURL(episode, ImageType.PRIMARY, {}, false)
+        if isValidAndNotEmpty(url) then return url
     end for
 
     return invalid
