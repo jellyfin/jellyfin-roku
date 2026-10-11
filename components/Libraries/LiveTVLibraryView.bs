@@ -134,6 +134,10 @@ sub loadInitialItems()
     ' Read view/sort/filter settings
     ' Translate between app and server nomenclature
     viewSetting = m.global.session.user.settings["display.livetv.landing"]
+    if isValidAndNotEmpty(m.top.initialView)
+        viewSetting = m.top.initialView
+        m.top.initialView = string.EMPTY
+    end if
     if viewSetting = "guide"
         m.view = "tvGuide"
     else
@@ -173,7 +177,7 @@ sub loadInitialItems()
     ' For LiveTV, we want to "Fit" the item images, not zoom
     m.top.imageDisplayMode = "scaleToFit"
 
-    if m.global.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
+    if viewSetting = "guide" and m.options.view <> "livetv"
         showTvGuide()
     end if
 
