@@ -180,8 +180,7 @@ sub updateSeason()
     m.tvExtrasTask.seasonID = m.top.seasonData.json.Id
     m.tvExtrasTask.control = TaskControl.RUN
 
-    imgParams = { "maxHeight": 450, "maxWidth": 300 }
-    m.poster.uri = ImageURL(m.top.seasonData.json.Id, "Primary", imgParams)
+    m.poster.uri = ItemImageURL(m.top.seasonData.json, ImageType.PRIMARY, imageSizes.DETAIL_POSTER)
     m.shuffle.visible = true
 
     populateOnScreenText()

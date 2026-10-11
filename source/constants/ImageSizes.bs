@@ -5,6 +5,12 @@
 namespace imageSizes
     ' Home row tiles (see homeRowItemSizes)
     const HOME_TILE = { maxWidth: 464, maxHeight: 261 }
+    ' Posters in library grids and search results
+    const GRID_POSTER = { maxWidth: 295, maxHeight: 440 }
+    ' Wide thumbnails in library grids
+    const GRID_THUMB = { maxWidth: 464, maxHeight: 331 }
+    ' Full-screen backdrop behind library and detail screens
+    const BACKDROP = { maxWidth: 1280, maxHeight: 720 }
     ' Rows on detail screens: cast, episodes, extras and similar items
     const DETAIL_ROW = { maxWidth: 502, maxHeight: 402 }
     ' Main poster on detail screens: people, playlists
