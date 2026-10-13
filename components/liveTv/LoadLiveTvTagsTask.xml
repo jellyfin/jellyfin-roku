@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<component name="LoadLiveTvTagsTask" extends="Task">
+  <interface>
+    <!-- Tags used by the user's Live TV channels (strings) -->
+    <field id="tags" type="array" />
+  </interface>
+</component>
