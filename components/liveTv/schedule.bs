@@ -53,6 +53,9 @@ sub init()
     m.scheduleGrid.programTitleFocusedColor = ColorPalette.WHITE
     m.scheduleGrid.timeLabelColor = ColorPalette.LIGHTGREY
     m.scheduleGrid.timeLabelFont.size = 30
+    ' Program cells are drawn by TimeGrid, not by Text, so they ignore the fallback font until this is set.
+    applyGuideProgramFont()
+    m.global.observeField("fallbackFont", "applyGuideProgramFont")
 
     m.gridMoveAnimation = m.top.findNode("gridMoveAnimation")
     m.gridMoveAnimationPosition = m.top.findNode("gridMoveAnimationPosition")
@@ -78,6 +81,21 @@ sub init()
 
     m.top.lastFocus = m.scheduleGrid
 
+end sub
+
+' Point TimeGrid program titles at the downloaded CJK font. Channel names and the
+' details pane already go through Text and ScrollingText.
+sub applyGuideProgramFont()
+    if not isValidAndNotEmpty(m.global.fallbackFont) then return
+    if not chainLookupReturn(m.global.session, "user.settings.useFallbackFont", false) then return
+
+    fontUri = m.global.fallbackFont.regular
+    if not isValidAndNotEmpty(fontUri) then return
+
+    font = CreateObject("roSGNode", "Font")
+    font.uri = fontUri
+    font.size = 27
+    m.scheduleGrid.programTitleFont = font
 end sub
 
 ' Load the full channel list in one request. Building every row up front (cheaply -
@@ -590,6 +608,7 @@ end sub
 ' from leaking across open/close cycles (see issue #598).
 sub dispose()
     m.state = TaskControl.STOP
+    m.global.unobserveField("fallbackFont")
 
     if isValid(m.bgExpandTimer)
         m.bgExpandTimer.control = "stop"
