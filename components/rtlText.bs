@@ -1,0 +1,231 @@
+' Roku's text renderer neither joins Arabic-script letters nor lays out right-to-left text,
+' so captions are pre-shaped into presentation forms and reversed into visual order here.
+
+' Presentation forms per letter: [isolated, final, initial, medial]. Right-joining letters have two.
+function getArabicForms() as object
+    if m.arabicForms <> invalid then return m.arabicForms
+
+    rows = [
+        [&h0621, &hFE80],
+        [&h0622, &hFE81, &hFE82],
+        [&h0623, &hFE83, &hFE84],
+        [&h0624, &hFE85, &hFE86],
+        [&h0625, &hFE87, &hFE88],
+        [&h0626, &hFE89, &hFE8A, &hFE8B, &hFE8C],
+        [&h0627, &hFE8D, &hFE8E],
+        [&h0628, &hFE8F, &hFE90, &hFE91, &hFE92],
+        [&h0629, &hFE93, &hFE94],
+        [&h062A, &hFE95, &hFE96, &hFE97, &hFE98],
+        [&h062B, &hFE99, &hFE9A, &hFE9B, &hFE9C],
+        [&h062C, &hFE9D, &hFE9E, &hFE9F, &hFEA0],
+        [&h062D, &hFEA1, &hFEA2, &hFEA3, &hFEA4],
+        [&h062E, &hFEA5, &hFEA6, &hFEA7, &hFEA8],
+        [&h062F, &hFEA9, &hFEAA],
+        [&h0630, &hFEAB, &hFEAC],
+        [&h0631, &hFEAD, &hFEAE],
+        [&h0632, &hFEAF, &hFEB0],
+        [&h0633, &hFEB1, &hFEB2, &hFEB3, &hFEB4],
+        [&h0634, &hFEB5, &hFEB6, &hFEB7, &hFEB8],
+        [&h0635, &hFEB9, &hFEBA, &hFEBB, &hFEBC],
+        [&h0636, &hFEBD, &hFEBE, &hFEBF, &hFEC0],
+        [&h0637, &hFEC1, &hFEC2, &hFEC3, &hFEC4],
+        [&h0638, &hFEC5, &hFEC6, &hFEC7, &hFEC8],
+        [&h0639, &hFEC9, &hFECA, &hFECB, &hFECC],
+        [&h063A, &hFECD, &hFECE, &hFECF, &hFED0],
+        [&h0641, &hFED1, &hFED2, &hFED3, &hFED4],
+        [&h0642, &hFED5, &hFED6, &hFED7, &hFED8],
+        [&h0643, &hFED9, &hFEDA, &hFEDB, &hFEDC],
+        [&h0644, &hFEDD, &hFEDE, &hFEDF, &hFEE0],
+        [&h0645, &hFEE1, &hFEE2, &hFEE3, &hFEE4],
+        [&h0646, &hFEE5, &hFEE6, &hFEE7, &hFEE8],
+        [&h0647, &hFEE9, &hFEEA, &hFEEB, &hFEEC],
+        [&h0648, &hFEED, &hFEEE],
+        [&h0649, &hFEEF, &hFEF0],
+        [&h064A, &hFEF1, &hFEF2, &hFEF3, &hFEF4],
+        [&h067E, &hFB56, &hFB57, &hFB58, &hFB59],
+        [&h0686, &hFB7A, &hFB7B, &hFB7C, &hFB7D],
+        [&h0698, &hFB8A, &hFB8B],
+        [&h06A9, &hFB8E, &hFB8F, &hFB90, &hFB91],
+        [&h06AF, &hFB92, &hFB93, &hFB94, &hFB95],
+        [&h06C0, &hFBA4, &hFBA5],
+        [&h06CC, &hFBFC, &hFBFD, &hFBFE, &hFBFF]
+    ]
+
+    forms = {}
+    for each row in rows
+        letterForms = []
+        for i = 1 to row.count() - 1
+            letterForms.push(Chr(row[i]))
+        end for
+        forms[Chr(row[0])] = letterForms
+    end for
+    m.arabicForms = forms
+
+    ' Lam followed by these alefs becomes one ligature: [isolated, final]
+    m.lamAlefForms = {}
+    m.lamAlefForms[Chr(&h0622)] = [Chr(&hFEF5), Chr(&hFEF6)]
+    m.lamAlefForms[Chr(&h0623)] = [Chr(&hFEF7), Chr(&hFEF8)]
+    m.lamAlefForms[Chr(&h0625)] = [Chr(&hFEF9), Chr(&hFEFA)]
+    m.lamAlefForms[Chr(&h0627)] = [Chr(&hFEFB), Chr(&hFEFC)]
+
+    return forms
+end function
+
+function isArabicTransparent(cp as integer) as boolean
+    return (cp >= &h064B and cp <= &h065F) or cp = &h0670 or (cp >= &h06D6 and cp <= &h06DC) or (cp >= &h06DF and cp <= &h06E4) or cp = &h06E7 or cp = &h06E8 or (cp >= &h06EA and cp <= &h06ED)
+end function
+
+function isBidiControl(cp as integer) as boolean
+    return cp = &h200E or cp = &h200F or (cp >= &h202A and cp <= &h202E) or (cp >= &h2066 and cp <= &h2069)
+end function
+
+' Tatweel and ZWJ join on both sides without being letters themselves.
+function isJoinCausing(ch as string) as boolean
+    cp = Asc(ch)
+    return cp = &h0640 or cp = &h200D
+end function
+
+function joinsToNext(ch as string, forms as object) as boolean
+    letterForms = forms[ch]
+    if letterForms <> invalid then return letterForms.count() = 4
+    return isJoinCausing(ch)
+end function
+
+function joinsToPrevious(ch as string, forms as object) as boolean
+    letterForms = forms[ch]
+    if letterForms <> invalid then return letterForms.count() >= 2
+    return isJoinCausing(ch)
+end function
+
+' Index of the nearest non-transparent character in the given direction, or -1.
+function arabicNeighbor(chars as object, index as integer, direction as integer) as integer
+    i = index + direction
+    while i >= 0 and i < chars.count()
+        if not isArabicTransparent(Asc(chars[i])) then return i
+        i += direction
+    end while
+    return -1
+end function
+
+function containsRtl(text as string) as boolean
+    for i = 0 to text.Len() - 1
+        if bidiClass(Asc(text.Mid(i, 1))) = 1 then return true
+    end for
+    return false
+end function
+
+' Replaces Arabic-script letters (logical order) with their contextual presentation forms.
+function shapeArabic(text as string) as string
+    forms = getArabicForms()
+
+    chars = []
+    for i = 0 to text.Len() - 1
+        ch = text.Mid(i, 1)
+        if not isBidiControl(Asc(ch)) then chars.push(ch)
+    end for
+
+    output = ""
+    i = 0
+    while i < chars.count()
+        ch = chars[i]
+        letterForms = forms[ch]
+        if letterForms = invalid
+            cp = Asc(ch)
+            ' ZWNJ/ZWJ only steer joining; the font may not have glyphs for them
+            if cp <> &h200C and cp <> &h200D then output += ch
+            i++
+        else
+            prev = arabicNeighbor(chars, i, -1)
+            joinPrev = letterForms.count() >= 2 and prev >= 0 and joinsToNext(chars[prev], forms)
+
+            if ch = Chr(&h0644) and i + 1 < chars.count() and m.lamAlefForms[chars[i + 1]] <> invalid
+                ligature = m.lamAlefForms[chars[i + 1]]
+                if joinPrev
+                    output += ligature[1]
+                else
+                    output += ligature[0]
+                end if
+                i += 2
+            else
+                nxt = arabicNeighbor(chars, i, 1)
+                joinNext = letterForms.count() = 4 and nxt >= 0 and joinsToPrevious(chars[nxt], forms)
+
+                if joinPrev and joinNext
+                    output += letterForms[3]
+                else if joinNext
+                    output += letterForms[2]
+                else if joinPrev
+                    output += letterForms[1]
+                else
+                    output += letterForms[0]
+                end if
+                i++
+            end if
+        end if
+    end while
+
+    return output
+end function
+
+' 1 = right-to-left letter, 2 = left-to-right letter or digit, 0 = neutral (space, punctuation)
+function bidiClass(cp as integer) as integer
+    if (cp >= &h30 and cp <= &h39) or (cp >= &h0660 and cp <= &h0669) or (cp >= &h06F0 and cp <= &h06F9) then return 2
+    if (cp >= &h0590 and cp <= &h08FF) or (cp >= &hFB1D and cp <= &hFDFF) or (cp >= &hFE70 and cp <= &hFEFF) then return 1
+    if cp < &h30 or (cp >= &h3A and cp <= &h40) or (cp >= &h5B and cp <= &h60) or (cp >= &h7B and cp <= &hBF) or (cp >= &h2000 and cp <= &h206F) then return 0
+    return 2
+end function
+
+function mirrorChar(ch as string) as string
+    mirrors = { "(": ")", ")": "(", "[": "]", "]": "[", "{": "}", "}": "{", "<": ">", ">": "<" }
+    mirrors[Chr(&hAB)] = Chr(&hBB)
+    mirrors[Chr(&hBB)] = Chr(&hAB)
+    mirrored = mirrors[ch]
+    if mirrored <> invalid then return mirrored
+    return ch
+end function
+
+' Reverses a right-to-left line into display order, keeping Latin words and numbers readable.
+function toVisualLine(line as string) as string
+    count = line.Len()
+    classes = []
+    for i = 0 to count - 1
+        classes.push(bidiClass(Asc(line.Mid(i, 1))))
+    end for
+
+    segments = []
+    i = 0
+    while i < count
+        if classes[i] = 2
+            ' Left-to-right run, including neutrals that sit between its letters/digits
+            runEnd = i
+            j = i + 1
+            while j < count and classes[j] <> 1
+                if classes[j] = 2 then runEnd = j
+                j++
+            end while
+            segments.push(line.Mid(i, runEnd - i + 1))
+            i = runEnd + 1
+        else
+            segments.push(mirrorChar(line.Mid(i, 1)))
+            i++
+        end if
+    end while
+
+    output = ""
+    for k = segments.count() - 1 to 0 step -1
+        output += segments[k]
+    end for
+    return output
+end function
+
+function toVisualOrder(text as string) as string
+    lines = text.split(Chr(10))
+    for i = 0 to lines.count() - 1
+        if containsRtl(lines[i]) then lines[i] = toVisualLine(lines[i])
+    end for
+    return lines.join(Chr(10))
+end function
+
+function stripCaptionTags(text as string) as string
+    return CreateObject("roRegex", "<[^>]*>", "").ReplaceAll(text, "")
+end function
