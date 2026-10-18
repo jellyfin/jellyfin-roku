@@ -298,6 +298,7 @@ sub handleChapterSkipAction(action as string)
 
         newPosition = m.chapters[gotoChapter].StartPositionTicks / 10000000#
         m.top.seek = newPosition
+        m.osd.callFunc("updateChapterTitle", newPosition)
         setVideoEndingTime(newPosition)
         m.positionText.text = secondsToHuman(newPosition, true)
         updateTransportButtonsStatus(newPosition)
@@ -312,6 +313,7 @@ sub handleChapterSkipAction(action as string)
 
         newPosition = m.chapters[gotoChapter].StartPositionTicks / 10000000#
         m.top.seek = newPosition
+        m.osd.callFunc("updateChapterTitle", newPosition)
         setVideoEndingTime(newPosition)
         m.positionText.text = secondsToHuman(newPosition, true)
         updateTransportButtonsStatus(newPosition)
@@ -373,6 +375,7 @@ sub handleHideAction(resume as boolean)
     hideSegmentSkipButton()
     if not m.LoadMetaDataTask.isIntro and m.osd.isSeeking then checkSegmentSkipButton(m.top.position)
     m.previewPos = m.top.position
+    m.osd.callFunc("updateChapterTitle", m.top.position)
 end sub
 
 ' handleChapterListAction: Handles action to show chapter list
@@ -887,6 +890,9 @@ sub onVideoContentLoaded()
     m.top.audioIndex = videoContent[0].audioIndex
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
+    m.osd.live = m.top.content.live
+    m.osd.progressDuration = m.top.duration
+    m.osd.chapters = isValidAndNotEmpty(m.chapters) ? m.chapters : []
     updateTransportButtonsStatus()
     m.overview = videoContent[0].overview
     m.premiere = videoContent[0].premiere
@@ -1194,6 +1200,7 @@ end sub
 ' Event handler for when video content field changes
 sub onContentChange()
     if not isValid(m.top.content) then return
+    m.osd.chapters = []
     m.top.observeField("position", "onPositionChanged")
 end sub
 
@@ -1406,7 +1413,10 @@ sub onPositionChanged()
         end if
     end if
 
-    ' Pass video position data into OSD
+    ' Pass video position data into OSD before triggering its progress update.
+    m.osd.positionTime = m.top.position
+    m.osd.live = m.top.content.live
+    m.osd.progressDuration = m.top.duration
     if m.osd.progressDuration = 0
         m.osd.progressPercentage = 0
     else
@@ -1416,10 +1426,7 @@ sub onPositionChanged()
     ' Ensure position text is accurate
     m.positionText.text = secondsToHuman(m.top.position, true)
 
-    m.osd.positionTime = m.top.position
     m.osd.remainingPositionTime = m.osd.progressDuration - m.top.position
-    m.osd.live = m.top.content.live
-    m.osd.progressDuration = m.top.duration
 
     ' Update the caption task playback position.
     ' The position is calculated in milliseconds based on the current
@@ -2312,6 +2319,7 @@ end sub
 sub startSeek(key as string)
     m.osd.isSeeking = true
     m.previewPos = m.top.position
+    m.osd.previewPos = m.previewPos
 
     if key = KeyCode.LEFT or key = KeyCode.RIGHT or key = KeyCode.FASTFORWRD or key = KeyCode.REWIND
         checkPause()
@@ -2420,6 +2428,7 @@ sub updateDisplayForSeek(key as string)
     ' Define the delta for the seek based on the current seek speed index
     delta = m.seekSpeeds[m.seekSpeedIndex]
     m.previewPos = m.osd.callFunc("clampSeek", m.previewPos + delta)
+    m.osd.previewPos = m.previewPos
     if m.top.content.live then updateLiveTvTrackers()
     m.osd.callFunc("updateProgressBar", m.top.content.live, m.previewPos)
 
@@ -2447,6 +2456,7 @@ end sub
 '
 sub commitSeek()
     if m.osd.isSeeking
+        seekDestination = m.previewPos
         stopFastforwardOrRewind()
         hideTrickplayImages()
         setVideoEndingTime(m.previewPos)
@@ -2455,6 +2465,7 @@ sub commitSeek()
         m.top.control = VideoControl.RESUME
         m.liveTVRewindLimitExceeded.visible = false
         handleHideAction(false)
+        m.osd.callFunc("updateChapterTitle", seekDestination)
     end if
 end sub
 
@@ -2480,6 +2491,7 @@ end sub
 sub onFastforwardOrRewindTick()
     delta = m.seekSpeeds[m.seekSpeedIndex]
     m.previewPos = m.osd.callFunc("clampSeek", m.previewPos + delta)
+    m.osd.previewPos = m.previewPos
     m.osd.callFunc("updateProgressBar", m.top.content.live, m.previewPos)
     setVideoEndingTime(m.previewPos)
     displayTrickplayImage(m.previewPos)
