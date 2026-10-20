@@ -3,6 +3,7 @@
 <component name="LoadItemsTask2" extends="Task">
   <interface>
     <field id="itemId" type="string" />
+    <field id="parentId" type="string" />
     <field id="startIndex" type="integer" value="0" />
     <field id="itemType" type="string" value="" />
     <field id="limit" type="integer" value="60" />

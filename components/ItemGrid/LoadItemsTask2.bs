@@ -264,6 +264,9 @@ sub loadItems()
     else if m.top.ItemType = "LiveTV"
         url = "LiveTv/Channels"
         params.append({ UserId: m.global.session.user.id })
+        if isValidAndNotEmpty(m.top.parentId)
+            params.append({ ParentId: m.top.parentId })
+        end if
     else if m.top.view = "Networks"
         url = "Studios"
         params.append({ UserId: m.global.session.user.id })

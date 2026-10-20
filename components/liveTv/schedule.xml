@@ -27,6 +27,7 @@
     <field id="focusedChannel" type="node" alwaysNotify="false" />
     <field id="filter" type="string" value="" onChange="onFilterSet" />
     <field id="searchTerm" type="string" value="" onChange="onSearchTermSet" />
+    <field id="parentId" type="string" value="" />
     <function name="loadChannelList" />
     <function name="updateChannelFavorite" />
   </interface>

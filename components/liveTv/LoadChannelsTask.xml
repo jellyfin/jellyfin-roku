@@ -9,6 +9,7 @@
     <field id="sortAscending" type="boolean" value="true" />
     <field id="favoritesAtTop" type="boolean" value="false" />
     <field id="nameStartsWith" type="string" value="" />
+    <field id="parentId" type="string" value="" />
     <field id="recursive" type="boolean" value="true" />
     <!-- Total records available from server-->
     <field id="channels" type="array" />

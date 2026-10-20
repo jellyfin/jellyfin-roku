@@ -151,6 +151,7 @@ sub loadInitialItems()
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
 
     m.loadItemsTask.itemId = m.top.parentItem.Id
+    m.loadItemsTask.parentId = m.top.parentItem.Id
 
     ' if we already searched for this alpha text than reset filter
     if m.loadItemsTask.nameStartsWith = m.top.alphaSelected
@@ -508,6 +509,7 @@ sub showTVGuide()
     destroyTVGuide()
 
     m.tvGuide = createObject("roSGNode", "Schedule")
+    m.tvGuide.parentId = m.top.parentItem.Id
     if not m.epgLaunchBeaconSignaled
         m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
         m.epgLaunchBeaconSignaled = true

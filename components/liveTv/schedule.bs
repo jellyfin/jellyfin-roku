@@ -66,6 +66,7 @@ sub init()
     m.LoadChannelsTask.sortField = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortField`", "SortName")
     m.LoadChannelsTask.sortAscending = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortAscending`", true)
     m.LoadChannelsTask.favoritesAtTop = chainLookupReturn(m.global.session, "user.settings.`ui.guide.favorites.at.top`", false)
+    m.LoadChannelsTask.parentId = m.top.parentId
 
     m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
