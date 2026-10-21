@@ -2582,10 +2582,12 @@ end sub
 ' onPauseBufferChangedChange: Updates the OSD trackers for live TV when the pause buffer changes.
 '
 sub onPauseBufferChangedChange()
-    updateLiveTvTrackers()
-    m.previewPos = m.osd.isSeeking ? m.previewPos : m.top.position
-    m.previewPos = m.osd.callFunc("clampSeek", m.previewPos)
-    m.osd.callFunc("updateProgressBar", m.top.content.live, m.previewPos)
+    if m.top.content.live
+        updateLiveTvTrackers()
+        m.previewPos = m.osd.isSeeking ? m.previewPos : m.top.position
+        m.previewPos = m.osd.callFunc("clampSeek", m.previewPos)
+        m.osd.callFunc("updateProgressBar", m.top.content.live, m.previewPos)
+    end if
 end sub
 
 ' updateLiveTvTrackers: Updates the OSD trackers for live TV based on the current pause buffer end and position.
