@@ -2595,5 +2595,57 @@
         <source>Starts With</source>
         <translation>Comença per</translation>
     </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Apareix a</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Àlbums (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Apareix a (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 Cançó</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>%1 Cançons</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>%1 Àlbum</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>%1 Àlbums</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Acreditat per:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>%1 Apareix a l&apos;àlbum</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>%1 Apareix als àlbums</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>El servidor encara s&apos;està iniciant. Si us plau, torneu-ho a intentar.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>El servidor no està disponible temporalment. Si us plau, torneu-ho a intentar.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Avís de la versió del sistema operatiu de Roku</translation>
+    </message>
 </context>
 </TS>

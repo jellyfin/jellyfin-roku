@@ -34,19 +34,15 @@ function loadLibraries() as object
 
     for each item in data.LookupCI("items")
         tmp = CreateObject("roSGNode", "HomeData")
-        tmp.json = {
+        json = {
             id: item.LookupCI("Id"),
             name: item.LookupCI("name"),
             Type: item.LookupCI("Type"),
             CollectionType: item.LookupCI("CollectionType"),
-            ImageTags: item.LookupCI("ImageTags"),
-            UserData: item.LookupCI("UserData"),
-            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-            BackdropImageTags: item.LookupCI("BackdropImageTags")
+            UserData: item.LookupCI("UserData")
         }
+        json.Append(ItemImageFields(item))
+        tmp.json = json
         results.push(tmp)
     end for
 
@@ -74,7 +70,7 @@ function loadLatestMedia() as object
         if not isStringEqual(item.Type, ItemType.BOOK)
             tmp = CreateObject("roSGNode", "HomeData")
 
-            tmp.json = {
+            json = {
                 id: item.LookupCI("Id"),
                 name: item.LookupCI("name"),
                 Type: item.LookupCI("Type"),
@@ -97,15 +93,11 @@ function loadLatestMedia() as object
                 AlbumArtistId: isValidAndNotEmpty(item.AlbumArtists) ? item.AlbumArtists[0].LookupCI("id") : invalid,
                 Genre: isValidAndNotEmpty(item.GenreItems) ? item.GenreItems : invalid,
                 Status: item.LookupCI("Status"),
-                ImageTags: item.LookupCI("ImageTags"),
                 UserData: item.LookupCI("UserData"),
-                ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-                ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-                ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-                SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-                BackdropImageTags: item.LookupCI("BackdropImageTags"),
                 LibraryId: m.top.itemId
             }
+            json.Append(ItemImageFields(item))
+            tmp.json = json
             results.push(tmp)
         end if
     end for
@@ -134,7 +126,7 @@ function loadContinueWatching() as object
         tmp.Id = item.LookupCI("Id")
         tmp.name = item.LookupCI("name")
         tmp.type = item.LookupCI("Type")
-        tmp.json = {
+        json = {
             Id: item.LookupCI("Id"),
             name: item.LookupCI("name"),
             Type: item.LookupCI("Type"),
@@ -149,15 +141,10 @@ function loadContinueWatching() as object
             IndexNumberEnd: item.LookupCI("IndexNumberEnd"),
             OfficialRating: item.LookupCI("OfficialRating"),
             CollectionType: item.LookupCI("CollectionType"),
-            ImageTags: item.LookupCI("ImageTags"),
-            UserData: item.LookupCI("UserData"),
-            ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
-            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-            BackdropImageTags: item.LookupCI("BackdropImageTags")
+            UserData: item.LookupCI("UserData")
         }
+        json.Append(ItemImageFields(item))
+        tmp.json = json
         results.push(tmp)
     end for
 
@@ -173,12 +160,7 @@ function loadSeasonOfEpisodes() as object
 
     for each item in data.LookupCI("items")
         tmp = CreateObject("roSGNode", "ExtrasData")
-        imgParms = {
-            "Tags": item.json.ImageTags.Primary,
-            MaxWidth: 502,
-            MaxHeight: 300
-        }
-        tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
+        tmp.posterURL = ItemImageURL(item.json, ImageType.PRIMARY, imageSizes.DETAIL_ROW)
 
         tmp.json = {
             Id: item.LookupCI("ID"),
@@ -217,7 +199,7 @@ function loadContinueListening() as object
         tmp.Id = item.LookupCI("Id")
         tmp.name = item.LookupCI("name")
         tmp.type = item.LookupCI("Type")
-        tmp.json = {
+        json = {
             Id: item.LookupCI("Id"),
             name: item.LookupCI("name"),
             Type: item.LookupCI("Type"),
@@ -230,15 +212,10 @@ function loadContinueListening() as object
             IndexNumber: item.LookupCI("IndexNumber"),
             OfficialRating: item.LookupCI("OfficialRating"),
             CollectionType: item.LookupCI("CollectionType"),
-            ImageTags: item.LookupCI("ImageTags"),
-            UserData: item.LookupCI("UserData"),
-            ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
-            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-            BackdropImageTags: item.LookupCI("BackdropImageTags")
+            UserData: item.LookupCI("UserData")
         }
+        json.Append(ItemImageFields(item))
+        tmp.json = json
         results.push(tmp)
     end for
 
@@ -255,16 +232,7 @@ function loadMoreLikeThis() as object
 
     for each item in data.items
         tmp = CreateObject("roSGNode", "ExtrasData")
-        imgParms = {
-            "Tags": item.PrimaryImageTag,
-            MaxWidth: 384,
-            MaxHeight: 196
-        }
-        if isStringEqual(item.LookupCI("type"), ItemType.MUSICVIDEO)
-            imgParms.MaxHeight = 330
-            imgParms.MaxWidth = 400
-        end if
-        tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
+        tmp.posterURL = ItemImageURL(item, ImageType.PRIMARY, imageSizes.DETAIL_ROW)
         tmp.json = {
             Id: item.LookupCI("ID"),
             Name: item.LookupCI("Name"),
@@ -301,12 +269,7 @@ function loadSimilarArtists() as object
         end if
 
         tmp = CreateObject("roSGNode", "MusicArtistData")
-        imgParms = {
-            "Tags": item.PrimaryImageTag,
-            MaxWidth: 270,
-            MaxHeight: 270
-        }
-        tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
+        tmp.posterURL = ItemImageURL(item, ImageType.PRIMARY, imageSizes.DETAIL_ROW)
         tmp.json = {
             Id: item.LookupCI("ID"),
             Name: item.LookupCI("Name"),
@@ -333,12 +296,7 @@ function loadSpecialFeatures() as object
     for each item in data
         tmp = CreateObject("roSGNode", "ExtrasData")
         results.push(tmp)
-        params = {
-            Tags: item.ImageTags.Primary,
-            MaxWidth: 450,
-            MaxHeight: 402
-        }
-        tmp.posterURL = ImageUrl(item.Id, "Primary", params)
+        tmp.posterURL = ItemImageURL(item, ImageType.PRIMARY, imageSizes.DETAIL_ROW)
         tmp.json = {
             Id: item.LookupCI("ID"),
             Name: item.LookupCI("Name"),
@@ -386,7 +344,7 @@ function loadLiveTVOnNow() as object
         imageTypeLimit: 1,
         enableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
         enableTotalRecordCount: false,
-        fields: "ChannelInfo,PrimaryImageAspectRatio"
+        fields: "ChannelInfo,ChannelImage,PrimaryImageAspectRatio"
     }
 
     data = api.liveTV.GetRecommendedPrograms(params)
@@ -400,10 +358,10 @@ function loadLiveTVOnNow() as object
 
         tmp.addField("FHDItemWidth", "float", false)
         tmp.FHDItemWidth = calculateOnNowItemWidth(item.LookupCI("PrimaryImageAspectRatio"), isThumbImage)
-        tmp.json = {
+        json = {
             id: item.LookupCI("Id"),
             name: item.LookupCI("name"),
-            ImageURL: api.items.GetImageURL(item.LookupCI("Id"), ImageType.PRIMARY, 0, { maxHeight: 261 }),
+            ImageURL: ItemImageURL(item, ImageType.PRIMARY, imageSizes.HOME_TILE, false),
             ImageAspectRatio: item.LookupCI("PrimaryImageAspectRatio"),
             Type: item.LookupCI("Type"),
             mediatype: item.LookupCI("mediatype"),
@@ -422,14 +380,10 @@ function loadLiveTVOnNow() as object
             IndexNumber: item.LookupCI("IndexNumber"),
             AlbumArtist: item.LookupCI("AlbumArtist"),
             Status: item.LookupCI("Status"),
-            ImageTags: item.LookupCI("ImageTags"),
-            UserData: item.LookupCI("UserData"),
-            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-            BackdropImageTags: item.LookupCI("BackdropImageTags")
+            UserData: item.LookupCI("UserData")
         }
+        json.Append(ItemImageFields(item))
+        tmp.json = json
         results.push(tmp)
     end for
 
@@ -534,20 +488,8 @@ end function
 function createFavoriteHomeData(item as object) as object
     tmp = CreateObject("roSGNode", "HomeData")
 
-    primaryImageTag = item.LookupCI("PrimaryImageTag")
-    imageTags = item.LookupCI("ImageTags")
-
-    if not isValid(imageTags) and isValid(primaryImageTag)
-        imageTags = { Primary: primaryImageTag }
-    end if
-
-    params = {
-        Tags: primaryImageTag,
-        MaxWidth: 234,
-        MaxHeight: 330
-    }
-    tmp.posterURL = ImageUrl(item.LookupCI("Id"), "Primary", params)
-    tmp.json = {
+    tmp.posterURL = ItemImageURL(item, ImageType.PRIMARY, imageSizes.HOME_TILE)
+    json = {
         Id: item.LookupCI("Id"),
         name: item.LookupCI("name"),
         Type: item.LookupCI("Type"),
@@ -564,19 +506,12 @@ function createFavoriteHomeData(item as object) as object
         Album: item.LookupCI("Album"),
         AlbumId: item.LookupCI("AlbumId"),
         AlbumArtist: item.LookupCI("AlbumArtist"),
-        AlbumPrimaryImageTag: item.LookupCI("AlbumPrimaryImageTag"),
         ChildCount: item.LookupCI("ChildCount"),
         CollectionType: item.LookupCI("CollectionType"),
-        PrimaryImageTag: primaryImageTag,
-        ImageTags: imageTags,
-        UserData: item.LookupCI("UserData"),
-        ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
-        ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-        ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-        ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-        SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-        BackdropImageTags: item.LookupCI("BackdropImageTags")
+        UserData: item.LookupCI("UserData")
     }
+    json.Append(ItemImageFields(item))
+    tmp.json = json
 
     return tmp
 end function
@@ -723,13 +658,8 @@ function loadMyList() as object
 
         tmp = CreateObject("roSGNode", "HomeData")
 
-        params = {
-            Tags: item.PrimaryImageTag,
-            MaxWidth: 234,
-            MaxHeight: 330
-        }
-        tmp.posterURL = ImageUrl(item.Id, "Primary", params)
-        tmp.json = {
+        tmp.posterURL = ItemImageURL(item, ImageType.PRIMARY, imageSizes.HOME_TILE)
+        json = {
             PlaylistID: playlistID,
             Id: item.LookupCI("Id"),
             name: item.LookupCI("name"),
@@ -745,15 +675,10 @@ function loadMyList() as object
             IndexNumber: item.LookupCI("IndexNumber"),
             OfficialRating: item.LookupCI("OfficialRating"),
             CollectionType: item.LookupCI("CollectionType"),
-            ImageTags: item.LookupCI("ImageTags"),
-            UserData: item.LookupCI("UserData"),
-            ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
-            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-            BackdropImageTags: item.LookupCI("BackdropImageTags")
+            UserData: item.LookupCI("UserData")
         }
+        json.Append(ItemImageFields(item))
+        tmp.json = json
         results.push(tmp)
     end for
 
@@ -817,7 +742,7 @@ function loadPlaylists() as object
     return results
 end function
 
-function loadItemsByPerson(videoType, dimens = {}) as object
+function loadItemsByPerson(videoType) as object
     results = []
 
     params = {
@@ -835,9 +760,7 @@ function loadItemsByPerson(videoType, dimens = {}) as object
 
     for each item in data.items
         tmp = CreateObject("roSGNode", "ExtrasData")
-        imgParms = { "Tags": item.ImageTags.Primary }
-        imgParms.append(dimens)
-        tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
+        tmp.posterURL = ItemImageURL(item, ImageType.PRIMARY, imageSizes.DETAIL_ROW)
 
         tmp.json = {
             Id: item.LookupCI("ID"),
@@ -863,12 +786,7 @@ function loadPeople() as object
         tmp = CreateObject("roSGNode", "ExtrasData")
         tmp.Id = person.Id
         tmp.labelText = person.Name
-        params = {
-            Tags: person.PrimaryImageTag,
-            MaxWidth: 234,
-            MaxHeight: 330
-        }
-        tmp.posterURL = ImageUrl(person.Id, "Primary", params)
+        tmp.posterURL = ItemImageURL(person, ImageType.PRIMARY, imageSizes.DETAIL_ROW)
         tmp.json = {
             type: person.LookupCI("type"),
             Role: person.LookupCI("role")
@@ -955,7 +873,7 @@ sub loadItems()
     end if
 
     if isStringEqual(m.top.itemsToLoad, "personTVShows")
-        m.top.content = loadItemsByPerson(ItemType.EPISODE, { MaxWidth: 502, MaxHeight: 300 })
+        m.top.content = loadItemsByPerson(ItemType.EPISODE)
         return
     end if
 

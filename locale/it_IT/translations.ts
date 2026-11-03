@@ -2374,6 +2374,307 @@
         <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
         <translation>Usa a tuo rischio e pericolo. Non possiamo garantire che funzioni. \n 1. Questa funzione potrebbe non funzionare su questo dispositivo, ma funzionare su altri \n 2. Alcune opzioni di velocità potrebbero non funzionare su questo dispositivo, ma funzionare su altri \n 3. Roku potrebbe bloccare questa funzione senza avvisi; anche se il client Jellyfin non si aggiorna</translation>
     </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Riproduci dall&apos;inizio</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Premi Stop di nuovo per chiudere il player</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Video</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Default</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Sottotitoli</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>tracce</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>No Default</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>Altro da</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Guardati di recente</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>Nessun dato di cast disponibile.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>come %1</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>Altro con %1 nella tua Libreria</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>Nessun altro titolo trovato nella tua libreria.</translation>
+    </message>
+    <message>
+        <source>Unknown Artist</source>
+        <translation>Artista Sconosciuto</translation>
+    </message>
+    <message>
+        <source>Unknown Album</source>
+        <translation>Album Sconosciuto</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Riprendi da</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Sostituisci funzione di default di Roku con funzioni personalizzate. Se i fonti di fallback sono configurati e abilitati sul server, verranno usati. Un font di fallback CJK è necessario per il rendering CJK. Per il supporto di grassetto e corsivo, devi aggiungere file addizionali di font con le parole &quot;bold&quot;, &quot;italic&quot; and &quot;bolditalic&quot; nel nome del file.</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Album (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 Canzone</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>%1 Canzoni</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>%1 Album</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>%1 Album</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Attribuito per:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>%1 Appare nell&apos;album</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>%1 Appare negli album</translation>
+    </message>
+    <message>
+        <source>Playback Controls Inactivity Timeout</source>
+        <translation>Timeout inattività controlli di playback</translation>
+    </message>
+    <message>
+        <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+        <translation>Imposta la lunghezza di tempo in secondi che l&apos;overlay di controllo playback rimarrà visibile quando non viene premuto alcun tasto. Imposta a 0 per disattivare.</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Forza contenuto ad essere transcodificato.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Tutti i contenuti riproducibili</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Forza TV in diretta ad essere transcodificata. Se &quot;Tutti i contenuti riproducibili&quot; è già impostato su &quot;Forza Transcodifica (Remux disabilitato)&quot;, questa opzione viene ignorata.</translation>
+    </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>Conferma Uscita</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>Mostra messaggio di conferma prima di uscire da Jellyfin dalla schermata home.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>Sei sicuro di voler uscire da Jellyfin?</translation>
+    </message>
+    <message>
+        <source>Playback Mode</source>
+        <translation>Modalità Playback</translation>
+    </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>Ricerca non disponibile</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation>Player video di Roku si è bloccato cercando di compiere il buffering video</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation>Video player di Roku ha generato il seguente errore</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>Roku pensava di poter riprodurre direttamente questo contenuto, ma la riproduzione non è iniziata.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Prova Sempre la Riproduzione Diretta dei Video</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>Forza Jellyfin a provare la riproduzione diretta dei video, esclusa la TV in diretta. Abilitando questo, ignora tutte le altre opzioni di supporto riproduzione e proverà sempre prima la riproduzione diretta. Inoltre, cambia il modo in cui la motivazione della transcodifica è mostrata.</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+        <translation>Roku pensava di poter riprodurre direttamente questo contenuto, ma la durata di riproduzione era errata.</translation>
+    </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Stazioni Radio</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Tracce Più Ascoltate</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Tracce Meno Ascoltate</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Riproduci casualmente le tue tracce più ascoltate</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Riproduci casualmente le tue tracce meno ascoltate</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Premi Play/Pausa per saltare al tasto OK</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nome della Stazione</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nome per identificare la stazione radio</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Lista di anni da includere nel contenuto della stazione</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Campo per ordinare i contenuti prima di tagliarli al limite</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Limite dell&apos;Elemento</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Numero massimo di elementi da caricare</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Crea Stazione</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Sottotitolo</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Una breve descrizione della stazione radio</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Lista di generi da includere nel contenuto della stazione</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Colore dello Sfondo</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Colore dello sfondo da usare nel blocco della schermata home</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>Il server non ha trovato contenuti corrispondenti al filtro applicato per questa stazione radio.</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Nessun contenuto corrisponde ai parametri della stazione radio</translation>
+    </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>La tua ricerca ha restituito più di 50 tag. Modifica la ricerca per ridurre il numero di tag corrispondenti.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Cerca Tag</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>La tua ricerca non ha restituito nessun tag.</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Il server si sta avviando. Riprova.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Il server non è momentaneamente disponibile. Riprova.</translation>
+    </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Cerca Termine</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Inizia Con</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>Questo Roku non riceverà più aggiornamenti di Jellyfin for Roku dall&apos;1 Ottobre 2026 a causa del nuovo requisito minimo di Roku OS 15.1. Puoi continuare ad usare l&apos;app già installata, ma non si aggiornerà a meno che non aggiorni Roku OS.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Tutti i rilasci saranno bloccati prima di fare questa modifica. Siamo obbligati a farlo, quindi se sei interessato, contatta Roku. Non prendertela con noi.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Puoi nascondere questo popup disabilitando l&apos;opzione &quot;Interfaccia Utente / Generale / Mostra popup versione Roku OS&quot;.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Avviso Versione Roku OS</translation>
+    </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Appare In</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Appare In (%1)</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Direzione in cui ordinare i contenuti prima di tagliare al limite</translation>
+    </message>
 </context>
 <context>
     <name></name>

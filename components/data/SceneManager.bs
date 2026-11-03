@@ -136,6 +136,12 @@ function getActiveScene() as object
     return m.groups.peek()
 end function
 
+' Return the scene behind the active one without changing the stack.
+function getPreviousScene() as dynamic
+    if m.groups.count() < 2 then return invalid
+    return m.groups[m.groups.count() - 2]
+end function
+
 '
 ' Clear all content from group stack
 sub clearScenes()

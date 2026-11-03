@@ -122,12 +122,17 @@ function LoginFlow()
                 if myToken <> invalid
                     ' check if token is valid
                     session.user.Update("authToken", myToken)
-                    currentUser = AboutMe()
-                    if currentUser = invalid
-                        unset_user_setting("token")
-                        unset_user_setting("username")
+                    currentUserResponse = AboutMe()
+                    if currentUserResponse.body = invalid
+                        if currentUserResponse.code = 401
+                            unset_user_setting("token")
+                            unset_user_setting("username")
+                        else
+                            handleAboutMeFailure(currentUserResponse.code)
+                            goto start_login
+                        end if
                     else
-                        session.user.Login(currentUser, true)
+                        session.user.Login(currentUserResponse.body, true)
                         LoadUserAbilities()
                         return true
                     end if
@@ -169,23 +174,28 @@ function LoginFlow()
             session.user.Update("authToken", myAuthToken)
             session.user.Update("name", myUsername)
 
-            currentUser = AboutMe()
-            if currentUser = invalid
-                'Try to login without password. If the token is valid, we're done
-                userData = get_token(myUsername, "")
-                if isValid(userData)
-                    session.user.Login(userData, true)
-                    LoadUserAbilities()
-                    return true
+            currentUserResponse = AboutMe()
+            if currentUserResponse.body = invalid
+                if currentUserResponse.code = 401
+                    'Try to login without password. If the token is valid, we're done
+                    userData = get_token(myUsername, "")
+                    if isValid(userData)
+                        session.user.Login(userData, true)
+                        LoadUserAbilities()
+                        return true
+                    else
+                        print "Auth failed. Password required"
+                        print "delete token and restart login flow"
+                        unset_user_setting("token")
+                        unset_user_setting("username")
+                        goto start_login
+                    end if
                 else
-                    print "Auth failed. Password required"
-                    print "delete token and restart login flow"
-                    unset_user_setting("token")
-                    unset_user_setting("username")
+                    handleAboutMeFailure(currentUserResponse.code)
                     goto start_login
                 end if
             else
-                session.user.Login(currentUser, true)
+                session.user.Login(currentUserResponse.body, true)
             end if
         else
             print "No auth token found in registry"
@@ -701,12 +711,8 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
 
 
     if LCase(movieMetaData.json.type) = "episode" or LCase(movieMetaData.json.type) = "series"
-        if isValid(movieMetaData.json.SeriesID)
-            logoImageExists = api.items.HeadImageURLByName(movieMetaData.json.SeriesID, ImageType.LOGO)
-            if logoImageExists
-                group.logoImageURI = api.items.GetImageURL(movieMetaData.json.SeriesID, ImageType.LOGO, 0, { "format": "Png", "maxHeight": 250, "maxWidth": 500, "quality": "90" })
-            end if
-        end if
+        ' Episodes without their own logo use the series logo
+        group.logoImageURI = ItemImageURL(movieMetaData.json, ImageType.LOGO, imageSizes.LOGO)
     end if
 
     ' watch for button presses
@@ -817,7 +823,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     for each item in apiSeasonData.Items
         tmp = seasonData.createChild("TVSeasonData")
         tmp.json = item
-        tmp.posterURL = api.items.GetImageURL(item.id, ImageType.PRIMARY, 0, { "maxHeight": 320, "maxWidth": 180, "quality": "90" })
+        tmp.posterURL = api.items.GetImageURL(item.id, ImageType.PRIMARY, 0, { "maxHeight": 320, "maxWidth": 180 })
     end for
 
     apiSeriesData = api.items.GetByID(seriesID, {
@@ -908,6 +914,9 @@ function CreateArtistView(artist as object) as dynamic
         group.pageContent = ItemMetaData(artist.id)
         group.musicArtistAlbumData = musicData
         group.musicArtistAppearsOnData = appearsOnData
+        group.songCount = MusicArtistSongCount(artist.id)
+        group.albumCount = isValid(musicData) ? musicData.getChildCount() : 0
+        group.appearsOnCount = isValid(appearsOnData) ? appearsOnData.getChildCount() : 0
         group.artistOverview = ArtistOverview(artist.name)
 
         group.observeField("musicAlbumSelected", m.port)
@@ -1218,4 +1227,15 @@ sub playbackOptionDialog(time as longinteger, meta as object)
     end if
     stopLoadingSpinner()
     m.global.sceneManager.callFunc("optionDialog", "playback", tr("Playback Options"), [], resumeData, { id: string.EMPTY })
+end sub
+
+sub handleAboutMeFailure(code as integer)
+    unset_setting("active_user")
+    stopLoadingSpinner()
+    print "Server connection failed with status: "; code
+    if code = 503
+        show_dialog(tr("The server is still starting up. Please try again."), [tr("OK")], 0)
+    else
+        show_dialog(tr("The server is temporarily unavailable. Please try again."), [tr("OK")], 0)
+    end if
 end sub

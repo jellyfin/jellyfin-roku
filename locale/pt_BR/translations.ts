@@ -2658,6 +2658,54 @@
         <source>Roku OS Version Warning</source>
         <translation>Aviso sobre a versão do Roku OS</translation>
     </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Aparece em</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Álbuns (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Aparece em (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 música</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>%1 músicas</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>%1 álbum</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>%1 álbuns</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Créditos por:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>%1 aparece no álbum</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>%1 aparece nos álbuns</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>O servidor ainda está iniciando. Tente novamente.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>O servidor está temporariamente indisponível. Tente novamente.</translation>
+    </message>
 </context>
 <context>
     <name></name>
