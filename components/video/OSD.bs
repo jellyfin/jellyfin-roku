@@ -34,7 +34,11 @@ sub init()
 
     m.videoInfo = m.top.findNode("videoInfo")
     m.itemTitle = m.top.findNode("itemTitle")
+    m.itemBack = m.top.findNode("itemBack")
+    m.chapterBack = m.top.findNode("chapterBack")
     m.videoPlayPause = m.top.findNode("videoPlayPause")
+    m.chapterNext = m.top.findNode("chapterNext")
+    m.itemNext = m.top.findNode("itemNext")
     m.videoPositionTime = m.top.findNode("videoPositionTime")
     m.videoRemainingTime = m.top.findNode("videoRemainingTime")
     m.videoEndingTime = m.top.findNode("videoEndingTime")
@@ -100,6 +104,7 @@ sub init()
     m.top.liveTvStartOffset = 0
     m.top.liveTvRewindLimit = LIVETV_REWIND_LIMIT
     reloadUI()
+    onTransportButtonStatusChanged()
 end sub
 
 ' onProgressPercentageChanged: Handler for changes to m.top.progressPercentage param
@@ -286,6 +291,73 @@ sub onNextItemTitleTextChanged()
     m.nextItem.text = m.top.nextItemTitleText
 end sub
 
+' isButtonFocusable: Returns true if button is valid, has focus field, and is both visible and enabled
+'
+function isButtonFocusable(button as dynamic) as boolean
+    if not isValid(button) then return false
+    if not isValid(button.focus) then return false
+    if isValid(button.visible) and not button.visible then return false
+    if isValid(button.enabled) and not button.enabled then return false
+    return true
+end function
+
+' onTransportButtonStatusChanged: Updates enabled states of bottom transport buttons
+'
+sub onTransportButtonStatusChanged()
+    if isValid(m.itemBack)
+        m.itemBack.enabled = m.top.itemBackEnabled
+    end if
+
+    if isValid(m.chapterBack)
+        m.chapterBack.enabled = m.top.chapterBackEnabled
+    end if
+
+    if isValid(m.chapterNext)
+        m.chapterNext.enabled = m.top.chapterNextEnabled
+    end if
+
+    if isValid(m.itemNext)
+        m.itemNext.enabled = m.top.itemNextEnabled
+    end if
+
+    ' If the currently focused button in videoControls is now disabled, reset focus to default
+    if isValid(m.videoControls) and m.videoControls.isInFocusChain()
+        focusedButton = m.videoControls.getChild(m.focusedButtonIndex)
+        if not isButtonFocusable(focusedButton)
+            resetFocusToDefaultButton()
+        end if
+    end if
+end sub
+
+' focusRightmostVideoControl: Focus the rightmost enabled/focusable button in videoControls
+'
+sub focusRightmostVideoControl()
+    rightmostIndex = -1
+    for i = m.videoControls.getChildCount() - 1 to 0 step -1
+        button = m.videoControls.getChild(i)
+        if isButtonFocusable(button)
+            rightmostIndex = i
+            exit for
+        end if
+    end for
+
+    if rightmostIndex = -1 then rightmostIndex = m.top.defaultButtonIndex
+
+    for each child in m.videoControls.getChildren(-1, 0)
+        if isValid(child.focus) then child.focus = false
+    end for
+
+    m.focusedButtonIndex = rightmostIndex
+    m.videoControls.buttonFocused = rightmostIndex
+    focusedButton = m.videoControls.getChild(rightmostIndex)
+    if isValid(focusedButton) and isValid(focusedButton.focus)
+        focusedButton.focus = true
+        focusedButtonID = m.videoControls.isInFocusChain() ? focusedButton.id : ""
+        checkDisplaySiblingItem(focusedButtonID)
+    end if
+    m.videoControls.setFocus(true)
+end sub
+
 ' resetFocusToDefaultButton: Reset focus back to the default button
 '
 sub resetFocusToDefaultButton()
@@ -306,9 +378,24 @@ sub resetFocusToDefaultButton()
 
     ' Set focus back to the default button
     m.videoControls.setFocus(true)
-    m.focusedButtonIndex = m.top.defaultButtonIndex
-    m.videoControls.getChild(m.top.defaultButtonIndex).focus = true
-    m.videoControls.buttonFocused = m.top.defaultButtonIndex
+    targetIndex = m.top.defaultButtonIndex
+    defaultButton = m.videoControls.getChild(targetIndex)
+    if not isButtonFocusable(defaultButton)
+        for i = 0 to m.videoControls.getChildCount() - 1
+            button = m.videoControls.getChild(i)
+            if isButtonFocusable(button)
+                targetIndex = i
+                exit for
+            end if
+        end for
+    end if
+
+    m.focusedButtonIndex = targetIndex
+    buttonToFocus = m.videoControls.getChild(targetIndex)
+    if isValid(buttonToFocus) and isValid(buttonToFocus.focus)
+        buttonToFocus.focus = true
+    end if
+    m.videoControls.buttonFocused = targetIndex
     m.optionControls.buttonFocused = m.optionControls.getChildCount() - 1
 end sub
 
@@ -374,6 +461,11 @@ sub onButtonSelected()
 
     selectedButton = buttonGroup.getChild(m.focusedButtonIndex)
 
+    ' If selected button is disabled, do nothing
+    if isValid(selectedButton) and isValid(selectedButton.enabled) and not selectedButton.enabled
+        return
+    end if
+
     if LCase(selectedButton.id) = "chapterlist"
         m.top.showChapterList = not m.top.showChapterList
     end if
@@ -392,7 +484,7 @@ sub checkDisplaySiblingItem(selectedButtonID)
 
     showNextItem = false
 
-    if selectedButtonID = "itemnext"
+    if selectedButtonID = "itemnext" and m.top.itemNextEnabled
         showNextItem = true
     end if
 
@@ -404,7 +496,7 @@ sub checkDisplaySiblingItem(selectedButtonID)
 
     showPreviousItem = false
 
-    if selectedButtonID = "itemback"
+    if selectedButtonID = "itemback" and m.top.itemBackEnabled
         showPreviousItem = true
     end if
 
@@ -413,7 +505,6 @@ sub checkDisplaySiblingItem(selectedButtonID)
     end if
 
     m.previousItem.visible = showPreviousItem
-
 end sub
 
 ' onKeyEvent: Handler for key events when this menu is in focus. Handles navigation within the menu.
@@ -443,35 +534,44 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 buttonGroup = m.videoControls
             end if
 
-            m.top.action = "checkskipsegmentbuttonvisible"
-            if m.focusedButtonIndex + 1 >= buttonGroup.getChildCount()
-                if m.top.skipSegmentButtonVisible and m.videoControls.isInFocusChain()
-                    buttonGroup.setFocus(false)
-                    m.top.action = "setskipsegmentbuttonfocus"
-                    focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
-                    focusedButton.focus = false
-                    checkDisplaySiblingItem("")
-                end if
-                return true
-            end if
-
-            focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
-            focusedButton.focus = false
-
-            ' Skip spacer elements until next button is found
-            for i = m.focusedButtonIndex + 1 to buttonGroup.getChildCount()
-                m.focusedButtonIndex = i
-                focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
-
-                if isValid(focusedButton.focus)
-                    buttonGroup.buttonFocused = m.focusedButtonIndex
-                    focusedButton.focus = true
-
-                    focusedButtonID = m.videoControls.isInFocusChain() ? focusedButton.id : ""
-                    checkDisplaySiblingItem(focusedButtonID)
+            ' Look for the next focusable and enabled button to the right
+            nextFocusIndex = -1
+            for i = m.focusedButtonIndex + 1 to buttonGroup.getChildCount() - 1
+                button = buttonGroup.getChild(i)
+                if isButtonFocusable(button)
+                    nextFocusIndex = i
                     exit for
                 end if
             end for
+
+            if nextFocusIndex <> -1
+                focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
+                if isValid(focusedButton) and isValid(focusedButton.focus)
+                    focusedButton.focus = false
+                end if
+
+                m.focusedButtonIndex = nextFocusIndex
+                focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
+                buttonGroup.buttonFocused = m.focusedButtonIndex
+                focusedButton.focus = true
+
+                focusedButtonID = m.videoControls.isInFocusChain() ? focusedButton.id : ""
+                checkDisplaySiblingItem(focusedButtonID)
+                return true
+            end if
+
+            ' No focusable button to the right in this group.
+            ' Check if we can move focus to skipSegmentButton if we are in videoControls
+            m.top.action = "checkskipsegmentbuttonvisible"
+            if m.top.skipSegmentButtonVisible and m.videoControls.isInFocusChain()
+                buttonGroup.setFocus(false)
+                m.top.action = "setskipsegmentbuttonfocus"
+                focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
+                if isValid(focusedButton) and isValid(focusedButton.focus)
+                    focusedButton.focus = false
+                end if
+                checkDisplaySiblingItem("")
+            end if
 
             return true
         end if
@@ -487,23 +587,30 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 buttonGroup = m.videoControls
             end if
 
-            focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
-            focusedButton.focus = false
-
-            ' Skip spacer elements until next button is found
+            ' Look for the previous focusable and enabled button to the left
+            nextFocusIndex = -1
             for i = m.focusedButtonIndex - 1 to 0 step -1
-                m.focusedButtonIndex = i
-                focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
-
-                if isValid(focusedButton.focus)
-                    buttonGroup.buttonFocused = m.focusedButtonIndex
-                    focusedButton.focus = true
-
-                    focusedButtonID = m.videoControls.isInFocusChain() ? focusedButton.id : ""
-                    checkDisplaySiblingItem(focusedButtonID)
+                button = buttonGroup.getChild(i)
+                if isButtonFocusable(button)
+                    nextFocusIndex = i
                     exit for
                 end if
             end for
+
+            if nextFocusIndex <> -1
+                focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
+                if isValid(focusedButton) and isValid(focusedButton.focus)
+                    focusedButton.focus = false
+                end if
+
+                m.focusedButtonIndex = nextFocusIndex
+                focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
+                buttonGroup.buttonFocused = m.focusedButtonIndex
+                focusedButton.focus = true
+
+                focusedButtonID = m.videoControls.isInFocusChain() ? focusedButton.id : ""
+                checkDisplaySiblingItem(focusedButtonID)
+            end if
 
             return true
         end if

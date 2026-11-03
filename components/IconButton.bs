@@ -1,3 +1,5 @@
+import "pkg:/source/utils/misc.bs"
+
 sub init()
     m.buttonBackground = m.top.findNode("buttonBackground")
     m.buttonIcon = m.top.findNode("buttonIcon")
@@ -10,14 +12,26 @@ sub init()
     m.top.observeField("width", "onWidthChanged")
     m.top.observeField("padding", "onPaddingChanged")
     m.top.observeField("focus", "onFocusChanged")
+    m.top.observeField("enabled", "onEnabledChanged")
+
+    onEnabledChanged()
 end sub
 
 sub onFocusChanged()
-    if m.top.focus
+    if m.top.focus and m.top.enabled
         m.buttonBackground.blendColor = m.top.focusBackground
     else
         m.buttonBackground.blendColor = m.top.background
     end if
+end sub
+
+sub onEnabledChanged()
+    if m.top.enabled
+        m.top.opacity = 1.0
+    else
+        m.top.opacity = 0.3
+    end if
+    onFocusChanged()
 end sub
 
 sub onBackgroundChanged()
@@ -68,6 +82,7 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
+    if not m.top.enabled then return false
 
     if key = "right" and m.top.focus
         m.top.escape = "right"

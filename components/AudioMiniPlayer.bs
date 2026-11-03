@@ -260,7 +260,7 @@ sub onAudioDataChanged()
         m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
         m.LoadMetaDataTask.control = TaskControl.RUN
     else
-        setPosterImage(ImageURL(currentItem.id, ImageType.PRIMARY, { "maxHeight": 180, "maxWidth": 180 }))
+        setPosterImage(ItemImageURL(currentItem, ImageType.PRIMARY, { maxWidth: 180, maxHeight: 180 }))
         setOnScreenTextValues(currentItem)
         m.songDuration = currentItem.RunTimeTicks / 10000000.0
     end if
