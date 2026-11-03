@@ -1459,6 +1459,13 @@
             "default": "60"
           },
           {
+            "title": "Show Item Count",
+            "description": "Show the total item count on library screens.",
+            "settingName": "ui.library.showItemCount",
+            "type": "bool",
+            "default": "true"
+          },
+          {
             "title": "TV Shows",
             "description": "Settings relating to the appearance of pages in TV Libraries.",
             "children": [
