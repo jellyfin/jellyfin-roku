@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="AudioPlayer" extends="Video">
   <children>
-    <timer id="playbackTimer" repeat="true" duration="30" />
+    <timer id="playbackTimer" repeat="true" duration="10" />
   </children>
   <interface>
     <field id="id" type="string" />

@@ -2657,5 +2657,53 @@
         <source>Roku OS Version Warning</source>
         <translation>Ostrzeżenie dotyczące wersji systemu operacyjnego Roku</translation>
     </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Pojawia się na</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Albumy (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Pojawia się na (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>Piosenka %1</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>Piosenki %1</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>Album %1</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>Albumy %1</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Autor:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>Pojawia się na albumie %1</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>Pojawia się na albumach %1</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Serwer nadal się uruchamia. Spróbuj ponownie.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Serwer jest tymczasowo niedostępny. Spróbuj ponownie.</translation>
+    </message>
 </context>
 </TS>

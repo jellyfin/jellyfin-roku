@@ -18,6 +18,7 @@ sub init()
     m.channelHasPlaceholder = {}
     m.channelIdList = []
     m.channelIndex = {}
+    m.favoriteOverrides = {}
 
     ' Progressive load tuning:
     ' Paint a narrow window first so the grid appears quickly, then expand the
@@ -83,12 +84,32 @@ end sub
 ' logos are deferred, see ChannelData.deferPoster) keeps the grid's row count stable
 ' so wrap-around navigation always targets the correct channel. Schedules then load
 ' in batches over this list.
-sub loadChannelList()
+sub loadChannelList(showSpinner = true as boolean)
     if not isStringEqual(m.state, TaskControl.RUN) then return
-    startLoadingSpinner()
+    if showSpinner then startLoadingSpinner()
     m.LoadChannelsTask.control = TaskControl.STOP
     m.LoadChannelsTask.observeField("channels", "onChannelListLoaded")
     m.LoadChannelsTask.control = TaskControl.RUN
+end sub
+
+' Keep the cached guide in sync with favorite changes made during playback.
+sub updateChannelFavorite(change as object)
+    m.favoriteOverrides[change.channelId] = change.isFavorite
+
+    for each channel in m.gridData.getChildren(-1, 0)
+        if isStringEqual(channel.id, change.channelId)
+            channel.favorite = change.isFavorite
+            if isValid(m.detailsPane.channel) and isStringEqual(m.detailsPane.channel.id, change.channelId)
+                m.detailsPane.callFunc("refreshFavorite")
+            end if
+            exit for
+        end if
+    end for
+
+    ' Re-sort or apply the Favorites filter without covering the existing guide.
+    if isStringEqual(m.top.filter, "Favorites") or m.LoadChannelsTask.favoritesAtTop
+        loadChannelList(false)
+    end if
 end sub
 
 ' Reset progressive-load state so the next channel load starts a fresh initial window.
@@ -160,6 +181,28 @@ sub onChannelListLoaded()
     m.LoadChannelsTask.unobserveField("channels")
 
     channels = m.LoadChannelsTask.channels
+    favoriteChannels = []
+    standardChannels = []
+    for each item in channels
+        if m.favoriteOverrides.DoesExist(item.Id)
+            desiredFavorite = m.favoriteOverrides[item.Id]
+            if item.favorite = desiredFavorite
+                m.favoriteOverrides.Delete(item.Id)
+            else
+                item.favorite = desiredFavorite
+            end if
+        end if
+
+        if isStringEqual(m.top.filter, "Favorites") and not item.favorite then continue for
+
+        if m.LoadChannelsTask.favoritesAtTop and item.favorite
+            favoriteChannels.push(item)
+        else
+            standardChannels.push(item)
+        end if
+    end for
+    channels = favoriteChannels
+    channels.Append(standardChannels)
 
     m.channelBatchOffset = 0
     m.channelHasPlaceholder = {}

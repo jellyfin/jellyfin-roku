@@ -39,6 +39,7 @@
 
     <Text id="selectedArtistName" visible="false" translation="[120, 40]" wrap="true" font="font:LargeBoldSystemFont" width="850" height="196" horizAlign="left" vertAlign="center" />
     <Poster id="artistLogo" visible="false" translation="[120, 40]" loadDisplayMode="scaleToFit" width="384" height="196" />
+    <Text id="selectedArtistCreditedFor" visible="false" translation="[120, 260]" wrap="true" font="font:SmallestSystemFont" width="850" height="30" horizAlign="left" />
     <Text id="selectedArtistSongCount" translation="[120, 270]" wrap="true" font="font:SmallestSystemFont" width="850" height="30" horizAlign="left" />
     <Text id="selectedArtistAlbumCount" translation="[120, 310]" wrap="true" font="font:SmallestSystemFont" width="850" height="30" horizAlign="left" />
     <Text id="selectedArtistGenres" translation="[120, 350]" wrap="true" font="font:SmallestSystemFont" width="850" height="30" horizAlign="left" />
