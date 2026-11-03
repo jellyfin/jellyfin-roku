@@ -243,14 +243,6 @@ end sub
 '
 ' @param {object} itemData - meta data for current item
 sub setBackdropImage(itemData as object)
-    if isValidAndNotEmpty(itemData.BackdropImageTags)
-        imageVersion = ImageType.BACKDROP
-        imageTag = itemData.BackdropImageTags[0]
-    else
-        imageVersion = ImageType.PRIMARY
-        imageTag = itemData.ImageTags.Primary
-    end if
-
     ' Create a blank background so the user's background image doesn't bleed over
     movieBackground = m.top.findNode("movieBackground")
     if not isValid(movieBackground)
@@ -274,10 +266,7 @@ sub setBackdropImage(itemData as object)
     movieBackdrop.width = "1920"
     movieBackdrop.height = "1080"
     movieBackdrop.opacity = .3
-    movieBackdrop.uri = ImageURL(m.top.id, imageVersion, {
-        "maxWidth": 1920,
-        "Tag": imageTag
-    })
+    movieBackdrop.uri = FirstItemImageURL(itemData, [ImageType.BACKDROP, ImageType.PRIMARY], { maxWidth: 1920, maxHeight: 1080 }, false)
 
     if not isValid(m.top.findNode("movieBackdrop"))
         m.top.insertChild(movieBackdrop, 1)

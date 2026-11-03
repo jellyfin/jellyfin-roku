@@ -1284,10 +1284,9 @@ sub displayNextItem()
         return
     end if
 
-    imageTags = nextItem.lookupCI("ImageTags")
     nextItemPoster = m.top.findNode("nextItemPoster")
     if isValid(nextItemPoster)
-        nextItemPoster.uri = ImageURL(nextItem.lookupCI("id"), ImageType.PRIMARY, { "maxHeight": 124, "maxWidth": 150, "Tag": chainLookupReturn(imageTags, ImageType.PRIMARY, `cacheBuster${rnd(99999)}`) })
+        nextItemPoster.uri = ItemImageURL(nextItem, ImageType.PRIMARY, { maxWidth: 150, maxHeight: 124 })
     end if
 
     nextItemSeriesTitle = m.top.findNode("nextItemSeriesTitle")
