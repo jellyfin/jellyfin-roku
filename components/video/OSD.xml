@@ -68,6 +68,7 @@
     <Group id="progressBarGroup" translation="[103,875]">
       <Rectangle id="progressBarBackground" width="1714" height="12" />
       <Rectangle id="progressBar" width="0" height="12" opacity="0.75" />
+      <Group id="chapterMarkers" />
       <Poster id="scrubber" uri="pkg:/images/icons/progress-bar-scrubber.png" width="20" height="20" />
       <Poster id="scrubberOldPosition" uri="pkg:/images/icons/progress-bar-scrubber.png" width="20" height="20" />
     </Group>
@@ -85,6 +86,7 @@
 
     <Text id="liveTvPos" font="font:SmallSystemFont" color="0xffffffFF" translation="[103,825]" horizAlign="left" vertAlign="center" />
     <Text id="videoPositionTime" font="font:MediumSystemFont" color="0xffffffFF" translation="[103,905]" />
+    <Label id="chapterTitle" font="font:SmallSystemFont" color="0xffffffFF" width="505" height="60" wrap="true" maxLines="2" ellipsisText="..." vertAlign="top" translation="[285,889]" visible="false" />
     <Text id="liveTVRewindLimitExceeded" text="Live TV rewind limit" font="font:MediumSystemFont" color="0xffcc66FF" translation="[103,950]" visible="false" />
     <Text id="videoRemainingTime" font="font:MediumSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,905]" />
     <Text id="videoEndingTime" font="font:SmallSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,825]" />
@@ -93,6 +95,7 @@
   </children>
   <interface>
     <function name="updateProgressBar" />
+    <function name="updateChapterTitle" />
     <function name="checkDisplaySiblingItem" />
     <function name="clampSeek" />
     <function name="setOsdStatus" />
@@ -115,6 +118,7 @@
     <field id="progressPercentage" type="float" />
     <field id="positionTime" type="float" />
     <field id="previewPos" type="float" />
+    <field id="chapters" type="array" onChange="onChaptersChanged" />
     <field id="videoEndingTime" type="string" />
     <field id="remainingPositionTime" type="float" />
     <field id="live" type="boolean" />
