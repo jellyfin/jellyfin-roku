@@ -1678,6 +1678,18 @@
         <source>Series</source>
         <translation>Series</translation>
     </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Play from beginning</translation>
+    </message>
+    <message>
+        <source>Press Stop again to close player</source>
+        <translation>Press Stop again to close player</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Videos</translation>
+    </message>
 </context>
 <context>
     <name></name>

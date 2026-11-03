@@ -7,7 +7,8 @@
       <Section id="slide-1" defaultFocusID="play">
         <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[75]">
           <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[125]">
-            <LayoutGroup layoutDirection="vert" itemSpacings="[75]">
+            <LayoutGroup layoutDirection="vert" itemSpacings="[30]">
+              <Text id="artistStats" visible="false" wrap="true" font="font:SmallestSystemFont" width="1080" height="35" />
               <Text id="overview" wrap="true" lineSpacing="25" maxLines="6" width="1080" />
               <ButtonGroupHoriz id="buttons" itemSpacings="[20]">
                 <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="85" width="150" />
@@ -66,6 +67,9 @@
     <field id="musicArtistAlbumData" type="node" alias="albums.MusicArtistAlbumData" alwaysNotify="true" />
     <field id="musicArtistAppearsOnData" type="node" alias="appearsOn.MusicArtistAlbumData" alwaysNotify="true" />
     <field id="artistOverview" type="string" onChange="artistOverviewChanged" />
+    <field id="songCount" type="integer" value="0" onChange="artistStatsChanged" />
+    <field id="albumCount" type="integer" value="0" onChange="artistStatsChanged" />
+    <field id="appearsOnCount" type="integer" value="0" onChange="artistStatsChanged" />
     <field id="musicAlbumSelected" alias="albums.itemSelected" />
     <field id="appearsOnSelected" alias="appearsOn.itemSelected" />
     <field id="similarArtistSelected" type="node" />

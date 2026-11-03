@@ -1,7 +1,7 @@
+import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
-
 
 sub setFields()
     if not isValid(m.top.json) then return
@@ -10,6 +10,7 @@ sub setFields()
     m.top.favorite = chainLookup(json, "UserData.isFavorite")
     m.top.watched = chainLookup(json, "UserData.played")
 
+    setPosterFromJson(json)
     setItemSubTitle(json)
 end sub
 
@@ -19,6 +20,10 @@ sub setPoster()
     else
         m.top.posterURL = ""
     end if
+end sub
+
+sub setPosterFromJson(json as object)
+    m.top.posterURL = FirstItemImageURL(json, [ImageType.PRIMARY, ImageType.THUMB, ImageType.BACKDROP], { maxWidth: 400, maxHeight: 440 }, false)
 end sub
 
 sub setItemSubTitle(json as object)

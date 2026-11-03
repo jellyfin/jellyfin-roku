@@ -69,7 +69,13 @@ sub OnScreenShown()
     if isValid(overhang)
         overhang.visible = true
         overhang.title = ""
-        overhang.currentUserProfileImage = UserImageURL(m.global.session.user.id)
+        ' Users without a profile picture get the placeholder
+        userImageTag = chainLookup(m.global.session, "user.PrimaryImageTag")
+        if isValidAndNotEmpty(userImageTag)
+            overhang.currentUserProfileImage = UserImageURL(m.global.session.user.id, { "tag": userImageTag })
+        else
+            overhang.currentUserProfileImage = "pkg:/images/baseline_person_white_48dp.png"
+        end if
         overhang.currentUser = m.global.session.user.name
     end if
 

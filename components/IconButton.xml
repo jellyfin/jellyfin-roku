@@ -15,6 +15,7 @@
     <field id="icon" type="string" value="" />
     <field id="selected" type="boolean" value="false" />
     <field id="focus" type="boolean" />
+    <field id="enabled" type="boolean" value="true" onChange="onEnabledChanged" />
     <field id="escape" type="string" value="" />
   </interface>
 </component>
