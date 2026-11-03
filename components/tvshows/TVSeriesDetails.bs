@@ -59,6 +59,11 @@ sub init()
     m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
     m.top.selectedButtonIndex = 0
 
+    scene = m.top.getScene()
+    if isValid(scene)
+        m.backdrop = scene.findNode("backdrop")
+    end if
+
     setFontSizes()
 end sub
 
@@ -177,6 +182,8 @@ sub itemContentChanged()
     ' Updates video metadata
     item = m.top.itemContent
     itemData = item.json
+
+    m.backdrop.callFunc("setItem", item)
 
     ' Post image may change. We need to again watch load status
     m.tvshowPoster.observeFieldscoped("loadStatus", "onPosterLoadStatusChanged")
@@ -586,4 +593,8 @@ end function
 
 sub checkGridItemCount()
     m.buttonGrp.blockDown = m.seasons.content.getChildCount() = 0
+end sub
+
+sub OnScreenHidden()
+    m.backdrop.callFunc("release")
 end sub
