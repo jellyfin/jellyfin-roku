@@ -2,6 +2,7 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/utils/liveTvTagFilter.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -135,6 +136,7 @@ sub onFilterSet()
 
     if m.LoadChannelsTask.state = TaskControl.RUN then m.LoadChannelsTask.control = TaskControl.STOP
 
+    m.LoadChannelsTask.filterOptions = m.top.filterOptions
     m.LoadChannelsTask.filter = m.top.filter
 
     m.gridData = createObject("roSGNode", "ContentNode")
@@ -183,6 +185,8 @@ sub onChannelListLoaded()
     channels = m.LoadChannelsTask.channels
     favoriteChannels = []
     standardChannels = []
+    selectedTags = []
+    if isStringEqual(m.top.filter, LIVETV_TAG_FILTER) then selectedTags = liveTvSelectedTags(m.top.filterOptions)
     for each item in channels
         if m.favoriteOverrides.DoesExist(item.Id)
             desiredFavorite = m.favoriteOverrides[item.Id]
@@ -194,6 +198,8 @@ sub onChannelListLoaded()
         end if
 
         if isStringEqual(m.top.filter, "Favorites") and not item.favorite then continue for
+        ' The list may have been loaded under the previous filter (task restarts race)
+        if selectedTags.count() > 0 and not channelMatchesLiveTvTags(item.json.LookupCI("Tags"), selectedTags) then continue for
 
         if m.LoadChannelsTask.favoritesAtTop and item.favorite
             favoriteChannels.push(item)

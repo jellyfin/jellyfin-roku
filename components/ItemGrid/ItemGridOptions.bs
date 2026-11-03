@@ -122,6 +122,9 @@ end function
 sub optionsSet()
     '  Views Tab
     if isValid(m.top.options.views)
+        ' Options can be set more than once (e.g. after async data arrives); rebuild the
+        ' index -> name lists rather than appending, or selections map to the wrong name.
+        m.viewNames = []
         viewContent = CreateObject("roSGNode", "ContentNode")
         index = 0
         selectedViewIndex = m.selectedViewIndex
@@ -141,6 +144,7 @@ sub optionsSet()
 
     ' Sort Tab
     if isValid(m.top.options.sort)
+        m.sortNames = []
         sortContent = CreateObject("roSGNode", "ContentNode")
         index = 0
         m.selectedSortIndex = 0
@@ -172,6 +176,7 @@ sub optionsSet()
     end if
 
     ' Filter Tab
+    m.filterNames = []
     if isValid(m.top.options.filter)
         filterContent = CreateObject("roSGNode", "ContentNode")
         index = 0

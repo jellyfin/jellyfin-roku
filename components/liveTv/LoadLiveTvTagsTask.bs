@@ -1,0 +1,16 @@
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/liveTvTagFilter.bs"
+
+sub init()
+    m.top.functionName = "loadTags"
+end sub
+
+' Loads the tags in use on Live TV channels so they can be offered as filters.
+sub loadTags()
+    data = api.items.GetFilters({
+        "UserId": m.global.session.user.id,
+        "IncludeItemTypes": "TvChannel"
+    })
+    m.top.tags = liveTvTagsFromFilters(data)
+end sub

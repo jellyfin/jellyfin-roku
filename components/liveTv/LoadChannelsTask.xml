@@ -4,6 +4,7 @@
   <interface>
     <field id="totalRecordCount" type="integer" value="0" />
     <field id="filter" type="string" value="" />
+    <field id="filterOptions" type="assocarray" />
     <field id="searchTerm" type="string" value="" />
     <field id="sortField" type="string" value="" />
     <field id="sortAscending" type="boolean" value="true" />
