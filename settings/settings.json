@@ -802,6 +802,13 @@
             "default": "false"
           },
           {
+            "title": "Show Roku OS Version Popup",
+            "description": "Show Roku OS Version popup when app starts.",
+            "settingName": "load.rokuospopup",
+            "type": "bool",
+            "default": "true"
+          },
+          {
             "title": "Show What's New Popup",
             "description": "Show What's New popup when Jellyfin is updated to a new version.",
             "settingName": "load.allowwhatsnew",

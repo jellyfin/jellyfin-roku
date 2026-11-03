@@ -5,6 +5,7 @@
     <field id="title" type="string" />
     <field id="trackNumber" type="integer" />
     <field id="playCount" type="integer" />
+    <field id="favoriteStatus" type="string" />
     <field id="RunTimeTicks" type="float" />
     <field id="ArtistItems" type="array" />
     <field id="AlbumId" type="string" />

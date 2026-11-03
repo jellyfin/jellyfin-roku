@@ -17,6 +17,10 @@
         <Poster id="play" width="32" height="32" uri="pkg:/images/icons/pause.png" opacity=".85" />
         <Poster id="stop" width="32" height="32" uri="pkg:/images/white.png" opacity=".85" />
         <Poster id="next" width="32" height="32" uri="pkg:/images/icons/itemNext.png" opacity=".85" />
+        <Group id="favorite">
+          <Poster id="favoriteFocusBox" width="32" height="32" uri="pkg:/images/icons/focus_box.png" visible="false" />
+          <Poster id="favoriteIcon" width="32" height="32" uri="pkg:/images/icons/heart_mini.png" opacity=".85" />
+        </Group>
         <Poster id="nowPlaying" width="32" height="32" uri="pkg:/images/icons/musicNote.png" opacity=".85" />
       </LayoutGroup>
 

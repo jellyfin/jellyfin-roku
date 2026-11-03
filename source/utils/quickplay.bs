@@ -519,7 +519,8 @@ namespace quickplay
 
         thisItem = {
             id: itemNode.id,
-            type: "video"
+            type: "video",
+            favoriteChannelId: itemNode.id
         }
 
         m.global.queueManager.callFunc("clear")
@@ -533,7 +534,8 @@ namespace quickplay
 
         thisItem = {
             id: itemNode.id,
-            type: "video"
+            type: "video",
+            favoriteChannelId: itemNode.json.ChannelId
         }
 
         m.global.queueManager.callFunc("clear")
