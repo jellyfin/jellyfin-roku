@@ -1,0 +1,775 @@
+import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/MediaPlaybackState.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/SubtitleSelection.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/TransportCommand.bs"
+import "pkg:/source/enums/VideoControl.bs"
+import "pkg:/source/utils/misc.bs"
+import "pkg:/source/utils/remoteControl.bs"
+
+' Handles remote control commands sent by the Jellyfin server (for example from Jellyfin web,
+' a mobile app, or Home Assistant) over the session WebSocket maintained by RemoteControlTask.
+
+const REMOTE_REWIND_SECONDS = 10
+const REMOTE_FASTFORWARD_SECONDS = 30
+const REMOTE_ITEM_BATCH_SIZE = 100
+const TICKS_PER_SECOND = 10000000#
+
+namespace remoteControl
+
+    ' connect: Starts (or restarts) the server WebSocket for the logged in user
+    '
+    sub connect()
+        remoteControl.disconnect()
+        if not isRemoteControlSupported() then return
+
+        m.remoteControlTask = CreateObject("roSGNode", "RemoteControlTask")
+        m.remoteControlTask.observeField("remoteCommand", m.port)
+        m.remoteControlTask.control = TaskControl.RUN
+    end sub
+
+    ' disconnect: Stops the server WebSocket
+    '
+    sub disconnect()
+        if not isValid(m.remoteControlTask) then return
+        m.remoteControlTask.unobserveField("remoteCommand")
+        m.remoteControlTask.control = TaskControl.STOP
+        m.remoteControlTask = invalid
+    end sub
+
+    ' onCommandEvent: Dispatches a command received from the server
+    '
+    sub onCommandEvent(msg as object)
+        command = msg.getData()
+        if not isChainValid(command, "type") then return
+
+        print "Remote control command: " command.type
+
+        if isStringEqual(command.type, "Play")
+            remoteControl.play(command.data)
+        else if isStringEqual(command.type, "Playstate")
+            remoteControl.playstate(command.data)
+        else if isStringEqual(command.type, "GeneralCommand")
+            remoteControl.generalCommand(command.data)
+        end if
+    end sub
+
+    ' play: Handles a Play message.
+    ' The server has already expanded folders into playable items, and converted
+    ' PlayShuffle and PlayInstantMix into PlayNow with the items in the desired order.
+    '
+    sub play(data as dynamic)
+        itemIds = chainLookup(data, "ItemIds")
+        if not isValidAndNotEmpty(itemIds) or type(itemIds) <> "roArray" then return
+
+        items = remoteControl.getItems(itemIds)
+        if items.count() = 0 then return
+
+        playCommand = chainLookupReturn(data, "PlayCommand", "PlayNow")
+        queueManager = m.global.queueManager
+        queueCount = queueManager.callFunc("getCount")
+
+        if queueCount > 0
+            if isStringEqual(playCommand, "PlayNext")
+                queueManager.callFunc("insert", queueManager.callFunc("getPosition") + 1, items)
+                return
+            end if
+            if isStringEqual(playCommand, "PlayLast")
+                queueManager.callFunc("insert", queueCount, items)
+                return
+            end if
+        end if
+
+        ' PlayNow, or PlayNext/PlayLast with nothing playing
+        startIndex = chainLookupReturn(data, "StartIndex", 0)
+        if not isNumber(startIndex) or startIndex < 0 or startIndex >= items.count() then startIndex = 0
+
+        startItem = items[startIndex]
+        startPositionTicks = chainLookupReturn(data, "StartPositionTicks", 0)
+        if not isNumber(startPositionTicks) or startPositionTicks < 0 then startPositionTicks = 0
+        startItem.startingPoint = startPositionTicks
+
+        mediaSourceId = chainLookup(data, "MediaSourceId")
+        if isValidAndNotEmpty(mediaSourceId)
+            startItem.id = mediaSourceId
+        end if
+
+        remoteControl.stopActivePlayback()
+
+        startLoadingSpinner()
+        queueManager.callFunc("clear")
+        queueManager.callFunc("resetShuffle")
+        queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
+
+        audioStreamIndex = chainLookup(data, "AudioStreamIndex")
+        if isNumber(audioStreamIndex) and audioStreamIndex >= 0
+            queueManager.callFunc("setPreferredAudioTrackIndex", audioStreamIndex)
+        end if
+
+        ' VideoPlayerView starts with the preferred subtitle track (-1 = none)
+        subtitleStreamIndex = chainLookup(data, "SubtitleStreamIndex")
+        if isNumber(subtitleStreamIndex) and subtitleStreamIndex >= SubtitleSelection.NONE
+            queueManager.callFunc("setPreferredSubtitleTrack", { StreamIndex: subtitleStreamIndex })
+        end if
+
+        if remoteControl.allItemsOfType(items, ItemType.PHOTO)
+            photoPlayer = CreateObject("roSGNode", "PhotoDetails")
+            photoPlayer.itemsArray = items
+            photoPlayer.itemIndex = startIndex
+            m.global.sceneManager.callFunc("pushScene", photoPlayer)
+            stopLoadingSpinner()
+            return
+        end if
+
+        for each item in items
+            queueManager.callFunc("push", item)
+        end for
+        queueManager.callFunc("setPosition", startIndex)
+        queueManager.callFunc("playQueue")
+    end sub
+
+    ' playstate: Handles a Playstate message for the active video or audio player
+    '
+    sub playstate(data as dynamic)
+        command = chainLookup(data, "Command")
+        if not isValidAndNotEmpty(command) then return
+
+        videoPlayer = remoteControl.getActiveVideoPlayer()
+        if isValid(videoPlayer)
+            remoteControl.videoPlaystate(videoPlayer, command, data)
+            return
+        end if
+
+        if remoteControl.isAudioActive()
+            remoteControl.audioPlaystate(m.global.sceneManager.callFunc("getActiveScene"), command, data)
+        end if
+    end sub
+
+    ' videoPlaystate: Applies a Playstate command to the video player
+    '
+    sub videoPlaystate(videoPlayer as object, command as string, data as dynamic)
+        command = LCase(command)
+
+        if command = "stop"
+            videoPlayer.callFunc("closePlayer")
+        else if command = "pause"
+            videoPlayer.voiceCommand = { type: TransportCommand.PAUSE }
+        else if command = "unpause"
+            videoPlayer.voiceCommand = { type: TransportCommand.PLAY }
+        else if command = "playpause"
+            videoPlayer.voiceCommand = { type: TransportCommand.PLAYPAUSE }
+        else if command = "seek"
+            seekPositionTicks = chainLookup(data, "SeekPositionTicks")
+            if isNumber(seekPositionTicks)
+                videoPlayer.voiceCommand = { type: TransportCommand.SEEK, position: seekPositionTicks / TICKS_PER_SECOND }
+            end if
+        else if command = "rewind" or command = "fastforward"
+            videoPlayer.voiceCommand = { type: TransportCommand.SEEK, position: remoteControl.skipPosition(videoPlayer, command) }
+        else if command = "nexttrack" or command = "previoustrack"
+            queueManager = m.global.queueManager
+            position = queueManager.callFunc("getPosition")
+            if command = "nexttrack"
+                if position >= queueManager.callFunc("getCount") - 1 then return
+            else
+                if position <= 0 then return
+            end if
+
+            videoPlayer.control = VideoControl.STOP
+            m.global.sceneManager.callFunc("clearPreviousScene")
+            if command = "nexttrack"
+                queueManager.callFunc("moveForward")
+            else
+                queueManager.callFunc("moveBack")
+            end if
+            queueManager.callFunc("playQueue")
+        end if
+    end sub
+
+    ' audioPlaystate: Applies a Playstate command to the audio player
+    '
+    sub audioPlaystate(activeScene as dynamic, command as string, data as dynamic)
+        command = LCase(command)
+        audioPlayer = m.global.audioPlayer
+
+        if command = "stop"
+            remoteControl.stopAudio(activeScene)
+        else if command = "pause"
+            audioPlayer.control = "pause"
+        else if command = "unpause"
+            audioPlayer.control = "resume"
+        else if command = "playpause"
+            toggleActiveAudioPlayback()
+        else if command = "seek"
+            seekPositionTicks = chainLookup(data, "SeekPositionTicks")
+            if isNumber(seekPositionTicks)
+                audioPlayer.seek = seekPositionTicks / TICKS_PER_SECOND
+            end if
+        else if command = "rewind" or command = "fastforward"
+            audioPlayer.seek = remoteControl.skipPosition(audioPlayer, command)
+        else if command = "nexttrack"
+            audioPlayer.callFunc("playNext")
+        else if command = "previoustrack"
+            audioPlayer.callFunc("playPrevious")
+        end if
+    end sub
+
+    ' skipPosition: Returns the position a Rewind or FastForward command moves the player to
+    '
+    ' @param {object} player - Video or Audio node
+    ' @param {string} command - "rewind" or "fastforward"
+    function skipPosition(player as object, command as string) as float
+        newPosition = player.position - REMOTE_REWIND_SECONDS
+        if command = "fastforward" then newPosition = player.position + REMOTE_FASTFORWARD_SECONDS
+        if newPosition < 0 then return 0
+        if player.duration > 0 and newPosition > player.duration then return player.duration
+        return newPosition
+    end function
+
+    ' generalCommand: Handles a GeneralCommand message
+    '
+    sub generalCommand(data as dynamic)
+        name = LCase(chainLookupReturn(data, "Name", string.EMPTY))
+        arguments = chainLookup(data, "Arguments")
+
+        if name = "playmediasource"
+            remoteControl.playMediaSource(arguments)
+        else if name = "setsubtitlestreamindex"
+            remoteControl.setSubtitleStreamIndex(arguments)
+        else if name = "mute"
+            remoteControl.setMute(true)
+        else if name = "unmute"
+            remoteControl.setMute(false)
+        else if name = "togglemute"
+            remoteControl.setMute(not remoteControl.isMuted())
+        else if name = "setaudiostreamindex"
+            remoteControl.setAudioStreamIndex(arguments)
+        else if name = "displaymessage"
+            remoteControl.displayMessage(arguments)
+        else if name = "setrepeatmode"
+            remoteControl.setRepeatMode(arguments)
+        else if name = "setshufflequeue"
+            remoteControl.setShuffleQueue(arguments)
+        else if name = "displaycontent"
+            remoteControl.displayContent(arguments)
+        else if name = "channelup"
+            remoteControl.changeChannel(1)
+        else if name = "channeldown"
+            remoteControl.changeChannel(-1)
+        else if name = "guide"
+            remoteControl.showGuide()
+        else if name = "toggleosd"
+            remoteControl.toggleOsd()
+        else if name = "back"
+            remoteControl.goBack()
+        else if name = "gohome"
+            remoteControl.goHome()
+        else if name = "gotosearch"
+            remoteControl.prepareForNavigation()
+            m.global.jumpTo = { selectiontype: "search" }
+        else if name = "gotosettings"
+            remoteControl.prepareForNavigation()
+            m.global.jumpTo = { selectiontype: "settings" }
+        end if
+    end sub
+
+    ' getActiveVideoPlayer: Returns the video player if it is the active scene, or invalid
+    '
+    function getActiveVideoPlayer() as dynamic
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(activeScene) and activeScene.isSubType("VideoPlayerView") then return activeScene
+        return invalid
+    end function
+
+    ' setAudioStreamIndex: Changes the audio track of the playing video (Arguments.Index)
+    '
+    sub setAudioStreamIndex(arguments as dynamic)
+        streamIndex = remoteControl.parseInteger(chainLookup(arguments, "Index"))
+        if not isValid(streamIndex) then return
+
+        videoPlayer = remoteControl.getActiveVideoPlayer()
+        if isValid(videoPlayer) then videoPlayer.remoteAudioStreamIndex = streamIndex
+    end sub
+
+    ' displayMessage: Shows a message from a remote control client (Arguments.Header, Text, TimeoutMs)
+    '
+    sub displayMessage(arguments as dynamic)
+        header = chainLookupReturn(arguments, "Header", string.EMPTY)
+        text = chainLookupReturn(arguments, "Text", string.EMPTY)
+        if not isValidAndNotEmpty(header) and not isValidAndNotEmpty(text) then return
+
+        ' Don't replace a dialog the user is interacting with, unless it is a previous remote message
+        if m.global.sceneManager.callFunc("isDialogOpen") and not remoteControl.isMessageDialogOpen() then return
+        remoteControl.closeMessage()
+
+        m.global.sceneManager.callFunc("userMessage", header, text)
+        m.remoteMessageDialog = m.scene.dialog
+
+        timeoutMs = remoteControl.parseInteger(chainLookup(arguments, "TimeoutMs"))
+        if isValid(timeoutMs) and timeoutMs > 0
+            m.remoteMessageTimer = CreateObject("roSGNode", "Timer")
+            m.remoteMessageTimer.repeat = false
+            m.remoteMessageTimer.duration = timeoutMs / 1000
+            m.remoteMessageTimer.observeField("fire", m.port)
+            m.remoteMessageTimer.control = "start"
+        end if
+    end sub
+
+    ' isMessageDialogOpen: Returns true if the open dialog is one shown by displayMessage
+    '
+    function isMessageDialogOpen() as boolean
+        if not isValid(m.remoteMessageDialog) or not isValid(m.scene.dialog) then return false
+        return m.scene.dialog.isSameNode(m.remoteMessageDialog)
+    end function
+
+    ' closeMessage: Closes the displayMessage dialog if it is still open, and its timer
+    '
+    sub closeMessage()
+        if isValid(m.remoteMessageTimer)
+            m.remoteMessageTimer.unobserveField("fire")
+            m.remoteMessageTimer.control = "stop"
+            m.remoteMessageTimer = invalid
+        end if
+
+        if remoteControl.isMessageDialogOpen() then m.global.sceneManager.callFunc("dismissDialog")
+        m.remoteMessageDialog = invalid
+    end sub
+
+    ' isMessageTimerEvent: Returns true if the message is the displayMessage timeout firing
+    '
+    function isMessageTimerEvent(msg as dynamic) as boolean
+        if type(msg) <> "roSGNodeEvent" then return false
+        if not isValid(m.remoteMessageTimer) then return false
+        return msg.getRoSGNode().isSameNode(m.remoteMessageTimer)
+    end function
+
+    ' setRepeatMode: Sets the audio repeat mode (Arguments.RepeatMode: RepeatNone, RepeatAll, RepeatOne)
+    '
+    sub setRepeatMode(arguments as dynamic)
+        repeatMode = LCase(chainLookupReturn(arguments, "RepeatMode", string.EMPTY))
+
+        if repeatMode = "repeatall"
+            m.global.audioPlayer.loopMode = "all"
+        else if repeatMode = "repeatone"
+            m.global.audioPlayer.loopMode = "one"
+        else if repeatMode = "repeatnone"
+            m.global.audioPlayer.loopMode = string.EMPTY
+        end if
+    end sub
+
+    ' setShuffleQueue: Shuffles or unshuffles the play queue (Arguments.ShuffleMode: Shuffle, Sorted)
+    '
+    sub setShuffleQueue(arguments as dynamic)
+        shuffleMode = LCase(chainLookupReturn(arguments, "ShuffleMode", string.EMPTY))
+        if shuffleMode <> "shuffle" and shuffleMode <> "sorted" then return
+        enabled = shuffleMode = "shuffle"
+
+        queueManager = m.global.queueManager
+        if queueManager.callFunc("getCount") < 2 then return
+        if queueManager.callFunc("getIsShuffled") = enabled then return
+
+        ' The audio player view updates its display when it toggles shuffle itself
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(activeScene) and activeScene.isSubType("AudioPlayerView")
+            activeScene.callFunc("setShuffle", enabled)
+        else
+            remoteControl.toggleShuffle()
+        end if
+
+        m.global.audioPlayer.callFunc("onPlaybackSettingsChanged")
+    end sub
+
+    ' toggleShuffle: Toggles shuffle on the play queue, keeping the current item playing when unshuffling
+    '
+    sub toggleShuffle()
+        queueManager = m.global.queueManager
+        currentItemId = chainLookup(queueManager.callFunc("getCurrentItem"), "id")
+        queueManager.callFunc("toggleShuffle")
+        if queueManager.callFunc("getIsShuffled") then return
+
+        ' Unshuffling restores the original order
+        queue = queueManager.callFunc("getQueue")
+        for i = 0 to queue.count() - 1
+            if isStringEqual(chainLookup(queue[i], "id"), currentItemId)
+                queueManager.callFunc("setPosition", i)
+                return
+            end if
+        end for
+    end sub
+
+    ' displayContent: Opens the details page of an item (Arguments.ItemId)
+    '
+    sub displayContent(arguments as dynamic)
+        itemId = chainLookup(arguments, "ItemId")
+        if not isValidAndNotEmpty(itemId) then return
+
+        itemNode = ItemMetaData(itemId)
+        if not isChainValid(itemNode, "json.Type")
+            print "Remote control: unable to load item to display: " itemId
+            return
+        end if
+
+        json = itemNode.json
+        contentType = LCase(json.Type)
+
+        remoteControl.prepareForNavigation()
+        startLoadingSpinner()
+
+        if inArray([ItemType.MOVIE, ItemType.EPISODE, ItemType.RECORDING, ItemType.MUSICVIDEO, ItemType.VIDEO, "trailer"], contentType)
+            CreateMovieDetailsGroup(itemNode)
+        else if contentType = ItemType.SERIES
+            CreateSeriesDetailsGroup(itemId)
+        else if contentType = ItemType.SEASON and isValidAndNotEmpty(json.LookupCI("SeriesId"))
+            CreateSeasonDetailsGroupByID(json.LookupCI("SeriesId"), itemId)
+        else if contentType = ItemType.PERSON
+            CreatePersonView(itemNode)
+        else if contentType = ItemType.MUSICARTIST
+            CreateArtistView(json)
+        else if contentType = ItemType.MUSICALBUM
+            CreateAlbumView(json)
+        else if (contentType = ItemType.AUDIO or contentType = ItemType.AUDIOBOOK) and isValidAndNotEmpty(json.LookupCI("AlbumId"))
+            ' Songs don't have their own page; show their album
+            albumNode = ItemMetaData(json.LookupCI("AlbumId"))
+            if isChainValid(albumNode, "json")
+                CreateAlbumView(albumNode.json)
+            else
+                stopLoadingSpinner()
+            end if
+        else if contentType = ItemType.PLAYLIST
+            CreatePlaylistView(json)
+        else if contentType = ItemType.BOXSET
+            group = CreateVisualLibraryScene(itemNode, ItemType.BOXSET)
+            if isValid(group)
+                m.global.sceneManager.callFunc("pushScene", group)
+            else
+                stopLoadingSpinner()
+            end if
+        else
+            print "Remote control: DisplayContent not supported for type " contentType
+            stopLoadingSpinner()
+        end if
+    end sub
+
+    ' changeChannel: Switches the playing Live TV channel up or down, in the user's channel order
+    '
+    ' @param {integer} direction - 1 for the next channel, -1 for the previous channel
+    sub changeChannel(direction as integer)
+        if not isValid(remoteControl.getActiveVideoPlayer()) then return
+
+        queueManager = m.global.queueManager
+        currentItem = queueManager.callFunc("getCurrentItem")
+        if not isStringEqual(queueManager.callFunc("getItemType", currentItem), ItemType.TVCHANNEL) then return
+
+        channels = remoteControl.getChannels()
+        if channels.count() < 2 then return
+
+        currentIndex = -1
+        currentId = chainLookupReturn(currentItem, "id", string.EMPTY)
+        for i = 0 to channels.count() - 1
+            if isStringEqual(chainLookup(channels[i], "Id"), currentId)
+                currentIndex = i
+                exit for
+            end if
+        end for
+
+        ' Wrap around at either end of the list
+        nextIndex = (currentIndex + direction + channels.count()) mod channels.count()
+        remoteControl.play({ ItemIds: [channels[nextIndex].Id], PlayCommand: "PlayNow" })
+    end sub
+
+    ' getChannels: Returns Live TV channels sorted and filtered the way the Live TV library shows them
+    '
+    function getChannels() as object
+        sortAscending = toBoolean(chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortAscending`", true))
+        params = {
+            "userid": m.global.session.user.id,
+            "IncludeItemTypes": "TvChannel",
+            "recursive": true,
+            "SortBy": chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortField`", "SortName"),
+            "SortOrder": sortAscending = false ? "Descending" : "Ascending",
+            "enableImages": false,
+            "enableUserData": false,
+            "EnableTotalRecordCount": false
+        }
+        if isStringEqual(chainLookup(m.global.session, "user.settings.`display.livetv.filter`"), "Favorites")
+            params.isFavorite = true
+        end if
+
+        data = api.items.Get(params)
+        if not isChainValid(data, "Items") then return []
+        return data.Items
+    end function
+
+    ' showGuide: Opens the Live TV guide
+    '
+    sub showGuide()
+        views = api.GetUserViews({ "userId": m.global.session.user.id })
+        if not isChainValid(views, "Items") then return
+
+        for each view in views.Items
+            if isStringEqual(view.LookupCI("CollectionType"), "livetv")
+                remoteControl.prepareForNavigation()
+
+                libraryItem = CreateObject("roSGNode", "JFContentItem")
+                libraryItem.id = view.LookupCI("Id")
+                libraryItem.type = view.LookupCI("Type")
+                libraryItem.json = view
+
+                group = CreateLiveTVLibraryView(libraryItem, true)
+                m.global.sceneManager.callFunc("pushScene", group)
+                return
+            end if
+        end for
+
+        print "Remote control: no Live TV library found"
+    end sub
+
+    ' toggleOsd: Shows or hides the video player's on screen display
+    '
+    sub toggleOsd()
+        videoPlayer = remoteControl.getActiveVideoPlayer()
+        if isValid(videoPlayer) then videoPlayer.callFunc("toggleOSD")
+    end sub
+
+    ' goBack: Goes back one screen, the same as pressing the back button (never exits the app)
+    '
+    sub goBack()
+        if remoteControl.dismissDialog() then return
+        if remoteControl.closeFullScreenPlayer() then return
+        if m.global.sceneManager.callFunc("getSceneCount") > 1
+            m.global.sceneManager.callFunc("popScene")
+        end if
+    end sub
+
+    ' goHome: Returns to the home screen
+    '
+    sub goHome()
+        ' Each step closes one screen; the limit guards against a screen that refuses to close
+        for i = 1 to 50
+            remoteControl.dismissDialog()
+            if m.global.sceneManager.callFunc("getSceneCount") <= 1 then return
+            remoteControl.goBack()
+        end for
+    end sub
+
+    ' prepareForNavigation: Closes dialogs and full screen players before opening another screen.
+    ' Video can't keep playing behind another screen, so it is stopped; audio continues in the mini player.
+    '
+    sub prepareForNavigation()
+        remoteControl.dismissDialog()
+        remoteControl.closeFullScreenPlayer()
+    end sub
+
+    ' dismissDialog: Closes the open dialog, if any
+    '
+    ' @return {boolean} true if a dialog was closed
+    function dismissDialog() as boolean
+        if not m.global.sceneManager.callFunc("isDialogOpen") then return false
+        m.global.sceneManager.callFunc("dismissDialog")
+        return true
+    end function
+
+    ' closeFullScreenPlayer: Leaves the video or audio player if it is the active scene.
+    ' Video is stopped; audio continues in the mini player.
+    '
+    ' @return {boolean} true if a player was closed
+    function closeFullScreenPlayer() as boolean
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return false
+
+        if activeScene.isSubType("VideoPlayerView")
+            activeScene.callFunc("closePlayer")
+            return true
+        end if
+
+        if activeScene.isSubType("AudioPlayerView")
+            activeScene.callFunc("goBack")
+            return true
+        end if
+
+        return false
+    end function
+
+    ' getActiveMediaPlayer: Returns the video or audio node currently playing media, or invalid
+    '
+    function getActiveMediaPlayer() as dynamic
+        videoPlayer = remoteControl.getActiveVideoPlayer()
+        if isValid(videoPlayer) then return videoPlayer
+        if remoteControl.isAudioActive() then return m.global.audioPlayer
+        return invalid
+    end function
+
+    ' isMuted: Returns whether the active media player is muted
+    '
+    function isMuted() as boolean
+        player = remoteControl.getActiveMediaPlayer()
+        if not isValid(player) then return false
+        return player.mute = true
+    end function
+
+    ' setMute: Mutes or unmutes the active media player.
+    ' Roku does not allow apps to change the system volume, so only muting is possible.
+    '
+    sub setMute(mute as boolean)
+        player = remoteControl.getActiveMediaPlayer()
+        if isValid(player) then player.mute = mute
+    end sub
+
+    ' setSubtitleStreamIndex: Changes the subtitle track of the playing video (Arguments.Index, -1 = none)
+    '
+    sub setSubtitleStreamIndex(arguments as dynamic)
+        streamIndex = remoteControl.parseSubtitleIndex(chainLookup(arguments, "Index"))
+        if not isValid(streamIndex) then return
+
+        videoPlayer = remoteControl.getActiveVideoPlayer()
+        if isValid(videoPlayer) then videoPlayer.remoteSubtitleStreamIndex = streamIndex
+    end sub
+
+    ' playMediaSource: Handles the PlayMediaSource general command
+    '
+    sub playMediaSource(arguments as dynamic)
+        itemId = chainLookup(arguments, "ItemId")
+        if not isValidAndNotEmpty(itemId) then return
+
+        items = remoteControl.getItems([itemId])
+        if items.count() = 0 then return
+        item = items[0]
+
+        mediaType = LCase(chainLookupReturn(item, "Type", string.EMPTY))
+        if not inArray([ItemType.AUDIO, ItemType.AUDIOBOOK, ItemType.EPISODE, ItemType.MOVIE, ItemType.MUSICVIDEO, ItemType.PHOTO, ItemType.RECORDING, ItemType.TVCHANNEL, ItemType.VIDEO, "trailer"], mediaType)
+            ' Containers (series, albums, playlists, ...) use the same logic as deep links
+            remoteControl.stopActivePlayback()
+            onDeepLinkingEvent({
+                mediaType: mediaType,
+                contentId: itemId,
+                seriesID: chainLookupReturn(item, "SeriesId", string.EMPTY),
+                collectionType: chainLookupReturn(item, "CollectionType", string.EMPTY)
+            })
+            return
+        end if
+
+        remoteControl.play({
+            ItemIds: [itemId],
+            PlayCommand: "PlayNow",
+            StartPositionTicks: remoteControl.parseInteger(chainLookup(arguments, "StartPositionTicks")),
+            MediaSourceId: chainLookup(arguments, "MediaSourceId"),
+            AudioStreamIndex: remoteControl.parseInteger(chainLookup(arguments, "AudioStreamIndex")),
+            SubtitleStreamIndex: remoteControl.parseSubtitleIndex(chainLookup(arguments, "SubtitleStreamIndex"))
+        })
+    end sub
+
+    ' getItems: Fetches items by ID, returned in the same order as the passed IDs
+    '
+    function getItems(itemIds as object) as object
+        itemsById = {}
+        idCount = itemIds.count()
+
+        for batchStart = 0 to idCount - 1 step REMOTE_ITEM_BATCH_SIZE
+            batch = []
+            batchEnd = batchStart + REMOTE_ITEM_BATCH_SIZE - 1
+            if batchEnd > idCount - 1 then batchEnd = idCount - 1
+            for i = batchStart to batchEnd
+                if isValidAndNotEmpty(itemIds[i]) then batch.push(itemIds[i])
+            end for
+            if batch.count() = 0 then continue for
+
+            data = api.items.Get({
+                "userid": m.global.session.user.id,
+                "ids": batch.join(","),
+                "enableUserData": true,
+                "EnableTotalRecordCount": false
+            })
+
+            if isChainValid(data, "Items")
+                for each item in data.Items
+                    itemId = item.LookupCI("Id")
+                    if isValidAndNotEmpty(itemId) then itemsById[itemId] = item
+                end for
+            end if
+        end for
+
+        items = []
+        for each itemId in itemIds
+            if not isValidAndNotEmpty(itemId) then continue for
+            item = itemsById[itemId]
+            if not isValid(item) then continue for
+
+            ' Copy so repeated IDs and per-item settings (startingPoint) don't share state
+            itemCopy = {}
+            itemCopy.Append(item)
+            items.push(itemCopy)
+        end for
+
+        return items
+    end function
+
+    ' parseInteger: Parses a numeric string argument, returning invalid if it is not a number
+    '
+    function parseInteger(value as dynamic) as dynamic
+        if isNumber(value) then return value
+        if not isValidAndNotEmpty(value) then return invalid
+        if not CreateObject("roRegex", "^\d+$", string.EMPTY).IsMatch(value) then return invalid
+        ' ParseJson keeps 64-bit precision for large values such as ticks
+        return ParseJson(value)
+    end function
+
+    ' parseSubtitleIndex: Parses a subtitle stream index argument, where "-1" means no subtitles
+    '
+    function parseSubtitleIndex(value as dynamic) as dynamic
+        if isStringEqual(value, "-1") then return SubtitleSelection.NONE
+        return remoteControl.parseInteger(value)
+    end function
+
+    ' allItemsOfType: Returns true if every item is of the passed type
+    '
+    function allItemsOfType(items as object, wantedType as string) as boolean
+        for each item in items
+            if not isStringEqual(chainLookup(item, "Type"), wantedType) then return false
+        end for
+        return true
+    end function
+
+    ' isAudioActive: Returns true if the audio player has loaded media
+    '
+    function isAudioActive() as boolean
+        return inArray([MediaPlaybackState.PLAYING, MediaPlaybackState.PAUSED, MediaPlaybackState.BUFFERING], m.global.audioPlayer.state)
+    end function
+
+    ' stopAudio: Stops audio playback and closes the audio player and mini player
+    '
+    sub stopAudio(activeScene as dynamic)
+        if isValid(activeScene) and activeScene.isSubType("AudioPlayerView")
+            activeScene.callFunc("closePlayer")
+        else
+            m.global.queueManager.callFunc("clear")
+            m.global.audioPlayer.control = "stop"
+        end if
+
+        audioMiniPlayer = m.scene.findNode("audioMiniPlayer")
+        if isValid(audioMiniPlayer) then audioMiniPlayer.callFunc("setVisible", false)
+    end sub
+
+    ' stopActivePlayback: Stops whatever is currently playing before new remote playback starts
+    '
+    sub stopActivePlayback()
+        remoteControl.dismissDialog()
+
+        videoPlayer = remoteControl.getActiveVideoPlayer()
+        if isValid(videoPlayer)
+            videoPlayer.callFunc("closePlayer")
+            return
+        end if
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(activeScene) and activeScene.isSubType("PhotoDetails")
+            m.global.sceneManager.callFunc("popScene")
+            activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        end if
+
+        if remoteControl.isAudioActive() or (isValid(activeScene) and activeScene.isSubType("AudioPlayerView"))
+            remoteControl.stopAudio(activeScene)
+        end if
+    end sub
+
+end namespace

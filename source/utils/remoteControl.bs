@@ -1,0 +1,76 @@
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/utils/misc.bs"
+
+' First Roku OS version that allows apps to open WebSockets (roWebSocket)
+const MINIMUM_WEBSOCKET_OS_VERSION = [16, 0, 0]
+
+' getRemoteControlSocketUrl: Returns the URL of the server WebSocket (/socket) that delivers remote control commands.
+'
+' The scheme follows the server URL: http becomes ws and https becomes wss (TLS is handled by roWebSocket).
+'
+' @return {string} WebSocket URL, or an empty string if remote control is not possible
+function getRemoteControlSocketUrl() as string
+    serverUrl = chainLookup(m.global, "session.server.url")
+    if not isValidAndNotEmpty(serverUrl) then return string.EMPTY
+
+    if isStringEqual(Left(serverUrl, 8), "https://")
+        socketUrl = "wss://" + Mid(serverUrl, 9)
+    else if isStringEqual(Left(serverUrl, 7), "http://")
+        socketUrl = "ws://" + Mid(serverUrl, 8)
+    else
+        return string.EMPTY
+    end if
+
+    if Right(socketUrl, 1) = "/" then socketUrl = Left(socketUrl, Len(socketUrl) - 1)
+    return socketUrl + "/socket"
+end function
+
+' isRemoteControlSupported: Returns whether this session can accept remote control commands from the server.
+' Requires roWebSocket, which delivers the commands, and a server URL to connect to.
+'
+' @return {boolean}
+function isRemoteControlSupported() as boolean
+    if not isWebSocketAvailable() then return false
+    return getRemoteControlSocketUrl() <> string.EMPTY
+end function
+
+' isWebSocketAvailable: Returns whether this device's firmware can open WebSockets with roWebSocket.
+' Older firmware can create roWebSocket, but Open() fails with error 29 ("WebSockets are not allowed").
+'
+' @return {boolean}
+function isWebSocketAvailable() as boolean
+    osVersion = chainLookup(m.global, "device.osVersion")
+    if not isValid(osVersion) then return false
+    if not serverVersionMeetsMinimumRequirements(`${osVersion.major}.${osVersion.minor}.${osVersion.revision}`, MINIMUM_WEBSOCKET_OS_VERSION) then return false
+
+    ' roWebSocket is not yet known to the BrighterScript compiler: https://github.com/rokucommunity/brighterscript/issues/1977
+    ' bs:disable-next-line: 1129
+    return isValid(CreateObject("roWebSocket"))
+end function
+
+' getSupportedRemoteCommands: Returns the GeneralCommand names that remoteControl.generalCommand handles.
+' Keep this list in sync with generalCommand in source/RemoteControl.bs.
+'
+' @return {object} array of command names
+function getSupportedRemoteCommands() as object
+    return [
+        "PlayMediaSource",
+        "SetAudioStreamIndex",
+        "SetSubtitleStreamIndex",
+        "Mute",
+        "Unmute",
+        "ToggleMute",
+        "DisplayMessage",
+        "SetRepeatMode",
+        "SetShuffleQueue",
+        "DisplayContent",
+        "ChannelUp",
+        "ChannelDown",
+        "Guide",
+        "ToggleOsd",
+        "Back",
+        "GoHome",
+        "GoToSearch",
+        "GoToSettings"
+    ]
+end function
