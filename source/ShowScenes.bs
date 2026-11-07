@@ -1124,11 +1124,12 @@ function CreateOtherLibrary(libraryItem as object) as dynamic
     return group
 end function
 
-function CreateLiveTVLibraryView(libraryItem as object) as dynamic
+function CreateLiveTVLibraryView(libraryItem as object, startInGuide = false as boolean) as dynamic
     ' validate libraryItem
     if not isValid(libraryItem) then return invalid
 
     group = CreateObject("roSGNode", "LiveTVLibraryView")
+    group.startInGuide = startInGuide
     group.parentItem = libraryItem
     group.optionsAvailable = true
     group.observeFieldScoped("selectedItem", m.port)

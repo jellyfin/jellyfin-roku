@@ -19,6 +19,7 @@
     <function name="getQueueUniqueTypes" />
     <function name="getUnshuffledQueue" />
     <function name="hold" />
+    <function name="insert" />
     <function name="isPrerollActive" />
     <function name="moveBack" />
     <function name="moveForward" />

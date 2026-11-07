@@ -2,20 +2,26 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/utils/remoteControl.bs"
 
 const h264Profiles = ["baseline", "main", "high"]
 
 ' Returns the Device Capabilities for Roku.
 function getDeviceCapabilities(videoCodec = string.EMPTY as string) as object
+    ' Remote control commands are delivered over the server WebSocket (see RemoteControlTask)
+    supportsMediaControl = isRemoteControlSupported()
+    supportedCommands = []
+    if supportsMediaControl then supportedCommands = getSupportedRemoteCommands()
+
     deviceProfile = {
         "PlayableMediaTypes": [
             "Audio",
             "Video",
             "Photo"
         ],
-        "SupportedCommands": [],
+        "SupportedCommands": supportedCommands,
         "SupportsPersistentIdentifier": true,
-        "SupportsMediaControl": false,
+        "SupportsMediaControl": supportsMediaControl,
         "SupportsContentUploading": false,
         "SupportsSync": false,
         "DeviceProfile": getDeviceProfile(videoCodec)

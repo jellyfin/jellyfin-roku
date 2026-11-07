@@ -13,6 +13,10 @@ sub init()
     m.playbackTimer = m.top.findNode("playbackTimer")
     m.playbackTimer.observeField("fire", "ReportPlayback")
 
+    ' Report settings changes right away instead of waiting for the next progress report
+    m.top.observeField("loopMode", "onPlaybackSettingsChanged")
+    m.top.observeField("mute", "onPlaybackSettingsChanged")
+
     m.LoadAudioStreamTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadAudioStreamTask.itemsToLoad = "audioStream"
 
@@ -134,7 +138,10 @@ sub ReportPlayback(state = "update" as string)
     params = {
         "ItemId": m.global.queueManager.callFunc("getCurrentItem").id,
         "PositionTicks": int(m.top.position) * 10000000&, 'Ensure a LongInteger is used
-        "IsPaused": isPaused
+        "IsPaused": isPaused,
+        "IsMuted": m.top.mute,
+        "RepeatMode": getRepeatMode(),
+        "PlaybackOrder": m.global.queueManager.callFunc("getIsShuffled") ? "Shuffle" : "Default"
     }
 
     ' Report playstate via global task
@@ -142,6 +149,20 @@ sub ReportPlayback(state = "update" as string)
     playstateTask.setFields({ status: state, params: params })
     playstateTask.control = TaskControl.RUN
 end sub
+
+' onPlaybackSettingsChanged: Reports a change to mute, repeat or shuffle while audio is playing
+'
+sub onPlaybackSettingsChanged()
+    if m.playReported then ReportPlayback()
+end sub
+
+' getRepeatMode: Returns the Jellyfin RepeatMode matching the player's loop mode
+'
+function getRepeatMode() as string
+    if isStringEqual(m.top.loopMode, "all") then return "RepeatAll"
+    if isStringEqual(m.top.loopMode, "one") then return "RepeatOne"
+    return "RepeatNone"
+end function
 
 sub playNext()
     currentQueuePosition = m.global.queueManager.callFunc("getPosition")
