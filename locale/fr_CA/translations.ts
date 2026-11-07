@@ -2543,6 +2543,74 @@
         <source>Your search returned no tags.</source>
         <translation>Votre recherche n&apos;a donné aucun résultat.</translation>
     </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Apparaît dans</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Albums (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Apparaît dans (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 Chanson</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>%1 Chansons</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>%1 Album</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>%1 Albums</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Réalisé par :</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>%1 Apparaît dans l&apos;album</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>%1 Apparaît dans les albums</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Le serveur est encore en cours de démarrage. Veuillez réessayer.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Le serveur est temporairement indisponible. Veuillez réessayer.</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Commence Par</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>Cet appareil Roku ne recevra plus de mises à jour de Jellyfin à partir du 1ᵉʳ octobre 2026, en raison de la nouvelle version minimale requise par Roku (OS 15.1). Vous pouvez continuer à utiliser l&apos;application installée, mais elle ne bénéficiera plus d&apos;aucune mise à jour tant que le système d&apos;exploitation de votre Roku ne sera pas mis à niveau.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Toutes les mises à jour seront bloquées si nous ne faisons pas ce changement. Nous sommes contraints d&apos;agir ainsi ; si vous êtes affecté(e)s, veuillez contacter Roku. Merci de ne pas vous emporter contre notre équipe.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Vous pouvez masquer cette pop-up en désactivant le paramètre &quot;Interface utilisateur / Général / Afficher la pop-up de version de l&apos;OS de Roku&quot;.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Avertissement de la version de l&apos;OS de Roku</translation>
+    </message>
 </context>
 <context>
     <name></name>
