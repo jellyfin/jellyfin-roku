@@ -18,6 +18,8 @@
   <interface>
     <function name="updateChannelFavorite" />
     <field id="HomeLibraryItem" type="string" />
+    <!-- Open in the TV guide regardless of the user's landing setting. Must be set before parentItem. -->
+    <field id="startInGuide" type="boolean" value="false" />
     <field id="parentItem" type="node" onChange="loadInitialItems" />
     <field id="selectedItem" type="node" alwaysNotify="true" />
     <field id="quickPlayNode" type="node" alwaysNotify="true" />

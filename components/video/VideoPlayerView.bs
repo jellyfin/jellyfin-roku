@@ -120,6 +120,8 @@ sub init()
     m.top.observeField("voiceCommand", "onVoiceCommand")
 
     m.playbackTimer.observeField("fire", "ReportPlayback")
+    ' Report mute changes right away instead of waiting for the next progress report
+    m.top.observeField("mute", "onMuteChanged")
     m.bufferPercentage = 0 ' Track whether content is being loaded
     m.playReported = false
     m.bufferCheckTimer.duration = 30
@@ -1750,8 +1752,12 @@ sub ReportPlayback(state = "update" as string)
         "ItemId": m.top.id,
         "PlaySessionId": m.top.PlaySessionId,
         "PositionTicks": int(m.top.position) * 10000000&, 'Ensure a LongInteger is used
-        "IsPaused": isStringEqual(m.top.state, MediaPlaybackState.PAUSED)
+        "IsPaused": isStringEqual(m.top.state, MediaPlaybackState.PAUSED),
+        "IsMuted": m.top.mute
     }
+    if m.top.SelectedSubtitle <> SubtitleSelection.NOTSET
+        params.SubtitleStreamIndex = m.top.SelectedSubtitle
+    end if
     if isValid(m.top.content) and isValid(m.top.content.live) and m.top.content.live
         params.append({
             "MediaSourceId": m.top.transcodeParams.MediaSourceId,
@@ -2242,16 +2248,47 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        m.PreloadTrickplayImagesTask.method = "REMOVE"
-        m.PreloadTrickplayImagesTask.control = TaskControl.RUN
-
-        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
-        m.global.queueManager.callFunc("clear")
-        m.top.control = VideoControl.STOP
+        stopPlayback()
     end if
 
     return false
 end function
+
+' onMuteChanged: Reports a mute change while video is playing
+'
+sub onMuteChanged()
+    if m.playReported then ReportPlayback()
+end sub
+
+' stopPlayback: Stops video playback and clears the play queue
+'
+sub stopPlayback()
+    m.PreloadTrickplayImagesTask.method = "REMOVE"
+    m.PreloadTrickplayImagesTask.control = TaskControl.RUN
+
+    m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+    m.global.queueManager.callFunc("clear")
+    m.top.control = VideoControl.STOP
+end sub
+
+' toggleOSD: Shows or hides the on screen display (used by remote control ToggleOsd commands)
+'
+sub toggleOSD()
+    if m.osd.visible
+        handleHideAction(false)
+        return
+    end if
+
+    showOSD("videoControls")
+end sub
+
+' closePlayer: Stops playback and closes the player, same as the user pressing back (used by remote control Stop commands)
+'
+sub closePlayer()
+    stopFastforwardOrRewind()
+    stopPlayback()
+    m.global.sceneManager.callFunc("popScene")
+end sub
 
 ' createOSDMediaSegmentMarkers: Creates markers on the OSD progress bar for media segments such as intros, outros, and credits. Markers are created based on the StartTicks and EndTicks of each media segment and are displayed as semi-transparent rectangles overlaid on the progress bar.
 '
