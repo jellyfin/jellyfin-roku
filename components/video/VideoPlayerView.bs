@@ -122,6 +122,8 @@ sub init()
     m.playbackTimer.observeField("fire", "ReportPlayback")
     m.bufferPercentage = 0 ' Track whether content is being loaded
     m.playReported = false
+    m.pauseWhenResumed = false ' Set by resumePlayer when playback was paused at suspend
+    m.signalResumeComplete = false ' Set by resumePlayer until the restarted stream plays
     m.bufferCheckTimer.duration = 30
     m.playbackRetries = 0 ' Track retry attempts for buffering failures
     m.lastBufferError = 0 ' Timestamp of last buffering error
@@ -1420,6 +1422,8 @@ sub onPositionChanged()
     m.osd.live = m.top.content.live
     m.osd.progressDuration = m.top.duration
 
+    if m.pauseWhenResumed and m.top.position > 0 then pauseResumedPlayback()
+
     ' Update the caption task playback position.
     ' The position is calculated in milliseconds based on the current
     ' video playback position plus the configured subtitle offset.
@@ -1485,6 +1489,8 @@ end sub
 '
 ' When Video Player state changes
 sub onState(msg)
+    onResumedPlaybackState()
+
     if isValid(m.captionTask)
         m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     end if
@@ -2242,16 +2248,109 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        m.PreloadTrickplayImagesTask.method = "REMOVE"
-        m.PreloadTrickplayImagesTask.control = TaskControl.RUN
-
-        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
-        m.global.queueManager.callFunc("clear")
-        m.top.control = VideoControl.STOP
+        stopPlayback()
     end if
 
     return false
 end function
+
+' stopPlayback: Stops video playback and clears the play queue
+'
+sub stopPlayback()
+    m.PreloadTrickplayImagesTask.method = "REMOVE"
+    m.PreloadTrickplayImagesTask.control = TaskControl.RUN
+
+    m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+    m.global.queueManager.callFunc("clear")
+    m.top.control = VideoControl.STOP
+end sub
+
+' closePlayer: Stops playback and closes the player, same as the user pressing back
+'
+sub closePlayer()
+    stopFastforwardOrRewind()
+    stopPlayback()
+    m.global.sceneManager.callFunc("popScene")
+end sub
+
+' suspendPlayer: Stops the stream when Roku OS suspends the app, which takes away the video decoder.
+' The player stays on screen, and resumePlayer restarts the stream where it stopped.
+' The position is reported to the server now, in case the app is never resumed.
+'
+sub suspendPlayer()
+    stopFastforwardOrRewind()
+
+    if m.playReported
+        m.playbackTimer.control = "stop"
+        ReportPlayback("stop")
+        m.playReported = false
+    end if
+
+    ' Stream metadata may still be loading. resumePlayer loads it again.
+    m.LoadMetaDataTask.unobserveField("content")
+    m.LoadMetaDataTask.control = TaskControl.STOP
+
+    ' Live TV rejoins the live stream; anything else restarts where it stopped.
+    ' Before playback has started, the item keeps the starting point it was opened with.
+    isLive = isChainValid(m.top.content, "live") and m.top.content.live
+    if isLive
+        m.global.queueManager.callFunc("setTopStartingPoint", 0)
+    else if isValid(m.top.position) and m.top.position > 0
+        m.global.queueManager.callFunc("setTopStartingPoint", int(m.top.position) * 10000000&)
+    end if
+
+    m.resumeAfterSuspend = { paused: isStringEqual(m.top.state, MediaPlaybackState.PAUSED) }
+    m.top.control = VideoControl.STOP
+end sub
+
+' resumePlayer: Restarts the stream stopped by suspendPlayer when Roku OS resumes the app.
+' Playback starts paused if it was paused when the app was suspended.
+'
+' @param {boolean} signalBeacon - true to signal the AppResumeComplete beacon once the stream plays
+' @return {boolean} true if the stream is restarting
+function resumePlayer(signalBeacon as boolean) as boolean
+    if not isValid(m.resumeAfterSuspend) then return false
+
+    m.pauseWhenResumed = m.resumeAfterSuspend.paused
+    m.signalResumeComplete = signalBeacon
+    m.resumeAfterSuspend = invalid
+
+    ' The task keeps the selected audio and subtitle tracks from the previous load
+    m.LoadMetaDataTask.itemId = m.top.id
+    m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+    m.LoadMetaDataTask.control = TaskControl.RUN
+    return true
+end function
+
+' onResumedPlaybackState: Signals the AppResumeComplete beacon once a stream restarted by resumePlayer plays or fails
+'
+sub onResumedPlaybackState()
+    if not inArray([MediaPlaybackState.PLAYING, MediaPlaybackState.ERROR], m.top.state) then return
+
+    if isStringEqual(m.top.state, MediaPlaybackState.ERROR) then m.pauseWhenResumed = false
+
+    if m.signalResumeComplete
+        m.signalResumeComplete = false
+        m.top.getScene().signalBeacon("AppResumeComplete")
+    end if
+end sub
+
+' pauseResumedPlayback: Pauses a stream restarted by resumePlayer that was paused when the app was suspended,
+' and shows the OSD the same as pressing Play. Called on the first position update, so the OSD shows the right position.
+'
+sub pauseResumedPlayback()
+    ' Wait for a position update once playback has started
+    if not isStringEqual(m.top.state, MediaPlaybackState.PLAYING) then return
+    m.pauseWhenResumed = false
+
+    m.top.control = VideoControl.PAUSE
+    if m.LoadMetaDataTask.isIntro then return
+
+    setSiblingData()
+    if m.skipSegmentButton.visible then hideSegmentSkipButton()
+    refreshLiveOSDContent()
+    showOSD("videoControls")
+end sub
 
 ' createOSDMediaSegmentMarkers: Creates markers on the OSD progress bar for media segments such as intros, outros, and credits. Markers are created based on the StartTicks and EndTicks of each media segment and are displayed as semi-transparent rectangles overlaid on the progress bar.
 '

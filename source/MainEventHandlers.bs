@@ -312,6 +312,44 @@ sub openPlaybackSelectedItem(selectedItem as object)
     end if
 end sub
 
+' onAppResumedEvent: Roku OS resumed the app (Instant Resume) with its previous screens still in place.
+'
+' @param {object} msg - event whose data is { reason, launchParams }
+' @return {boolean} false if the user's session is no longer valid and they must log in again
+function onAppResumedEvent(msg as object) as boolean
+    ' Nothing to restore unless a user was logged in
+    if not isValidAndNotEmpty(chainLookup(m.global.session, "user.authToken")) then return true
+
+    ' The token may have been revoked while suspended. Other failures (such as an unreachable
+    ' server) leave the app as it was, the same as losing the server while the app is open.
+    currentUserResponse = AboutMe()
+    if not isValid(currentUserResponse.body) and currentUserResponse.code = 401 then return false
+
+    launchParams = msg.getData().launchParams
+    if isValidAndNotEmpty(launchParams)
+        ' Replace a video that was open when the app was suspended
+        closeVideoPlayer()
+        onDeepLinkingEvent(launchParams)
+        m.scene.signalBeacon("AppResumeComplete")
+        return true
+    end if
+
+    ' Watched state and resume points may have changed while suspended
+    activeScene = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(activeScene) and activeScene.isSubType("Home")
+        activeScene.callFunc("refresh")
+    end if
+
+    return true
+end function
+
+' closeVideoPlayer: Stops and closes the video player if it is the active screen
+'
+sub closeVideoPlayer()
+    activeScene = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(activeScene) and activeScene.isSubType("VideoPlayerView") then activeScene.callFunc("closePlayer")
+end sub
+
 sub onDeepLinkingEvent(args)
     if not isValidAndNotEmpty(args) then return
     if not isValidAndNotEmpty(args.mediaType) then return

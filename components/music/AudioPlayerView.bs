@@ -394,6 +394,12 @@ function stopClicked() as boolean
     return true
 end function
 
+' closePlayer: Stops playback and closes the player
+'
+sub closePlayer()
+    closePlayerClicked()
+end sub
+
 function closePlayerClicked() as boolean
     m.global.queueManager.callFunc("clear")
     unobserveAll()

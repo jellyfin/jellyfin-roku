@@ -143,6 +143,16 @@ sub ReportPlayback(state = "update" as string)
     playstateTask.control = TaskControl.RUN
 end sub
 
+' reportStopped: Reports the current position to the server as stopped (used when Roku OS suspends the app)
+'
+sub reportStopped()
+    if not m.playReported then return
+
+    m.playbackTimer.control = "stop"
+    ReportPlayback("stop")
+    m.playReported = false
+end sub
+
 sub playNext()
     currentQueuePosition = m.global.queueManager.callFunc("getPosition")
     if m.global.queueManager.callFunc("getPosition") >= m.global.queueManager.callFunc("getCount") - 1 then return
