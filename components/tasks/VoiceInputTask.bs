@@ -31,19 +31,25 @@ sub runLoop()
             if isStringEqual(msg.getField(), "transportResponse")
                 response = msg.getData()
                 if isValid(response) and isValid(response.id)
-                    m.input.EventResponse({ id: response.id, status: response.status })
+                    eventResponse = { id: response.id, status: response.status }
+                    ' Optional details Roku OS shows with the response, such as music_track for like
+                    if isValid(response.metadata) then eventResponse.Append(response.metadata)
+                    m.input.EventResponse(eventResponse)
                 end if
                 ' Send Now Playing metadata to Roku OS
             else if isStringEqual(msg.getField(), "nowPlayingData")
                 data = msg.getData()
-                if isChainValid(data, "title")
-                    appMgr = CreateObject("roAppManager")
-                    ' Roku Voice reads Now Playing metadata from roAppManager.
-                    ' Keep this in TASK context; calling roAppManager from SceneGraph nodes fails.
+                ' Roku Voice reads Now Playing metadata from roAppManager.
+                ' Keep this in TASK context; calling roAppManager from SceneGraph nodes fails.
+                appMgr = CreateObject("roAppManager")
+                if isValidAndNotEmpty(chainLookup(data, "title"))
                     appMgr.SetNowPlayingContentMetaData({
                         title: data.title,
                         contentType: data.contentType ?? "video"
                     })
+                else
+                    ' Nothing is playing
+                    appMgr.SetNowPlayingContentMetaData(invalid)
                 end if
             end if
         end if
