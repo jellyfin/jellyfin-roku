@@ -22,7 +22,7 @@ namespace quickplay
 
         ' attempt to play video file. resume if possible
         if isValidAndNotEmpty(itemNode.selectedVideoStreamId)
-            itemNode.id = itemNode.selectedVideoStreamId
+            itemNode.mediaSourceId = itemNode.selectedVideoStreamId
         end if
 
         audio_stream_idx = 0
