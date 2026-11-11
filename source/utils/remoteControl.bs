@@ -74,7 +74,6 @@ function getSupportedRemoteCommands() as object
         "ChannelUp",
         "ChannelDown",
         "Guide",
-        "ToggleOsd",
         "Back",
         "GoHome",
         "GoToSearch",

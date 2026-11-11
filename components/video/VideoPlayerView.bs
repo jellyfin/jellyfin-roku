@@ -2271,17 +2271,6 @@ sub stopPlayback()
     m.top.control = VideoControl.STOP
 end sub
 
-' toggleOSD: Shows or hides the on screen display (used by remote control ToggleOsd commands)
-'
-sub toggleOSD()
-    if m.osd.visible
-        handleHideAction(false)
-        return
-    end if
-
-    showOSD("videoControls")
-end sub
-
 ' closePlayer: Stops playback and closes the player, same as the user pressing back (used by remote control Stop commands)
 '
 sub closePlayer()

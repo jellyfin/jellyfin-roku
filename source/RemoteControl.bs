@@ -265,8 +265,6 @@ namespace remoteControl
             remoteControl.changeChannel(-1)
         else if name = "guide"
             remoteControl.showGuide()
-        else if name = "toggleosd"
-            remoteControl.toggleOsd()
         else if name = "back"
             remoteControl.goBack()
         else if name = "gohome"
@@ -590,13 +588,6 @@ namespace remoteControl
         end for
 
         print "Remote control: no Live TV library found"
-    end sub
-
-    ' toggleOsd: Shows or hides the video player's on screen display
-    '
-    sub toggleOsd()
-        videoPlayer = remoteControl.getActiveVideoPlayer()
-        if isValid(videoPlayer) then videoPlayer.callFunc("toggleOSD")
     end sub
 
     ' goBack: Goes back one screen, the same as pressing the back button (never exits the app)
