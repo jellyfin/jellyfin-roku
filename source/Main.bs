@@ -28,6 +28,7 @@ sub Main (args as dynamic) as void
 
     playstateTask = CreateObject("roSGNode", "PlaystateTask")
     playstateTask.id = "playstateTask"
+    playstateTask.control = TaskControl.RUN
 
     sceneManager = CreateObject("roSGNode", "SceneManager")
     sceneManager.observeField("dataReturned", m.port)

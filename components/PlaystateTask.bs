@@ -2,23 +2,39 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/config.bs"
 
 sub init()
-    m.top.functionName = "PlaystateUpdate"
+    m.top.functionName = "PlaystateLoop"
 end sub
 
-sub PlaystateUpdate()
-    if m.top.status = "start"
+' Runs for as long as the app does, sending each report set on the report field in turn.
+' Reports used to restart the task, so a report made while the previous one was still being sent
+' (for example, a start right after a stop) was lost.
+sub PlaystateLoop()
+    port = CreateObject("roMessagePort")
+    m.top.observeField("report", port)
+
+    while true
+        msg = wait(0, port)
+        if type(msg) = "roSGNodeEvent"
+            report = msg.getData()
+            if isValid(report) then PlaystateUpdate(report.status, report.params)
+        end if
+    end while
+end sub
+
+sub PlaystateUpdate(status as dynamic, params as dynamic)
+    if status = "start"
         url = "Sessions/Playing"
-    else if m.top.status = "stop"
+    else if status = "stop"
         url = "Sessions/Playing/Stopped"
-    else if m.top.status = "update"
+    else if status = "update"
         url = "Sessions/Playing/Progress"
     else
         ' Unknown State
         return
     end if
-    params = PlaystateDefaults(m.top.params)
+    if not isValid(params) then params = {}
     resp = APIRequest(url)
-    postJson(resp, params)
+    postJson(resp, PlaystateDefaults(params))
 end sub
 
 function PlaystateDefaults(params = {} as object)
