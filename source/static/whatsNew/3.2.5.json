@@ -18,5 +18,9 @@
   {
     "description": "Only request images the server has",
     "author": "crobibero"
+  },
+  {
+    "description": "Keep the current song first when shuffling again",
+    "author": "candrews"
   }
 ]
