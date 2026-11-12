@@ -354,8 +354,8 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
         for each codec in audioCodecs
             if di.CanDecodeAudio({ Codec: codec, Container: container }).result
                 if container = "mp4"
-                    ' only these played in a separate fMP4 audio rendition on Roku (ac3, eac3, dts untested)
-                    if inArray(["aac", "mp3"], codec) then mp4AudioCodecs = mp4AudioCodecs + "," + codec
+                    ' alac, flac, opus and truehd don't play in a separate fMP4 audio rendition on Roku
+                    if inArray(["aac", "mp3", "ac3", "eac3", "dts"], codec) then mp4AudioCodecs = mp4AudioCodecs + "," + codec
                 else if container = "ts"
                     tsAudioCodecs = tsAudioCodecs + "," + codec
                 end if
