@@ -809,6 +809,7 @@ sub onSelectedItemEvent(msg)
         else if selectedItemType = "person"
             CreatePersonView(selectedItem)
         else if selectedItemType = "tvchannel" or selectedItemType = "video" or selectedItemType = "program"
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
             ' User selected a Live TV channel / program
             ' Show Channel Loading spinner
             dialog = createObject("roSGNode", "ProgressDialog")
