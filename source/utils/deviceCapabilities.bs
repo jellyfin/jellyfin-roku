@@ -203,15 +203,17 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     ' (CMAF) stream that muxes audio and video, and the server always muxes them, so an mp4
     ' HLS profile would play with no audio.
     ' https://developer.roku.com/dev/docs/media
-    container = "ts"
+    transcodingContainers = ["ts"]
     ' use strings to preserve order
+    mp4AudioCodecs = "AC3"
+    mp4VideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
     tsAudioCodecs = string.EMPTY
     tsVideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
 
     ' does the users setup support surround sound?
     maxAudioChannels = "2" ' jellyfin expects this as a string
     ' in order of preference from left to right
-    audioCodecs = ["eac3", "ac3", "dts", "mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
+    audioCodecs = ["eac3", "ac3", "aac", "dts", "mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
 
     if di.GetAudioOutputChannel() = "5.1 surround"
         maxAudioChannels = "6"
@@ -226,91 +228,141 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     ' VIDEO CODECS
     '
     ' AVC / h264 / MPEG4 AVC
-    if not isStringEqual(videoCodec, "h264")
-        if di.CanDecodeVideo({ Codec: "h264", Container: container }).Result
-            ' check for codec string before adding it
-            if tsVideoCodecs.Instr(0, ",h264") = -1
-                tsVideoCodecs = tsVideoCodecs + ",h264"
+    for each container in transcodingContainers
+        if not isStringEqual(videoCodec, "h264")
+            if di.CanDecodeVideo({ Codec: "h264", Container: container }).Result
+                if container = "mp4"
+                    ' check for codec string before adding it
+                    if mp4VideoCodecs.Instr(0, ",h264") = -1
+                        mp4VideoCodecs = mp4VideoCodecs + ",h264"
+                    end if
+                else if container = "ts"
+                    ' check for codec string before adding it
+                    if tsVideoCodecs.Instr(0, ",h264") = -1
+                        tsVideoCodecs = tsVideoCodecs + ",h264"
+                    end if
+                end if
             end if
         end if
-    end if
-    if not isStringEqual(videoCodec, "mpeg4 avc")
-        if di.CanDecodeVideo({ Codec: "mpeg4 avc", Container: container }).Result
-            ' check for codec string before adding it
-            if tsVideoCodecs.Instr(0, ",mpeg4 avc") = -1
-                tsVideoCodecs = tsVideoCodecs + ",mpeg4 avc"
+        if not isStringEqual(videoCodec, "mpeg4 avc")
+            if di.CanDecodeVideo({ Codec: "mpeg4 avc", Container: container }).Result
+                if container = "mp4"
+                    ' check for codec string before adding it
+                    if mp4VideoCodecs.Instr(0, ",mpeg4 avc") = -1
+                        mp4VideoCodecs = mp4VideoCodecs + ",mpeg4 avc"
+                    end if
+                else if container = "ts"
+                    ' check for codec string before adding it
+                    if tsVideoCodecs.Instr(0, ",mpeg4 avc") = -1
+                        tsVideoCodecs = tsVideoCodecs + ",mpeg4 avc"
+                    end if
+                end if
             end if
         end if
-    end if
+    end for
 
     ' HEVC / h265
     if globalUserSettings["playback.compatibility.disablehevc"] = false
-        if not isStringEqual(videoCodec, "hevc")
-            if di.CanDecodeVideo({ Codec: "hevc", Container: container }).Result
-                ' check for codec string before adding it
-                if tsVideoCodecs.Instr(0, "h265,") = -1
-                    tsVideoCodecs = "h265," + tsVideoCodecs
-                end if
-                if tsVideoCodecs.Instr(0, "hevc,") = -1
-                    tsVideoCodecs = "hevc," + tsVideoCodecs
+        for each container in transcodingContainers
+            if not isStringEqual(videoCodec, "hevc")
+                if di.CanDecodeVideo({ Codec: "hevc", Container: container }).Result
+                    if container = "mp4"
+                        ' check for codec string before adding it
+                        if mp4VideoCodecs.Instr(0, "h265,") = -1
+                            mp4VideoCodecs = "h265," + mp4VideoCodecs
+                        end if
+                        if mp4VideoCodecs.Instr(0, "hevc,") = -1
+                            mp4VideoCodecs = "hevc," + mp4VideoCodecs
+                        end if
+                    else if container = "ts"
+                        ' check for codec string before adding it
+                        if tsVideoCodecs.Instr(0, "h265,") = -1
+                            tsVideoCodecs = "h265," + tsVideoCodecs
+                        end if
+                        if tsVideoCodecs.Instr(0, "hevc,") = -1
+                            tsVideoCodecs = "hevc," + tsVideoCodecs
+                        end if
+                    end if
                 end if
             end if
-        end if
+        end for
     end if
 
     ' VP9
-    if not isStringEqual(videoCodec, "vp9")
-        if di.CanDecodeVideo({ Codec: "vp9", Container: container }).Result
-            ' check for codec string before adding it
-            if tsVideoCodecs.Instr(0, ",vp9") = -1
-                tsVideoCodecs = tsVideoCodecs + ",vp9"
-            end if
-        end if
-    end if
-
-    ' MPEG2
-    if globalUserSettings["playback.mpeg2"]
-        if not isStringEqual(videoCodec, "mpeg2")
-            if di.CanDecodeVideo({ Codec: "mpeg2", Container: container }).Result
-                ' check for codec string before adding it
-                if tsVideoCodecs.Instr(0, ",mpeg2video") = -1
-                    tsVideoCodecs = tsVideoCodecs + ",mpeg2video"
+    for each container in transcodingContainers
+        if not isStringEqual(videoCodec, "vp9")
+            if di.CanDecodeVideo({ Codec: "vp9", Container: container }).Result
+                if container = "mp4"
+                    ' check for codec string before adding it
+                    if mp4VideoCodecs.Instr(0, ",vp9") = -1
+                        mp4VideoCodecs = mp4VideoCodecs + ",vp9"
+                    end if
+                else if container = "ts"
+                    ' check for codec string before adding it
+                    if tsVideoCodecs.Instr(0, ",vp9") = -1
+                        tsVideoCodecs = tsVideoCodecs + ",vp9"
+                    end if
                 end if
             end if
         end if
+    end for
+
+    ' MPEG2
+    if globalUserSettings["playback.mpeg2"]
+        for each container in transcodingContainers
+            if not isStringEqual(videoCodec, "mpeg2")
+                if di.CanDecodeVideo({ Codec: "mpeg2", Container: container }).Result
+                    if container = "mp4"
+                        ' check for codec string before adding it
+                        if mp4VideoCodecs.Instr(0, ",mpeg2video") = -1
+                            mp4VideoCodecs = mp4VideoCodecs + ",mpeg2video"
+                        end if
+                    else if container = "ts"
+                        ' check for codec string before adding it
+                        if tsVideoCodecs.Instr(0, ",mpeg2video") = -1
+                            tsVideoCodecs = tsVideoCodecs + ",mpeg2video"
+                        end if
+                    end if
+                end if
+            end if
+        end for
     end if
 
     ' AV1
-    if not isStringEqual(videoCodec, "av1")
-        if di.CanDecodeVideo({ Codec: "av1", Container: container }).Result
-            ' check for codec string before adding it
-            if tsVideoCodecs.Instr(0, ",av1") = -1
-                tsVideoCodecs = tsVideoCodecs + ",av1"
+    for each container in transcodingContainers
+        if not isStringEqual(videoCodec, "av1")
+            if di.CanDecodeVideo({ Codec: "av1", Container: container }).Result
+                if container = "mp4"
+                    ' check for codec string before adding it
+                    if mp4VideoCodecs.Instr(0, ",av1") = -1
+                        mp4VideoCodecs = mp4VideoCodecs + ",av1"
+                    end if
+                else if container = "ts"
+                    ' check for codec string before adding it
+                    if tsVideoCodecs.Instr(0, ",av1") = -1
+                        tsVideoCodecs = tsVideoCodecs + ",av1"
+                    end if
+                end if
             end if
         end if
-    end if
+    end for
 
     ' AUDIO CODECS
-    ' AAC is the codec Roku handles best in HLS. Prefer it when the output is stereo,
-    ' and keep it as the stereo downmix fallback when the output is surround.
-    if maxAudioChannels = "2"
-        audioCodecs.Unshift("aac")
-    else
-        audioCodecs.Push("aac")
-    end if
-
     ' Codec names must be lower case. For HLS the server keeps only the codecs in its allowlist
     ' (aac, ac3, eac3, mp3 for ts), compared case-sensitively, so "AC3" would be dropped.
     ' https://github.com/jellyfin/jellyfin/blob/83d0d0e7f76e23e2e085c8ff67d28b772d35967d/MediaBrowser.Model/Dlna/StreamBuilder.cs#L34
     ' https://github.com/jellyfin/jellyfin/blob/83d0d0e7f76e23e2e085c8ff67d28b772d35967d/MediaBrowser.Model/Dlna/StreamBuilder.cs#L1002
-    for each codec in audioCodecs
-        if di.CanDecodeAudio({ Codec: codec, Container: container }).result
-            tsAudioCodecs = appendCodec(tsAudioCodecs, codec)
-        end if
+    for each container in transcodingContainers
+        for each codec in audioCodecs
+            if di.CanDecodeAudio({ Codec: codec, Container: container }).result
+                if container = "mp4"
+                    mp4AudioCodecs = mp4AudioCodecs + "," + codec
+                else if container = "ts"
+                    tsAudioCodecs = appendCodec(tsAudioCodecs, codec)
+                end if
+            end if
+        end for
     end for
-
-    ' every Roku device can decode stereo AAC
-    if tsAudioCodecs = string.EMPTY then tsAudioCodecs = "aac"
 
     ' add aac to TranscodingProfile for stereo audio
     ' NOTE: multichannel aac is not supported. only decode to stereo on some devices
