@@ -205,8 +205,6 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     ' https://developer.roku.com/dev/docs/media
     transcodingContainers = ["ts"]
     ' use strings to preserve order
-    mp4AudioCodecs = "AC3"
-    mp4VideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
     tsAudioCodecs = "AC3"
     tsVideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
 
@@ -231,12 +229,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     for each container in transcodingContainers
         if not isStringEqual(videoCodec, "h264")
             if di.CanDecodeVideo({ Codec: "h264", Container: container }).Result
-                if container = "mp4"
-                    ' check for codec string before adding it
-                    if mp4VideoCodecs.Instr(0, ",h264") = -1
-                        mp4VideoCodecs = mp4VideoCodecs + ",h264"
-                    end if
-                else if container = "ts"
+                if container = "ts"
                     ' check for codec string before adding it
                     if tsVideoCodecs.Instr(0, ",h264") = -1
                         tsVideoCodecs = tsVideoCodecs + ",h264"
@@ -246,12 +239,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
         end if
         if not isStringEqual(videoCodec, "mpeg4 avc")
             if di.CanDecodeVideo({ Codec: "mpeg4 avc", Container: container }).Result
-                if container = "mp4"
-                    ' check for codec string before adding it
-                    if mp4VideoCodecs.Instr(0, ",mpeg4 avc") = -1
-                        mp4VideoCodecs = mp4VideoCodecs + ",mpeg4 avc"
-                    end if
-                else if container = "ts"
+                if container = "ts"
                     ' check for codec string before adding it
                     if tsVideoCodecs.Instr(0, ",mpeg4 avc") = -1
                         tsVideoCodecs = tsVideoCodecs + ",mpeg4 avc"
@@ -266,15 +254,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
         for each container in transcodingContainers
             if not isStringEqual(videoCodec, "hevc")
                 if di.CanDecodeVideo({ Codec: "hevc", Container: container }).Result
-                    if container = "mp4"
-                        ' check for codec string before adding it
-                        if mp4VideoCodecs.Instr(0, "h265,") = -1
-                            mp4VideoCodecs = "h265," + mp4VideoCodecs
-                        end if
-                        if mp4VideoCodecs.Instr(0, "hevc,") = -1
-                            mp4VideoCodecs = "hevc," + mp4VideoCodecs
-                        end if
-                    else if container = "ts"
+                    if container = "ts"
                         ' check for codec string before adding it
                         if tsVideoCodecs.Instr(0, "h265,") = -1
                             tsVideoCodecs = "h265," + tsVideoCodecs
@@ -292,12 +272,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     for each container in transcodingContainers
         if not isStringEqual(videoCodec, "vp9")
             if di.CanDecodeVideo({ Codec: "vp9", Container: container }).Result
-                if container = "mp4"
-                    ' check for codec string before adding it
-                    if mp4VideoCodecs.Instr(0, ",vp9") = -1
-                        mp4VideoCodecs = mp4VideoCodecs + ",vp9"
-                    end if
-                else if container = "ts"
+                if container = "ts"
                     ' check for codec string before adding it
                     if tsVideoCodecs.Instr(0, ",vp9") = -1
                         tsVideoCodecs = tsVideoCodecs + ",vp9"
@@ -312,12 +287,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
         for each container in transcodingContainers
             if not isStringEqual(videoCodec, "mpeg2")
                 if di.CanDecodeVideo({ Codec: "mpeg2", Container: container }).Result
-                    if container = "mp4"
-                        ' check for codec string before adding it
-                        if mp4VideoCodecs.Instr(0, ",mpeg2video") = -1
-                            mp4VideoCodecs = mp4VideoCodecs + ",mpeg2video"
-                        end if
-                    else if container = "ts"
+                    if container = "ts"
                         ' check for codec string before adding it
                         if tsVideoCodecs.Instr(0, ",mpeg2video") = -1
                             tsVideoCodecs = tsVideoCodecs + ",mpeg2video"
@@ -332,12 +302,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     for each container in transcodingContainers
         if not isStringEqual(videoCodec, "av1")
             if di.CanDecodeVideo({ Codec: "av1", Container: container }).Result
-                if container = "mp4"
-                    ' check for codec string before adding it
-                    if mp4VideoCodecs.Instr(0, ",av1") = -1
-                        mp4VideoCodecs = mp4VideoCodecs + ",av1"
-                    end if
-                else if container = "ts"
+                if container = "ts"
                     ' check for codec string before adding it
                     if tsVideoCodecs.Instr(0, ",av1") = -1
                         tsVideoCodecs = tsVideoCodecs + ",av1"
@@ -356,9 +321,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     for each container in transcodingContainers
         for each codec in audioCodecs
             if di.CanDecodeAudio({ Codec: codec, Container: container }).result
-                if container = "mp4"
-                    mp4AudioCodecs = mp4AudioCodecs + "," + codec
-                else if container = "ts"
+                if container = "ts"
                     tsAudioCodecs = tsAudioCodecs + "," + codec
                 end if
             end if
