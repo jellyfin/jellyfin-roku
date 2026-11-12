@@ -299,12 +299,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
         audioCodecs.Push("aac")
     end if
 
-    ' Roku's streaming specifications list only these as HLS audio chunk formats. Others (mp3, flac,
-    ' pcm, ...) can report as decodable but are not listed there.
-    hlsAudioCodecs = ["aac", "ac3", "eac3"]
-
     for each codec in audioCodecs
-        if not inArray(hlsAudioCodecs, codec) then continue for
         if di.CanDecodeAudio({ Codec: codec, Container: container }).result
             tsAudioCodecs = appendCodec(tsAudioCodecs, codec)
         end if
