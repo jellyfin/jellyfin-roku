@@ -299,6 +299,10 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
         audioCodecs.Push("aac")
     end if
 
+    ' Codec names must be lower case. For HLS the server keeps only the codecs in its allowlist
+    ' (aac, ac3, eac3, mp3 for ts), compared case-sensitively, so "AC3" would be dropped.
+    ' https://github.com/jellyfin/jellyfin/blob/83d0d0e7f76e23e2e085c8ff67d28b772d35967d/MediaBrowser.Model/Dlna/StreamBuilder.cs#L34
+    ' https://github.com/jellyfin/jellyfin/blob/83d0d0e7f76e23e2e085c8ff67d28b772d35967d/MediaBrowser.Model/Dlna/StreamBuilder.cs#L1002
     for each codec in audioCodecs
         if di.CanDecodeAudio({ Codec: codec, Container: container }).result
             tsAudioCodecs = appendCodec(tsAudioCodecs, codec)
