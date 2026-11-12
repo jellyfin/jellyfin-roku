@@ -215,7 +215,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     ' does the users setup support surround sound?
     maxAudioChannels = "2" ' jellyfin expects this as a string
     ' in order of preference from left to right
-    audioCodecs = ["eac3", "ac3", "aac", "dts", "mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
+    audioCodecs = ["eac3", "ac3", "dts", "mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
 
     if di.GetAudioOutputChannel() = "5.1 surround"
         maxAudioChannels = "6"
@@ -350,11 +350,6 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     end for
 
     ' AUDIO CODECS
-    ' For HLS the server keeps only the codecs in its allowlist (aac, ac3, eac3, mp3 for ts),
-    ' compared case-sensitively, so the hard-coded "AC3" above is dropped and detected codec
-    ' names must be lower case.
-    ' https://github.com/jellyfin/jellyfin/blob/83d0d0e7f76e23e2e085c8ff67d28b772d35967d/MediaBrowser.Model/Dlna/StreamBuilder.cs#L34
-    ' https://github.com/jellyfin/jellyfin/blob/83d0d0e7f76e23e2e085c8ff67d28b772d35967d/MediaBrowser.Model/Dlna/StreamBuilder.cs#L1002
     for each container in transcodingContainers
         for each codec in audioCodecs
             if di.CanDecodeAudio({ Codec: codec, Container: container }).result
