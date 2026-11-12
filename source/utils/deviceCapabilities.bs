@@ -202,7 +202,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     ' Only offer HLS MPEG-TS for video transcodes. Roku plays just the first track of an fMP4
     ' (CMAF) stream that muxes audio and video, and the server always muxes them, so an mp4
     ' HLS profile would play with no audio.
-    ' https://developer.roku.com/docs/specs/media/streaming-specifications.md
+    ' https://developer.roku.com/dev/docs/media
     container = "ts"
     ' use strings to preserve order
     tsAudioCodecs = string.EMPTY
@@ -299,8 +299,8 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
         audioCodecs.Push("aac")
     end if
 
-    ' Roku only supports these audio codecs in HLS MPEG-TS. Others (mp3, flac, pcm, ...) may report
-    ' as decodable but cause audio dropouts when muxed into TS segments.
+    ' Roku's streaming specifications list only these as HLS audio chunk formats. Others (mp3, flac,
+    ' pcm, ...) can report as decodable but are not listed there.
     hlsAudioCodecs = ["aac", "ac3", "eac3"]
 
     for each codec in audioCodecs
