@@ -207,7 +207,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     ' use strings to preserve order
     mp4AudioCodecs = "AC3"
     mp4VideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
-    tsAudioCodecs = string.EMPTY
+    tsAudioCodecs = "AC3"
     tsVideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
 
     ' does the users setup support surround sound?
@@ -348,8 +348,9 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     end for
 
     ' AUDIO CODECS
-    ' Codec names must be lower case. For HLS the server keeps only the codecs in its allowlist
-    ' (aac, ac3, eac3, mp3 for ts), compared case-sensitively, so "AC3" would be dropped.
+    ' For HLS the server keeps only the codecs in its allowlist (aac, ac3, eac3, mp3 for ts),
+    ' compared case-sensitively, so the hard-coded "AC3" above is dropped and detected codec
+    ' names must be lower case.
     ' https://github.com/jellyfin/jellyfin/blob/83d0d0e7f76e23e2e085c8ff67d28b772d35967d/MediaBrowser.Model/Dlna/StreamBuilder.cs#L34
     ' https://github.com/jellyfin/jellyfin/blob/83d0d0e7f76e23e2e085c8ff67d28b772d35967d/MediaBrowser.Model/Dlna/StreamBuilder.cs#L1002
     for each container in transcodingContainers
@@ -358,7 +359,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
                 if container = "mp4"
                     mp4AudioCodecs = mp4AudioCodecs + "," + codec
                 else if container = "ts"
-                    tsAudioCodecs = appendCodec(tsAudioCodecs, codec)
+                    tsAudioCodecs = tsAudioCodecs + "," + codec
                 end if
             end if
         end for
@@ -426,12 +427,6 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     transcodingProfiles.push(tsArray)
 
     return transcodingProfiles
-end function
-
-' append codec to a comma-separated codec string
-function appendCodec(codecs as string, codec as string) as string
-    if codecs = string.EMPTY then return codec
-    return codecs + "," + codec
 end function
 
 function getContainerProfiles() as object
