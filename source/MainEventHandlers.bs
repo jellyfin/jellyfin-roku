@@ -312,6 +312,16 @@ sub openPlaybackSelectedItem(selectedItem as object)
     end if
 end sub
 
+' getDeepLinkItemJson: Fetches a deep linked item, so playback can resume from the user's saved position (UserData.PlaybackPositionTicks)
+'
+' @param {string} itemId - the deep link contentId
+' @return {object} the item's JSON, or an empty object if it could not be loaded (playback then starts from the beginning)
+function getDeepLinkItemJson(itemId as string) as object
+    itemJson = api.items.GetByID(itemId, { userId: m.global.session.user.id })
+    if not isValid(itemJson) or type(itemJson) <> "roAssociativeArray" then return {}
+    return itemJson
+end function
+
 sub onDeepLinkingEvent(args)
     if not isValidAndNotEmpty(args) then return
     if not isValidAndNotEmpty(args.mediaType) then return
@@ -327,7 +337,7 @@ sub onDeepLinkingEvent(args)
         quickplay.video({
             id: args.contentId,
             type: mediaType,
-            json: {}
+            json: getDeepLinkItemJson(args.contentId)
         })
         m.global.queueManager.callFunc("playQueue")
         return
@@ -346,7 +356,7 @@ sub onDeepLinkingEvent(args)
         quickplay.audioBook({
             id: args.contentId,
             type: mediaType,
-            json: {}
+            json: getDeepLinkItemJson(args.contentId)
         })
         m.global.queueManager.callFunc("playQueue")
         return
