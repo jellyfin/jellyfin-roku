@@ -33,6 +33,9 @@
     <!-- True when a skippable segment (intro, recap, etc.) is currently active -->
     <field id="hasActiveSegment" type="boolean" value="false" />
     <field id="nowPlayingMetadata" type="assocarray" alwaysNotify="true" />
+    <function name="closePlayer" />
+    <function name="suspendPlayer" />
+    <function name="resumePlayer" />
   </interface>
 
   <children>

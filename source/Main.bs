@@ -64,6 +64,7 @@ sub Main (args as dynamic) as void
     sceneManager.callFunc("pushScene", group)
 
     m.scene.observeField("exit", m.port)
+    m.scene.observeField("resumed", m.port)
 
     ' Download and store the fallback font to tmp:/
     ' This font may be used for CJK subtitles
@@ -207,6 +208,17 @@ sub Main (args as dynamic) as void
             onReturnDataEvent(msg)
         else if isNodeEvent(msg, "dataReturned")
             onDataReturnedEvent(msg)
+        else if isNodeEvent(msg, "resumed")
+            if not onAppResumedEvent(msg)
+                ' The user's session ended while the app was suspended: log in again,
+                ' then play whatever the app was resumed with (if anything)
+                args = msg.getData().launchParams
+                closeVideoPlayer()
+                SignOut(false)
+                setUserColors()
+                sceneManager.callFunc("clearScenes")
+                goto app_start
+            end if
         else
             print "Unhandled " type(msg)
             print msg

@@ -1,10 +1,92 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/MediaPlaybackState.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/VideoControl.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.backgroundURI = ""
     m.spinner = m.top.findNode("spinner")
+
+    ' Instant Resume: let tasks finish reporting playback progress after the app is suspended
+    m.top.allowBackgroundTask = true
+end sub
+
+' onAppSuspend: Instant Resume suspend handler. Roku OS calls this when the user leaves the app
+' (Home button, or Back out of the app) or the system screensaver starts. The app stays in memory
+' but loses the video decoder and, once this returns, its graphics.
+'
+' @param {dynamic} arg - lastSuspendOrResumeReason is "home" or "screensaver"
+sub onAppSuspend(arg as dynamic)
+    reason = chainLookupReturn(arg, "lastSuspendOrResumeReason", string.EMPTY)
+    print "App suspended: " reason
+
+    stopPlaybackForSuspend()
+end sub
+
+' onAppResume: Instant Resume resume handler. Roku OS calls this when the user returns to the app.
+'
+' @param {dynamic} arg - lastSuspendOrResumeReason, plus launchParams (contentId, mediaType) when resumed with a deep link
+sub onAppResume(arg as dynamic)
+    reason = chainLookupReturn(arg, "lastSuspendOrResumeReason", string.EMPTY)
+    print "App resumed: " reason
+
+    ' Must be set again after every resume to get background tasks on the next suspend
+    m.top.allowBackgroundTask = true
+
+    launchParams = chainLookup(arg, "launchParams")
+    hasDeepLink = isChainValid(launchParams, "contentId") and isChainValid(launchParams, "mediaType")
+    if not hasDeepLink then launchParams = {}
+
+    ' The main thread checks the session is still valid, reconnects and handles any deep link
+    m.top.resumed = { reason: reason, launchParams: launchParams }
+
+    ' With a deep link, the main thread signals the beacon once it has started playback
+    if hasDeepLink then return
+
+    ' Roku OS only times resumes from Home; resuming from the screensaver has no beacon to complete
+    signalBeacon = not isStringEqual(reason, "screensaver")
+
+    ' Restart a video stopped on suspend; the player signals the beacon once it plays again
+    activeScene = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(activeScene) and activeScene.isSubType("VideoPlayerView")
+        if activeScene.callFunc("resumePlayer", signalBeacon) then return
+    end if
+
+    ' The screen the user left is still in place, so the app is ready to use
+    if signalBeacon then m.top.signalBeacon("AppResumeComplete")
+end sub
+
+' stopPlaybackForSuspend: Stops playback, which can't continue while suspended, and reports the
+' position to the server. Video restarts from that position on resume; audio stays stopped.
+'
+sub stopPlaybackForSuspend()
+    sceneManager = m.global.sceneManager
+    if not isValid(sceneManager) then return
+
+    activeScene = sceneManager.callFunc("getActiveScene")
+    if isValid(activeScene) and activeScene.isSubType("VideoPlayerView")
+        activeScene.callFunc("suspendPlayer")
+        return
+    end if
+
+    audioPlayer = m.global.audioPlayer
+    if not isValid(audioPlayer) then return
+    if not inArray([MediaPlaybackState.PLAYING, MediaPlaybackState.PAUSED, MediaPlaybackState.BUFFERING], audioPlayer.state) then return
+
+    ' Report before the queue is cleared: the report needs the current queue item
+    audioPlayer.callFunc("reportStopped")
+
+    if isValid(activeScene) and activeScene.isSubType("AudioPlayerView")
+        activeScene.callFunc("closePlayer")
+    else
+        m.global.queueManager.callFunc("clear")
+        audioPlayer.control = VideoControl.STOP
+    end if
+
+    audioMiniPlayer = m.top.findNode("audioMiniPlayer")
+    if isValid(audioMiniPlayer) then audioMiniPlayer.callFunc("setVisible", false)
 end sub
 
 ' Triggered when the isLoading boolean component field is changed
@@ -54,6 +136,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 return true
             end if
         end if
+
+        ' Leave Back on the last screen to Roku OS, which closes the app or, with Instant Resume, suspends it
+        if m.global.sceneManager.callFunc("getSceneCount") <= 1 then return false
 
         m.global.sceneManager.callFunc("popScene")
         return true

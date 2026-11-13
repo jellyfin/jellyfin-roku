@@ -32,3 +32,8 @@ bs_const=printReg=false
 supports_voice_roinput=1
 supports_etc_seek=1
 supports_etc_next=1
+
+# Instant Resume support: keep the app in memory when it is suspended so it resumes where the user left off
+
+sdk_instant_resume=1
+run_as_process=1

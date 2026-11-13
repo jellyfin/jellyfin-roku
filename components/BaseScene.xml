@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="BaseScene" extends="Scene">
+  <!-- Instant Resume: called by Roku OS when the app is suspended (Home, screensaver) and resumed -->
+  <customization suspendhandler="onAppSuspend" />
+  <customization resumehandler="onAppResume" />
   <children>
     <Poster id="imageBackground" uri="" opacity=".2" width="1920" height="1080" />
     <Group id="content" />
@@ -13,5 +16,7 @@
     <field id="isLoading" type="boolean" value="false" onchange="isLoadingChanged" />
     <field id="exit" type="boolean" alwaysNotify="true" />
     <field id="jumpTo" type="assocarray" alwaysNotify="true" onChange="onJumpToChange" />
+    <!-- Set to { reason, launchParams } when Roku OS resumes the app (Instant Resume) -->
+    <field id="resumed" type="assocarray" alwaysNotify="true" />
   </interface>
 </component>
