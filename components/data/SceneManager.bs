@@ -273,7 +273,8 @@ end sub
 sub userMessage(title as string, message as string)
     dialog = createObject("roSGNode", "StandardMessageDialog")
     dialog.title = title
-    dialog.message = message
+    ' StandardMessageDialog.message is an array of strings: a string is rejected and the text isn't shown
+    dialog.message = [message]
     dialog.buttons = [tr("OK")]
     dialog.observeField("buttonSelected", "dismissDialog")
     m.scene.dialog = dialog
