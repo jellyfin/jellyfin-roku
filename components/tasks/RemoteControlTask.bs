@@ -1,0 +1,232 @@
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/utils/misc.bs"
+import "pkg:/source/utils/remoteControl.bs"
+
+' Receives remote control commands from the Jellyfin server over its WebSocket (/socket).
+' Uses the native roWebSocket component, which supports both ws:// and wss:// (TLS) servers.
+
+const DEFAULT_KEEPALIVE_SECONDS = 30
+const MIN_KEEPALIVE_SECONDS = 5
+const OPEN_TIMEOUT_MS = 10000
+' The server answers each KeepAlive; no reply within this time means the connection is dead
+const KEEPALIVE_REPLY_TIMEOUT_MS = 10000
+const INITIAL_RECONNECT_SECONDS = 2
+const MAX_RECONNECT_SECONDS = 60
+
+' roWebSocketEvent types
+const WS_EVENT_CLOSED = 2
+const WS_EVENT_ERROR = 3
+const WS_EVENT_TEXT_RECEIVED = 5
+
+' Server message types that are forwarded to the main thread
+const FORWARDED_MESSAGE_TYPES = "|play|playstate|generalcommand|userdatachanged|"
+
+sub init()
+    m.top.functionName = "runLoop"
+end sub
+
+' runLoop: Connects to the server WebSocket and reconnects with backoff until the task is stopped.
+'
+sub runLoop()
+    m.port = CreateObject("roMessagePort")
+    m.top.observeField("control", m.port)
+    m.shouldStop = false
+    m.socket = invalid
+
+    reconnectSeconds = INITIAL_RECONNECT_SECONDS
+    while not m.shouldStop
+        if connect()
+            reconnectSeconds = INITIAL_RECONNECT_SECONDS
+            listen()
+        end if
+
+        closeSocket()
+        if m.shouldStop then exit while
+
+        waitForReconnect(reconnectSeconds)
+        reconnectSeconds = nextReconnectDelay(reconnectSeconds)
+    end while
+
+    closeSocket()
+end sub
+
+' nextReconnectDelay: Doubles the reconnect delay, up to MAX_RECONNECT_SECONDS
+'
+function nextReconnectDelay(seconds as integer) as integer
+    seconds = seconds * 2
+    if seconds > MAX_RECONNECT_SECONDS then return MAX_RECONNECT_SECONDS
+    return seconds
+end function
+
+' isStopEvent: Returns true if the passed message is a request to stop this task
+'
+function isStopEvent(msg as dynamic) as boolean
+    if type(msg) <> "roSGNodeEvent" then return false
+    if not isStringEqual(msg.getField(), "control") then return false
+    return isStringEqual(msg.getData(), "stop")
+end function
+
+' waitForReconnect: Waits before the next connection attempt, returning early if the task is stopped
+'
+sub waitForReconnect(seconds as integer)
+    timer = CreateObject("roTimespan")
+    timer.Mark()
+    while not m.shouldStop
+        remainingMs = (seconds * 1000) - timer.TotalMilliseconds()
+        if remainingMs <= 0 then return
+        msg = wait(remainingMs, m.port)
+        if isStopEvent(msg) then m.shouldStop = true
+    end while
+end sub
+
+' connect: Opens the WebSocket, waiting up to OPEN_TIMEOUT_MS for the opening handshake
+'
+' @return {boolean} true if the WebSocket is open
+function connect() as boolean
+    socketUrl = getRemoteControlSocketUrl()
+    if socketUrl = string.EMPTY
+        print "RemoteControlTask: no server URL; remote control disabled"
+        m.shouldStop = true
+        return false
+    end if
+
+    ' roWebSocket (Roku OS 16) is not yet known to the BrighterScript compiler: https://github.com/rokucommunity/brighterscript/issues/1977
+    ' bs:disable-next-line: 1129
+    m.socket = CreateObject("roWebSocket")
+    if not isValid(m.socket)
+        print "RemoteControlTask: roWebSocket is not available; remote control disabled"
+        m.shouldStop = true
+        return false
+    end if
+
+    m.socket.SetMessagePort(m.port)
+    if not m.socket.SetUrl(socketUrl)
+        print "RemoteControlTask: invalid WebSocket URL " socketUrl
+        m.shouldStop = true
+        return false
+    end if
+
+    ' Handshake settings follow ifHttpAgent, the same as roUrlTransfer
+    setCertificateAuthority(m.socket)
+    m.socket.AddHeader("Authorization", buildAuthHeader())
+
+    ' A blocking open is fine here: this task does nothing else until the WebSocket is open
+    if not m.socket.Open(OPEN_TIMEOUT_MS)
+        print "RemoteControlTask: unable to connect to " socketUrl
+        return false
+    end if
+
+    print "RemoteControlTask: connected"
+    return true
+end function
+
+' listen: Processes WebSocket messages and sends keep alive messages until the connection closes or the task stops
+'
+sub listen()
+    m.keepAliveSeconds = DEFAULT_KEEPALIVE_SECONDS
+    m.keepAliveTimer = CreateObject("roTimespan")
+    m.keepAliveTimer.Mark()
+    m.awaitingKeepAliveReply = false
+
+    while not m.shouldStop
+        elapsedMs = m.keepAliveTimer.TotalMilliseconds()
+        if m.awaitingKeepAliveReply
+            remainingMs = KEEPALIVE_REPLY_TIMEOUT_MS - elapsedMs
+            if remainingMs <= 0
+                print "RemoteControlTask: no reply to KeepAlive; reconnecting"
+                return
+            end if
+        else
+            remainingMs = (m.keepAliveSeconds * 1000) - elapsedMs
+            if remainingMs <= 0
+                sendKeepAlive()
+                continue while
+            end if
+        end if
+
+        msg = wait(remainingMs, m.port)
+        if isStopEvent(msg)
+            m.shouldStop = true
+            return
+        end if
+
+        if isSocketEvent(msg)
+            eventType = msg.GetType()
+            if eventType = WS_EVENT_TEXT_RECEIVED
+                ' Any message from the server shows the connection is alive
+                m.awaitingKeepAliveReply = false
+                info = msg.GetInfo()
+                if isValid(info) then handleMessage(info.LookupCI("Text"))
+            else if eventType = WS_EVENT_CLOSED or eventType = WS_EVENT_ERROR
+                printSocketError(msg)
+                return
+            end if
+        end if
+    end while
+end sub
+
+' isSocketEvent: Returns true if the passed message is an event for the current WebSocket
+'
+function isSocketEvent(msg as dynamic) as boolean
+    if type(msg) <> "roWebSocketEvent" then return false
+    if not isValid(m.socket) then return false
+    return msg.GetSocketId() = m.socket.GetSocketId()
+end function
+
+' printSocketError: Logs the details of a Closed or Error event
+'
+sub printSocketError(msg as object)
+    info = msg.GetInfo()
+    if not isValid(info)
+        print "RemoteControlTask: connection closed"
+        return
+    end if
+    print "RemoteControlTask: connection closed; code=" info.LookupCI("Code") " reason=" info.LookupCI("Reason") " error=" info.LookupCI("Error") " " info.LookupCI("ErrorMsg")
+end sub
+
+' handleMessage: Handles a complete text message from the server
+'
+sub handleMessage(text as dynamic)
+    if not isValidAndNotEmpty(text) then return
+
+    message = ParseJson(text)
+    if not isValid(message) or type(message) <> "roAssociativeArray" then return
+
+    messageType = message.LookupCI("MessageType")
+    if not isValidAndNotEmpty(messageType) then return
+
+    if isStringEqual(messageType, "ForceKeepAlive")
+        ' Data is the number of seconds the server waits before declaring the connection lost
+        lostTimeout = message.LookupCI("Data")
+        if isNumber(lostTimeout)
+            m.keepAliveSeconds = Int(lostTimeout / 2)
+            if m.keepAliveSeconds < MIN_KEEPALIVE_SECONDS then m.keepAliveSeconds = MIN_KEEPALIVE_SECONDS
+        end if
+        sendKeepAlive()
+        return
+    end if
+
+    forwardedTypes = FORWARDED_MESSAGE_TYPES
+    if forwardedTypes.Instr(`|${LCase(messageType)}|`) >= 0
+        m.top.remoteCommand = { type: messageType, data: message.LookupCI("Data") }
+    end if
+end sub
+
+' sendKeepAlive: Sends a KeepAlive message so the server keeps this session's controller active
+'
+sub sendKeepAlive()
+    m.keepAliveTimer.Mark()
+    m.awaitingKeepAliveReply = true
+    if not isValid(m.socket) then return
+    m.socket.Send("{" + Chr(34) + "MessageType" + Chr(34) + ":" + Chr(34) + "KeepAlive" + Chr(34) + "}")
+end sub
+
+' closeSocket: Closes the WebSocket if open
+'
+sub closeSocket()
+    if isValid(m.socket)
+        m.socket.Close()
+        m.socket = invalid
+    end if
+end sub
