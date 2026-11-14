@@ -789,3 +789,16 @@ function scaleMaskSize(size as integer) as integer
 
     return size
 end function
+
+' getRemainingRunTimeSeconds: Returns how long an item has left to play, counting from its saved
+' playback position (UserData.PlaybackPositionTicks), since that is where resuming starts.
+'
+' @param {object} itemJson - the item's JSON, with RunTimeTicks and UserData
+' @return {integer} the remaining run time in seconds
+function getRemainingRunTimeSeconds(itemJson as object) as integer
+    runTimeTicks = chainLookupReturn(itemJson, "RunTimeTicks", 0)
+    positionTicks = chainLookupReturn(itemJson, "UserData.PlaybackPositionTicks", 0)
+    if not isNumber(positionTicks) or positionTicks < 0 or positionTicks > runTimeTicks then positionTicks = 0
+
+    return int((runTimeTicks - positionTicks) / 10000000.0)
+end function
