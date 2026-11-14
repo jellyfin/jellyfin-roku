@@ -1,0 +1,283 @@
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
+
+const BACKDROP_OPACITY = 0.3
+const DEFAULT_BACKDROP_OPACITY = 1.0
+
+sub init()
+    m.backdropA = m.top.findNode("backdropA")
+    m.backdropB = m.top.findNode("backdropB")
+    m.backdropBlack = m.top.findNode("backdropBlack")
+
+    m.backdropA.observeField("loadStatus", "onBackdropLoaded")
+    m.backdropB.observeField("loadStatus", "onBackdropLoaded")
+
+    m.crossfadeAnimation = m.top.findNode("crossfadeAnimation")
+    m.backdropAFade = m.top.findNode("backdropAFade")
+    m.backdropBFade = m.top.findNode("backdropBFade")
+
+    m.activeBackdrop = m.backdropA
+    m.inactiveBackdrop = m.backdropB
+
+    m.pendingBackdropTarget = invalid
+    m.targetOpacity = DEFAULT_BACKDROP_OPACITY
+    m.defaultBackdropUri = ""
+
+    m.activeBackdrop.opacity = DEFAULT_BACKDROP_OPACITY
+    m.backdropBlack.opacity = 1.0
+end sub
+
+sub setImage(backdropUri as string, targetOpacity = BACKDROP_OPACITY as float)
+    if backdropUri = ""
+        clear()
+        return
+    end if
+
+    ' Already showing this image
+    if backdropUri = m.activeBackdrop.uri and m.activeBackdrop.opacity > 0
+        return
+    end if
+
+    ' Image already loaded in the inactive poster
+    if backdropUri = m.inactiveBackdrop.uri and m.inactiveBackdrop.loadStatus = "ready"
+        startBackdropFade(m.activeBackdrop, m.inactiveBackdrop, targetOpacity)
+        return
+    end if
+
+    ' Load into the inactive poster
+    m.pendingBackdropTarget = m.inactiveBackdrop
+    m.inactiveBackdrop.uri = backdropUri
+    m.targetOpacity = targetOpacity
+end sub
+
+sub clear()
+    m.pendingBackdropTarget = invalid
+
+    if isStringEqual(m.crossfadeAnimation.state, "running")
+        m.crossfadeAnimation.control = "stop"
+    end if
+
+    m.backdropAFade.keyValue = [m.backdropA.opacity, 0.0]
+    m.backdropBFade.keyValue = [m.backdropB.opacity, 0.0]
+
+    m.crossfadeAnimation.control = "start"
+
+    m.backdropBlack.opacity = 0.0
+end sub
+
+sub onBackdropLoaded(event as object)
+    node = event.GetRoSGNode()
+
+    ' Ignore stale load events
+    if not isValid(m.pendingBackdropTarget) then return
+    if not node.isSameNode(m.pendingBackdropTarget) then return
+    if node.loadStatus <> "ready" then return
+
+    targetOpacity = isValid(m.targetOpacity) ? m.targetOpacity : BACKDROP_OPACITY
+    startBackdropFade(m.activeBackdrop, node, targetOpacity)
+end sub
+
+sub startBackdropFade(outgoing as object, incoming as object, targetOpacity = BACKDROP_OPACITY as float)
+    if isStringEqual(m.crossfadeAnimation.state, "running")
+        m.crossfadeAnimation.control = "stop"
+    end if
+
+    ' Freeze both interpolators at their current opacity.
+    m.backdropAFade.keyValue = [m.backdropA.opacity, m.backdropA.opacity]
+    m.backdropBFade.keyValue = [m.backdropB.opacity, m.backdropB.opacity]
+
+    outgoingInterpolator = outgoing.isSameNode(m.backdropA) ? m.backdropAFade : m.backdropBFade
+    incomingInterpolator = incoming.isSameNode(m.backdropA) ? m.backdropAFade : m.backdropBFade
+
+    outgoingInterpolator.keyValue = [outgoing.opacity, 0.0]
+    incomingInterpolator.keyValue = [incoming.opacity, targetOpacity]
+
+    m.backdropBlack.opacity = 1.0
+
+    m.activeBackdrop = incoming
+    m.inactiveBackdrop = outgoing
+
+    m.pendingBackdropTarget = invalid
+    m.targetOpacity = targetOpacity
+
+    m.crossfadeAnimation.control = "start"
+end sub
+
+function getBackdropUri(item as object) as string
+    if not isValid(item.json) then return ""
+
+    isHD = chainLookupReturn(m.global.device, "isHDDevice", false)
+    backdropWidth = isHD ? "1280" : "1920"
+    backdropHeight = isHD ? "720" : "1080"
+
+    if isValidAndNotEmpty(item.json.BackdropImageTags)
+        backdrop = ImageURL(item.id, ImageType.BACKDROP, {
+            maxHeight: backdropHeight,
+            maxWidth: backdropWidth,
+            quality: "90"
+        })
+
+        if backdrop <> "" then return backdrop
+    end if
+
+    if isStringEqual(item.type, "MusicAlbum") or isStringEqual(item.type, "Audio")
+
+        if isValidAndNotEmpty(item.json.AlbumArtists)
+            artistId = item.json.AlbumArtists[0].Id
+
+            if isValidAndNotEmpty(artistId)
+                backdrop = ImageURL(artistId, ImageType.BACKDROP, {
+                    maxHeight: backdropHeight,
+                    maxWidth: backdropWidth,
+                    quality: "90"
+                })
+
+                if backdrop <> "" then return backdrop
+            end if
+        end if
+
+        if isValidAndNotEmpty(item.json.ImageTags)
+            return ImageURL(item.id, ImageType.PRIMARY, {
+                maxHeight: backdropHeight,
+                maxWidth: backdropWidth,
+                quality: "90"
+            })
+        end if
+    end if
+
+    if isStringEqual(item.type, "season")
+        seriesId = item.json.LookupCI("SeriesId")
+
+        if isValidAndNotEmpty(seriesId)
+            return ImageURL(seriesId, ImageType.BACKDROP, {
+                maxHeight: backdropHeight,
+                maxWidth: backdropWidth,
+                quality: "90"
+            })
+        end if
+    end if
+
+    if isStringEqual(item.type, "Episode") and isValidAndNotEmpty(item.json.seriesid)
+        return ImageURL(item.json.seriesid, ImageType.BACKDROP, {
+            maxHeight: backdropHeight,
+            maxWidth: backdropWidth,
+            quality: "90"
+        })
+    end if
+
+    return ""
+end function
+
+sub setItem(item as object)
+    backdropUri = getBackdropUri(item)
+
+    if backdropUri = ""
+        backdropUri = m.defaultBackdropUri
+    end if
+
+    ' Item backdrops are shown as a translucent overlay, while the
+    ' configured default backdrop is shown fully opaque.
+    targetOpacity = BACKDROP_OPACITY
+
+    if backdropUri = m.defaultBackdropUri
+        targetOpacity = DEFAULT_BACKDROP_OPACITY
+    end if
+
+    ' white.png is used as a neutral base when the user has selected
+    ' a background color instead of an image. Apply the color to the
+    ' incoming poster because A and B alternate during crossfades.
+    if backdropUri = "pkg:/images/white.png"
+        userColor = chainLookupReturn(
+            m.global.session,
+            "user.settings.colorBackground",
+            ColorPalette.VIEWBACKGROUND
+        )
+
+        m.inactiveBackdrop.blendColor = userColor
+    else
+        m.inactiveBackdrop.blendColor = "0xFFFFFFFF"
+    end if
+
+    setImage(backdropUri, targetOpacity)
+end sub
+
+sub release()
+    m.pendingBackdropTarget = invalid
+
+    if isStringEqual(m.crossfadeAnimation.state, "running")
+        m.crossfadeAnimation.control = "stop"
+    end if
+
+    m.backdropA.opacity = 0
+    m.backdropB.opacity = 0
+
+    m.backdropA.uri = ""
+    m.backdropB.uri = ""
+
+    m.backdropBlack.opacity = 0
+end sub
+
+' Called right before pushing a playback screen: unloads poster
+' textures to free memory for the video decoder, but keeps the solid
+' black base layer so any frame before the new backdrop fades back in
+' reads as intentional black, not the default image or transparency.
+sub prepareForPlayback()
+    m.pendingBackdropTarget = invalid
+
+    if isStringEqual(m.crossfadeAnimation.state, "running")
+        m.crossfadeAnimation.control = "stop"
+    end if
+
+    m.backdropA.opacity = 0
+    m.backdropB.opacity = 0
+
+    m.backdropA.uri = ""
+    m.backdropB.uri = ""
+
+    m.backdropBlack.opacity = 1.0
+end sub
+
+' Main and Settings resolve the user's background image and pass the
+' final URI here. Keep it as the default so items without their own
+' backdrop can return to the user's selected background.
+sub setDefaultBackdrop(backdropUri as string)
+    if isStringEqual(m.crossfadeAnimation.state, "running")
+        m.crossfadeAnimation.control = "stop"
+    end if
+
+    if isValidAndNotEmpty(backdropUri)
+        m.defaultBackdropUri = backdropUri
+
+        m.activeBackdrop.blendColor = "0xFFFFFFFF"
+        m.activeBackdrop.uri = backdropUri
+        m.activeBackdrop.opacity = DEFAULT_BACKDROP_OPACITY
+
+        ' Reset the inactive poster's tint too, in case it was left
+        ' colored from a previous "no image" state.
+        m.inactiveBackdrop.blendColor = "0xFFFFFFFF"
+    else
+        ' No background image is configured. Use white.png as a neutral
+        ' base and tint both posters so the color remains correct when
+        ' the posters alternate during crossfades.
+        userColor = chainLookupReturn(
+            m.global.session,
+            "user.settings.colorBackground",
+            ColorPalette.VIEWBACKGROUND
+        )
+
+        m.defaultBackdropUri = "pkg:/images/white.png"
+
+        m.backdropA.blendColor = userColor
+        m.backdropB.blendColor = userColor
+
+        m.activeBackdrop.uri = m.defaultBackdropUri
+        m.activeBackdrop.opacity = DEFAULT_BACKDROP_OPACITY
+    end if
+
+    ' Reset the inactive poster so a previous image cannot reappear
+    ' during the next transition.
+    m.inactiveBackdrop.uri = ""
+    m.inactiveBackdrop.opacity = 0.0
+    m.pendingBackdropTarget = invalid
+end sub
