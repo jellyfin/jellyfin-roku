@@ -476,6 +476,13 @@ function shuffleClicked() as boolean
     return true
 end function
 
+' setShuffle: Turns shuffle on or off, updating the player display (used by voice commands)
+'
+sub setShuffle(enabled as boolean)
+    if m.global.queueManager.callFunc("getIsShuffled") = enabled then return
+    shuffleClicked()
+end sub
+
 sub setShuffleIconState()
     if m.global.queueManager.callFunc("getIsShuffled")
         m.shuffleIndicator.opacity = "1"

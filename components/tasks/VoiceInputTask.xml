@@ -6,9 +6,9 @@
 -->
 <component name="VoiceInputTask" extends="Task">
     <interface>
-        <!-- Raw input data from roInputEvent, forwarded to VideoPlayerView -->
+        <!-- Raw input data from roInputEvent, handled by QueueManager (VoiceCommands.bs) -->
         <field id="inputData" type="assocarray" alwaysNotify="true" />
-        <!-- Response status to send back to Roku OS after handling a command -->
+        <!-- Response to send back to Roku OS after handling a command: { id, status, metadata? } -->
         <field id="transportResponse" type="assocarray" alwaysNotify="true" />
         <!-- Now Playing metadata to send to Roku OS -->
         <field id="nowPlayingData" type="assocarray" alwaysNotify="true" />

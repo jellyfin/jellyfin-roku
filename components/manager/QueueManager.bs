@@ -72,6 +72,25 @@ function getCurrentItem()
     return getItemByIndex(m.position)
 end function
 
+' setCurrentItemIsFavorite: Updates the favorite state stored with the current item (UserData.IsFavorite)
+'
+' @param {boolean} isFavorite
+sub setCurrentItemIsFavorite(isFavorite as boolean)
+    item = getCurrentItem()
+    if not isValid(item) then return
+
+    ' Some queue items keep the server's data in a json field, others are the server's data
+    if type(item.json) = "roAssociativeArray"
+        json = item.json
+        if type(json.UserData) <> "roAssociativeArray" then json.UserData = {}
+        json.UserData.IsFavorite = isFavorite
+        item.json = json
+    else if type(item) = "roAssociativeArray"
+        if type(item.UserData) <> "roAssociativeArray" then item.UserData = {}
+        item.UserData.IsFavorite = isFavorite
+    end if
+end sub
+
 ' Return the items in the hold
 function getHold()
     return m.hold

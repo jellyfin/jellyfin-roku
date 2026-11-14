@@ -6,6 +6,7 @@
     <function name="deleteAtIndex" />
     <function name="getCount" />
     <function name="getCurrentItem" />
+    <function name="setCurrentItemIsFavorite" />
     <function name="getHold" />
     <function name="getIsShuffled" />
     <function name="getItemByIndex" />
