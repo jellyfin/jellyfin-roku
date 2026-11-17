@@ -1,5 +1,7 @@
 enum PersonType
     DIRECTOR = "director"
+    WRITER = "writer"
+    PRODUCER = "producer"
     ACTOR = "actor"
     PERSON = "person"
 end enum
