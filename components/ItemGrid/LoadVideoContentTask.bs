@@ -287,6 +287,18 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     if not isValid(mediaSourceId) then mediaSourceId = video.id
     if meta.live then mediaSourceId = ""
 
+    if isStringEqual(chainLookupReturn(meta, "json.Type", string.EMPTY), "Video") and isValidAndNotEmpty(meta.json.MediaStreams)
+        for each stream in meta.json.MediaStreams
+            if isStringEqual(chainLookupReturn(stream, "Type", string.EMPTY), "video")
+                if chainLookupReturn(stream, "rotation", 0) <> 0
+                    m.top.mustTranscode = true
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(stream, "Codec", string.EMPTY))
+                end if
+                exit for
+            end if
+        end for
+    end if
+
     m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
     if not isValid(m.playbackInfo)
         video.errorMsg = "Error loading playback info"
