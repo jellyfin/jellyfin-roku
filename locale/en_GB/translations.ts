@@ -1690,6 +1690,39 @@
         <source>Videos</source>
         <translation>Videos</translation>
     </message>
+    <message>
+        <source>Default</source>
+        <translation>Default</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Subtitles</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>tracks</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>No Default</translation>
+    </message>
+    <message>
+        <source>More from</source>
+        <translation>More from</translation>
+    </message>
+    <message>
+        <comment>Last played time of media item</comment>
+        <source>RECENTLY_WATCHED</source>
+        <translation>Recently Watched</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>No cast data available.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>as %1</translation>
+    </message>
 </context>
 <context>
     <name></name>
