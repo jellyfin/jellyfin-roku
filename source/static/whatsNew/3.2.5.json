@@ -20,6 +20,10 @@
     "author": "crobibero"
   },
   {
+    "description": "Use local dates for Live TV 'today' and 'tomorrow'",
+    "author": "candrews"
+  },
+  {
     "description": "Show the text of userMessage dialogs",
     "author": "candrews"
   },
