@@ -22,5 +22,9 @@
   {
     "description": "Auto rotate home movies that indicate they should be rotated",
     "author": "Jimi"
+  },
+  {
+    "description": "Keep the screensaver off while a stream without video plays",
+    "author": "candrews"
   }
 ]
