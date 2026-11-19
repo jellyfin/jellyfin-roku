@@ -20,11 +20,23 @@
     "author": "crobibero"
   },
   {
-    "description": "Auto rotate home movies that indicate they should be rotated",
-    "author": "Jimi"
+    "description": "Allow leaving the video player while it is buffering",
+    "author": "candrews"
   },
   {
-    "description": "Allow leaving the video player while it is buffering",
+    "description": "Use local dates for Live TV 'today' and 'tomorrow'",
+    "author": "candrews"
+  },
+  {
+    "description": "Show the text of userMessage dialogs",
+    "author": "candrews"
+  },
+  {
+    "description": "Force transcode on all rotated videos, not just home videos",
+    "author": "candrews"
+  },
+  {
+    "description": "Keep the screensaver off while a stream without video plays",
     "author": "candrews"
   }
 ]

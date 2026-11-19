@@ -287,7 +287,9 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     if not isValid(mediaSourceId) then mediaSourceId = video.id
     if meta.live then mediaSourceId = ""
 
-    if isStringEqual(chainLookupReturn(meta, "json.Type", string.EMPTY), "Video") and isValidAndNotEmpty(meta.json.MediaStreams)
+    ' Roku ignores rotation metadata, even in fMP4 where the server would copy rotated video,
+    ' so make the server re-encode the video upright
+    if not meta.live and isValidAndNotEmpty(meta.json.MediaStreams)
         for each stream in meta.json.MediaStreams
             if isStringEqual(chainLookupReturn(stream, "Type", string.EMPTY), "video")
                 if chainLookupReturn(stream, "rotation", 0) <> 0
