@@ -1485,6 +1485,10 @@ end sub
 '
 ' When Video Player state changes
 sub onState(msg)
+    ' Roku only holds off the screensaver for video it is showing, so a stream without
+    ' video (e.g. a radio station on a Live TV channel) would get the screensaver
+    m.top.disableScreenSaver = isStringEqual(m.top.state, MediaPlaybackState.PLAYING)
+
     if isValid(m.captionTask)
         m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     end if
