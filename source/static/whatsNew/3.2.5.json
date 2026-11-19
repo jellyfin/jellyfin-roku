@@ -22,5 +22,9 @@
   {
     "description": "Auto rotate home movies that indicate they should be rotated",
     "author": "Jimi"
+  },
+  {
+    "description": "Force transcode on all rotated videos, not just home videos",
+    "author": "candrews"
   }
 ]
