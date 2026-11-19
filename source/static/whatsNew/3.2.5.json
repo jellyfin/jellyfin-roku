@@ -18,5 +18,9 @@
   {
     "description": "Only request images the server has",
     "author": "crobibero"
+  },
+  {
+    "description": "Restart the right queue item after a stream reload",
+    "author": "candrews"
   }
 ]
