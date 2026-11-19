@@ -24,6 +24,10 @@
     "author": "Jimi"
   },
   {
+    "description": "Force transcode on all rotated videos, not just home videos",
+    "author": "candrews"
+  },
+  {
     "description": "Keep the screensaver off while a stream without video plays",
     "author": "candrews"
   }
