@@ -101,6 +101,10 @@ end sub
 sub moveBack()
     setForceTranscode(PlaybackMethod.PLAYNORMALLY)
     m.position--
+
+    ' Going back starts the previous item from the beginning, not from wherever it was when its stream was last loaded
+    item = getCurrentItem()
+    if isValid(item) then item.startingPoint = 0
 end sub
 
 ' Move queue position ahead one
@@ -474,10 +478,13 @@ sub setEpisodeToShowAtFinish(episodeID)
     m.episodeToShowAtFinish = episodeID
 end sub
 
-' Set starting point for top item in the queue
+' Set the starting point (in ticks) of the item that is playing
 sub setTopStartingPoint(positionTicks)
-    if getCount() = 0 then return
-    m.queue[0].startingPoint = positionTicks
+    ' Despite the name, this is the item that is playing: callers save its position before reloading its
+    ' stream (for example, to change the audio or subtitle track), and it isn't always the first item
+    item = getCurrentItem()
+    if not isValid(item) then return
+    item.startingPoint = positionTicks
 end sub
 
 ' Set selectedAudioStreamIndex for current item
