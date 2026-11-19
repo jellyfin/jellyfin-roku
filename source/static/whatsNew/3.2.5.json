@@ -20,8 +20,8 @@
     "author": "crobibero"
   },
   {
-    "description": "Auto rotate home movies that indicate they should be rotated",
-    "author": "Jimi"
+    "description": "Show the text of userMessage dialogs",
+    "author": "candrews"
   },
   {
     "description": "Force transcode on all rotated videos, not just home videos",
