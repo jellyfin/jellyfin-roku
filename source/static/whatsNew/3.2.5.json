@@ -18,5 +18,9 @@
   {
     "description": "Only request images the server has",
     "author": "crobibero"
+  },
+  {
+    "description": "Send every playback report, in order - #1151",
+    "author": "candrews"
   }
 ]
