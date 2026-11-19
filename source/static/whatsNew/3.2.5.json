@@ -22,5 +22,9 @@
   {
     "description": "Auto rotate home movies that indicate they should be rotated",
     "author": "Jimi"
+  },
+  {
+    "description": "Resume deep linked videos from the saved position",
+    "author": "candrews"
   }
 ]
