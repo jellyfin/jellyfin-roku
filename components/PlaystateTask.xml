@@ -2,7 +2,7 @@
 
 <component name="PlaystateTask" extends="Task">
   <interface>
-    <field id="status" type="string" />
-    <field id="params" type="assocarray" />
+    <!-- A playback report to send: { status: "start", "update" or "stop", params: the report's body } -->
+    <field id="report" type="assocarray" alwaysNotify="true" />
   </interface>
 </component>
