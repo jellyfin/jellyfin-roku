@@ -18,5 +18,9 @@
   {
     "description": "Only request images the server has",
     "author": "crobibero"
+  },
+  {
+    "description": "Count 'Ends at' from the resume position - #1143",
+    "author": "candrews"
   }
 ]
