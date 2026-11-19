@@ -18,5 +18,9 @@
   {
     "description": "Only request images the server has",
     "author": "crobibero"
+  },
+  {
+    "description": "Report music pauses, seeks and stops to the server",
+    "author": "candrews"
   }
 ]
