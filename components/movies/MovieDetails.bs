@@ -796,8 +796,7 @@ function getEndTime() as string
     itemData = m.top.itemContent.json
 
     date = CreateObject("roDateTime")
-    duration_s = int(itemData.RunTimeTicks / 10000000.0)
-    date.fromSeconds(date.asSeconds() + duration_s)
+    date.fromSeconds(date.asSeconds() + getRemainingRunTimeSeconds(itemData))
     date.toLocalTime()
 
     return formatTime(date)
