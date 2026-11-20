@@ -88,6 +88,8 @@ function APIRequest(url as string, params = {} as object) as dynamic
     if serverURL = invalid then return invalid
 
     req = createObject("roUrlTransfer")
+    ' Ask for compressed responses, which roUrlTransfer decompresses. JSON compresses well.
+    req.EnableEncodings(true)
     req.setUrl(full_url)
     req = authRequest(req)
     ' SSL cert

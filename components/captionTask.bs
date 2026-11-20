@@ -23,6 +23,8 @@ sub init()
 
     m.captionList = []
     m.reader = createObject("roUrlTransfer")
+    ' Subtitle files are text, so ask for them compressed
+    m.reader.EnableEncodings(true)
     m.fontColor = CreateObject("roRegex", "color\s*=\s*(""[^""]*""|\'[^\']*\'|[^\s]+)", "i")
 
     ' Caption Style

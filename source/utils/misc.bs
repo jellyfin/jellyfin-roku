@@ -225,6 +225,7 @@ function inferServerUrl(url as string) as string
     candidates = urlCandidates(url)
     for each endpoint in candidates
         req = CreateObject("roUrlTransfer")
+        req.EnableEncodings(true)
         reqs.push(req) ' keep in scope outside of loop, else -10001
         finalUrl = `${endpoint.proto}://${endpoint.host}${endpoint.port = "" ? "" : `:${endpoint.port}`}${endpoint.path}`
         req.seturl(`${finalUrl}/system/info/public${endpoint.query = "" ? "" : `?${endpoint.query}`}`)
