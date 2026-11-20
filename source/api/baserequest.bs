@@ -84,7 +84,7 @@ function APIRequest(url as string, params = {} as object) as dynamic
     full_url = buildURL(url, params)
     if full_url = invalid then return invalid
 
-    serverURL = m.global.session.server.url
+    serverURL = getSessionServerURL()
     if serverURL = invalid then return invalid
 
     req = createObject("roUrlTransfer")
@@ -198,8 +198,26 @@ function deleteVoid(req)
     return true
 end function
 
+' Off the render thread, every read of m.global waits for the render thread, which can take over 50ms while
+' it animates. Code that builds many requests or image URLs from a Task can call this first, so they use
+' copies kept in m. Only call it where m doesn't outlive the session, such as a Task run (m is reset on
+' every run) or a content node built by one.
+sub cacheRequestGlobals()
+    m.cachedServerURL = m.global.serverURL
+    m.cachedAuthHeader = m.global.authHeader
+end sub
+
+' Returns the server URL the session uses, or invalid when there isn't one.
+' It reads the copy in m.global.serverURL: reading m.global.session copies the whole session.
+function getSessionServerURL() as dynamic
+    serverURL = m.cachedServerURL
+    if not isValidAndNotEmpty(serverURL) then serverURL = m.global.serverURL
+    if not isValidAndNotEmpty(serverURL) then return invalid
+    return serverURL
+end function
+
 function get_url()
-    serverURL = m.global.session.server.url
+    serverURL = getSessionServerURL()
     if serverURL <> invalid
         if serverURL.right(1) = "/"
             serverURL = serverURL.left(serverURL.len() - 1)
@@ -241,21 +259,34 @@ function authRequest(req as object) as object
     return req
 end function
 
-' Returns a string containing the "Authorization" header payload
+' Returns a string containing the "Authorization" header payload.
+' It reads the copy in m.global.authHeader: building it here reads m.global.session and m.global.device
+' several times, and from a task each read waits for the render thread, which can take over 100ms.
 function buildAuthHeader() as string
+    authHeader = m.cachedAuthHeader
+    if not isValidAndNotEmpty(authHeader) then authHeader = m.global.authHeader
+    if isValidAndNotEmpty(authHeader) then return authHeader
+
+    return makeAuthHeader(m.global.session, m.global.device, m.global.app)
+end function
+
+' Builds the "Authorization" header payload from the global session, device and app arrays
+function makeAuthHeader(sessionData as dynamic, device as object, app as object) as string
     QUOTE = Chr(34)
     auth = "MediaBrowser" + " Client=" + QUOTE + "Jellyfin Roku" + QUOTE
-    auth = auth + ", Device=" + QUOTE + m.global.device.name + " (" + m.global.device.model + ")" + QUOTE
-    auth = auth + ", Version=" + QUOTE + m.global.app.version + QUOTE
+    auth = auth + ", Device=" + QUOTE + device.name + " (" + device.model + ")" + QUOTE
+    auth = auth + ", Version=" + QUOTE + app.version + QUOTE
 
-    if m.global.session.user.id <> invalid
-        auth = auth + ", UserId=" + QUOTE + m.global.session.user.id + QUOTE
+    userID = chainLookupReturn(sessionData, "user.id", invalid)
+    if userID <> invalid
+        auth = auth + ", UserId=" + QUOTE + userID + QUOTE
     end if
 
-    auth = auth + ", DeviceId=" + QUOTE + m.global.device.serverDeviceName + QUOTE
+    auth = auth + ", DeviceId=" + QUOTE + device.serverDeviceName + QUOTE
 
-    if m.global.session.user.authToken <> invalid
-        auth = auth + ", Token=" + QUOTE + m.global.session.user.authToken + QUOTE
+    authToken = chainLookupReturn(sessionData, "user.authToken", invalid)
+    if authToken <> invalid
+        auth = auth + ", Token=" + QUOTE + authToken + QUOTE
     end if
 
     return auth

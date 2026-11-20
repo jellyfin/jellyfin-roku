@@ -15,31 +15,49 @@ const ITEM_ICON_TOP = 85
 sub init()
     findNodes()
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
-    setColors()
+    setColors(getUserSettings())
 end sub
 
-sub setColors()
+' Reading m.global.session copies the whole session, which is slow enough to make rows stutter
+' while they scroll, so each update reads it once and passes the settings along.
+function getUserSettings() as object
+    return chainLookupReturn(m.global.session, "user.settings", {})
+end function
+
+sub setColors(userSettings as object)
     if not isAllValid([m.itemProgress, m.itemProgressBackground, m.backdrop]) then findNodes()
 
     if isValid(m.itemProgress)
-        m.itemProgress.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemProgress", ColorPalette.TRIADBLUE)
+        m.itemProgress.color = userSettings.colorHomeRowItemProgress ?? ColorPalette.TRIADBLUE
     end if
 
     if isValid(m.itemProgressBackground)
-        m.itemProgressBackground.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemProgressBackground", ColorPalette.BLACK90)
+        m.itemProgressBackground.color = userSettings.colorHomeRowItemProgressBackground ?? ColorPalette.BLACK90
     end if
 
     if isValid(m.backdrop)
-        m.backdrop.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemBackground", ColorPalette.ELEMENTBACKGROUND)
+        m.backdrop.color = userSettings.colorHomeRowItemBackground ?? ColorPalette.ELEMENTBACKGROUND
+    end if
+
+    if isValid(m.itemText)
+        m.itemText.color = userSettings.colorHomeRowItemTitle ?? ColorPalette.WHITE
+    end if
+
+    if isValid(m.itemTextExtra)
+        m.itemTextExtra.color = userSettings.colorHomeRowItemSubtitle ?? ColorPalette.MIDGREY
+    end if
+
+    if isValid(m.itemIcon)
+        m.itemIcon.blendcolor = userSettings.colorHomeMyListIcon ?? ColorPalette.WHITE
     end if
 end sub
 
 sub findNodes()
-    initItemText()
-    initItemPoster()
-    initItemTextExtra()
-    initBackdrop()
-    initItemIcon()
+    m.itemText = m.top.findNode("itemText")
+    m.itemPoster = m.top.findNode("itemPoster")
+    m.itemTextExtra = m.top.findNode("itemTextExtra")
+    m.backdrop = m.top.findNode("backdrop")
+    m.itemIcon = m.top.findNode("itemIcon")
     m.itemProgress = m.top.findNode("progress")
     m.itemProgressBackground = m.top.findNode("progressBackground")
     m.playedIndicator = m.top.findNode("playedIndicator")
@@ -47,40 +65,12 @@ sub findNodes()
     m.showProgressBarField = m.top.findNode("showProgressBarField")
 end sub
 
-sub initItemText()
-    m.itemText = m.top.findNode("itemText")
-    if isValid(m.itemText)
-        m.itemText.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemTitle", ColorPalette.WHITE)
-    end if
-end sub
-
-sub initItemPoster()
-    m.itemPoster = m.top.findNode("itemPoster")
-end sub
-
-sub initItemTextExtra()
-    m.itemTextExtra = m.top.findNode("itemTextExtra")
-    if isValid(m.itemTextExtra)
-        m.itemTextExtra.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemSubtitle", ColorPalette.MIDGREY)
-    end if
-end sub
-
-sub initBackdrop()
-    m.backdrop = m.top.findNode("backdrop")
-end sub
-
-sub initItemIcon()
-    m.itemIcon = m.top.findNode("itemIcon")
-    if not isValid(m.itemIcon) then return
-
-    m.itemIcon.blendcolor = chainLookupReturn(m.global.session, "user.settings.colorHomeMyListIcon", ColorPalette.WHITE)
-end sub
-
 sub itemContentChanged()
     itemData = m.top.itemContent
 
     if not isValid(itemData) then return
-    localGlobal = m.global
+    sessionData = m.global.session
+    userSettings = chainLookupReturn(sessionData, "user.settings", {})
     itemDataType = isValid(itemData.type) ? LCase(itemData.type) : ""
 
     if isValid(m.playedIndicator)
@@ -98,15 +88,10 @@ sub itemContentChanged()
 
     itemData.AddReplace("Title", itemData.LookupCI("name"))
 
-    setColors()
-    initItemIcon()
-    initItemText()
-    initItemTextExtra()
+    setColors(userSettings)
 
     ' validate to prevent crash
-    if not isValid(m.itemPoster) then initItemPoster()
-    if not isValid(m.backdrop) then initBackdrop()
-    if not isValid(m.itemIcon) then initItemIcon()
+    if not isAllValid([m.itemPoster, m.backdrop, m.itemIcon, m.itemText, m.itemTextExtra]) then findNodes()
 
     m.itemPoster.width = itemData.imageWidth
     m.itemPoster.height = ITEM_IMAGE_HEIGHT
@@ -159,7 +144,7 @@ sub itemContentChanged()
     end if
 
     if inArray([ItemType.EPISODE, ItemType.RECORDING], itemDataType)
-        displayEpisodeInfo(localGlobal, itemData)
+        displayEpisodeInfo(sessionData, itemData)
         return
     end if
 
@@ -442,7 +427,7 @@ sub displayProgramInfo(itemData as object)
     end if
 end sub
 
-sub displayEpisodeInfo(localGlobal as object, itemData as object)
+sub displayEpisodeInfo(sessionData as object, itemData as object)
     if isChainValid(itemData, "json.SeriesName")
         m.itemText.text = itemData.json.SeriesName
     end if
@@ -453,14 +438,14 @@ sub displayEpisodeInfo(localGlobal as object, itemData as object)
         end if
     end if
 
-    episodeimagesnextupSetting = chainLookup(localGlobal, "session.user.settings.ui-general-episodeimagesnextup")
+    episodeimagesnextupSetting = chainLookup(sessionData, "user.settings.ui-general-episodeimagesnextup")
 
     ' Default to wide poster image
     m.itemPoster.uri = itemData.LookupCI("widePosterURL")
 
     if isValid(episodeimagesnextupSetting)
         if isStringEqual(episodeimagesnextupSetting, "webclient")
-            useEpisodeImagesInNextUpAndResumeSetting = chainLookup(localGlobal, "session.user.Configuration.useEpisodeImagesInNextUpAndResume")
+            useEpisodeImagesInNextUpAndResumeSetting = chainLookup(sessionData, "user.Configuration.useEpisodeImagesInNextUpAndResume")
             if isValid(useEpisodeImagesInNextUpAndResumeSetting) and useEpisodeImagesInNextUpAndResumeSetting
                 m.itemPoster.uri = itemData.LookupCI("thumbnailURL")
             else

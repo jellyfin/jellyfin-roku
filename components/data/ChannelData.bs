@@ -41,6 +41,9 @@ sub populatePoster()
 end sub
 
 sub setPoster()
+    ' Off the render thread, each image URL would otherwise read m.global.serverURL, see cacheRequestGlobals
+    m.cachedServerURL = m.top.serverURL
+
     if m.top.image <> invalid
         m.top.posterURL = m.top.image.url
     else
