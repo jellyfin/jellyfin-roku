@@ -73,7 +73,9 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     meta = ItemMetaData(video.id)
 
-    if not isValid(meta)
+    ' Item types ItemMetaData doesn't handle come back as raw JSON with no json field. They can't be
+    ' played, such as the user's root folder, which the server returns for the empty ID.
+    if not isValid(meta) or not isValid(meta.json)
         video.errorMsg = "Error loading metadata"
         video.content = invalid
         return
