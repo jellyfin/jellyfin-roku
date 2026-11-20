@@ -68,19 +68,24 @@ sub itemContentChanged()
 
     if not isValid(itemData) then return
 
+    ' Reading m.global.session or itemData.json copies all of it, which adds up while a grid scrolls, so read each once
+    userSettings = chainLookupReturn(m.global.session, "user.settings", {})
+    json = itemData.json
+    libraryID = chainLookupReturn(json, "passedData.libraryID", invalid)
+
     showWatchedCheckmark = true
 
-    if isChainValid(itemData, "json.passedData.libraryID")
-        showWatchedCheckmark = chainLookupReturn(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-showWatchedCheckmark`, true)
+    if isValid(libraryID)
+        showWatchedCheckmark = userSettings.LookupCI(`${libraryID}-showWatchedCheckmark`) ?? true
     end if
 
     m.playedIndicator.data = {
         showWatchedCheckmark: showWatchedCheckmark,
-        played: chainLookupReturn(itemData, "json.UserData.Played", false),
-        unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
+        played: chainLookupReturn(json, "UserData.Played", false),
+        unplayedCount: chainLookupReturn(json, "UserData.UnplayedItemCount", 0)
     }
 
-    m.itemPoster.uri = getPosterURL(itemData)
+    m.itemPoster.uri = getPosterURL(itemData, userSettings, libraryID)
 
     if isValidAndNotEmpty(itemData.LookupCI("fullNameWithShowTitle"))
         m.posterText.text = itemData.LookupCI("fullNameWithShowTitle")
@@ -97,15 +102,15 @@ sub itemContentChanged()
     end if
 end sub
 
-function getPosterURL(itemData) as string
+function getPosterURL(itemData as object, userSettings as object, libraryID as dynamic) as string
     posterURL = itemData.PosterUrl
 
-    posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+    posterOrientation = userSettings.libraryPosterOrientation ?? ImageLayout.DEFAULT
 
     ' If user has not set a library level setting, check the user level setting
-    if isChainValid(itemData, "json.passedData.libraryID")
-        if isChainValid(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-useLandscapeImages`)
-            useLandscapeImages = chainLookupReturn(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-useLandscapeImages`, false)
+    if isValid(libraryID)
+        useLandscapeImages = userSettings.LookupCI(`${libraryID}-useLandscapeImages`)
+        if isValid(useLandscapeImages)
             posterOrientation = useLandscapeImages ? ImageLayout.LANDSCAPE : ImageLayout.DEFAULT
         end if
     end if

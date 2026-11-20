@@ -98,20 +98,25 @@ sub itemContentChanged()
     itemData = m.top.itemContent
     if not isValid(itemData) then return
 
+    ' Each read of itemData.json or m.global.session copies all of it, and an episode's json holds
+    ' all of its media streams, so read each once
+    json = itemData.json
+    userSettings = chainLookupReturn(m.global.session, "user.settings", {})
+
     m.playedIndicator.data = {
         played: chainLookupReturn(itemData, "watched", false),
-        unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
+        unplayedCount: chainLookupReturn(json, "UserData.UnplayedItemCount", 0)
     }
 
     m.overview.text = itemData.overview
 
-    if not isChainValid(itemData, "json") then return
+    if not isValid(json) then return
 
-    if isValid(itemData.json.indexNumber)
-        indexNumber = `${itemData.json.indexNumber}. `
+    if isValid(json.indexNumber)
+        indexNumber = `${json.indexNumber}. `
 
-        if isValid(itemData.json.indexNumberEnd)
-            indexNumber = `${itemData.json.indexNumber}-${itemData.json.indexNumberEnd}. `
+        if isValid(json.indexNumberEnd)
+            indexNumber = `${json.indexNumber}-${json.indexNumberEnd}. `
         end if
     else
         indexNumber = string.EMPTY
@@ -121,9 +126,9 @@ sub itemContentChanged()
 
     imageUrl = itemData.posterURL
 
-    if m.global.session.user.settings["ui.tvshows.blurunwatched"] = true
+    if userSettings.LookupCI("ui.tvshows.blurunwatched") = true
         if isStringEqual(itemData.LookupCI("Type"), "Episode")
-            if not chainLookupReturn(itemData, "json.UserData.played", false)
+            if not chainLookupReturn(json, "UserData.played", false)
                 imageUrl += "&blur=15"
             end if
         end if
@@ -131,31 +136,32 @@ sub itemContentChanged()
 
     m.poster.uri = imageUrl
 
-    if isValid(itemData.json.LookupCI("PremiereDate"))
+    if isValid(json.LookupCI("PremiereDate"))
         airDate = CreateObject("roDateTime")
-        airDate.FromISO8601String(itemData.json.LookupCI("PremiereDate"))
+        airDate.FromISO8601String(json.LookupCI("PremiereDate"))
         m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
     end if
 
-    if isValid(itemData.json.LookupCI("RunTimeTicks"))
-        if type(itemData.json.RunTimeTicks) = "roInt" or type(itemData.json.RunTimeTicks) = "LongInteger"
-            runTime = getRuntime()
+    if isValid(json.LookupCI("RunTimeTicks"))
+        if type(json.RunTimeTicks) = "roInt" or type(json.RunTimeTicks) = "LongInteger"
+            runTime = getRuntime(json)
             if runTime < 2
                 m.top.findNode("runtime").text = "1 " + tr("min")
             else
                 m.top.findNode("runtime").text = `${stri(runTime).trim()} ${tr("mins")}`
             end if
 
-            if m.global.session.user.settings["ui.design.hideclock"] <> true
-                m.top.findNode("endtime").text = tr("Ends at %1").Replace("%1", getEndTime())
+            if userSettings.LookupCI("ui.design.hideclock") <> true
+                m.top.findNode("endtime").text = tr("Ends at %1").Replace("%1", getEndTime(json))
             end if
         end if
     end if
 
-    if chainLookupReturn(m.global.session, "user.settings.`ui.itemdetail.showRatings`", true)
-        if isValid(itemData.json.LookupCI("communityRating"))
+    showRatings = userSettings.LookupCI("ui.itemdetail.showRatings") ?? true
+    if showRatings
+        if isValid(json.LookupCI("communityRating"))
             m.top.findNode("star").visible = true
-            m.top.findNode("communityRating").text = str(int(itemData.json.LookupCI("communityRating") * 10) / 10)
+            m.top.findNode("communityRating").text = str(int(json.LookupCI("communityRating") * 10) / 10)
         else
             m.top.findNode("star").visible = false
         end if
@@ -165,10 +171,10 @@ sub itemContentChanged()
     end if
 
     ' Add progress bar on bottom (if applicable)
-    if chainLookupReturn(itemData, "json.UserData.PlayedPercentage", 0) > 0
+    if chainLookupReturn(json, "UserData.PlayedPercentage", 0) > 0
         m.progressBackground.width = m.poster.width
         m.progressBackground.visible = true
-        progressWidthInPixels = int(m.progressBackground.width * chainLookup(itemData.json, "UserData.PlayedPercentage") / 100)
+        progressWidthInPixels = int(m.progressBackground.width * chainLookup(json, "UserData.PlayedPercentage") / 100)
         m.progressBar.width = progressWidthInPixels
         m.progressBar.visible = true
     else
@@ -177,16 +183,14 @@ sub itemContentChanged()
     end if
 end sub
 
-function getRuntime() as integer
-    itemData = m.top.itemContent.json
+function getRuntime(itemData as object) as integer
 
     ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
     ' then 1/60 for seconds to minutess... 1/600,000,000
     return int(itemData.RunTimeTicks / 600000000.0)
 end function
 
-function getEndTime() as string
-    itemData = m.top.itemContent.json
+function getEndTime(itemData as object) as string
     date = CreateObject("roDateTime")
     duration_s = int(itemData.RunTimeTicks / 10000000.0)
     date.fromSeconds(date.asSeconds() + duration_s)

@@ -19,8 +19,13 @@ namespace session
                     settings: {},
                     lastRunVersion: invalid
                 }
-            }
+            },
+            ' A copy of session.server.url, see session.Update
+            serverURL: "",
+            ' The Authorization header for API requests, see buildAuthHeader
+            authHeader: ""
         })
+        m.global.authHeader = makeAuthHeader(m.global.session, m.global.device, m.global.app)
         session.user.settings.SaveDefaults()
     end sub
 
@@ -41,8 +46,16 @@ namespace session
         tmpSession = m.global.session
         ' update the temp session array
         tmpSession.AddReplace(key, value)
+        ' Reading m.global.session copies all of it, which every request and image URL would pay
+        ' just to get the server URL, so keep a copy of it in a field of its own
+        serverURL = chainLookupReturn(tmpSession, "server.url", "")
+        if type(serverURL) <> "roString" and type(serverURL) <> "String" then serverURL = ""
+
+        ' The Authorization header includes the user ID and token, so build it again
+        authHeader = makeAuthHeader(tmpSession, m.global.device, m.global.app)
+
         ' use the temp session array to update the global node
-        m.global.setFields({ session: tmpSession })
+        m.global.setFields({ session: tmpSession, serverURL: serverURL, authHeader: authHeader })
     end sub
 
     namespace server
@@ -216,7 +229,8 @@ namespace session
             if localGlobal.device.serverDeviceName <> deviceName
                 tmpDevice = localGlobal.device
                 tmpDevice.AddReplace("serverDeviceName", deviceName)
-                m.global.setFields({ device: tmpDevice })
+                ' The Authorization header includes the device name, so build it again
+                m.global.setFields({ device: tmpDevice, authHeader: makeAuthHeader(localGlobal.session, tmpDevice, localGlobal.app) })
             end if
         end sub
 
