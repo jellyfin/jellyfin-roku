@@ -38,5 +38,9 @@
   {
     "description": "Keep the screensaver off while a stream without video plays",
     "author": "candrews"
+  },
+  {
+    "description": "Fix the replay button jumping to the end in the first 10 seconds of a video",
+    "author": "candrews"
   }
 ]
