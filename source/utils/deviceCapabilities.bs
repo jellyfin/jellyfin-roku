@@ -354,6 +354,16 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
                 end if
             end if
         end for
+
+        ' Let the server copy AAC instead of re-encoding it. It goes last so the server still
+        ' encodes to the codecs above; the AAC codec profile keeps Main and multichannel AAC out.
+        if di.CanDecodeAudio({ Codec: "aac", Container: container }).result
+            if container = "mp4"
+                mp4AudioCodecs = mp4AudioCodecs + ",aac"
+            else if container = "ts"
+                tsAudioCodecs = tsAudioCodecs + ",aac"
+            end if
+        end if
     end for
 
     ' add aac to TranscodingProfile for stereo audio
