@@ -2603,6 +2603,30 @@
         <source>No media matched radio station criteria</source>
         <translation>Keine Medien passten zum Radiosenderkriterium</translation>
     </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>%1 Album</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>%1 Alben</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Der Server startet noch. Bitte erneut versuchen.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Der Server ist temporär nicht verfügbar. Bitte erneut versuchen.</translation>
+    </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Suchbegriff</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Beginnt mit</translation>
+    </message>
 </context>
 <context>
     <name></name>
