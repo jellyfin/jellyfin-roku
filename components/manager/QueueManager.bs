@@ -417,7 +417,7 @@ end sub
 
 ' Reset queue items back to original, unshuffled order
 sub resetQueueItemOrder()
-    set(m.originalQueue)
+    reorderQueue(m.originalQueue)
 end sub
 
 ' Return original, unshuffled queue
@@ -447,7 +447,18 @@ sub shuffleQueueItems()
         itemIDArray.Unshift(temp)
     end if
 
-    set(itemIDArray)
+    reorderQueue(itemIDArray)
+end sub
+
+' reorderQueue: Replaces the play queue with the same items in a new order, while they keep playing.
+' set() also marks the queue as not playing, which would stop the next shuffle from keeping the
+' current item first.
+'
+' @param {object} items - the queue's items, in their new order
+sub reorderQueue(items as object)
+    isPlaying = m.isPlaying
+    set(items)
+    m.isPlaying = isPlaying
 end sub
 
 ' Return the fitst item in the play queue
