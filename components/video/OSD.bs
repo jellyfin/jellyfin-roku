@@ -44,6 +44,9 @@ sub init()
     m.videoEndingTime = m.top.findNode("videoEndingTime")
     m.progressBar = m.top.findNode("progressBar")
     m.progressBarBackground = m.top.findNode("progressBarBackground")
+    m.chapterMarkers = m.top.findNode("chapterMarkers")
+    m.chapterTitle = m.top.findNode("chapterTitle")
+    m.chapterEntries = []
 
     m.progressBarGroup = m.top.findNode("progressBarGroup")
     m.scrubber = m.top.findNode("scrubber")
@@ -57,6 +60,8 @@ sub init()
     m.top.observeField("visible", "onVisibleChanged")
     m.top.observeField("hasFocus", "onFocusChanged")
     m.top.observeField("progressPercentage", "onProgressPercentageChanged")
+    m.top.observeField("progressDuration", "onChaptersChanged")
+    m.top.observeField("live", "onChaptersChanged")
     m.top.observeField("playbackState", "onPlaybackStateChanged")
     m.top.observeField("videoEndingTime", "setVideoEndingTime")
 
@@ -105,6 +110,64 @@ sub init()
     m.top.liveTvRewindLimit = LIVETV_REWIND_LIMIT
     reloadUI()
     onTransportButtonStatusChanged()
+end sub
+
+' Rebuild only when chapter metadata, duration, or live status changes.
+sub onChaptersChanged()
+    m.chapterMarkers.removeChildren(m.chapterMarkers.getChildren(-1, 0))
+    m.chapterEntries = []
+    duration = m.top.progressDuration
+    if m.top.live or duration <= 0 or not isValidAndNotEmpty(m.top.chapters)
+        m.chapterTitle.visible = false
+        return
+    end if
+
+    for i = 0 to m.top.chapters.count() - 1
+        chapter = m.top.chapters[i]
+        if type(chapter) <> "roAssociativeArray" then continue for
+        if not isNumber(chapter.StartPositionTicks) then continue for
+        chapterPosition = chapter.StartPositionTicks / 10000000#
+        if not (chapterPosition >= 0 and chapterPosition < duration) then continue for
+
+        duplicate = false
+        for each entry in m.chapterEntries
+            if entry.position = chapterPosition
+                duplicate = true
+                exit for
+            end if
+        end for
+        if duplicate then continue for
+
+        chapterName = chapter.Name
+        if type(chapterName) <> "roString" and type(chapterName) <> "String" then chapterName = ""
+        chapterName = chapterName.trim()
+        if chapterName = "" then chapterName = "Chapter " + StrI(i + 1).trim()
+        m.chapterEntries.push({ position: chapterPosition, name: chapterName })
+
+        marker = CreateObject("roSGNode", "Rectangle")
+        marker.width = 3
+        marker.height = 18
+        marker.color = ColorPalette.WHITE
+        markerX = m.progressBarBackground.width * chapterPosition / duration - 1
+        if markerX < 0 then markerX = 0
+        marker.translation = [markerX, -3]
+        m.chapterMarkers.appendChild(marker)
+    end for
+    updateChapterTitle(m.top.isSeeking ? m.top.previewPos : m.top.positionTime)
+end sub
+
+' Select the chapter at the exact playback or seek position, without the navigation buffer.
+sub updateChapterTitle(position as float)
+    chapterName = ""
+    chapterStart = -1
+    for each entry in m.chapterEntries
+        if entry.position <= position and entry.position > chapterStart
+            chapterStart = entry.position
+            chapterName = entry.name
+        end if
+    end for
+    m.chapterTitle.visible = chapterName <> ""
+    if m.chapterTitle.text <> chapterName then m.chapterTitle.text = chapterName
 end sub
 
 ' onProgressPercentageChanged: Handler for changes to m.top.progressPercentage param
@@ -706,6 +769,11 @@ end sub
 ' @param {boolean} live - whether the content is live TV
 ' @param {integer} updatePosition - the position to update the progress bar to
 sub updateProgressBar(live as boolean, updatePosition as integer)
+    if m.top.isSeeking
+        updateChapterTitle(updatePosition)
+    else
+        updateChapterTitle(m.top.positionTime)
+    end if
     if live
         if m.top.isRecording
             m.videoRemainingTime.text = m.clock.callFunc("getFormattedTime", (m.top.liveTvStartTime + m.top.liveTvRewindLimit), true, false)
