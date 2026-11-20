@@ -9,5 +9,7 @@
     <field id="audioData" type="array" alwaysNotify="true" />
     <function name="playNext" />
     <function name="playPrevious" />
+    <!-- Call before stopping playback when Roku OS suspends the app -->
+    <function name="reportStopped" />
   </interface>
 </component>

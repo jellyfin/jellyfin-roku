@@ -1,5 +1,6 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.functionName = "PlaystateUpdate"
@@ -8,9 +9,9 @@ end sub
 sub PlaystateUpdate()
     if m.top.status = "start"
         url = "Sessions/Playing"
-    else if m.top.status = "stop"
+    else if m.top.status = "stop" or m.top.status = "suspend"
         url = "Sessions/Playing/Stopped"
-    else if m.top.status = "update"
+    else if m.top.status = "update" or m.top.status = "pause"
         url = "Sessions/Playing/Progress"
     else
         ' Unknown State
@@ -19,6 +20,20 @@ sub PlaystateUpdate()
     params = PlaystateDefaults(m.top.params)
     resp = APIRequest(url)
     postJson(resp, params)
+
+    if m.top.status = "suspend" or m.top.status = "pause" then saveResumePoint(m.top.params)
+end sub
+
+' saveResumePoint: Saves the position as the item's resume point, which the server doesn't do below
+' its minimum resume percentage. Items the server marked played are left alone.
+'
+' @param {object} params - the playstate params, with ItemId and PositionTicks
+sub saveResumePoint(params as object)
+    url = `UserItems/${params.ItemId}/UserData`
+    userData = getJson(APIRequest(url))
+    if not isValid(userData) or userData.Played = true then return
+
+    postJson(APIRequest(url), FormatJson({ "PlaybackPositionTicks": params.PositionTicks }))
 end sub
 
 function PlaystateDefaults(params = {} as object)

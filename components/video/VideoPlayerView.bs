@@ -826,6 +826,9 @@ sub showPlaybackErrorDialog(errorMessage as string)
     dialog.observeField("buttonSelected", "onPlaybackErrorButtonSelected")
     dialog.observeField("wasClosed", "onPlaybackErrorDialogClosed")
     m.top.getScene().dialog = dialog
+
+    ' Playback the app was resumed into failed, so the app is ready on this dialog
+    signalPendingResumeBeacon()
 end sub
 
 sub onVideoContentLoaded()
@@ -1578,6 +1581,7 @@ sub onState(msg)
             end if
         end if
     else if isStringEqual(m.top.state, MediaPlaybackState.PLAYING)
+        signalPendingResumeBeacon()
 
         ' Reset retry counter when playback is successful
         if m.playbackRetries > 0
@@ -1620,7 +1624,9 @@ sub onState(msg)
         end if
     else if isStringEqual(m.top.state, MediaPlaybackState.PAUSED)
         m.playbackTimer.control = "stop"
-        ReportPlayback()
+        ' Also save the resume point: the screensaver can start while paused, and Roku OS doesn't
+        ' run background tasks to report the stop when it suspends the app (Instant Resume)
+        if m.top.content.live then ReportPlayback() else ReportPlayback("pause")
     else if isStringEqual(m.top.state, MediaPlaybackState.STOPPED)
         m.playbackTimer.control = "stop"
         if m.playReported
@@ -1764,7 +1770,7 @@ sub ReportPlayback(state = "update" as string)
         m.bufferCheckTimer.duration = 30
     end if
 
-    if inArray(["stop", "finished"], state) and isValid(m.originalClosedCaptionState)
+    if inArray(["stop", "finished", "suspend"], state) and isValid(m.originalClosedCaptionState)
         m.top.globalCaptionMode = m.originalClosedCaptionState
         m.originalClosedCaptionState = invalid
     end if
@@ -2246,19 +2252,59 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        ' The stream may still be loading. Stop it, so it doesn't start playing after the player closes.
-        m.LoadMetaDataTask.unobserveField("content")
-        m.LoadMetaDataTask.control = TaskControl.STOP
-
-        m.PreloadTrickplayImagesTask.method = "REMOVE"
-        m.PreloadTrickplayImagesTask.control = TaskControl.RUN
-
-        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
-        m.global.queueManager.callFunc("clear")
-        m.top.control = VideoControl.STOP
+        stopPlayback()
     end if
 
     return false
+end function
+
+' stopPlayback: Stops video playback and clears the play queue
+'
+sub stopPlayback()
+    ' The stream may still be loading. Stop it, so it doesn't start playing after the player closes.
+    m.LoadMetaDataTask.unobserveField("content")
+    m.LoadMetaDataTask.control = TaskControl.STOP
+
+    m.PreloadTrickplayImagesTask.method = "REMOVE"
+    m.PreloadTrickplayImagesTask.control = TaskControl.RUN
+
+    m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+    m.global.queueManager.callFunc("clear")
+    m.top.control = VideoControl.STOP
+end sub
+
+' closePlayer: Stops playback and closes the player, same as the user pressing back
+'
+sub closePlayer()
+    stopFastforwardOrRewind()
+    stopPlayback()
+    m.global.sceneManager.callFunc("popScene")
+end sub
+
+' suspendPlayer: Stops the stream when Roku OS suspends the app, which takes away the video decoder,
+' and reports the position to the server as the item's resume point, in case the app is never resumed.
+' The player stays on screen until the app is resumed, when it is replaced by the item's details screen,
+' or for Live TV, by the same channel playing again.
+'
+sub suspendPlayer()
+    stopFastforwardOrRewind()
+
+    if m.playReported
+        m.playbackTimer.control = "stop"
+        ' Live TV has no resume point
+        if m.top.content.live then ReportPlayback("stop") else ReportPlayback("suspend")
+        m.playReported = false
+    end if
+
+    stopPlayback()
+end sub
+
+' getLiveChannelId: Returns the ID of the Live TV channel playing, or an empty string for other video
+'
+' @return {string}
+function getLiveChannelId() as string
+    if not isChainValid(m.top.content, "live") or not m.top.content.live then return string.EMPTY
+    return m.favoriteChannelId
 end function
 
 ' createOSDMediaSegmentMarkers: Creates markers on the OSD progress bar for media segments such as intros, outros, and credits. Markers are created based on the StartTicks and EndTicks of each media segment and are displayed as semi-transparent rectangles overlaid on the progress bar.
