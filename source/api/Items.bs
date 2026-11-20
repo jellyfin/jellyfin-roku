@@ -576,7 +576,9 @@ end function
 
 function AudioStream(id as string)
     songData = AudioItem(id)
-    if songData <> invalid
+    ' Items without media sources can't be played, such as the user's root folder, which the server
+    ' returns for the empty ID
+    if isValid(songData) and isValidAndNotEmpty(songData.mediaSources)
         content = createObject("RoSGNode", "AudioStreamData")
         if songData.title <> invalid
             content.title = songData.title
