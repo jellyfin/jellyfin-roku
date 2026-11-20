@@ -1,4 +1,5 @@
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/config.bs"
 
 sub init()
@@ -6,6 +7,7 @@ sub init()
 end sub
 
 sub PlaystateUpdate()
+    url = Strings.EMPTY
     if m.top.status = "start"
         url = "Sessions/Playing"
     else if m.top.status = "stop"

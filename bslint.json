@@ -1,5 +1,6 @@
 {
   "rules": {
-    "unused-variable": "warn"
+    "unused-variable": "warn",
+    "unused-parameter": "off"
   }
 }

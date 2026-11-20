@@ -8,9 +8,17 @@
     "settings/*.*"
   ],
   "plugins": ["@rokucommunity/bslint"],
-  "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
-  "sourceMap": true,
-  "autoImportComponentScript": true,
-  "stagingDir": "build/staging",
-  "retainStagingDir": true
+  "diagnosticFilters": [
+    {
+      "files": "node_modules/**/*"
+    },
+    {
+      "files": "**/roku_modules/**/*"
+    }
+  ],
+  "outDir": "build/staging",
+  "compilerOptions": {
+    "sourceMap": true,
+    "autoImportComponentScript": true
+  }
 }

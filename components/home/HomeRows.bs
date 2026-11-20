@@ -432,7 +432,7 @@ end function
 '
 ' @return {integer} indicating index of request section
 function getSectionIndex(sectionTitle as string) as integer
-    if not isAllValid([sectionTitle, m.top.content]) then return false
+    if not isAllValid([sectionTitle, m.top.content]) then return 0
 
     searchSectionTitle = LCase(sectionTitle).Replace(" ", "")
 
@@ -782,16 +782,16 @@ function isFavoriteSectionTitle(sectionTitle as dynamic) as boolean
     if not isValid(sectionTitle) then return false
 
     searchSectionTitle = normalizeSectionTitle(sectionTitle)
-    favoritesTitle = tr("Favorites").Replace(" ", String.EMPTY)
-    favoriteTitlePrefix = tr("Favorite").Replace(" ", String.EMPTY)
+    favoritesTitle = tr("Favorites").Replace(" ", Strings.EMPTY)
+    favoriteTitlePrefix = tr("Favorite").Replace(" ", Strings.EMPTY)
 
     return isStringEqual(searchSectionTitle, favoritesTitle) or searchSectionTitle.StartsWith(favoriteTitlePrefix)
 end function
 
 function normalizeSectionTitle(sectionTitle as dynamic) as string
-    if not isValid(sectionTitle) then return String.EMPTY
+    if not isValid(sectionTitle) then return Strings.EMPTY
 
-    return sectionTitle.Replace(" ", String.EMPTY)
+    return sectionTitle.Replace(" ", Strings.EMPTY)
 end function
 
 function favoriteSectionExists() as boolean

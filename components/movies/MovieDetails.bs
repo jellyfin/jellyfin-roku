@@ -10,7 +10,7 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaStreamType.bs"
 import "pkg:/source/enums/PersonType.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/VideoType.bs"
@@ -69,7 +69,7 @@ sub init()
         end if
     end if
 
-    m.global.queueManager.callFunc("setLastKnownItemID", string.empty)
+    m.global.queueManager.callFunc("setLastKnownItemID", Strings.EMPTY)
 
     m.top.observeField("itemContent", "itemContentChanged")
 
@@ -235,7 +235,7 @@ sub onSelectedPartChanged()
 
     m.loadStatus = ViewLoadStatus.FIRSTLOAD
 
-    m.global.queueManager.callFunc("setLastKnownItemExtraType", string.EMPTY)
+    m.global.queueManager.callFunc("setLastKnownItemExtraType", Strings.EMPTY)
     m.top.refreshMovieDetailsData = not m.top.refreshMovieDetailsData
 end sub
 
@@ -392,7 +392,7 @@ sub itemContentChanged()
             if itemData.mediaStreams[i].Type = "Video"
                 m.options.codec = itemData.MediaStreams[i].Codec
                 if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
-                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.options.codec ?? string.EMPTY)
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.options.codec ?? Strings.EMPTY)
                     exit for
                 end if
             end if
@@ -552,7 +552,7 @@ sub SetUpVideoOptions(streams)
     videos = []
     codecDetailsSet = false
 
-    setFieldText("rotationWarning", string.EMPTY)
+    setFieldText("rotationWarning", Strings.EMPTY)
 
     for i = 0 to streams.Count() - 1
         if LCase(streams[i].VideoType) = VideoType.VIDEOFILE
@@ -634,7 +634,7 @@ sub SetUpAudioOptions(mediaData)
     subtitleDefaultStream = invalid
     for i = 0 to streams.Count() - 1
         if streams[i].Type = "Audio"
-            rokuTrackName = `#uniq:${streams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
+            rokuTrackName = `#uniq:${streams[i].LookupCI("Title") ?? Strings.EMPTY}(${audioStreamCount})`
 
             audioTracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.selectedAudioStreamIndex = i, "StreamIndex": i, "RokuTrackName": rokuTrackName })
             if m.top.selectedAudioStreamIndex = i
@@ -691,7 +691,7 @@ sub SetUpAudioOptions(mediaData)
         setFieldText("subtitle_codec", tr("Subtitles") + ": " + subtitleStreamForDetails.displayTitle + " - " + tr("No Default"))
         m.top.findNode("subtitle_codec_count").text = ""
     else
-        setFieldText("subtitle_codec", string.EMPTY)
+        setFieldText("subtitle_codec", Strings.EMPTY)
         m.top.findNode("subtitle_codec_count").text = ""
     end if
 
@@ -712,7 +712,7 @@ sub SetDefaultAudioTrack(itemData)
     firstAudioTrack = -1
 
     defaultAudioTrackIndex = getDefaultAudioTrackIndex(itemData.mediaStreams)
-    defaultAudioTrackName = string.EMPTY
+    defaultAudioTrackName = Strings.EMPTY
 
     ' If user has not selected an audio track and PlayDefaultAudioTrack setting is enabled, find the default track
     if preferredAudioTrackIndex < 0 and chainLookupReturn(m.global.session, "user.Configuration.PlayDefaultAudioTrack", false)
@@ -722,7 +722,7 @@ sub SetDefaultAudioTrack(itemData)
     audioStreamCount = 1
     for i = 0 to itemData.mediaStreams.Count() - 1
         if itemData.mediaStreams[i].Type = "Audio"
-            rokuTrackName = `#uniq:${itemData.mediaStreams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
+            rokuTrackName = `#uniq:${itemData.mediaStreams[i].LookupCI("Title") ?? Strings.EMPTY}(${audioStreamCount})`
 
             if firstAudioTrack < 0 then firstAudioTrack = i
 
@@ -876,7 +876,7 @@ sub videoOptionsClosed()
     ' If user manually disables force transcode, disable rotation check
     m.performRotationCheck = not isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.PLAYNORMALLY)
     if not m.performRotationCheck
-        setFieldText("rotationWarning", string.EMPTY)
+        setFieldText("rotationWarning", Strings.EMPTY)
     end if
 
     group = m.global.sceneManager.callFunc("getActiveScene")
@@ -1084,7 +1084,7 @@ sub updatePlayButtons(itemData as object)
     playButton.icon = "pkg:/images/icons/36px/play.png"
     if isValid(m.buttonGrp.content.findNode("play-from-beginning-button"))
         ' Save focused button id before removing
-        focusedId = string.EMPTY
+        focusedId = Strings.EMPTY
         focusedIndex = m.buttonGrp.itemFocused
         focusedBtn = m.buttonGrp.content.getChild(focusedIndex)
         if isValid(focusedBtn)
@@ -1093,7 +1093,7 @@ sub updatePlayButtons(itemData as object)
         m.buttonGrp.content.removeChild(m.playFromBeginningButton)
         calculateButtonThumbProperties()
         ' Restore focus by id
-        if focusedId <> string.EMPTY
+        if focusedId <> Strings.EMPTY
             i = 0
             for each btn in m.buttonGrp.content.getChildren(-1, 0)
                 if isStringEqual(btn.id, focusedId)

@@ -13,6 +13,8 @@ sub createShadowLabels(rect as object, styledText as string, drawingStyles as ob
     outlineStep = Int(fontSize * OUTLINE_STEP_RATIO)
     outlineDiag = Int(fontSize * OUTLINE_DIAG_RATIO)
 
+    offsets = []
+
     if isStringEqual(textEffect, "None") or isStringEqual(textEffect, "Default")
         ' No shadow labels - Roku's Default visually produces no visible effect, so we treat it as None
         return
@@ -192,14 +194,14 @@ end function
 function reconstructFragments(styledText as string) as object
     fragments = styledText.split(chr(10))
     result = []
-    openTag = string.EMPTY
+    openTag = Strings.EMPTY
 
     for each fragment in fragments
-        if not isStringEqual(openTag, string.EMPTY)
+        if not isStringEqual(openTag, Strings.EMPTY)
             fragment = openTag + fragment
         end if
 
-        openTag = string.EMPTY
+        openTag = Strings.EMPTY
         tagPos = 0
         while true
             tagStart = instr(tagPos, fragment, "<")
@@ -208,14 +210,14 @@ function reconstructFragments(styledText as string) as object
             if tagEnd = 0 then exit while
             tag = mid(fragment, tagStart, tagEnd - tagStart + 1)
             if isStringEqual(left(tag, 2), "</")
-                openTag = string.EMPTY
+                openTag = Strings.EMPTY
             else
                 openTag = tag
             end if
             tagPos = tagEnd + 1
         end while
 
-        if not isStringEqual(openTag, string.EMPTY)
+        if not isStringEqual(openTag, Strings.EMPTY)
             closeTag = "</" + mid(openTag, 2)
             fragment = fragment + closeTag
         end if

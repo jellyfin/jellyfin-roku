@@ -2,7 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ImageLayout.bs"
 import "pkg:/source/enums/KeyCode.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -72,7 +72,7 @@ end sub
 
 ' Apply a favorite change made in the player to this cached Live TV view.
 sub updateChannelFavorite(change as object)
-    if not isValidAndNotEmpty(chainLookupReturn(change, "channelId", string.EMPTY)) then return
+    if not isValidAndNotEmpty(chainLookupReturn(change, "channelId", Strings.EMPTY)) then return
 
     if isValid(m.tvGuide)
         m.tvGuide.callFunc("updateChannelFavorite", change)
@@ -154,8 +154,8 @@ sub loadInitialItems()
 
     ' if we already searched for this alpha text than reset filter
     if m.loadItemsTask.nameStartsWith = m.top.alphaSelected
-        m.loadItemsTask.nameStartsWith = string.EMPTY
-        m.top.alphaSelected = string.EMPTY
+        m.loadItemsTask.nameStartsWith = Strings.EMPTY
+        m.top.alphaSelected = Strings.EMPTY
     else
         m.loadItemsTask.nameStartsWith = m.alpha.letterSelected
     end if
@@ -372,30 +372,30 @@ sub onItemSelected()
 end sub
 
 sub alphaSelectedChanged()
-    if m.top.alphaSelected <> string.EMPTY
+    if m.top.alphaSelected <> Strings.EMPTY
         m.loadItemsTask.control = TaskControl.STOP
         m.loadedRows = 0
         m.loadedItems = 0
         m.data = CreateObject("roSGNode", "ContentNode")
         m.itemGrid.content = m.data
-        m.loadItemsTask.searchTerm = string.EMPTY
-        m.VoiceBox.text = string.EMPTY
+        m.loadItemsTask.searchTerm = Strings.EMPTY
+        m.VoiceBox.text = Strings.EMPTY
 
         loadInitialItems()
     end if
 end sub
 
 sub onvoiceFilter()
-    if m.VoiceBox.text = string.EMPTY then return
+    if m.VoiceBox.text = Strings.EMPTY then return
 
-    if isStringEqual(m.voiceBox.text, "reset search") then m.voiceBox.text = string.EMPTY
-    if isStringEqual(m.voiceBox.text, "clear search") then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text, "reset search") then m.voiceBox.text = Strings.EMPTY
+    if isStringEqual(m.voiceBox.text, "clear search") then m.voiceBox.text = Strings.EMPTY
 
     m.loadedRows = 0
     m.loadedItems = 0
     m.data = CreateObject("roSGNode", "ContentNode")
     m.itemGrid.content = m.data
-    m.top.alphaSelected = string.EMPTY
+    m.top.alphaSelected = Strings.EMPTY
     m.loadItemsTask.NameStartsWith = " "
     m.loadItemsTask.searchTerm = m.voiceBox.text
     m.loadItemsTask.recursive = true

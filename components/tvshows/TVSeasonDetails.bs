@@ -285,7 +285,7 @@ end sub
 
 function getRuntime() as integer
     itemData = m.top.seasonData.json
-    if not isValid(itemData.RunTimeTicks) then return invalid
+    if not isValid(itemData.RunTimeTicks) then return 0
 
 
     ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
@@ -295,7 +295,7 @@ end function
 
 function getEndTime() as string
     itemData = m.top.seasonData.json
-    if not isValid(itemData.RunTimeTicks) then return string.EMPTY
+    if not isValid(itemData.RunTimeTicks) then return Strings.EMPTY
 
     date = CreateObject("roDateTime")
     duration_s = int(itemData.RunTimeTicks / 10000000.0)
@@ -540,7 +540,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if m.buttonGrp.isInFocusChain()
         if isStringEqual(key, KeyCode.UP)
             if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
-                if isStringEqual(m.overview.text, string.EMPTY)
+                if isStringEqual(m.overview.text, Strings.EMPTY)
                     m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
                     selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
                     selectedButton.focus = false
@@ -651,7 +651,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if isStringEqual(key, KeyCode.DOWN)
                 settingsSetFocus(false)
 
-                if isStringEqual(m.overview.text, string.EMPTY)
+                if isStringEqual(m.overview.text, Strings.EMPTY)
                     selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
                     selectedButton.focus = true
                     selectedButton.setFocus(true)

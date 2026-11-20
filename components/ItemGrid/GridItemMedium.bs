@@ -1,7 +1,7 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -51,7 +51,7 @@ sub onHeightChanged()
     end if
 
     ' If we have a second line of text, further reduce the image height to make room
-    if not isStringEqual(m.itemTextExtra.text, string.EMPTY)
+    if not isStringEqual(m.itemTextExtra.text, Strings.EMPTY)
         calculatedHeight -= 12
     end if
 
@@ -97,7 +97,7 @@ sub itemContentChanged()
     }
 
     ' Set Series and Episode Number for Extra Text
-    extraPrefix = string.EMPTY
+    extraPrefix = Strings.EMPTY
     if isValid(itemData.json.ParentIndexNumber)
         extraPrefix = "S" + StrI(itemData.json.ParentIndexNumber).trim()
     end if
@@ -122,7 +122,7 @@ sub itemContentChanged()
         end if
     end if
 
-    m.itemIcon.uri = string.EMPTY
+    m.itemIcon.uri = Strings.EMPTY
 
     if isValidAndNotEmpty(itemData.LookupCI("type"))
         if isStringEqual(itemData.LookupCI("type"), ItemType.PHOTO)
@@ -138,7 +138,7 @@ sub itemContentChanged()
         end if
     end if
 
-    m.itemIconBackground.visible = m.itemIcon.uri <> string.EMPTY
+    m.itemIconBackground.visible = m.itemIcon.uri <> Strings.EMPTY
 
     if isChainValid(itemData, "imageDimensions")
         imageDimensions = itemData.imageDimensions
@@ -164,7 +164,7 @@ sub itemContentChanged()
 
     ' Don't show the same text for both the title and subtitle
     if isStringEqual(m.itemTextExtra.text, m.title.text)
-        m.itemTextExtra.text = string.EMPTY
+        m.itemTextExtra.text = Strings.EMPTY
     end if
 
     'If Poster not loaded, ensure backdrop is shown until loaded
@@ -173,7 +173,7 @@ sub itemContentChanged()
         m.posterText.visible = true
     end if
 
-    if not isStringEqual(m.itemTextExtra.text, string.EMPTY)
+    if not isStringEqual(m.itemTextExtra.text, Strings.EMPTY)
         onHeightChanged()
     end if
 end sub

@@ -82,7 +82,7 @@ sub onMicIconBlendColorChange()
 end sub
 
 sub setSearchHintText(value as string)
-    m.voiceBox.hintText = isStringEqual(value, string.EMPTY) ? tr("Press OK to type") : value
+    m.voiceBox.hintText = isStringEqual(value, Strings.EMPTY) ? tr("Press OK to type") : value
 end sub
 
 sub onvoiceFilter()
@@ -94,13 +94,13 @@ sub onvoiceFilter()
 
     searchTerm = m.voiceBox.text.trim()
 
-    if isStringEqual(searchTerm, "reset search") then searchTerm = string.EMPTY
-    if isStringEqual(searchTerm, "clear search") then searchTerm = string.EMPTY
+    if isStringEqual(searchTerm, "reset search") then searchTerm = Strings.EMPTY
+    if isStringEqual(searchTerm, "clear search") then searchTerm = Strings.EMPTY
 
     m.voiceBox.unObserveFieldScoped("text")
     ' Voice input sets the text, but we don't want the text value set since it messes up
     ' moving focus from the box to other controls (it moves through each letter without any real visual change)
-    m.voiceBox.text = string.EMPTY
+    m.voiceBox.text = Strings.EMPTY
     m.voiceBox.observeFieldScoped("text", "onvoiceFilter")
 
     m.top.searchTerm = searchTerm
@@ -313,7 +313,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 tr("Search")
             ]
 
-            hintText = isStringEqual(m.voiceBox.hintText.trim(), tr("Press OK to type")) ? string.EMPTY : m.voiceBox.hintText
+            hintText = isStringEqual(m.voiceBox.hintText.trim(), tr("Press OK to type")) ? Strings.EMPTY : m.voiceBox.hintText
             m.global.sceneManager.callFunc("keyboardDialog", "searchLibrary", tr("Search this library"), [""], buttonData, hintText, m.top.parentItemID)
             return true
         end if

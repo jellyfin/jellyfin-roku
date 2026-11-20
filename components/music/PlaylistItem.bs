@@ -1,6 +1,6 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -51,7 +51,7 @@ sub itemContentChanged()
     end if
 
     ' Only apply the played checkmark to specific item types
-    playlistItemType = chainLookupReturn(itemData, "type", string.EMPTY)
+    playlistItemType = chainLookupReturn(itemData, "type", Strings.EMPTY)
     if inArray([ItemType.MOVIE, ItemType.MUSICVIDEO, ItemType.EPISODE, ItemType.RECORDING, ItemType.VIDEO, ItemType.PROGRAM, ItemType.AUDIO], playlistItemType)
         playedIndicator = m.top.findNode("playedIndicator")
         playedIndicator.data = {
@@ -62,10 +62,10 @@ end sub
 
 function getSubtitleText(itemData as object) as string
     playlistItemType = itemData.LookupCI("type")
-    if not isValid(playlistItemType) then return string.EMPTY
+    if not isValid(playlistItemType) then return Strings.EMPTY
 
     if isStringEqual(playlistItemType, ItemType.AUDIO)
-        subtitleText = string.EMPTY
+        subtitleText = Strings.EMPTY
         if isValid(itemData.LookupCI("artists"))
             subtitleText += itemData.LookupCI("artists").join(", ")
             if isValid(itemData.LookupCI("album"))
@@ -81,7 +81,7 @@ function getSubtitleText(itemData as object) as string
     end if
 
     if isStringEqual(playlistItemType, ItemType.MOVIE)
-        subtitleText = string.EMPTY
+        subtitleText = Strings.EMPTY
 
         if isValid(itemData.LookupCI("ProductionYear"))
             subtitleText += `${itemData.LookupCI("ProductionYear")}`
@@ -98,7 +98,7 @@ function getSubtitleText(itemData as object) as string
     end if
 
     if isStringEqual(playlistItemType, ItemType.EPISODE)
-        subtitleText = string.EMPTY
+        subtitleText = Strings.EMPTY
 
         if isValid(itemData.LookupCI("seriesname"))
             subtitleText += itemData.LookupCI("seriesname")
@@ -122,5 +122,5 @@ function getSubtitleText(itemData as object) as string
         return subtitleText
     end if
 
-    return string.EMPTY
+    return Strings.EMPTY
 end function

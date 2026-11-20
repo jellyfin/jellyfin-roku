@@ -79,7 +79,7 @@ sub onContentDataChanged()
 
     for each item in m.top.contentData.data
         cardItem = CreateObject("roSGNode", "ContentNode")
-        cardItem.id = i
+        cardItem.id = i.toStr()
 
         isSelected = chainLookupReturn(item, "selected", false)
         checkedState.push(isSelected)

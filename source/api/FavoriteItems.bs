@@ -1,6 +1,6 @@
 import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/FavoriteStatus.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/misc.bs"
 
 ' Split large favorite-status lookups into manageable requests while still loading every track.
@@ -10,7 +10,7 @@ function GetFavoriteAudioItemStatuses(items as object, userID as string) as obje
     itemIDs = []
     favoriteItemStatuses = {}
     for each item in items
-        itemID = chainLookupReturn(item, "id", string.EMPTY)
+        itemID = chainLookupReturn(item, "id", Strings.EMPTY)
         if isValidAndNotEmpty(itemID)
             itemIDs.push(itemID)
             favoriteItemStatuses.AddReplace(itemID, FavoriteStatus.UNKNOWN)
@@ -34,7 +34,7 @@ function GetFavoriteAudioItemStatuses(items as object, userID as string) as obje
             end for
 
             for each item in favoriteData.Items
-                itemID = chainLookupReturn(item, "id", string.EMPTY)
+                itemID = chainLookupReturn(item, "id", Strings.EMPTY)
                 if isValidAndNotEmpty(itemID) and chainLookupReturn(item, "UserData.IsFavorite", false)
                     favoriteItemStatuses.AddReplace(itemID, FavoriteStatus.FAVORITE)
                 end if

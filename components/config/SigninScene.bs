@@ -1,7 +1,7 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/misc.bs"
 
 const blankUserAvatarUri = "pkg:/images/baseline_person_white_48dp.png"
@@ -11,7 +11,7 @@ sub onProfileImageUriChange()
         m.top.profileImageUri = blankUserAvatarUri
     end if
 
-    if isStringEqual(m.top.profileImageUri, string.EMPTY)
+    if isStringEqual(m.top.profileImageUri, Strings.EMPTY)
         m.top.profileImageUri = blankUserAvatarUri
     end if
 
@@ -59,7 +59,7 @@ sub init()
     username_field = CreateObject("roSGNode", "ConfigData")
     username_field.label = tr("Username")
     username_field.type = "string"
-    username_field.value = string.EMPTY
+    username_field.value = Strings.EMPTY
 
     password_field = CreateObject("roSGNode", "ConfigData")
     password_field.label = tr("Password")
@@ -98,14 +98,14 @@ end sub
 sub onUserChange()
     username_field = m.config.content.getChild(0)
 
-    if isStringEqual(m.top.user, string.EMPTY) and isValid(get_setting("username"))
+    if isStringEqual(m.top.user, Strings.EMPTY) and isValid(get_setting("username"))
         username_field.value = get_setting("username")
     else
         username_field.value = m.top.user
     end if
 
     ' Username has been provided, focus on password field
-    if not isStringEqual(username_field.value, string.EMPTY)
+    if not isStringEqual(username_field.value, Strings.EMPTY)
         m.config.jumpToItem = 1
     end if
 end sub

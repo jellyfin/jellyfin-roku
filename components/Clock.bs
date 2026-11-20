@@ -1,4 +1,4 @@
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/enums/TimerControl.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -73,7 +73,7 @@ function getFormattedTime(timestamp as object, allowPastTime = true as boolean, 
 
     ' If passed timestamp is before current time, return empty string
     if not allowPastTime
-        if dateTimeObject.AsSeconds() <= m.dateTimeObject.AsSeconds() then return string.EMPTY
+        if dateTimeObject.AsSeconds() <= m.dateTimeObject.AsSeconds() then return Strings.EMPTY
     end if
 
     return formatTimeAsString(dateTimeObject, includeSeconds)
