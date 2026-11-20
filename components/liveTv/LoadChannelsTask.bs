@@ -2,6 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/LiveTVChannelTitle.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/liveTvTagFilter.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -34,6 +35,7 @@ sub loadChannels()
         EnableFavoriteSorting: true,
         EnableUserData: true,
         AddCurrentProgram: false,
+        Fields: "Tags",
         recursive: true
     }
 
@@ -54,6 +56,10 @@ sub loadChannels()
 
     if m.top.filter = "Favorites"
         params.append({ isFavorite: true })
+    end if
+    if m.top.filter = LIVETV_TAG_FILTER
+        selectedTags = liveTvSelectedTags(m.top.filterOptions)
+        if selectedTags.count() > 0 then params.append({ Tags: selectedTags.Join(LIVETV_TAG_DELIMITER) })
     end if
 
     data = api.items.Get(params)

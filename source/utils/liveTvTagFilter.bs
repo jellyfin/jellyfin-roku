@@ -1,0 +1,84 @@
+' Live TV channel tag filter.
+'
+' Channels can carry tags (set in the server's metadata editor, by a tuner, or by a script).
+' Live TV gets the same "Tags" filter as the other libraries: a filter menu entry listing the
+' tags as checkboxes, saved in the filterOptions setting as { "Tags": "a|b" } and sent to the
+' server as the Tags query parameter (channels with any of the tags). Kept free of SceneGraph
+' and network calls so it can be shared by the Channels grid and the TV Guide.
+
+const LIVETV_TAG_FILTER = "Tags"
+const LIVETV_TAG_DELIMITER = "|"
+
+' The "Tags" filter menu entry for these tags, with the saved selection checked, or invalid
+' when there are no usable tags.
+function liveTvTagFilterOption(tags as dynamic, filterOptions as dynamic) as dynamic
+    if type(tags) <> "roArray" then return invalid
+
+    seen = {}
+    usable = []
+    for each tag in tags
+        if isUsableLiveTvTag(tag) and not seen.DoesExist(LCase(tag.trim()))
+            seen[LCase(tag.trim())] = true
+            usable.push(tag.trim())
+        end if
+    end for
+    if usable.count() = 0 then return invalid
+    usable.Sort("i")
+
+    selected = {}
+    for each tag in liveTvSelectedTags(filterOptions)
+        selected[LCase(tag)] = true
+    end for
+    checkedState = []
+    for each tag in usable
+        checkedState.push(selected.DoesExist(LCase(tag)))
+    end for
+
+    return {
+        "Title": tr("Tags"),
+        "Name": LIVETV_TAG_FILTER,
+        "Options": usable,
+        "Delimiter": LIVETV_TAG_DELIMITER,
+        "CheckedState": checkedState
+    }
+end function
+
+' The tags selected in saved filter options ({ "Tags": "a|b" }), or [].
+function liveTvSelectedTags(filterOptions as dynamic) as object
+    if type(filterOptions) <> "roAssociativeArray" then return []
+    value = filterOptions.LookupCI(LIVETV_TAG_FILTER)
+    if type(value) <> "roString" and type(value) <> "String" then return []
+    if value = "" then return []
+    return value.Split(LIVETV_TAG_DELIMITER)
+end function
+
+' Whether a channel with these tags belongs in the results for the selected tags (any of them,
+' like the server). Lets a list loaded before the filter changed be re-checked client-side.
+function channelMatchesLiveTvTags(channelTags as dynamic, selectedTags as object) as boolean
+    if selectedTags.count() = 0 then return true
+    if type(channelTags) <> "roArray" then return false
+
+    wanted = {}
+    for each tag in selectedTags
+        wanted[LCase(tag)] = true
+    end for
+    for each channelTag in channelTags
+        if (type(channelTag) = "roString" or type(channelTag) = "String") and wanted.DoesExist(LCase(channelTag)) then return true
+    end for
+    return false
+end function
+
+' The Tags array from an /Items/Filters response, or [] if it's missing or malformed.
+function liveTvTagsFromFilters(data as dynamic) as object
+    if type(data) <> "roAssociativeArray" then return []
+    tags = data.LookupCI("Tags")
+    if type(tags) <> "roArray" then return []
+    return tags
+end function
+
+' Tags must be non-empty strings without "|": the server splits the Tags query parameter on "|".
+function isUsableLiveTvTag(tag as dynamic) as boolean
+    if type(tag) <> "roString" and type(tag) <> "String" then return false
+    if tag.trim() = "" then return false
+    return Instr(1, tag, LIVETV_TAG_DELIMITER) = 0
+end function
