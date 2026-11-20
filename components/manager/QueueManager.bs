@@ -3,7 +3,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -14,8 +14,8 @@ sub init()
     m.getLastKnownItemExtraType = ""
     m.bypassNextPreferredAudioTrackIndexReset = false
     m.forceTranscode = PlaybackMethod.PLAYNORMALLY
-    m.transcodeCodec = string.EMPTY
-    m.transcodeReason = string.EMPTY
+    m.transcodeCodec = Strings.EMPTY
+    m.transcodeReason = Strings.EMPTY
     m.hold = []
     m.queue = []
     m.originalQueue = []
@@ -25,15 +25,15 @@ sub init()
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
     m.position = 0
     m.preferredAudioTrackIndex = -1
-    m.preferredAudioTrackName = string.EMPTY
-    m.episodeToShowAtFinish = string.EMPTY
+    m.preferredAudioTrackName = Strings.EMPTY
+    m.episodeToShowAtFinish = Strings.EMPTY
     m.preferredSubtitleTrack = {}
     m.shuffleEnabled = false
 end sub
 
 ' Clear all content from play queue
 sub clear()
-    m.episodeToShowAtFinish = string.EMPTY
+    m.episodeToShowAtFinish = Strings.EMPTY
     m.isPlaying = false
     m.queue = []
     m.queueTypes = []
@@ -42,7 +42,7 @@ sub clear()
     setPosition(0)
     if not m.bypassNextPreferredAudioTrackIndexReset
         setPreferredAudioTrackIndex(-1)
-        setPreferredAudioTrackName(string.EMPTY)
+        setPreferredAudioTrackName(Strings.EMPTY)
     end if
     m.bypassNextPreferredAudioTrackIndexReset = false
 end sub
@@ -308,14 +308,14 @@ function getTranscodeCodec() as string
 end function
 
 ' Sets the forceTranscode property
-sub setForceTranscode(forceTranscode = PlaybackMethod.PLAYNORMALLY as string, videoCodec = string.EMPTY as string)
+sub setForceTranscode(forceTranscode = PlaybackMethod.PLAYNORMALLY as string, videoCodec = Strings.EMPTY as string)
     m.forceTranscode = forceTranscode
 
-    if isStringEqual(forceTranscode, PlaybackMethod.PLAYNORMALLY) then videoCodec = string.EMPTY
-    if isStringEqual(forceTranscode, PlaybackMethod.FORCETRANSCODEALLOWREMUX) then videoCodec = string.EMPTY
+    if isStringEqual(forceTranscode, PlaybackMethod.PLAYNORMALLY) then videoCodec = Strings.EMPTY
+    if isStringEqual(forceTranscode, PlaybackMethod.FORCETRANSCODEALLOWREMUX) then videoCodec = Strings.EMPTY
     m.transcodeCodec = videoCodec
 
-    setTranscodeReason(string.EMPTY)
+    setTranscodeReason(Strings.EMPTY)
 
     postTask = createObject("roSGNode", "PostTask")
     postTask.arrayData = getDeviceCapabilities(videoCodec)
@@ -329,7 +329,7 @@ function getTranscodeReason() as string
 end function
 
 ' Sets the transcodeReason property
-sub setTranscodeReason(transcodeReason = string.EMPTY as string)
+sub setTranscodeReason(transcodeReason = Strings.EMPTY as string)
     m.transcodeReason = transcodeReason
 end sub
 
@@ -370,7 +370,7 @@ end function
 
 ' Sets the preferredAudioTrackName property for the play queue
 sub setPreferredAudioTrackName(audioTrackName as string)
-    m.preferredAudioTrackName = audioTrackName ?? string.EMPTY
+    m.preferredAudioTrackName = audioTrackName ?? Strings.EMPTY
 end sub
 
 ' Set prerollActive status

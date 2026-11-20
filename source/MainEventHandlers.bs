@@ -6,7 +6,7 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/ResumePopupAction.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -1096,7 +1096,7 @@ sub onPlaySongEvent(msg)
 
     songList = screenContent.findNode("songList")
     if isValid(songList) and isStringEqual(songList.selectionSource, KeyCode.PLAY)
-        songList.selectionSource = string.EMPTY
+        songList.selectionSource = Strings.EMPTY
         playAlbumSongInList(screenContent, selectedIndex)
         return
     end if
@@ -1264,7 +1264,7 @@ sub onPlaylistItemSelectedEvent(msg)
 
     playlist = screenContent.findNode("playlist")
     if isValid(playlist) and isStringEqual(playlist.selectionSource, KeyCode.PLAY)
-        playlist.selectionSource = string.EMPTY
+        playlist.selectionSource = Strings.EMPTY
         playPlaylistItemInList(screenContent, selectedIndex)
         return
     end if
@@ -1710,7 +1710,7 @@ sub onDataReturnedEvent(msg)
 
     if isStringEqual(selectedPopupID, "existingPlaylist")
         ' Check if user pressed back and didn't select anything
-        if isStringEqual(selectedPopupButton, string.EMPTY) then return
+        if isStringEqual(selectedPopupButton, Strings.EMPTY) then return
 
         api.playlists.Add(selectedPopupButton.id, {
             ids: itemID,
@@ -1860,7 +1860,7 @@ sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
         ]
 
         stopLoadingSpinner()
-        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, string.EMPTY, itemID)
+        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, Strings.EMPTY, itemID)
         return
     end if
 
@@ -1890,7 +1890,7 @@ sub updateAlbumTrackFavoriteState(itemID as string, isFavorite as boolean)
     if not isValid(songList) or not isValid(songList.content) then return
 
     for each song in songList.content.getChildren(-1, 0)
-        songID = chainLookupReturn(song, "id", String.EMPTY)
+        songID = chainLookupReturn(song, "id", Strings.EMPTY)
         if isStringEqual(songID, itemID)
             song.favorite = isFavorite
             song.favoriteStatus = isFavorite ? FavoriteStatus.FAVORITE : FavoriteStatus.NOT_FAVORITE
@@ -2157,7 +2157,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         ]
 
         stopLoadingSpinner()
-        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, string.EMPTY, itemID)
+        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, Strings.EMPTY, itemID)
         return
     end if
 

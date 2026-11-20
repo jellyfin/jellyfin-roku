@@ -18,10 +18,18 @@
     },
     "manifest"
   ],
-  "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
-  "autoImportComponentScript": true,
-  "stagingDir": "build",
-  "retainStagingDir": true,
+  "diagnosticFilters": [
+    {
+      "files": "node_modules/**/*"
+    },
+    {
+      "files": "**/roku_modules/**/*"
+    }
+  ],
+  "outDir": "build",
   "plugins": [],
-  "sourceMap": true
+  "compilerOptions": {
+    "autoImportComponentScript": true,
+    "sourceMap": true
+  }
 }

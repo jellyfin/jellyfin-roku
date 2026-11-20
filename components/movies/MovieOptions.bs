@@ -1,7 +1,7 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -139,7 +139,7 @@ sub optionsSet()
         audioContent = CreateObject("roSGNode", "ContentNode")
         index = 0
         selectedAudioIndex = 0
-        selectedAudioTitle = string.EMPTY
+        selectedAudioTitle = Strings.EMPTY
 
         for each audio in m.top.options.audios
             entry = audioContent.CreateChild("AudioTrackListData")
@@ -173,7 +173,7 @@ sub optionsSet()
         viewContent = CreateObject("roSGNode", "ContentNode")
         index = 0
         selectedViewIndex = 0
-        selectedViewTitle = string.EMPTY
+        selectedViewTitle = Strings.EMPTY
 
         for each view in m.top.options.videos
             entry = viewContent.CreateChild("VideoTrackListData")
@@ -308,7 +308,7 @@ sub applyCategorySelection(category as integer, selIndex as integer)
         if selIndex = 0
             m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
         else if selIndex = 1
-            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX, string.EMPTY)
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX, Strings.EMPTY)
         else if selIndex = 2
             m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.top.codec)
         end if

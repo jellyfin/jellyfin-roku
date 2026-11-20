@@ -1,12 +1,12 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/misc.bs"
 
 const h264Profiles = ["baseline", "main", "high"]
 
 ' Returns the Device Capabilities for Roku.
-function getDeviceCapabilities(videoCodec = string.EMPTY as string) as object
+function getDeviceCapabilities(videoCodec = Strings.EMPTY as string) as object
     deviceProfile = {
         "PlayableMediaTypes": [
             "Audio",
@@ -24,7 +24,7 @@ function getDeviceCapabilities(videoCodec = string.EMPTY as string) as object
     return deviceProfile
 end function
 
-function getDeviceProfile(videoCodec = string.EMPTY as string) as object
+function getDeviceProfile(videoCodec = Strings.EMPTY as string) as object
     globalDevice = m.global.device
     return {
         "Name": "Official Roku Client",
@@ -193,7 +193,7 @@ function GetDirectPlayProfiles() as object
     return directPlayProfiles
 end function
 
-function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
+function getTranscodingProfiles(videoCodec = Strings.EMPTY as string) as object
     globalUserSettings = m.global.session.user.settings
     transcodingProfiles = []
 
@@ -202,9 +202,9 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     transcodingContainers = ["mp4", "ts"]
     ' use strings to preserve order
     mp4AudioCodecs = "AC3"
-    mp4VideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
+    mp4VideoCodecs = isStringEqual(videoCodec, "h264") ? Strings.EMPTY : "h264"
     tsAudioCodecs = "AC3"
-    tsVideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
+    tsVideoCodecs = isStringEqual(videoCodec, "h264") ? Strings.EMPTY : "h264"
 
     ' does the users setup support surround sound?
     maxAudioChannels = "2" ' jellyfin expects this as a string
@@ -441,7 +441,7 @@ function getContainerProfiles() as object
     return containerProfiles
 end function
 
-function getCodecProfiles(videoCodec = string.EMPTY as string) as object
+function getCodecProfiles(videoCodec = Strings.EMPTY as string) as object
     globalUserSettings = m.global.session.user.settings
     codecProfiles = []
     profileSupport = {
@@ -595,7 +595,7 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
         end for
     end if
 
-    if not isStringEqual(videoCodec, string.EMPTY)
+    if not isStringEqual(videoCodec, Strings.EMPTY)
         profileSupport.addreplace(videoCodec, {})
     end if
 

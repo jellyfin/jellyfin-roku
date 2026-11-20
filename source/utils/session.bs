@@ -3,7 +3,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/userauth.bs"
 import "pkg:/source/enums/LiveTVChannelSortOrder.bs"
 import "pkg:/source/enums/LiveTVScreen.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/misc.bs"
 
 namespace session
@@ -125,8 +125,8 @@ namespace session
 
             ' keep friendlyName in sync
             if LCase(key) = "name"
-                regex = CreateObject("roRegex", "[^a-zA-Z0-9\-\_]", string.EMPTY)
-                tmpSessionUser["friendlyName"] = regex.ReplaceAll(value, string.EMPTY)
+                regex = CreateObject("roRegex", "[^a-zA-Z0-9\-\_]", Strings.EMPTY)
+                tmpSessionUser["friendlyName"] = regex.ReplaceAll(value, Strings.EMPTY)
             end if
 
             ' update global user session using the temp array
@@ -157,8 +157,8 @@ namespace session
                 tmpSession.user.AddReplace("authToken", userData.json.AccessToken)
             end if
             ' remove special characters from name
-            regex = CreateObject("roRegex", "[^a-zA-Z0-9\-\_]", string.EMPTY)
-            friendlyName = regex.ReplaceAll(tmpSession.user.name, string.EMPTY)
+            regex = CreateObject("roRegex", "[^a-zA-Z0-9\-\_]", Strings.EMPTY)
+            friendlyName = regex.ReplaceAll(tmpSession.user.name, Strings.EMPTY)
             tmpSession.user.AddReplace("friendlyName", friendlyName)
 
             tmpSession.user.AddReplace("settings", oldUserSettings)

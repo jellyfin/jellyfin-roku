@@ -16,7 +16,7 @@ end sub
 sub clearImage(_ as dynamic)
     m.newBackdrop.opacity = 0
     m.backdrop.opacity = 0
-    m.newBackdrop.uri = string.EMPTY
+    m.newBackdrop.uri = Strings.EMPTY
 end sub
 
 sub changeImage(imageURI as string)

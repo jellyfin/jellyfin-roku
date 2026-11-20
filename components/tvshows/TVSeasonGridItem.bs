@@ -93,7 +93,7 @@ sub itemContentChanged()
 
     ' Don't show the same text for both the title and subtitle
     if isStringEqual(m.itemTextExtra.text, m.title.text)
-        m.itemTextExtra.text = string.EMPTY
+        m.itemTextExtra.text = Strings.EMPTY
     end if
 
     'If Poster not loaded, ensure "blue box" is shown until loaded

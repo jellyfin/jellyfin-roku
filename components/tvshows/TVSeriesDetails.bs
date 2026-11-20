@@ -424,7 +424,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if m.buttonGrp.isInFocusChain()
         if isStringEqual(key, KeyCode.UP)
             if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
-                if not isStringEqual(m.overview.text, string.EMPTY)
+                if not isStringEqual(m.overview.text, Strings.EMPTY)
                     m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
                     selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
                     selectedButton.focus = false

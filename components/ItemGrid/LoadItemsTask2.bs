@@ -4,15 +4,16 @@ import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 function loadFavoriteViewAllItems(params as object) as dynamic
-    queryType = chainLookupReturn(m.top.metadata, "queryType", string.EMPTY)
-    includeItemTypes = chainLookupReturn(m.top.metadata, "includeItemTypes", string.EMPTY)
-    nameStartsWith = chainLookupReturn(params, "NameStartsWith", string.EMPTY)
-    nameLessThan = chainLookupReturn(params, "NameLessThan", string.EMPTY)
+    queryType = chainLookupReturn(m.top.metadata, "queryType", Strings.EMPTY)
+    includeItemTypes = chainLookupReturn(m.top.metadata, "includeItemTypes", Strings.EMPTY)
+    nameStartsWith = chainLookupReturn(params, "NameStartsWith", Strings.EMPTY)
+    nameLessThan = chainLookupReturn(params, "NameLessThan", Strings.EMPTY)
     requestedStartIndex = chainLookupReturn(params, "StartIndex", 0)
     requestedLimit = chainLookupReturn(params, "limit", 0)
     ' Letters filter server-side for artists (avoids fetching every favorite artist);
@@ -49,12 +50,12 @@ function loadFavoriteViewAllItems(params as object) as dynamic
         includeItemTypes: includeItemTypes,
         nameStartsWith: nameStartsWith,
         nameLessThan: nameLessThan,
-        sortBy: chainLookupReturn(params, "SortBy", string.EMPTY),
-        sortOrder: chainLookupReturn(params, "SortOrder", string.EMPTY),
-        searchTerm: chainLookupReturn(params, "searchTerm", string.EMPTY)
+        sortBy: chainLookupReturn(params, "SortBy", Strings.EMPTY),
+        sortOrder: chainLookupReturn(params, "SortOrder", Strings.EMPTY),
+        searchTerm: chainLookupReturn(params, "searchTerm", Strings.EMPTY)
     })
 
-    if requestedStartIndex > 0 and isChainValid(m.favoriteViewAllAlphaCache, "data") and isStringEqual(chainLookupReturn(m.favoriteViewAllAlphaCache, "key", string.EMPTY), cacheKey)
+    if requestedStartIndex > 0 and isChainValid(m.favoriteViewAllAlphaCache, "data") and isStringEqual(chainLookupReturn(m.favoriteViewAllAlphaCache, "key", Strings.EMPTY), cacheKey)
         data = m.favoriteViewAllAlphaCache.data
     else
         data = fetchFavoriteViewAllItems(params, queryType, includeItemTypes)
@@ -134,12 +135,12 @@ function pageFavoriteViewAllItems(data as dynamic, startIndex as integer, limit 
 end function
 
 function getFavoriteViewAllAlphaName(item as object) as string
-    if isStringEqual(chainLookupReturn(item, "Type", string.EMPTY), ItemType.EPISODE)
-        seriesName = chainLookupReturn(item, "SeriesName", string.EMPTY)
+    if isStringEqual(chainLookupReturn(item, "Type", Strings.EMPTY), ItemType.EPISODE)
+        seriesName = chainLookupReturn(item, "SeriesName", Strings.EMPTY)
         if isValidAndNotEmpty(seriesName) then return seriesName
     end if
 
-    return chainLookupReturn(item, "Name", string.EMPTY)
+    return chainLookupReturn(item, "Name", Strings.EMPTY)
 end function
 
 function isFavoriteViewAllAlphaMatch(itemName as string, nameStartsWith as string, nameLessThan as string) as boolean
@@ -256,7 +257,7 @@ sub loadItems()
         params.append({ IncludeItemTypes: m.top.ItemType })
     end if
 
-    url = string.EMPTY
+    url = Strings.EMPTY
     favoriteViewAll = chainLookupReturn(m.top.metadata, "favoriteViewAll", false)
 
     if favoriteViewAll
@@ -467,7 +468,7 @@ sub loadItems()
                             genreItemImage = api.items.GetImageURL(item.id)
                         else
                             genreItemImage = invalid
-                            row.posterURL = invalid
+                            row.posterURL = Strings.EMPTY
                         end if
 
                         row.FHDPOSTERURL = genreItemImage

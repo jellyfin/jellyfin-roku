@@ -1,7 +1,7 @@
 import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -49,7 +49,7 @@ sub onHiddenUserListChanged()
     hiddenUserList = CreateObject("roSGNode", "ContentNode")
 
     for each user in m.top.hiddenUserList
-        if user.id = string.EMPTY then continue for
+        if user.id = Strings.EMPTY then continue for
 
         row = CreateObject("roSGNode", "PublicUserData")
         row.title = user.Name

@@ -1,4 +1,4 @@
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -9,19 +9,18 @@ sub init()
     m.selectedColor.font.size = 20
 
     m.top.observeField("itemFocused", "onItemFocused")
-    m.top.observeField("itemSelected", "onItemSelected")
 end sub
 
 sub onItemFocused()
     if not isValid(m.top.itemFocused)
-        setHighlightedColor(string.EMPTY)
+        setHighlightedColor(Strings.EMPTY)
         return
     end if
 
     focusedColor = m.top.content.getChild(m.top.itemFocused)
 
     if not isChainValid(focusedColor, "colorCode")
-        setHighlightedColor(string.EMPTY)
+        setHighlightedColor(Strings.EMPTY)
         return
     end if
 
@@ -40,7 +39,7 @@ sub onSelectedColorChange()
     selectedColor = m.top.selectedColor
 
     if not m.top.isInFocusChain()
-        setHighlightedColor(string.EMPTY)
+        setHighlightedColor(Strings.EMPTY)
     end if
 
     m.selectedColor.text = `${tr("Selected Color")}: ${selectedColor}`

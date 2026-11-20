@@ -201,14 +201,14 @@ sub handleButtonSelection(selectedButtonID)
     if isStringEqual(selectedButtonID, "nameButton")
         title = tr("Station Name")
         hintText = m.top.radioStationName
-        m.global.sceneManager.callFunc("keyboardDialog", selectedButtonID, title, [string.EMPTY], [tr("OK")], hintText, string.EMPTY)
+        m.global.sceneManager.callFunc("keyboardDialog", selectedButtonID, title, [Strings.EMPTY], [tr("OK")], hintText, Strings.EMPTY)
         return
     end if
 
     if isStringEqual(selectedButtonID, "subtitleButton")
         title = tr("Subtitle")
         hintText = m.top.radioStationSubtitle
-        m.global.sceneManager.callFunc("keyboardDialog", selectedButtonID, title, [string.EMPTY], [tr("OK")], hintText, string.EMPTY)
+        m.global.sceneManager.callFunc("keyboardDialog", selectedButtonID, title, [Strings.EMPTY], [tr("OK")], hintText, Strings.EMPTY)
         return
     end if
 
@@ -293,8 +293,8 @@ sub handleButtonSelection(selectedButtonID)
             backgroundColor: m.top.radioStationBackgroundColor,
             limit: m.top.radioStationLimit,
             filters: {
-                genres: m.userSelectedGenres ?? string.EMPTY,
-                years: m.userSelectedYears ?? string.EMPTY
+                genres: m.userSelectedGenres ?? Strings.EMPTY,
+                years: m.userSelectedYears ?? Strings.EMPTY
             }
         }
 

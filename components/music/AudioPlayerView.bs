@@ -4,7 +4,7 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/VideoControl.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
@@ -706,7 +706,7 @@ sub setBackdropImage(data)
         return
     end if
 
-    if isStringEqual(data, string.EMPTY)
+    if isStringEqual(data, Strings.EMPTY)
         m.background.visible = false
         return
     end if

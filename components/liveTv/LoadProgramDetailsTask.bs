@@ -1,4 +1,5 @@
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/config.bs"
 
 sub init()
@@ -37,7 +38,7 @@ sub loadProgramDetails()
         ' disappears when the user focuses on the program in question
         program.hdSmallIconUrl = "pkg:/images/red.png"
     else
-        program.hdSmallIconUrl = invalid
+        program.hdSmallIconUrl = Strings.EMPTY
     end if
     m.top.programDetails = program
 

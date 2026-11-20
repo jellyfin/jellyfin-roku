@@ -4,7 +4,7 @@ import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/sdk.bs"
 import "pkg:/source/constants/HomeRowItemSizes.bs"
 import "pkg:/source/enums/ItemType.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -521,9 +521,9 @@ function createFavoriteViewAllHomeData(favoriteRow as object, sortField as strin
     iconUrl = "pkg:/images/icons/gridView.png"
     rowKey = favoriteRow.LookupCI("rowKey")
 
-    tmp.posterURL = string.EMPTY
-    tmp.thumbnailURL = string.EMPTY
-    tmp.widePosterURL = string.EMPTY
+    tmp.posterURL = Strings.EMPTY
+    tmp.thumbnailURL = Strings.EMPTY
+    tmp.widePosterURL = Strings.EMPTY
     tmp.iconURL = iconUrl
     tmp.json = {
         Id: `favorite-${rowKey}`,
@@ -531,8 +531,8 @@ function createFavoriteViewAllHomeData(favoriteRow as object, sortField as strin
         Type: ItemType.FOLDER,
         CollectionType: "favorites",
         FavoriteViewAll: true,
-        IncludeItemTypes: favoriteRow.LookupCI("includeItemTypes") ?? string.EMPTY,
-        QueryType: favoriteRow.LookupCI("queryType") ?? string.EMPTY,
+        IncludeItemTypes: favoriteRow.LookupCI("includeItemTypes") ?? Strings.EMPTY,
+        QueryType: favoriteRow.LookupCI("queryType") ?? Strings.EMPTY,
         SortBy: sortField,
         SortOrder: sortOrder
     }
@@ -574,7 +574,7 @@ function loadFavorites() as object
     sortOrder = chainLookupReturn(m.global.session, "user.settings.`ui.home.favoritesSortOrder`", "Ascending")
 
     for each favoriteRow in getFavoriteRowDefinitions()
-        queryType = favoriteRow.LookupCI("queryType") ?? string.EMPTY
+        queryType = favoriteRow.LookupCI("queryType") ?? Strings.EMPTY
         params = getFavoriteQueryParams(sortField, sortOrder)
 
         if isStringEqual(queryType, ItemType.PERSON)

@@ -3,7 +3,7 @@ import "pkg:/components/captionShadow.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/enums/CaptionMoveDirection.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/config.bs"
 
 const SCREEN_PADDING = 60
@@ -404,11 +404,11 @@ sub updateCaption()
 
             fullText = entry["text"].Join(Chr(10))
 
-            captionPosition = chainLookupReturn(entry["styles"], "position", string.EMPTY)
+            captionPosition = chainLookupReturn(entry["styles"], "position", Strings.EMPTY)
 
             ' Only wrap captions without explicit position cues.
             ' Balancing now happens inside wrapLongLines.
-            if isStringEqual(captionPosition, string.EMPTY)
+            if isStringEqual(captionPosition, Strings.EMPTY)
                 fullText = wrapLongLines(fullText, SAFE_TEXT_WIDTH)
             end if
 
@@ -423,7 +423,7 @@ sub updateCaption()
             }
             openTags = []
             tagNumber = 0
-            styledText = string.EMPTY
+            styledText = Strings.EMPTY
             parts = fullText.Split("<")
             firstIter = true
             for each part in parts
@@ -442,17 +442,17 @@ sub updateCaption()
                     continue for
                 end if
                 tagValue = LCase(part.Mid(0, tagEnd).Trim())
-                replaceTagWith = string.EMPTY
+                replaceTagWith = Strings.EMPTY
                 if tagValue.StartsWith("font")
                     ' opening font tag
                     colorName = invalid
                     color = m.fontColor.Match(tagValue)
                     if color.Count() > 1
-                        color = color[1].Replace("'", string.EMPTY).Replace("""", string.EMPTY).Trim()
+                        color = color[1].Replace("'", Strings.EMPTY).Replace("""", Strings.EMPTY).Trim()
                         if color.StartsWith("#")
                             ' hex color code (must be 3 or 6 digits)
                             sanitizedColor = "#"
-                            colorChars = color.Mid(1).Split(string.EMPTY)
+                            colorChars = color.Mid(1).Split(Strings.EMPTY)
                             isShortColor = colorChars.Count() = 3
                             for each c in colorChars
                                 if c >= "0" and c <= "9" or c >= "a" and c <= "f"
@@ -468,7 +468,7 @@ sub updateCaption()
                             end if
                         else if color.StartsWith("rgb(") or color.StartsWith("rgba(")
                             ' rgb or rgba color code (alpha is ignored)
-                            rgbValues = color.Mid(color.Instr("(") + 1).Replace(")", string.EMPTY).Split(",")
+                            rgbValues = color.Mid(color.Instr("(") + 1).Replace(")", Strings.EMPTY).Split(",")
                             if rgbValues.Count() >= 3
                                 r = rgbValues[0].Trim()
                                 g = rgbValues[1].Trim()
@@ -661,21 +661,21 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
         return finalStyles
     end if
 
-    captionLine = chainLookupReturn(captionStyles, "line", string.EMPTY)
-    captionPosition = chainLookupReturn(captionStyles, "position", string.EMPTY)
+    captionLine = chainLookupReturn(captionStyles, "line", Strings.EMPTY)
+    captionPosition = chainLookupReturn(captionStyles, "position", Strings.EMPTY)
 
     ' Line
     ' If no line cue is present, position the caption so its bottom edge sits at LOWEST_CAPTION.
     ' Previously this case was never handled, causing captions to render off-screen.
     captionLineHeight = (rect.BoundingRect().height / lineCount)
-    if isStringEqual(captionLine, string.EMPTY)
+    if isStringEqual(captionLine, Strings.EMPTY)
         verticalPosition = LOWEST_CAPTION - rect.BoundingRect().height
     else
         verticalPosition = processLineCue(captionLine, captionLineHeight, rect.BoundingRect().height)
     end if
 
     ' Position
-    if not isStringEqual(captionPosition, string.EMPTY)
+    if not isStringEqual(captionPosition, Strings.EMPTY)
         horizontalPosition = processPositionCue(captionPosition, rect.BoundingRect().width)
     end if
 

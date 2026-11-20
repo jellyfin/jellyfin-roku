@@ -9,7 +9,7 @@ import "pkg:/source/enums/ImageLayout.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/SearchButtonState.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -147,8 +147,8 @@ sub init()
     m.loadArtistStatsTask = createObject("roSGNode", "MusicArtistStatsTask")
     m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
     m.artistStatsCache = {}
-    m.selectedArtistStatsId = string.EMPTY
-    m.selectedArtistStatsFilter = string.EMPTY
+    m.selectedArtistStatsId = Strings.EMPTY
+    m.selectedArtistStatsFilter = Strings.EMPTY
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
@@ -194,10 +194,10 @@ sub onViewChange(viewChoice)
 
     ' Reset any filtering or search terms
     m.bypassSearchEvent = true
-    m.top.searchTerm = string.EMPTY
-    m.top.alphaSelected = string.EMPTY
+    m.top.searchTerm = Strings.EMPTY
+    m.top.alphaSelected = Strings.EMPTY
     m.loadItemsTask.NameStartsWith = " "
-    m.loadItemsTask.searchTerm = string.EMPTY
+    m.loadItemsTask.searchTerm = Strings.EMPTY
     m.filter = "All"
     m.filterOptions = {}
     m.sortField = "SortName"
@@ -535,7 +535,7 @@ sub setSelectedOptions(options)
             end if
 
             if displayChip
-                m.chipsRow@.addChip("filter", string.EMPTY, tr(o.LookupCI("title")))
+                m.chipsRow@.addChip("filter", Strings.EMPTY, tr(o.LookupCI("title")))
             else
                 m.chipsRow@.removeChip("filter")
             end if
@@ -738,7 +738,7 @@ end sub
 sub SetSongCount(totalCount)
     if not isValid(totalCount)
         m.selectedArtistSongCount.visible = false
-        m.selectedArtistSongCount.text = string.EMPTY
+        m.selectedArtistSongCount.text = Strings.EMPTY
         return
     end if
 
@@ -751,7 +751,7 @@ end sub
 sub SetAlbumCount(totalCount)
     if not isValid(totalCount)
         m.selectedArtistAlbumCount.visible = false
-        m.selectedArtistAlbumCount.text = string.EMPTY
+        m.selectedArtistAlbumCount.text = Strings.EMPTY
         return
     end if
 
@@ -771,7 +771,7 @@ end sub
 
 sub setSelectedArtistStatsLayout(useCreditedLayout as boolean)
     m.selectedArtistCreditedFor.visible = false
-    m.selectedArtistCreditedFor.text = string.EMPTY
+    m.selectedArtistCreditedFor.text = Strings.EMPTY
 
     if useCreditedLayout
         m.selectedArtistSongCount.translation = "[140, 300]"
@@ -788,14 +788,14 @@ end sub
 sub clearSelectedArtistDetails()
     m.loadArtistStatsTask.control = TaskControl.STOP
     m.loadArtistStatsTask.content = {}
-    m.selectedArtistStatsId = string.EMPTY
-    m.selectedArtistStatsFilter = string.EMPTY
+    m.selectedArtistStatsId = Strings.EMPTY
+    m.selectedArtistStatsFilter = Strings.EMPTY
     m.artistLogo.visible = false
-    m.artistLogo.uri = string.EMPTY
+    m.artistLogo.uri = Strings.EMPTY
     m.selectedArtistName.visible = false
-    m.selectedArtistName.text = string.EMPTY
+    m.selectedArtistName.text = Strings.EMPTY
     m.selectedArtistGenres.visible = false
-    m.selectedArtistGenres.text = string.EMPTY
+    m.selectedArtistGenres.text = Strings.EMPTY
 
 end sub
 
@@ -819,7 +819,7 @@ function showFocusedMusicDetailsFromGrid(focusedItem) as boolean
         SetName(itemData.Name)
         m.selectedArtistName.visible = false
     else
-        SetName(string.EMPTY)
+        SetName(Strings.EMPTY)
     end if
 
     if isValid(itemData.Id)
@@ -830,7 +830,7 @@ function showFocusedMusicDetailsFromGrid(focusedItem) as boolean
     end if
 
     if isStringEqual(m.view, "ArtistsPresentation") or isStringEqual(m.view, "AlbumArtistsPresentation")
-        m.backdropImage@.changeImage(focusedItem.backdropUrl ?? string.EMPTY)
+        m.backdropImage@.changeImage(focusedItem.backdropUrl ?? Strings.EMPTY)
     end if
 
     return true
@@ -852,9 +852,9 @@ end function
 sub clearSelectedArtistCounts()
     setSelectedArtistStatsLayout(false)
     m.selectedArtistSongCount.visible = false
-    m.selectedArtistSongCount.text = string.EMPTY
+    m.selectedArtistSongCount.text = Strings.EMPTY
     m.selectedArtistAlbumCount.visible = false
-    m.selectedArtistAlbumCount.text = string.EMPTY
+    m.selectedArtistAlbumCount.text = Strings.EMPTY
 end sub
 
 sub loadSelectedArtistStats(artistId as string)
@@ -895,7 +895,7 @@ sub ArtistStatsLoaded(msg)
 end sub
 
 function getFormattedMusicCountText(totalCount, singularLabel as string, pluralLabel as string) as string
-    if not isValid(totalCount) then return string.EMPTY
+    if not isValid(totalCount) then return Strings.EMPTY
 
     label = pluralLabel
     if totalCount = 1 then label = singularLabel
@@ -932,15 +932,15 @@ end sub
 
 sub clearMusicArtistPresentation()
     m.artistLogo.visible = false
-    m.artistLogo.uri = String.EMPTY
+    m.artistLogo.uri = Strings.EMPTY
     m.selectedArtistName.visible = false
-    m.selectedArtistName.text = String.EMPTY
+    m.selectedArtistName.text = Strings.EMPTY
     m.selectedArtistGenres.visible = false
-    m.selectedArtistGenres.text = String.EMPTY
+    m.selectedArtistGenres.text = Strings.EMPTY
     m.selectedArtistSongCount.visible = false
-    m.selectedArtistSongCount.text = String.EMPTY
+    m.selectedArtistSongCount.text = Strings.EMPTY
     m.selectedArtistAlbumCount.visible = false
-    m.selectedArtistAlbumCount.text = String.EMPTY
+    m.selectedArtistAlbumCount.text = Strings.EMPTY
     m.backdropImage@.clearImage()
 end sub
 
@@ -1083,7 +1083,7 @@ sub toggleDropdownOptions(runInReverse = false as boolean)
 end sub
 
 sub processDropdownState(searchTerm as string)
-    if not isStringEqual(searchTerm, string.EMPTY)
+    if not isStringEqual(searchTerm, Strings.EMPTY)
         resetDropdownsToDefaultState()
         setDropdownDisabledState(true)
         return
@@ -1150,7 +1150,7 @@ sub onSearchTermChanged()
             end for
         end if
 
-        m.dropdownOptionGroup@.setSearchHintText(string.EMPTY)
+        m.dropdownOptionGroup@.setSearchHintText(Strings.EMPTY)
         m.top.alphaSelected = searchTerm
         m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.INACTIVE)
         return
@@ -1189,10 +1189,10 @@ end sub
 
 sub alphaSelectedChanged()
     ' Prevent voicebox change double firing
-    if isStringEqual(m.top.searchTerm, string.EMPTY)
+    if isStringEqual(m.top.searchTerm, Strings.EMPTY)
         ' Allow user to toggle by clicking letter twice
         if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
-            m.top.alphaSelected = string.EMPTY
+            m.top.alphaSelected = Strings.EMPTY
         end if
     end if
 
@@ -1215,8 +1215,8 @@ sub alphaSelectedChanged()
     end if
 
     m.loadItemsTask.nameStartsWith = m.top.alphaSelected
-    m.dropdownOptionGroup@.setText("voiceBox", string.EMPTY)
-    m.top.searchTerm = string.EMPTY
+    m.dropdownOptionGroup@.setText("voiceBox", Strings.EMPTY)
+    m.top.searchTerm = Strings.EMPTY
     loadInitialItems()
 end sub
 
