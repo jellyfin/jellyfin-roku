@@ -1,5 +1,6 @@
 import "pkg:/components/captionParser.bs"
 import "pkg:/components/captionShadow.bs"
+import "pkg:/components/rtlText.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/enums/CaptionMoveDirection.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
@@ -404,6 +405,10 @@ sub updateCaption()
 
             fullText = entry["text"].Join(Chr(10))
 
+            ' Style tags can't be kept in order once a right-to-left line is reversed
+            isRtl = containsRtl(fullText)
+            if isRtl then fullText = shapeArabic(stripCaptionTags(fullText))
+
             captionPosition = chainLookupReturn(entry["styles"], "position", string.EMPTY)
 
             ' Only wrap captions without explicit position cues.
@@ -411,6 +416,8 @@ sub updateCaption()
             if isStringEqual(captionPosition, string.EMPTY)
                 fullText = wrapLongLines(fullText, SAFE_TEXT_WIDTH)
             end if
+
+            if isRtl then fullText = toVisualOrder(fullText)
 
             ' look for style tags
             currentStyle = {
