@@ -126,6 +126,7 @@ sub ProcessSSDPResponse(message)
     m.locationUrlMap[locationUrl] = true
 
     http = CreateObject("roUrlTransfer")
+    http.EnableEncodings(true)
     http.SetUrl(locationUrl)
     responseText = http.GetToString()
     xml = CreateObject("roXMLElement")
