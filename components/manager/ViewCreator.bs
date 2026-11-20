@@ -81,6 +81,8 @@ sub CreateVideoPlayerView()
     m.view.observeField("nowPlayingMetadata", "onNowPlayingMetadata")
     m.view.observeField("selectPlaybackInfoPressed", "onSelectPlaybackInfoPressed")
     m.view.observeField("selectSubtitlePressed", "onSelectSubtitlePressed")
+    m.view.observeField("remoteSubtitleStreamIndex", "onRemoteSubtitleStreamIndex")
+    m.view.observeField("remoteAudioStreamIndex", "onRemoteAudioStreamIndex")
     m.view.observeField("selectAudioPressed", "onSelectAudioPressed")
     m.view.observeField("selectSpeedPressed", "onSelectSpeedPressed")
 
@@ -217,15 +219,7 @@ sub onSelectSubtitlePressed()
     end for
 
     ' Manually create the None option and place at top
-    subtitleData.data.Unshift({
-        "Index": SubtitleSelection.NONE,
-        "StreamIndex": SubtitleSelection.NONE,
-        "IsExternal": false,
-        "Track": {
-            "description": "None"
-        },
-        "Type": "subtitleselection"
-    })
+    subtitleData.data.Unshift(createNoneSubtitleOption())
 
     buttons = [tr("OK")]
 
@@ -237,6 +231,68 @@ sub onSelectSubtitlePressed()
 
     m.global.sceneManager.callFunc("radioDialog", tr("Select Subtitles"), subtitleData, buttons)
     m.global.sceneManager.observeField("returnData", "onSelectionMade")
+end sub
+
+' createNoneSubtitleOption: Returns the subtitle selection entry that turns subtitles off
+'
+function createNoneSubtitleOption() as object
+    return {
+        "Index": SubtitleSelection.NONE,
+        "StreamIndex": SubtitleSelection.NONE,
+        "IsExternal": false,
+        "Track": {
+            "description": "None"
+        },
+        "Type": "subtitleselection"
+    }
+end function
+
+' onRemoteSubtitleStreamIndex: A remote control client selected a subtitle stream (-1 = none)
+'
+sub onRemoteSubtitleStreamIndex()
+    if not isValid(m.view) then return
+    streamIndex = m.view.remoteSubtitleStreamIndex
+
+    selection = invalid
+    if streamIndex = SubtitleSelection.NONE
+        selection = createNoneSubtitleOption()
+    else
+        for each item in m.view.fullSubtitleData
+            if item.index = streamIndex
+                selection = item
+                selection.StreamIndex = item.index
+                selection.Type = "subtitleselection"
+                exit for
+            end if
+        end for
+    end if
+
+    if not isValid(selection)
+        print "Remote control: subtitle stream not found: " streamIndex
+        return
+    end if
+
+    processSubtitleSelection(selection)
+end sub
+
+' onRemoteAudioStreamIndex: A remote control client selected an audio stream
+'
+sub onRemoteAudioStreamIndex()
+    if not isValid(m.view) then return
+    streamIndex = m.view.remoteAudioStreamIndex
+
+    for each item in m.view.fullAudioData
+        if item.Index = streamIndex
+            processAudioSelection({
+                "Index": item.Index,
+                "RokuTrackName": item.RokuTrackName,
+                "Type": "audioselection"
+            })
+            return
+        end if
+    end for
+
+    print "Remote control: audio stream not found: " streamIndex
 end sub
 
 ' User has selected something from the radioDialog popup
@@ -265,8 +321,10 @@ end sub
 
 ' processAudioSelection: Audio track selection handler
 '
-sub processAudioSelection()
-    selectedAudioTrack = m.global.sceneManager.returnData
+' @param {dynamic} selection - audio track entry to apply; defaults to the radio dialog's return data
+sub processAudioSelection(selection = invalid as dynamic)
+    selectedAudioTrack = selection
+    if not isValid(selectedAudioTrack) then selectedAudioTrack = m.global.sceneManager.returnData
 
     if not isChainValid(selectedAudioTrack, "index") then return
 
@@ -293,8 +351,12 @@ sub processSpeedSelection()
     m.view.selectedSpeed = selectedSpeed.speed
 end sub
 
-sub processSubtitleSelection()
-    m.selectedSubtitle = m.global.sceneManager.returnData
+'processSubtitleSelection: Applies a subtitle selection
+'
+' @param {dynamic} selection - subtitle entry to apply; defaults to the radio dialog's return data
+sub processSubtitleSelection(selection = invalid as dynamic)
+    if not isValid(selection) then selection = m.global.sceneManager.returnData
+    m.selectedSubtitle = selection
 
     ' The selected encoded subtitle did not change.
     if m.view.selectedSubtitle <> SubtitleSelection.NONE or m.selectedSubtitle.index <> SubtitleSelection.NONE

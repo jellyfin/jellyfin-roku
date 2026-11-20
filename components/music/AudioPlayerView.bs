@@ -394,6 +394,38 @@ function stopClicked() as boolean
     return true
 end function
 
+' closePlayer: Stops playback and closes the player (used by remote control Stop commands)
+'
+sub closePlayer()
+    closePlayerClicked()
+end sub
+
+' goBack: Leaves the player the same way the back button does (used by remote control navigation commands)
+'
+sub goBack()
+    if leavePlayer() then return
+    m.global.sceneManager.callFunc("popScene")
+end sub
+
+' leavePlayer: Prepares to leave the player. Mixed playlists stop and close the player;
+' otherwise playback continues in the mini player.
+'
+' @return {boolean} true if the player was closed, false if the caller still needs to pop the scene
+function leavePlayer() as boolean
+    if m.playlistTypeCount > 1 then return closePlayerClicked()
+
+    displayMiniPlayer()
+    unobserveAll()
+    return false
+end function
+
+' setShuffle: Turns shuffle on or off, updating the player display (used by remote control commands)
+'
+sub setShuffle(enabled as boolean)
+    if m.global.queueManager.callFunc("getIsShuffled") = enabled then return
+    shuffleClicked()
+end sub
+
 function closePlayerClicked() as boolean
     m.global.queueManager.callFunc("clear")
     unobserveAll()
@@ -1101,14 +1133,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if key = KeyCode.BACK
-            if m.playlistTypeCount > 1
-                return closePlayerClicked()
-            else
-                displayMiniPlayer()
-            end if
-
-            unobserveAll()
-            ' We do not return true here so the keypress event can be passed along to the scene manager
+            ' When false, the keypress is passed along to the scene manager, which closes this scene
+            return leavePlayer()
         else if key = KeyCode.REWIND
             return previousClicked()
         else if key = KeyCode.FASTFORWRD

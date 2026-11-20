@@ -48,6 +48,9 @@ sub Main (args as dynamic) as void
     end if
 
     app_start:
+    ' Stop remote control for any previous user or server
+    remoteControl.disconnect()
+
     ' First thing to do is validate the ability to use the API
     if not LoginFlow() then return
 
@@ -62,6 +65,9 @@ sub Main (args as dynamic) as void
     group.callFunc("loadLibraries")
     stopLoadingSpinner()
     sceneManager.callFunc("pushScene", group)
+
+    ' Connect to the server WebSocket so this session can be remote controlled
+    remoteControl.connect()
 
     m.scene.observeField("exit", m.port)
 
@@ -207,6 +213,10 @@ sub Main (args as dynamic) as void
             onReturnDataEvent(msg)
         else if isNodeEvent(msg, "dataReturned")
             onDataReturnedEvent(msg)
+        else if isNodeEvent(msg, "remoteCommand")
+            remoteControl.onCommandEvent(msg)
+        else if remoteControl.isMessageTimerEvent(msg)
+            remoteControl.closeMessage()
         else
             print "Unhandled " type(msg)
             print msg

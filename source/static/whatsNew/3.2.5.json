@@ -38,5 +38,9 @@
   {
     "description": "Keep the screensaver off while a stream without video plays",
     "author": "candrews"
+  },
+  {
+    "description": "Add Jellyfin Websocket remote control protocol support",
+    "author": "candrews"
   }
 ]
