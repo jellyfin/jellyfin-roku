@@ -201,9 +201,9 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
 
     transcodingContainers = ["mp4", "ts"]
     ' use strings to preserve order
-    mp4AudioCodecs = "AC3"
+    mp4AudioCodecs = string.EMPTY
     mp4VideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
-    tsAudioCodecs = "AC3"
+    tsAudioCodecs = string.EMPTY
     tsVideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
 
     ' does the users setup support surround sound?
@@ -355,6 +355,9 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
             end if
         end for
     end for
+    ' drop the leading comma
+    mp4AudioCodecs = mp4AudioCodecs.Mid(1)
+    tsAudioCodecs = tsAudioCodecs.Mid(1)
 
     ' add aac to TranscodingProfile for stereo audio
     ' NOTE: multichannel aac is not supported. only decode to stereo on some devices
