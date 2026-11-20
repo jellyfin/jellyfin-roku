@@ -378,6 +378,37 @@ sub setPrerollStatus(newStatus as boolean)
     m.isPrerollActive = newStatus
 end sub
 
+' insert: Insert items into the play queue at the passed index
+'
+' @param {integer} index - queue index the first item is inserted at
+' @param {object} newItems - array of items to insert
+sub insert(index as integer, newItems as object)
+    if not isValidAndNotEmpty(newItems) then return
+    if index < 0 then index = 0
+    if index > m.queue.count() then index = m.queue.count()
+
+    queue = []
+    queueTypes = []
+    for i = 0 to index - 1
+        queue.push(m.queue[i])
+        queueTypes.push(m.queueTypes[i])
+    end for
+    for each newItem in newItems
+        queue.push(newItem)
+        queueTypes.push(getItemType(newItem))
+    end for
+    for i = index to m.queue.count() - 1
+        queue.push(m.queue[i])
+        queueTypes.push(m.queueTypes[i])
+    end for
+
+    m.queue = queue
+    m.queueTypes = queueTypes
+
+    ' Keep the current item in focus if items were inserted before it
+    if index <= m.position and m.queue.count() > newItems.count() then m.position += newItems.count()
+end sub
+
 ' Push new items to the play queue
 sub push(newItem)
     m.queue.push(newItem)

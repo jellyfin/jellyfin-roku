@@ -173,5 +173,8 @@
     <field id="state" type="string" />
     <field id="returnOnStop" type="boolean" />
     <field id="selectedButtonIndex" type="integer" />
+    <function name="closePlayer" />
+    <function name="goBack" />
+    <function name="setShuffle" />
   </interface>
 </component>
