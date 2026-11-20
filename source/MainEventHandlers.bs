@@ -1890,7 +1890,7 @@ sub updateAlbumTrackFavoriteState(itemID as string, isFavorite as boolean)
     if not isValid(songList) or not isValid(songList.content) then return
 
     for each song in songList.content.getChildren(-1, 0)
-        songID = chainLookupReturn(song, "id", String.EMPTY)
+        songID = chainLookupReturn(song, "id", string.EMPTY)
         if isStringEqual(songID, itemID)
             song.favorite = isFavorite
             song.favoriteStatus = isFavorite ? FavoriteStatus.FAVORITE : FavoriteStatus.NOT_FAVORITE
@@ -2049,7 +2049,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
-    ' Mark item as played
+    ' Delete Radio Station
     if isStringEqual(selectedPopupButton, tr("Delete Radio Station"))
         radioStationList = chainLookupReturn(m.global.session, "user.settings.radioStations", "[]")
         radioStationList = ParseJSON(radioStationList)
@@ -2068,6 +2068,26 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         if isValid(group)
             if isStringEqual(group.subtype(), "home")
                 group.callFunc("refresh")
+                return
+            end if
+        end if
+
+        return
+    end if
+
+    ' Mark item as played
+    if isStringEqual(selectedPopupButton, tr("Mark As Played"))
+        MainAction.setPlayed(itemID, true)
+
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            if isStringEqual(group.subtype(), "home")
+                group.callFunc("refresh")
+                return
+            end if
+
+            if isStringEqual(group.subtype(), "TVSeasonDetails")
+                group.refreshSeasonDetailsData = not group.refreshSeasonDetailsData
                 return
             end if
         end if
@@ -2097,19 +2117,6 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
 
     ' Add item to playlist
     if isStringEqual(selectedPopupButton, tr("Add To Playlist"))
-        activeScene = m.global.sceneManager.callFunc("getActiveScene")
-        MainAction.onPlaylistButtonClicked({
-            itemContent: {
-                id: itemID
-            }
-        })
-
-        return
-    end if
-
-    ' Add item to playlist
-    if isStringEqual(selectedPopupButton, tr("Add To Playlist"))
-        activeScene = m.global.sceneManager.callFunc("getActiveScene")
         MainAction.onPlaylistButtonClicked({
             itemContent: {
                 id: itemID
