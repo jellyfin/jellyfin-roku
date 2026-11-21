@@ -419,29 +419,17 @@ sub loadInitialItems()
         end if
     end if
 
-    showItemCount = chainLookupReturn(m.global.session, "user.settings.`ui.library.showItemCount`", true)
-    hasChips = showItemCount or not isStringEqual(m.filter, "All") or isValidAndNotEmpty(m.top.searchTerm) or isValidAndNotEmpty(m.top.alphaSelected)
-
     m.dropdownOptionGroup.translation = "[100, 520]"
     m.chipsRow.translation = "[100, 650]"
+
+    if m.dropdownOptionGroup.opacity < 1
+        m.itemGrid.translation = "[100, 520]"
+    else
+        m.itemGrid.translation = "[100, 700]"
+    end if
     m.dropdownOptionsMove.keyValue = "[[100, 520], [100, 480]]"
     m.chipsRowMove.keyValue = "[[100, 650], [100, 540]]"
-
-    if hasChips
-        if m.dropdownOptionGroup.opacity < 1
-            m.itemGrid.translation = "[100, 600]"
-        else
-            m.itemGrid.translation = "[100, 700]"
-        end if
-        m.itemGridMove.keyValue = "[[100, 700], [100, 600]]"
-    else
-        if m.dropdownOptionGroup.opacity < 1
-            m.itemGrid.translation = "[100, 520]"
-        else
-            m.itemGrid.translation = "[100, 670]"
-        end if
-        m.itemGridMove.keyValue = "[[100, 670], [100, 520]]"
-    end if
+    m.itemGridMove.keyValue = "[[100, 700], [100, 600]]"
 
     m.emptyText.translation = "[0, 750]"
     m.itemGrid.itemSpacing = "[20, 20]"
@@ -459,24 +447,15 @@ sub loadInitialItems()
         m.backdropImage@.clearImage()
         m.itemLogo.visible = false
 
-        if hasChips
-            if m.dropdownOptionGroup.opacity < 1
-                m.itemGrid.translation = "[100, 120]"
-            else
-                m.itemGrid.translation = "[100, 260]"
-            end if
-            m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
+        if m.dropdownOptionGroup.opacity < 1
+            m.itemGrid.translation = "[100, 60]"
         else
-            if m.dropdownOptionGroup.opacity < 1
-                m.itemGrid.translation = "[100, 60]"
-            else
-                m.itemGrid.translation = "[100, 210]"
-            end if
-            m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
+            m.itemGrid.translation = "[100, 260]"
         end if
 
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
         m.chipsRowMove.keyValue = "[[100, 200], [100, 60]]"
+        m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptionGroup.translation = "[100, 60]"
         m.chipsRow.translation = "[100, 200]"
@@ -490,24 +469,15 @@ sub loadInitialItems()
         m.backdropImage@.clearImage()
         m.itemLogo.visible = false
 
-        if hasChips
-            if m.dropdownOptionGroup.opacity < 1
-                m.itemGrid.translation = "[100, 120]"
-            else
-                m.itemGrid.translation = "[100, 260]"
-            end if
-            m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
+        if m.dropdownOptionGroup.opacity < 1
+            m.itemGrid.translation = "[100, 60]"
         else
-            if m.dropdownOptionGroup.opacity < 1
-                m.itemGrid.translation = "[100, 60]"
-            else
-                m.itemGrid.translation = "[100, 210]"
-            end if
-            m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
+            m.itemGrid.translation = "[100, 260]"
         end if
 
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
         m.chipsRowMove.keyValue = "[[100, 200], [100, 60]]"
+        m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptionGroup.translation = "[100, 60]"
         m.chipsRow.translation = "[100, 200]"
@@ -521,30 +491,15 @@ sub loadInitialItems()
         m.backdropImage@.clearImage()
         m.itemLogo.visible = false
 
-        if hasChips
-            if m.dropdownOptionGroup.opacity < 1
-                m.itemGrid.translation = "[100, 120]"
-                m.genreList.translation = "[100, 120]"
-            else
-                m.itemGrid.translation = "[100, 260]"
-                m.genreList.translation = "[100, 260]"
-            end if
-            m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
-            m.genreListMove.keyValue = "[[100, 260], [100, 120]]"
+        if m.dropdownOptionGroup.opacity < 1
+            m.itemGrid.translation = "[100, 60]"
         else
-            if m.dropdownOptionGroup.opacity < 1
-                m.itemGrid.translation = "[100, 60]"
-                m.genreList.translation = "[100, 60]"
-            else
-                m.itemGrid.translation = "[100, 210]"
-                m.genreList.translation = "[100, 210]"
-            end if
-            m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
-            m.genreListMove.keyValue = "[[100, 210], [100, 60]]"
+            m.itemGrid.translation = "[100, 260]"
         end if
 
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
         m.chipsRowMove.keyValue = "[[100, 200], [100, 60]]"
+        m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptionGroup.translation = "[100, 60]"
         m.chipsRow.translation = "[100, 200]"
