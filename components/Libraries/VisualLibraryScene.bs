@@ -431,9 +431,9 @@ sub loadInitialItems()
         if m.dropdownOptionGroup.opacity < 1
             m.itemGrid.translation = "[100, 600]"
         else
-            m.itemGrid.translation = "[100, 740]"
+            m.itemGrid.translation = "[100, 700]"
         end if
-        m.itemGridMove.keyValue = "[[100, 740], [100, 600]]"
+        m.itemGridMove.keyValue = "[[100, 700], [100, 600]]"
     else
         if m.dropdownOptionGroup.opacity < 1
             m.itemGrid.translation = "[100, 520]"
