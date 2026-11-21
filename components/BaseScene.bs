@@ -36,7 +36,8 @@ sub disableRemoteChanged()
         dialog.opacity = 0
         m.top.dialog = dialog
     else
-        if isValid(m.top.dialog)
+        ' Only close the invisible dialog, not a dialog that has been shown since
+        if isValid(m.top.dialog) and isStringEqual(m.top.dialog.id, "invisibiledialog")
             m.top.dialog.close = true
         end if
     end if
