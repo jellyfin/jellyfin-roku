@@ -38,5 +38,9 @@
   {
     "description": "Keep the screensaver off while a stream without video plays",
     "author": "candrews"
+  },
+  {
+    "description": "Fade screens in and only show the loading spinner for slow loads",
+    "author": "candrews"
   }
 ]

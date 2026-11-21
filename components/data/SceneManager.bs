@@ -8,6 +8,51 @@ sub init()
     m.scene = m.top.getScene()
     m.content = m.scene.findNode("content")
     m.overhang = m.scene.findNode("overhang")
+    m.screenTransition = m.scene.findNode("screenTransition")
+    m.screenTransition.observeField("fire", "onScreenFadeFrame")
+    m.screenFadeClock = CreateObject("roTimespan")
+end sub
+
+' How long a screen takes to fade in, in seconds, when every frame is drawn on time
+const SCREEN_FADE_DURATION = 0.2
+' The most a single frame moves the fade along, in seconds
+const SCREEN_FADE_MAX_FRAME = 0.025
+
+' Fade the screen that was just shown in from the background, instead of swapping it in at once
+sub fadeInScreen(group as object)
+    if not isValid(m.screenTransition) then return
+
+    m.screenTransition.control = "stop"
+
+    ' The video player shows its own loading state, and fading would hide the video
+    if group.isSubType("VideoPlayerView")
+        m.content.opacity = 1
+        return
+    end if
+
+    m.screenFadeProgress = 0
+    m.content.opacity = 0
+    m.screenFadeClock.Mark()
+    m.screenTransition.control = "start"
+end sub
+
+' Moves the fade along on each frame. An Animation follows the clock, so when a newly shown screen
+' holds up the render thread (the home screen's rows rebuild their items, for instance) it jumps
+' ahead in big steps. Capping how far each frame moves it keeps the fade smooth, if a little longer.
+sub onScreenFadeFrame()
+    elapsed = m.screenFadeClock.TotalMilliseconds() / 1000
+    m.screenFadeClock.Mark()
+    if elapsed > SCREEN_FADE_MAX_FRAME then elapsed = SCREEN_FADE_MAX_FRAME
+
+    m.screenFadeProgress += elapsed / SCREEN_FADE_DURATION
+    if m.screenFadeProgress >= 1
+        m.content.opacity = 1
+        m.screenTransition.control = "stop"
+        return
+    end if
+
+    ' Linear, so no frame changes much more than another
+    m.content.opacity = m.screenFadeProgress
 end sub
 
 '
@@ -54,6 +99,7 @@ sub pushScene(newGroup)
         else
             m.content.appendChild(newGroup)
         end if
+        fadeInScreen(newGroup)
 
         if newGroup.isSubType("JFScreen")
             newGroup.callFunc("OnScreenShown")
@@ -108,6 +154,7 @@ sub popScene()
         group.visible = true
 
         m.content.replaceChild(group, 0)
+        fadeInScreen(group)
 
         if group.isSubType("JFScreen")
             group.callFunc("OnScreenShown")

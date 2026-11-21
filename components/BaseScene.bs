@@ -5,10 +5,23 @@ import "pkg:/source/utils/misc.bs"
 sub init()
     m.top.backgroundURI = ""
     m.spinner = m.top.findNode("spinner")
+    m.spinnerDelay = m.top.findNode("spinnerDelay")
+    m.spinnerDelay.observeField("fire", "onSpinnerDelayFire")
 end sub
 
-' Triggered when the isLoading boolean component field is changed
+' Triggered when the isLoading boolean component field is changed.
+' Most screens are ready well within the delay, so the spinner only appears for slow loads
+' instead of flashing on every screen change.
 sub isLoadingChanged()
+    m.spinnerDelay.control = "stop"
+    if m.top.isLoading
+        m.spinnerDelay.control = "start"
+    else
+        m.spinner.visible = false
+    end if
+end sub
+
+sub onSpinnerDelayFire()
     m.spinner.visible = m.top.isLoading
 end sub
 
