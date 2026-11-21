@@ -1709,6 +1709,16 @@
             <translation>Number of items to load together on library screens.</translation>
             <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
+        <message>
+            <source>Show Item Count</source>
+            <translation>Show Item Count</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Show the total item count on library screens.</source>
+            <translation>Show the total item count on library screens.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
 
         <message>
             <source>View All Next Up</source>

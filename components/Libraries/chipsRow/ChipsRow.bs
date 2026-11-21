@@ -10,10 +10,18 @@ import "pkg:/source/utils/misc.bs"
 sub init()
     m.totalCount = m.top.findNode("totalCount")
     m.chips = m.top.findNode("chips")
+    if isValid(m.totalCount)
+        m.totalCount.visible = chainLookupReturn(m.global.session, "user.settings.`ui.library.showItemCount`", true)
+    end if
 end sub
 
 sub setTotalCount(countValue)
     if not isValid(m.totalCount) then return
+    if not chainLookupReturn(m.global.session, "user.settings.`ui.library.showItemCount`", true)
+        m.totalCount.visible = false
+        return
+    end if
+    m.totalCount.visible = true
     m.totalCount.text = toString(countValue)
     m.totalCount.callFunc("show")
 end sub

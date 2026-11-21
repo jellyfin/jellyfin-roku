@@ -319,21 +319,39 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.Id
     end if
 
+    showItemCount = chainLookupReturn(m.global.session, "user.settings.`ui.library.showItemCount`", true)
+    hasChips = showItemCount or not isStringEqual(m.filter, "All") or isValidAndNotEmpty(m.top.searchTerm) or isValidAndNotEmpty(m.top.alphaSelected)
+
     ' By default we load artist grid view
     m.loadItemsTask.view = "Artists"
     m.loadItemsTask.genreIds = ""
     m.itemGrid.numRows = "4"
     m.dropdownOptionGroup.translation = "[100, 60]"
     m.chipsRow.translation = "[100, 200]"
-    if m.dropdownOptionGroup.opacity < 1
-        m.itemGrid.translation = "[100, 120]"
-    else
-        m.itemGrid.translation = "[100, 260]"
-    end if
-
     m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
     m.chipsRowMove.keyValue = "[[100, 200], [100, 60]]"
-    m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
+
+    if hasChips
+        if m.dropdownOptionGroup.opacity < 1
+            m.itemGrid.translation = "[100, 120]"
+            m.genreList.translation = "[100, 120]"
+        else
+            m.itemGrid.translation = "[100, 260]"
+            m.genreList.translation = "[100, 260]"
+        end if
+        m.itemGridMove.keyValue = "[[100, 260], [100, 120]]"
+        m.genreListMove.keyValue = "[[100, 260], [100, 120]]"
+    else
+        if m.dropdownOptionGroup.opacity < 1
+            m.itemGrid.translation = "[100, 60]"
+            m.genreList.translation = "[100, 60]"
+        else
+            m.itemGrid.translation = "[100, 210]"
+            m.genreList.translation = "[100, 210]"
+        end if
+        m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
+        m.genreListMove.keyValue = "[[100, 210], [100, 60]]"
+    end if
     m.emptyText.translation = "[0, 540]"
 
     ' We're inside a genre
@@ -352,32 +370,48 @@ sub loadInitialItems()
     else if isStringEqual(m.view, "albumartistspresentation")
         m.emptyText.translation = "[0, 750]"
         m.loadItemsTask.itemType = "AlbumArtists"
-        m.itemGrid.translation = "[100, 730]"
         m.itemGrid.numRows = "2"
         m.dropdownOptionGroup.translation = "[100, 540]"
         m.chipsRow.translation = "[100, 680]"
-        if m.dropdownOptionGroup.opacity < 1
-            m.itemGrid.translation = "[100, 580]"
-        else
-            m.itemGrid.translation = "[100, 730]"
-        end if
         m.dropdownOptionsMove.keyValue = "[[100, 540], [100, 480]]"
         m.chipsRowMove.keyValue = "[[100, 680], [100, 540]]"
-        m.itemGridMove.keyValue = "[[100, 740], [100, 600]]"
+        if hasChips
+            if m.dropdownOptionGroup.opacity < 1
+                m.itemGrid.translation = "[100, 580]"
+            else
+                m.itemGrid.translation = "[100, 730]"
+            end if
+            m.itemGridMove.keyValue = "[[100, 740], [100, 600]]"
+        else
+            if m.dropdownOptionGroup.opacity < 1
+                m.itemGrid.translation = "[100, 520]"
+            else
+                m.itemGrid.translation = "[100, 670]"
+            end if
+            m.itemGridMove.keyValue = "[[100, 670], [100, 520]]"
+        end if
     else if isStringEqual(m.view, "ArtistsPresentation")
         m.emptyText.translation = "[0, 750]"
-        m.itemGrid.translation = "[100, 730]"
         m.itemGrid.numRows = "2"
         m.dropdownOptionGroup.translation = "[100, 540]"
         m.chipsRow.translation = "[100, 680]"
-        if m.dropdownOptionGroup.opacity < 1
-            m.itemGrid.translation = "[100, 580]"
-        else
-            m.itemGrid.translation = "[100, 730]"
-        end if
         m.dropdownOptionsMove.keyValue = "[[100, 540], [100, 480]]"
         m.chipsRowMove.keyValue = "[[100, 680], [100, 540]]"
-        m.itemGridMove.keyValue = "[[100, 740], [100, 600]]"
+        if hasChips
+            if m.dropdownOptionGroup.opacity < 1
+                m.itemGrid.translation = "[100, 580]"
+            else
+                m.itemGrid.translation = "[100, 730]"
+            end if
+            m.itemGridMove.keyValue = "[[100, 740], [100, 600]]"
+        else
+            if m.dropdownOptionGroup.opacity < 1
+                m.itemGrid.translation = "[100, 520]"
+            else
+                m.itemGrid.translation = "[100, 670]"
+            end if
+            m.itemGridMove.keyValue = "[[100, 670], [100, 520]]"
+        end if
     else if isStringEqual(m.view, "genres")
         m.loadItemsTask.itemType = ""
         m.loadItemsTask.recursive = true
