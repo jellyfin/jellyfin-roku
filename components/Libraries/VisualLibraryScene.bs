@@ -422,10 +422,10 @@ sub loadInitialItems()
     showItemCount = chainLookupReturn(m.global.session, "user.settings.`ui.library.showItemCount`", true)
     hasChips = showItemCount or not isStringEqual(m.filter, "All") or isValidAndNotEmpty(m.top.searchTerm) or isValidAndNotEmpty(m.top.alphaSelected)
 
-    m.dropdownOptionGroup.translation = "[100, 540]"
-    m.chipsRow.translation = "[100, 680]"
-    m.dropdownOptionsMove.keyValue = "[[100, 540], [100, 480]]"
-    m.chipsRowMove.keyValue = "[[100, 680], [100, 540]]"
+    m.dropdownOptionGroup.translation = "[100, 520]"
+    m.chipsRow.translation = "[100, 650]"
+    m.dropdownOptionsMove.keyValue = "[[100, 520], [100, 480]]"
+    m.chipsRowMove.keyValue = "[[100, 650], [100, 540]]"
 
     if hasChips
         if m.dropdownOptionGroup.opacity < 1
