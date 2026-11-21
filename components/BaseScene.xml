@@ -6,6 +6,11 @@
     <JFOverhang id="overhang" />
     <AudioMiniPlayer id="audioMiniPlayer" translation="[0, 935]" />
     <Spinner id="spinner" translation="[897, 477]" visible="false" />
+    <!-- Only shows the spinner when loading takes longer than this, see isLoadingChanged -->
+    <Timer id="spinnerDelay" duration="1" repeat="false" />
+
+    <!-- Steps the screen fade-in on every frame, see SceneManager fadeInScreen -->
+    <Timer id="screenTransition" duration="0.001" repeat="true" />
   </children>
   <interface>
     <function name="setBackgroundImage" />
