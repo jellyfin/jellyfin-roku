@@ -312,6 +312,106 @@ sub openPlaybackSelectedItem(selectedItem as object)
     end if
 end sub
 
+' onAppResumedEvent: Roku OS resumed the app (Instant Resume) with its previous screens still in place.
+'
+' @param {object} msg - event whose data is { reason, launchParams }
+' @return {boolean} false if the user's session is no longer valid and they must log in again
+function onAppResumedEvent(msg as object) as boolean
+    ' Nothing to restore unless a user was logged in
+    if not isValidAndNotEmpty(chainLookup(m.global.session, "user.authToken")) then return true
+
+    ' The token may have been revoked while suspended. Other failures (such as an unreachable
+    ' server) leave the app as it was, the same as losing the server while the app is open.
+    currentUserResponse = AboutMe()
+    if not isValid(currentUserResponse.body) and currentUserResponse.code = 401 then return false
+
+    launchParams = msg.getData().launchParams
+    if isValidAndNotEmpty(launchParams)
+        ' Replace a video that was open when the app was suspended
+        closeVideoPlayer()
+        ' The player signals the resume beacon once playback starts
+        m.global.resumeBeaconPending = true
+        onDeepLinkingEvent(launchParams)
+
+        ' Nothing queued to play: the link opened photos or showed an error
+        if m.global.queueManager.callFunc("getCount") = 0 then signalPendingResumeBeacon()
+        return true
+    end if
+
+    ' A video stopped on suspend is replaced by its details screen, where the user can resume it,
+    ' or for Live TV, by the same channel playing again
+    activeScene = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(activeScene) and activeScene.isSubType("VideoPlayerView")
+        ' Roku OS only times resumes from Home; resuming from the screensaver has no beacon to complete
+        signalBeacon = not isStringEqual(msg.getData().reason, "screensaver")
+
+        if replaceSuspendedVideo(activeScene)
+            ' Live TV plays again: the player signals the beacon once playback starts
+            m.global.resumeBeaconPending = signalBeacon
+        else if signalBeacon
+            m.scene.signalBeacon("AppResumeComplete")
+        end if
+        return true
+    end if
+
+    ' Watched state and resume points may have changed while suspended
+    if isValid(activeScene) and activeScene.isSubType("Home")
+        activeScene.callFunc("refresh")
+    end if
+
+    return true
+end function
+
+' replaceSuspendedVideo: Closes a video player that was stopped when the app was suspended. Live TV
+' plays the same channel again; other video shows the details screen of the item it was playing.
+'
+' @param {object} player - the VideoPlayerView
+' @return {boolean} true if Live TV is starting again
+function replaceSuspendedVideo(player as object) as boolean
+    ' The player's id is the item it was opened with, even while an intro plays before it
+    itemId = player.id
+    itemTitle = chainLookupReturn(player, "content.title", string.EMPTY)
+    isLive = isChainValid(player.content, "live") and player.content.live
+    liveChannelId = player.callFunc("getLiveChannelId")
+    previousScene = m.global.sceneManager.callFunc("getPreviousScene")
+
+    ' Roku OS runs no background tasks when the screensaver suspends the app, so the position
+    ' reported on suspend is only sent now. Wait for it, so the details screen shows the resume
+    ' point it saves.
+    for i = 1 to 50
+        if m.global.playstateTask.state <> "run" then exit for
+        sleep(100)
+    end for
+
+    player.callFunc("closePlayer")
+
+    if isLive
+        ' A recording in progress has no channel to go back to
+        if not isValidAndNotEmpty(liveChannelId) then return false
+
+        quickplay.tvChannel({ id: liveChannelId })
+        m.global.queueManager.callFunc("playQueue")
+        return true
+    end if
+
+    if not isValidAndNotEmpty(itemId) then return false
+
+    ' Already back on the item's details screen, which reloads to show the new resume position
+    if isValid(previousScene) and previousScene.isSubType("MovieDetails")
+        if isStringEqual(chainLookup(previousScene, "itemContent.id"), itemId) then return false
+    end if
+
+    CreateMovieDetailsGroup({ id: itemId, title: itemTitle })
+    return false
+end function
+
+' closeVideoPlayer: Stops and closes the video player if it is the active screen
+'
+sub closeVideoPlayer()
+    activeScene = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(activeScene) and activeScene.isSubType("VideoPlayerView") then activeScene.callFunc("closePlayer")
+end sub
+
 sub onDeepLinkingEvent(args)
     if not isValidAndNotEmpty(args) then return
     if not isValidAndNotEmpty(args.mediaType) then return

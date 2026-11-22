@@ -789,3 +789,12 @@ function scaleMaskSize(size as integer) as integer
 
     return size
 end function
+
+' signalPendingResumeBeacon: Call when playback starts. If Roku OS resumed the app (Instant Resume)
+' into playback, signals AppResumeComplete, which must wait until the playback can be controlled.
+sub signalPendingResumeBeacon()
+    if m.global.resumeBeaconPending <> true then return
+
+    m.global.resumeBeaconPending = false
+    m.global.signalBeacon("AppResumeComplete")
+end sub
