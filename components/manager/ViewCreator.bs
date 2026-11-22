@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
@@ -13,6 +14,9 @@ const STILL_WATCHING_POPUP_TIMER_SECONDS = 60
 
 ' Play Audio
 sub CreateAudioPlayerView(showAudioPlayerView = false as boolean)
+    ' Receive voice transport commands
+    startVoiceInputTask()
+
     currentItem = m.global.queueManager.callFunc("getCurrentItem")
     if not isValid(currentItem)
         stopLoadingSpinner()
@@ -84,10 +88,8 @@ sub CreateVideoPlayerView()
     m.view.observeField("selectAudioPressed", "onSelectAudioPressed")
     m.view.observeField("selectSpeedPressed", "onSelectSpeedPressed")
 
-    ' Start VoiceInputTask to receive voice transport commands
-    m.voiceInputTask = CreateObject("roSGNode", "VoiceInputTask")
-    m.voiceInputTask.observeField("inputData", "onVoiceInputData")
-    m.voiceInputTask.control = TaskControl.RUN
+    ' Receive voice transport commands
+    startVoiceInputTask()
 
     mediaSourceId = m.global.queueManager.callFunc("getCurrentItem").mediaSourceId
 
@@ -387,11 +389,8 @@ sub onStateChange()
                 m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
                 m.global.queueManager.callFunc("clear")
 
-                ' Stop VoiceInputTask when playback ends
-                if isValid(m.voiceInputTask)
-                    m.voiceInputTask.nowPlayingData = { title: string.EMPTY, contentType: string.EMPTY } ' clear before stopping
-                    m.voiceInputTask.control = TaskControl.STOP
-                end if
+                ' Playback ended: nothing is playing now
+                clearNowPlaying()
 
                 ' Playback completed, return user to previous screen
                 m.global.sceneManager.callFunc("popScene")
@@ -437,20 +436,14 @@ sub onStateChange()
             m.global.queueManager.callFunc("setLastKnownItemID", episodeToShowAtFinish.LookupCI("id"))
         end if
 
-        ' Stop VoiceInputTask when playback ends
-        if isValid(m.voiceInputTask)
-            m.voiceInputTask.nowPlayingData = { title: string.EMPTY, contentType: string.EMPTY } ' clear before stopping
-            m.voiceInputTask.control = TaskControl.STOP
-        end if
+        ' Playback ended: nothing is playing now
+        clearNowPlaying()
 
         ' Playback completed, return user to previous screen
         m.global.sceneManager.callFunc("popScene")
         m.global.audioPlayer.loopMode = ""
     else if LCase(m.view.state) = "stopped"
-        if isValid(m.voiceInputTask)
-            m.voiceInputTask.nowPlayingData = { title: string.EMPTY, contentType: string.EMPTY } ' clear before stopping
-            m.voiceInputTask.control = TaskControl.STOP
-        end if
+        clearNowPlaying()
     end if
 end sub
 
@@ -467,11 +460,8 @@ sub stillWatchingTimerComplete()
     m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
     m.global.queueManager.callFunc("clear")
 
-    ' Stop VoiceInputTask when playback ends
-    if isValid(m.voiceInputTask)
-        m.voiceInputTask.nowPlayingData = { title: string.EMPTY, contentType: string.EMPTY } ' clear before stopping
-        m.voiceInputTask.control = TaskControl.STOP
-    end if
+    ' Playback ended: nothing is playing now
+    clearNowPlaying()
     m.global.sceneManager.callFunc("popScene")
 end sub
 
@@ -505,24 +495,58 @@ function audioMiniPlayerIsVisible(baseNode as dynamic) as boolean
     return m.audioMiniPlayer.callFunc("isVisible")
 end function
 
-' onVoiceInputData: Called when VoiceInputTask receives a voice/transport command.
-' Decodes the command, handles it, and sends EventResponse back to Roku OS.
+' Roku Voice and transport commands (https://developer.roku.com/dev/docs/transport-controls):
+' Basic (play, pause, forward, rewind, replay, OK), Enhanced (start over, seek, next) and
+' Additional enhanced (now playing, skip, shuffle, loop, like, dislike).
+'
+' VoiceInputTask receives the commands from Roku OS. They are handled here for whichever player is
+' active: the video player when it is on screen, otherwise the audio player.
+' Every command gets a response (TransportStatus), which Roku OS requires within 5 seconds.
+
+' How far the audio forward and rewind commands move, in seconds
+const VOICE_AUDIO_SKIP_SECONDS = 30
+' How far the replay command moves back, in seconds (the same as the replay key)
+const VOICE_REPLAY_SECONDS = 10
+' How close to the end a seek past the end lands, in seconds
+const VOICE_SEEK_END_MARGIN_SECONDS = 30
+
+' startVoiceInputTask: Starts listening for voice commands, if not already listening.
+' The task keeps running for the rest of the session, so voice commands keep working when playback
+' restarts (such as after changing audio or subtitle tracks) and between video and audio playback.
+'
+sub startVoiceInputTask()
+    if isValid(m.voiceInputTask) then return
+
+    m.voiceInputTask = CreateObject("roSGNode", "VoiceInputTask")
+    m.voiceInputTask.observeField("inputData", "onVoiceInputData")
+    m.voiceInputTask.control = TaskControl.RUN
+end sub
+
+' clearNowPlaying: Tells Roku OS that nothing is playing (used when playback ends)
+'
+sub clearNowPlaying()
+    if not isValid(m.voiceInputTask) then return
+    m.voiceInputTask.nowPlayingData = { title: string.EMPTY, contentType: string.EMPTY }
+end sub
+
+' onVoiceInputData: Called when VoiceInputTask receives a voice or transport command.
+' Handles the command, then sends the response back to Roku OS.
 '
 sub onVoiceInputData()
-    if not isValid(m.view) then return
     data = m.voiceInputTask.inputData
     if not isChainValid(data, "type") then return
 
     ret = handleTransportCommand(data)
 
-    ' Send EventResponse back to Roku OS with the result
-    if isChainValid(data, "id")
-        m.voiceInputTask.transportResponse = { id: data.id, status: ret.status }
+    ' Now Playing metadata must reach Roku OS before the response
+    if isValid(ret.nowPlaying)
+        m.voiceInputTask.nowPlayingData = ret.nowPlaying
     end if
 
-    ' Forward seek commands to VideoPlayerView
-    if isValid(ret.cmd)
-        m.view.voiceCommand = ret.cmd
+    if isChainValid(data, "id")
+        response = { id: data.id, status: ret.status }
+        if isValid(ret.metadata) then response.metadata = ret.metadata
+        m.voiceInputTask.transportResponse = response
     end if
 end sub
 
@@ -533,123 +557,364 @@ sub onNowPlayingMetadata()
     m.voiceInputTask.nowPlayingData = m.view.nowPlayingMetadata
 end sub
 
-' handleTransportCommand: Decodes and handles a voice/transport command.
-' Returns an assocarray with "status" and optionally "cmd" for VideoPlayerView.
-' Status values follow Roku's EventResponse spec:
-'   "success"   - command handled successfully
-'   "unhandled" - command not handled, Roku OS will execute default behavior
-'   "error.generic" - command not available in current context
+' handleTransportCommand: Handles a voice or transport command for the active player.
 '
+' @param {object} data - inputData from VoiceInputTask
+' @return {object} { status, nowPlaying?, metadata? }, where status is a TransportStatus value
 function handleTransportCommand(data as object) as object
-    ret = { status: TransportStatus.UNHANDLED }
-    if not isValid(m.view) then return ret
+    activeScene = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(activeScene) and activeScene.isSubType("VideoPlayerView")
+        return handleVideoTransportCommand(activeScene, data)
+    end if
 
-    if isStringEqual(data.type, TransportCommand.SEEK)
-        ret.cmd = { type: TransportCommand.SEEK, position: data.position }
-        ret.status = TransportStatus.SUCCESS
+    if isAudioLoaded()
+        return handleAudioTransportCommand(data)
+    end if
+
+    ' Nothing is playing: let Roku OS respond
+    return { status: TransportStatus.UNHANDLED }
+end function
+
+' getTransportCommand: Returns the lower case command name, or the seek type for absolute seeks
+'
+function getTransportCommand(data as object) as string
+    if isStringEqual(data.type, TransportCommand.SEEK) then return TransportCommand.SEEK
+    if not isStringEqual(data.type, "transport") then return string.EMPTY
+    return LCase(chainLookupReturn(data, "command", string.EMPTY))
+end function
+
+' getVoiceSeekPosition: Returns where a seek command would go, in seconds
+'
+' @param {object} data - inputData: position (absolute seek), or duration and direction (relative seek)
+' @param {float} position - the current position in seconds
+function getVoiceSeekPosition(data as object, position as float) as float
+    if isValid(data.position) then return data.position
+
+    offset = Val(chainLookupReturn(data, "duration", "0"))
+    if isStringEqual(data.direction, "backward") then return position - offset
+    return position + offset
+end function
+
+' getSeekTarget: Returns where a seek should go, kept within the media, and its status
+'
+' @param {float} newPosition - where the seek would go, in seconds
+' @param {float} duration - the length of the media in seconds
+' @return {object} { position, status }
+function getSeekTarget(newPosition as float, duration as float) as object
+    if newPosition < 0 then return { position: 0, status: TransportStatus.SUCCESS_SEEK_START }
+
+    if duration > 0 and newPosition > duration
+        endPosition = duration - VOICE_SEEK_END_MARGIN_SECONDS
+        if endPosition < 0 then endPosition = 0
+        return { position: endPosition, status: TransportStatus.SUCCESS_SEEK_END }
+    end if
+
+    return { position: newPosition, status: TransportStatus.SUCCESS }
+end function
+
+' handleVideoTransportCommand: Handles a command while the video player is on screen
+'
+' @param {object} videoPlayer - the VideoPlayerView
+' @param {object} data - inputData from VoiceInputTask
+' @return {object} see handleTransportCommand
+function handleVideoTransportCommand(videoPlayer as object, data as object) as object
+    cmd = getTransportCommand(data)
+    isLive = isChainValid(videoPlayer, "content.live") and videoPlayer.content.live
+
+    if isStringEqual(cmd, TransportCommand.STARTOVER)
+        if isLive then return { status: TransportStatus.ERROR_LIVE }
+        videoPlayer.voiceCommand = { type: TransportCommand.SEEK, position: 0 }
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    if isStringEqual(cmd, TransportCommand.SEEK)
+        target = getSeekTarget(getVoiceSeekPosition(data, videoPlayer.position), videoPlayer.duration)
+        videoPlayer.voiceCommand = { type: TransportCommand.SEEK, position: target.position }
+        return { status: target.status }
+    end if
+
+    if inArray([TransportCommand.PLAY, TransportCommand.RESUME], cmd)
+        if isStringEqual(videoPlayer.state, MediaPlaybackState.PLAYING) then return { status: TransportStatus.ERROR_REDUNDANT }
+        videoPlayer.voiceCommand = { type: TransportCommand.PLAY }
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    if inArray([TransportCommand.PAUSE, TransportCommand.STOP], cmd)
+        if isStringEqual(videoPlayer.state, MediaPlaybackState.PAUSED) then return { status: TransportStatus.ERROR_REDUNDANT }
+        videoPlayer.voiceCommand = { type: TransportCommand.PAUSE }
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    if isStringEqual(cmd, TransportCommand.PLAYPAUSE)
+        videoPlayer.voiceCommand = { type: TransportCommand.PLAYPAUSE }
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    if inArray([TransportCommand.FORWARD, TransportCommand.FASTFORWARD, TransportCommand.FF], cmd)
+        ' Skip an intro or recap; otherwise fast forward, the same as the fast forward key
+        if videoPlayer.hasActiveSegment
+            videoPlayer.voiceCommand = { type: TransportCommand.SKIP }
+        else
+            videoPlayer.voiceCommand = { type: "key", key: KeyCode.FASTFORWRD }
+        end if
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    ' Rewind, the same as the rewind key (say "play" to stop rewinding)
+    if inArray([TransportCommand.REWIND, TransportCommand.RW], cmd)
+        videoPlayer.voiceCommand = { type: "key", key: KeyCode.REWIND }
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    ' Replay, the same as the replay key: back 10 seconds
+    if isStringEqual(cmd, TransportCommand.REPLAY)
+        videoPlayer.voiceCommand = { type: "key", key: KeyCode.REPLAY }
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    if inArray([TransportCommand.NEXT_ITEM, TransportCommand.SKIP], cmd)
+        ' Skip an intro or recap, otherwise play the next item
+        if videoPlayer.hasActiveSegment
+            videoPlayer.voiceCommand = { type: TransportCommand.SKIP }
+            return { status: TransportStatus.SUCCESS }
+        end if
+        return playNextVideo()
+    end if
+
+    if isStringEqual(cmd, TransportCommand.NOWPLAYING)
+        ' The metadata was sent to Roku OS when playback started
+        if isValid(m.global.queueManager.callFunc("getCurrentItem")) then return { status: TransportStatus.SUCCESS }
+        return { status: TransportStatus.ERROR_GENERIC }
+    end if
+
+    if inArray([TransportCommand.LIKE, TransportCommand.DISLIKE], cmd)
+        return setCurrentItemFavorite(isStringEqual(cmd, TransportCommand.LIKE))
+    end if
+
+    ' Videos can't be shuffled or repeated
+    if inArray([TransportCommand.SHUFFLE, TransportCommand.LOOP], cmd)
+        return { status: TransportStatus.ERROR_GENERIC }
+    end if
+
+    ' OK: Roku OS sends the key
+    return { status: TransportStatus.UNHANDLED }
+end function
+
+' playNextVideo: Plays the next item in the queue
+'
+' @return {object} see handleTransportCommand
+function playNextVideo() as object
+    queueManager = m.global.queueManager
+    if queueManager.callFunc("getPosition") >= queueManager.callFunc("getCount") - 1
+        return { status: TransportStatus.ERROR_GENERIC }
+    end if
+
+    m.global.sceneManager.callFunc("clearPreviousScene")
+    queueManager.callFunc("moveForward")
+    queueManager.callFunc("playQueue")
+    return { status: TransportStatus.SUCCESS }
+end function
+
+' isAudioLoaded: Returns true if the audio player has a song loaded (playing, paused or buffering)
+'
+function isAudioLoaded() as boolean
+    return inArray([MediaPlaybackState.PLAYING, MediaPlaybackState.PAUSED, MediaPlaybackState.BUFFERING], m.global.audioPlayer.state)
+end function
+
+' handleAudioTransportCommand: Handles a command while audio is playing, in the audio player or the mini player
+'
+' @param {object} data - inputData from VoiceInputTask
+' @return {object} see handleTransportCommand
+function handleAudioTransportCommand(data as object) as object
+    cmd = getTransportCommand(data)
+    audioPlayer = m.global.audioPlayer
+    queueManager = m.global.queueManager
+
+    if inArray([TransportCommand.PLAY, TransportCommand.RESUME], cmd)
+        if isStringEqual(audioPlayer.state, MediaPlaybackState.PLAYING) then return { status: TransportStatus.ERROR_REDUNDANT }
+        audioPlayer.control = VideoControl.RESUME
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    if inArray([TransportCommand.PAUSE, TransportCommand.STOP], cmd)
+        if isStringEqual(audioPlayer.state, MediaPlaybackState.PAUSED) then return { status: TransportStatus.ERROR_REDUNDANT }
+        audioPlayer.control = VideoControl.PAUSE
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    if isStringEqual(cmd, TransportCommand.PLAYPAUSE)
+        if isStringEqual(audioPlayer.state, MediaPlaybackState.PAUSED)
+            audioPlayer.control = VideoControl.RESUME
+        else
+            audioPlayer.control = VideoControl.PAUSE
+        end if
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    ' Forward, rewind and replay move within the song. (On the audio player screen, the
+    ' fast forward and rewind keys change songs instead; "next" does that by voice.)
+    if inArray([TransportCommand.FORWARD, TransportCommand.FASTFORWARD, TransportCommand.FF], cmd)
+        return seekAudio(audioPlayer.position + VOICE_AUDIO_SKIP_SECONDS)
+    end if
+
+    if inArray([TransportCommand.REWIND, TransportCommand.RW], cmd)
+        return seekAudio(audioPlayer.position - VOICE_AUDIO_SKIP_SECONDS)
+    end if
+
+    if isStringEqual(cmd, TransportCommand.REPLAY)
+        return seekAudio(audioPlayer.position - VOICE_REPLAY_SECONDS)
+    end if
+
+    if isStringEqual(cmd, TransportCommand.STARTOVER)
+        return seekAudio(0)
+    end if
+
+    if isStringEqual(cmd, TransportCommand.SEEK)
+        return seekAudio(getVoiceSeekPosition(data, audioPlayer.position))
+    end if
+
+    if inArray([TransportCommand.NEXT_ITEM, TransportCommand.SKIP], cmd)
+        if queueManager.callFunc("getPosition") >= queueManager.callFunc("getCount") - 1
+            return { status: TransportStatus.ERROR_GENERIC }
+        end if
+        audioPlayer.callFunc("playNext")
+        return { status: TransportStatus.SUCCESS }
+    end if
+
+    if isStringEqual(cmd, TransportCommand.NOWPLAYING)
+        nowPlaying = getAudioNowPlaying()
+        if not isValid(nowPlaying) then return { status: TransportStatus.ERROR_GENERIC }
+        return { status: TransportStatus.SUCCESS, nowPlaying: nowPlaying }
+    end if
+
+    if isStringEqual(cmd, TransportCommand.SHUFFLE)
+        return shuffleAudio()
+    end if
+
+    if isStringEqual(cmd, TransportCommand.LOOP)
+        return loopAudio()
+    end if
+
+    if inArray([TransportCommand.LIKE, TransportCommand.DISLIKE], cmd)
+        ret = setCurrentItemFavorite(isStringEqual(cmd, TransportCommand.LIKE))
+        song = queueManager.callFunc("getCurrentItem")
+        if isStringEqual(ret.status, TransportStatus.SUCCESS)
+            ' Shown by Roku OS with the response
+            ret.metadata = { music_track: getSongName(song), music_artist: getSongArtist(song) }
+        end if
         return ret
     end if
 
-    if not isStringEqual(data.type, "transport") then return ret
-    if not isChainValid(data, "command") then return ret
+    ' OK: Roku OS sends the key
+    return { status: TransportStatus.UNHANDLED }
+end function
 
-    cmd = LCase(data.command)
+' seekAudio: Seeks the audio player
+'
+' @param {float} newPosition - where to seek to, in seconds
+' @return {object} see handleTransportCommand
+function seekAudio(newPosition as float) as object
+    audioPlayer = m.global.audioPlayer
+    target = getSeekTarget(newPosition, audioPlayer.duration)
+    audioPlayer.seek = target.position
+    return { status: target.status }
+end function
 
-    if isStringEqual(cmd, TransportCommand.STARTOVER)
-        ret.cmd = { type: TransportCommand.SEEK, position: 0 }
-        ret.status = TransportStatus.SUCCESS
+' shuffleAudio: Turns on shuffle for the audio queue, the same as the audio player's shuffle button
+'
+' @return {object} see handleTransportCommand
+function shuffleAudio() as object
+    queueManager = m.global.queueManager
 
-    else if isStringEqual(cmd, TransportCommand.SEEK)
-        currentPos = m.view.position
-        duration = Val(data.duration)
-        newPos = currentPos + duration
-        if isStringEqual(data.direction, "backward")
-            newPos = currentPos - duration
-        end if
-        if newPos < 0
-            newPos = 0
-            ret.status = TransportStatus.SUCCESS_SEEK_START
-        else if newPos > m.view.duration
-            newPos = m.view.duration - 30
-            ret.status = TransportStatus.SUCCESS_SEEK_END
-        else
-            ret.status = TransportStatus.SUCCESS
-        end if
-        ret.cmd = { type: TransportCommand.SEEK, position: newPos }
+    ' The audio player has no shuffle for a single song or a mixed audio and video queue
+    if queueManager.callFunc("getCount") < 2 then return { status: TransportStatus.ERROR_GENERIC }
+    if queueManager.callFunc("getQueueUniqueTypes").count() > 1 then return { status: TransportStatus.ERROR_GENERIC }
+    if queueManager.callFunc("getIsShuffled") then return { status: TransportStatus.ERROR_REDUNDANT }
 
-    else if isStringEqual(cmd, TransportCommand.PLAY) or isStringEqual(cmd, TransportCommand.RESUME)
-        ret.cmd = { type: TransportCommand.PLAY }
-        ret.status = TransportStatus.SUCCESS
-
-    else if isStringEqual(cmd, TransportCommand.PAUSE) or isStringEqual(cmd, TransportCommand.STOP)
-        ret.cmd = { type: TransportCommand.PAUSE }
-        ret.status = TransportStatus.SUCCESS
-
-    else if isStringEqual(cmd, TransportCommand.PLAYPAUSE)
-        ret.status = TransportStatus.SUCCESS
-
-    else if isStringEqual(cmd, TransportCommand.FORWARD) or isStringEqual(cmd, TransportCommand.FASTFORWARD) or isStringEqual(cmd, TransportCommand.FF)
-        if m.view.hasActiveSegment
-            ret.cmd = { type: TransportCommand.SKIP }
-            ret.status = TransportStatus.SUCCESS
-        else
-            ret.status = TransportStatus.UNHANDLED
-        end if
-
-    else if isStringEqual(cmd, TransportCommand.REWIND) or isStringEqual(cmd, TransportCommand.RW)
-        ret.status = TransportStatus.UNHANDLED
-
-    else if isStringEqual(cmd, TransportCommand.NEXT_ITEM)
-        if m.view.hasActiveSegment
-            ret.cmd = { type: TransportCommand.SKIP }
-            ret.status = TransportStatus.SUCCESS
-        else if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
-            m.global.sceneManager.callFunc("clearPreviousScene")
-            m.global.queueManager.callFunc("moveForward")
-            m.global.queueManager.callFunc("playQueue")
-            ret.status = TransportStatus.SUCCESS
-        else
-            ret.status = TransportStatus.ERROR_GENERIC
-        end if
-
-    else if isStringEqual(cmd, TransportCommand.REPLAY)
-        ret.status = TransportStatus.UNHANDLED
-
-    else if isStringEqual(cmd, TransportCommand.NOWPLAYING)
-        ' Metadata was already sent to Roku OS when playback started in VideoPlayerView.
-        currentItem = m.global.queueManager.callFunc("getCurrentItem")
-        if isValid(currentItem)
-            ret.status = TransportStatus.SUCCESS
-        else
-            ret.status = TransportStatus.ERROR_GENERIC
-        end if
-
-    else if isStringEqual(cmd, TransportCommand.SKIP)
-        ret.cmd = { type: TransportCommand.SKIP }
-        ret.status = TransportStatus.SUCCESS
-
-    else if isStringEqual(cmd, TransportCommand.LOOP)
-        ret.status = TransportStatus.UNHANDLED
-
-    else if isStringEqual(cmd, TransportCommand.SHUFFLE)
-        ret.status = TransportStatus.UNHANDLED
-
-    else if isStringEqual(cmd, TransportCommand.LIKE)
-        ret.status = TransportStatus.UNHANDLED
-
-    else if isStringEqual(cmd, TransportCommand.DISLIKE)
-        ret.status = TransportStatus.UNHANDLED
-
-    else if isStringEqual(cmd, TransportCommand.STOP)
-        ret.status = TransportStatus.UNHANDLED
-
-    else if isStringEqual(cmd, TransportCommand.RESUME)
-        ret.status = TransportStatus.UNHANDLED
-
-    else if isStringEqual(cmd, TransportCommand.OK)
-        ret.status = TransportStatus.UNHANDLED
-
+    ' Shuffling keeps the current song first, so it keeps playing
+    activeScene = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(activeScene) and activeScene.isSubType("AudioPlayerView")
+        ' Also updates the shuffle icon and track number
+        activeScene.callFunc("setShuffle", true)
+    else
+        queueManager.callFunc("toggleShuffle")
+        queueManager.callFunc("setPosition", 0)
     end if
 
-    return ret
+    return { status: TransportStatus.SUCCESS }
+end function
+
+' loopAudio: Turns on repeat: the whole queue, or the song if it is the only one
+'
+' @return {object} see handleTransportCommand
+function loopAudio() as object
+    audioPlayer = m.global.audioPlayer
+    queueManager = m.global.queueManager
+
+    ' The audio player has no repeat for a mixed audio and video queue
+    if queueManager.callFunc("getQueueUniqueTypes").count() > 1 then return { status: TransportStatus.ERROR_GENERIC }
+    if isValidAndNotEmpty(audioPlayer.loopMode) then return { status: TransportStatus.ERROR_REDUNDANT }
+
+    ' The audio player view updates its repeat icon when loopMode changes
+    if queueManager.callFunc("getCount") > 1
+        audioPlayer.loopMode = "all"
+    else
+        audioPlayer.loopMode = "one"
+    end if
+
+    return { status: TransportStatus.SUCCESS }
+end function
+
+' getAudioNowPlaying: Returns Now Playing metadata for the current song, or invalid
+'
+function getAudioNowPlaying() as dynamic
+    song = m.global.queueManager.callFunc("getCurrentItem")
+    if not isValid(song) then return invalid
+
+    title = getSongName(song)
+    artist = getSongArtist(song)
+    if isValidAndNotEmpty(artist) then title = `${title} - ${artist}`
+
+    return { title: title, contentType: "audio" }
+end function
+
+' getQueueItemJson: Returns the server's data for a queue item. Some queue items keep it in a json field,
+' others are the server's data.
+'
+function getQueueItemJson(item as dynamic) as dynamic
+    json = chainLookup(item, "json")
+    if type(json) = "roAssociativeArray" then return json
+    return item
+end function
+
+' getSongName: Returns the name of a song queue item
+'
+function getSongName(song as object) as string
+    return chainLookupReturn(getQueueItemJson(song), "Name", chainLookupReturn(song, "title", string.EMPTY))
+end function
+
+' getSongArtist: Returns the artist of a song queue item
+'
+function getSongArtist(song as object) as string
+    json = getQueueItemJson(song)
+    artists = chainLookup(json, "Artists")
+    if isValidAndNotEmpty(artists) and type(artists) = "roArray" then return artists.join(", ")
+    return chainLookupReturn(json, "AlbumArtist", string.EMPTY)
+end function
+
+' setCurrentItemFavorite: Adds the current item to the user's favorites (like), or removes it (dislike)
+'
+' @param {boolean} isFavorite - true to add, false to remove
+' @return {object} see handleTransportCommand
+function setCurrentItemFavorite(isFavorite as boolean) as object
+    itemId = chainLookup(m.global.queueManager.callFunc("getCurrentItem"), "id")
+    if not isValidAndNotEmpty(itemId) then return { status: TransportStatus.ERROR_GENERIC }
+
+    ' The request is made from a task: the render thread can't make network requests
+    m.voiceFavoriteTask = CreateObject("roSGNode", "FavoriteItemsTask")
+    m.voiceFavoriteTask.itemId = itemId
+    m.voiceFavoriteTask.favTask = isFavorite ? "Favorite" : "Unfavorite"
+    m.voiceFavoriteTask.control = TaskControl.RUN
+
+    return { status: TransportStatus.SUCCESS }
 end function

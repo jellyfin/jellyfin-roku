@@ -2683,4 +2683,11 @@ sub onVoiceCommand()
         skipCurrentSegment()
         return
     end if
+
+    ' Forward, rewind and replay: the same as pressing the key on the remote
+    if isStringEqual(cmdType, "key") and isValidAndNotEmpty(cmd.key)
+        onKeyEvent(cmd.key, true)
+        onKeyEvent(cmd.key, false)
+        return
+    end if
 end sub
