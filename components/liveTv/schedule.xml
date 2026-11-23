@@ -25,6 +25,8 @@
     <function name="dispose" />
     <field id="watchChannel" type="node" alwaysNotify="false" />
     <field id="focusedChannel" type="node" alwaysNotify="false" />
+    <!-- Set before filter: checkbox filter selections, e.g. { "Tags": "a|b" } -->
+    <field id="filterOptions" type="assocarray" />
     <field id="filter" type="string" value="" onChange="onFilterSet" />
     <field id="searchTerm" type="string" value="" onChange="onSearchTermSet" />
     <function name="loadChannelList" />

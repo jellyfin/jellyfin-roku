@@ -6,6 +6,7 @@ import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/liveTvTagFilter.bs"
 import "pkg:/source/utils/misc.bs"
 
 const ASPECT_RATIO_PORTRAIT_NO_TITLE = 1.52173
@@ -55,6 +56,13 @@ sub init()
     m.sortAscending = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortAscending`", true)
 
     m.filter = "All"
+    m.filterOptions = {}
+
+    ' Channel tags are offered as extra filters once loaded
+    m.liveTvTags = []
+    m.loadTagsTask = createObject("roSGNode", "LoadLiveTvTagsTask")
+    m.loadTagsTask.observeField("tags", "onLiveTvTagsLoaded")
+    m.loadTagsTask.control = TaskControl.RUN
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
 
@@ -149,6 +157,9 @@ sub loadInitialItems()
     m.filter = m.global.session.user.settings["display.livetv.filter"]
 
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
+    ' Checkbox filters (Tags) are saved like the other libraries' filters: { "Tags": "a|b" }
+    m.filterOptions = ParseJson(m.global.session.user.settings["display.livetv.filterOptions"] ?? "{}")
+    if not isValid(m.filterOptions) then m.filterOptions = {}
 
     m.loadItemsTask.itemId = m.top.parentItem.Id
 
@@ -165,6 +176,7 @@ sub loadInitialItems()
     m.loadItemsTask.sortField = m.sortField
     m.loadItemsTask.sortAscending = m.sortAscending
     m.loadItemsTask.filter = m.filter
+    m.loadItemsTask.filterOptions = m.filterOptions
     m.loadItemsTask.startIndex = 0
 
     ' Load Item Types
@@ -229,9 +241,19 @@ sub setLiveTvOptions(options)
         { "Title": tr("All"), "Name": "All" },
         { "Title": tr("Favorites"), "Name": "Favorites" }
     ]
+    tagFilter = liveTvTagFilterOption(m.liveTvTags, m.filterOptions)
+    if isValid(tagFilter) then options.filter.push(tagFilter)
     options.favorite = [
         { "Title": tr("Favorite"), "Name": "Favorite" }
     ]
+end sub
+
+'Rebuild the filter options once the channel tags arrive
+sub onLiveTvTagsLoaded()
+    m.loadTagsTask.unobserveField("tags")
+    m.liveTvTags = m.loadTagsTask.tags
+    ' Don't swap the menu out from under the user; it's rebuilt the next time options are set up
+    if not m.options.visible then SetUpOptions()
 end sub
 
 ' Return parent collection type
@@ -455,11 +477,13 @@ sub optionsClosed()
     end if
 
     ' Check if filter option changed
-    if not isStringEqual(m.options.filter, m.filter)
+    if not isStringEqual(m.options.filter, m.filter) or not AssocArrayEqual(m.options.filterOptions ?? {}, m.filterOptions)
         m.filter = m.options.filter
+        m.filterOptions = m.options.filterOptions ?? {}
         reload = true
         'Store filter setting
         set_user_setting("display.livetv.filter", m.options.filter)
+        set_user_setting("display.livetv.filterOptions", FormatJson(m.filterOptions))
     end if
 
     if reload
@@ -515,6 +539,7 @@ sub showTVGuide()
     m.tvGuide.observeField("watchChannel", "onChannelSelected")
     m.tvGuide.observeField("focusedChannel", "onChannelFocused")
 
+    m.tvGuide.filterOptions = m.filterOptions
     m.tvGuide.filter = m.filter
     m.tvGuide.searchTerm = m.voiceBox.text
     m.top.insertChild(m.tvGuide, 1)
