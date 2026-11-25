@@ -33,13 +33,18 @@ sub audioStateChanged()
             ReportPlayback("start")
             reportedPlaybackState = "start"
             m.playReported = true
+        else
+            ' Resuming from a pause or a seek: report the new state and position now, not with the next progress report
+            ReportPlayback("update")
         end if
         m.playbackTimer.control = "start"
     else if m.top.state = "paused"
         m.playbackTimer.control = "stop"
+        if m.playReported then ReportPlayback("update")
     else if currentState = "stopped"
         m.playbackTimer.control = "stop"
         reportedPlaybackState = "stop"
+        if m.playReported then ReportPlayback(reportedPlaybackState)
         m.playReported = false
         m.top.id = invalid
         m.top.audioData = []
@@ -86,6 +91,14 @@ end sub
 ' Update values on screen when page content changes
 sub changeAudioStreamContent()
     if not isValidAndNotEmpty(m.top.id) then return
+
+    ' Changing songs (for example, skipping to the next one) ends playback of the song that was playing
+    if m.playReported
+        m.playbackTimer.control = "stop"
+        ReportPlayback("stop")
+        m.playReported = false
+    end if
+
     startLoadingSpinner()
 
     m.LoadAudioStreamTask.control = TaskControl.STOP
@@ -131,9 +144,28 @@ sub ReportPlayback(state = "update" as string)
         isPaused = true
     end if
 
+    ' Report the song that was started. The queue may have moved on or been cleared already (for example, when the
+    ' player is closed or playback is stopped), and the server only ends playback of the item it was told about.
+    itemId = invalid
+    if isStringEqual(state, "start")
+        currentItem = m.global.queueManager.callFunc("getCurrentItem")
+        if isValid(currentItem) then itemId = currentItem.id
+        m.reportedItemId = itemId
+    else
+        itemId = m.reportedItemId
+    end if
+    if not isValidAndNotEmpty(itemId) then return
+
+    positionTicks = int(m.top.position) * 10000000& 'Ensure a LongInteger is used
+    if isStringEqual(state, "stop") and positionTicks = 0 and isValid(m.reportedPositionTicks)
+        ' The audio node may already have reset its position when it stopped
+        positionTicks = m.reportedPositionTicks
+    end if
+    m.reportedPositionTicks = positionTicks
+
     params = {
-        "ItemId": m.global.queueManager.callFunc("getCurrentItem").id,
-        "PositionTicks": int(m.top.position) * 10000000&, 'Ensure a LongInteger is used
+        "ItemId": itemId,
+        "PositionTicks": positionTicks,
         "IsPaused": isPaused
     }
 

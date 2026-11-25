@@ -419,17 +419,17 @@ sub loadInitialItems()
         end if
     end if
 
-    m.dropdownOptionGroup.translation = "[100, 540]"
-    m.chipsRow.translation = "[100, 680]"
+    m.dropdownOptionGroup.translation = "[100, 520]"
+    m.chipsRow.translation = "[100, 650]"
 
     if m.dropdownOptionGroup.opacity < 1
         m.itemGrid.translation = "[100, 520]"
     else
-        m.itemGrid.translation = "[100, 740]"
+        m.itemGrid.translation = "[100, 700]"
     end if
-    m.dropdownOptionsMove.keyValue = "[[100, 540], [100, 480]]"
-    m.chipsRowMove.keyValue = "[[100, 680], [100, 540]]"
-    m.itemGridMove.keyValue = "[[100, 740], [100, 600]]"
+    m.dropdownOptionsMove.keyValue = "[[100, 520], [100, 480]]"
+    m.chipsRowMove.keyValue = "[[100, 650], [100, 540]]"
+    m.itemGridMove.keyValue = "[[100, 700], [100, 600]]"
 
     m.emptyText.translation = "[0, 750]"
     m.itemGrid.itemSpacing = "[20, 20]"
