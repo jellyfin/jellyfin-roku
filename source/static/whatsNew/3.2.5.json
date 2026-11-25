@@ -20,6 +20,10 @@
     "author": "crobibero"
   },
   {
+    "description": "Report music pauses, seeks and stops to the server",
+    "author": "candrews"
+  },
+  {
     "description": "Allow leaving the video player while it is buffering",
     "author": "candrews"
   },
