@@ -25,7 +25,51 @@
           focusFootprintBitmapUri="" />
       </LayoutGroup>
 
-      <Rectangle id="filterOptionsBackdrop" translation="[855, 180]" height="505" width="690" opacity="0" />
+      <Rectangle
+        id="filterOptionsBackdrop"
+        translation="[855, 180]"
+        height="505"
+        width="690"
+        opacity="0" />
+      <Rectangle
+        id="scrollBar"
+        width="6"
+        height="405"
+        translation="[1535, 270]">
+        <Rectangle
+          id="thumb"
+          height="100"
+          width="6" />
+      </Rectangle>
+      <Animation id="scrollBarThumbSlideAnimation" duration=".4" repeat="false">
+        <Vector2DFieldInterpolator id="scrollBarThumbSlideInterpolator" key="[0.0, 1.0]" keyValue="[[0, 0], [0, 0]]" fieldToInterp="thumb.translation" />
+      </Animation>
+      <StandardButton
+        id="tagSearchButton"
+        text="Search Tags"
+        height="75"
+        fontSize="27"
+        width="270"
+        translation="[1065, 155]"
+        visible="false" />
+      <Text
+        id="tooManyResultsText"
+        text="Your search returned more than 50 tags. Rework your search to reduce the number of matching tags."
+        horizAlign="Left"
+        font="font:MediumSystemFont"
+        wrap="true"
+        width="600"
+        visible="false"
+        translation="[900, 250]" />
+      <Text
+        id="noResultsText"
+        text="Your search returned no tags."
+        horizAlign="Left"
+        font="font:MediumSystemFont"
+        wrap="true"
+        width="600"
+        visible="false"
+        translation="[900, 250]" />
       <CheckList
         opacity="0"
         translation="[900, 200]"
@@ -55,6 +99,8 @@
   </children>
   <interface>
     <field id="options" type="assocarray" onChange="optionsSet" />
+    <field id="filteredOptions" type="array" />
+    <field id="filteredOptionsCheckedState" type="array" />
     <field id="filter" type="string" value="" />
     <field id="filterOptions" type="assocarray" value="{}" />
   </interface>

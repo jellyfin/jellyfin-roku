@@ -32,6 +32,7 @@
     <field id="voiceCommand" type="assocarray" alwaysNotify="true" />
     <!-- True when a skippable segment (intro, recap, etc.) is currently active -->
     <field id="hasActiveSegment" type="boolean" value="false" />
+    <field id="nowPlayingMetadata" type="assocarray" alwaysNotify="true" />
   </interface>
 
   <children>
@@ -45,7 +46,7 @@
     </LayoutGroup>
 
     <Group id="captionGroup" translation="[0,0]" />
-    <timer id="playbackTimer" repeat="true" duration="30" />
+    <timer id="playbackTimer" repeat="true" duration="10" />
     <timer id="playbackCheckTimer" repeat="false" duration="1" />
     <timer id="bufferStuckTimer" repeat="true" duration="3" />
     <timer id="bufferCheckTimer" repeat="true" />

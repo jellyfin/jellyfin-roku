@@ -41,11 +41,7 @@ sub showCast(people as object)
         personNode = row.createChild("ExtrasData")
         personNode.id = person.Id
         personNode.labelText = person.Name
-        personNode.posterURL = ImageUrl(person.Id, "Primary", {
-            Tags: person.PrimaryImageTag,
-            MaxWidth: 234,
-            MaxHeight: 330
-        })
+        personNode.posterURL = ItemImageURL(person, ImageType.PRIMARY, imageSizes.DETAIL_ROW)
 
         castRoleType = person.LookupCI("type")
         if not isValidAndNotEmpty(castRoleType)

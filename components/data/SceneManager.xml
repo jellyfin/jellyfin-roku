@@ -5,6 +5,7 @@
     <function name="popScene" />
     <function name="settings" />
     <function name="getActiveScene" />
+    <function name="getPreviousScene" />
     <function name="clearScenes" />
     <function name="clearPreviousScene" />
     <function name="userMessage" />
@@ -12,6 +13,8 @@
     <function name="whatsNewDialog" />
     <function name="remoteSubtitleDialog" />
     <function name="radioDialog" />
+    <function name="checkboxDialog" />
+    <function name="colorDialog" />
     <function name="librarySettingDialog" />
     <function name="dismissDialog" />
     <function name="isDialogOpen" />
@@ -22,6 +25,6 @@
     <field id="currentUser" type="string" onChange="updateUser" />
     <field id="returnData" type="assocarray" />
     <field id="dataReturned" type="boolean" />
-    <field id="currentSpeed" type="float" value="1.0"/>
+    <field id="currentSpeed" type="float" value="1.0" />
   </interface>
 </component>

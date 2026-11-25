@@ -6,14 +6,40 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
+const MAXTAGCOUNT = 50
+
 sub init()
+    m.selectedOptions = []
+    m.tagFilter = string.EMPTY
     m.top.filter = "All"
     m.originalOptions = {}
+    m.tooManyTagsError = false
+    m.tooManyResultsText = m.top.findNode("tooManyResultsText")
+    m.tooManyResultsText.font.size = 30
+    m.noTagsError = false
+    m.noResultsText = m.top.findNode("noResultsText")
+    m.noResultsText.font.size = 30
+    m.tagSearchButton = m.top.findNode("tagSearchButton")
+    m.tagSearchButton.background = ColorPalette.LIGHTBLUE
+    m.tagSearchButton.color = ColorPalette.DARKGREY
+    m.tagSearchButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.tagSearchButton.focusColor = ColorPalette.WHITE
+
     m.submitButton = m.top.findNode("submitButton")
     m.submitButton.background = ColorPalette.LIGHTBLUE
     m.submitButton.color = ColorPalette.DARKGREY
     m.submitButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.submitButton.focusColor = ColorPalette.WHITE
+
+    m.scrollBarThumbSlideAnimation = m.top.findnode("scrollBarThumbSlideAnimation")
+    m.scrollBarThumbSlideInterpolator = m.top.findnode("scrollBarThumbSlideInterpolator")
+
+    m.scrollBar = m.top.findnode("scrollBar")
+    m.thumb = m.top.findnode("thumb")
+    m.thumbStep = 0
+    m.scrollBar.opacity = .75
+    m.scrollBar.color = ColorPalette.BLACK77
+    m.thumb.color = ColorPalette.LIGHTGREY
 
     overlay = m.top.findNode("overlay")
     overlay.color = ColorPalette.DARKGREY
@@ -32,8 +58,8 @@ sub init()
     m.filterMenu.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
     m.filterMenu.focusedColor = ColorPalette.WHITE
 
-    filterOptionsBackdrop = m.top.findNode("filterOptionsBackdrop")
-    filterOptionsBackdrop.color = ColorPalette.LIGHTGREY
+    m.filterOptionsBackdrop = m.top.findNode("filterOptionsBackdrop")
+    m.filterOptionsBackdrop.color = ColorPalette.LIGHTGREY
 
     m.filterOptionsMenu = m.top.findNode("filterOptionsMenu")
     m.filterOptionsMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -41,12 +67,18 @@ sub init()
     m.filterOptionsMenu.focusedColor = ColorPalette.WHITE
 
     m.filterMenu.observeField("itemFocused", "onFilterFocusChange")
+    m.filterOptionsMenu.observeField("itemFocused", "onFilterOptionsFocusChange")
 
     m.filterNames = []
 
     ' Animation
     m.showChecklistAnimation = m.top.findNode("showChecklistAnimation")
     m.hideChecklistAnimation = m.top.findNode("hideChecklistAnimation")
+end sub
+
+sub onFilterOptionsFocusChange()
+    m.scrollBarThumbSlideInterpolator.keyValue = [m.thumb.translation, [0, m.thumbStep * m.filterOptionsMenu.itemFocused]]
+    m.scrollBarThumbSlideAnimation.control = AnimationControl.START
 end sub
 
 sub showChecklist()
@@ -71,10 +103,57 @@ sub onFilterFocusChange()
         return
     end if
 
+    filterName = chainlookup(m.filterMenu.content.getChild(m.filterMenu.itemFocused), "Name")
+    if isStringEqual(filterName, "tags")
+        if not isStringEqual(m.filterOptionsMenu.vertFocusAnimationStyle, "floatingFocus")
+            m.filterOptionsMenu.vertFocusAnimationStyle = "floatingFocus"
+        end if
+
+        m.tagSearchButton.visible = true
+        m.filterOptionsMenu.translation = [900, 280]
+        m.filterOptionsMenu.numRows = 5
+        m.filterOptionsBackdrop.height = 425
+        m.filterOptionsBackdrop.translation = [855, 260]
+
+        if m.tooManyTagsError
+            m.tooManyResultsText.visible = true
+            m.scrollBar.visible = false
+            hideChecklist()
+        else if m.noTagsError
+            m.noResultsText.visible = true
+            m.scrollBar.visible = false
+            hideChecklist()
+        else
+            if isValidAndNotEmpty(m.tagFilter)
+                if m.filterOptionsMenu.content.getChildCount() > 5
+                    m.scrollBar.visible = true
+                end if
+            end if
+        end if
+    else
+        if not isStringEqual(m.filterOptionsMenu.vertFocusAnimationStyle, "fixedFocusWrap")
+            m.filterOptionsMenu.vertFocusAnimationStyle = "fixedFocusWrap"
+        end if
+
+        m.tagSearchButton.visible = false
+        m.filterOptionsMenu.translation = [900, 200]
+        m.filterOptionsMenu.numRows = 6
+        m.filterOptionsBackdrop.height = 505
+        m.filterOptionsBackdrop.translation = [855, 180]
+        m.tooManyResultsText.visible = false
+        m.noResultsText.visible = false
+        m.scrollBar.visible = false
+    end if
+
     if m.filterMenu.content.getChild(m.filterMenu.itemFocused).getChildCount() > 0
         showChecklist()
     else
         hideChecklist()
+    end if
+
+    ' No need to reset the filter options if nothing changed
+    if isStringEqual(chainLookup(m.filterOptionsMenu, "content.name"), m.filterMenu.content.getChild(m.filterMenu.itemFocused).name)
+        return
     end if
 
     m.filterOptionsMenu.content = m.filterMenu.content.getChild(m.filterMenu.itemFocused)
@@ -98,6 +177,96 @@ function isFilterMenuDataValid() as boolean
     return true
 end function
 
+sub calculateButtonThumbProperties()
+    if not isValid(m.scrollBar) then return
+    if not isChainValid(m.filterOptionsMenu, "content") then return
+
+    if m.filterOptionsMenu.content.getChildCount() < 6
+        m.scrollBar.visible = false
+        return
+    else
+        m.scrollBar.visible = true
+    end if
+
+    m.thumbStep = (m.scrollBar.height - m.thumb.height) / (m.filterOptionsMenu.content.getChildCount() - 1)
+end sub
+
+sub processTagSearch()
+    filteredTags = []
+    m.noTagsError = false
+    m.noResultsText.visible = false
+    m.tooManyTagsError = false
+    m.tooManyResultsText.visible = false
+
+    filterItem = m.top.options.filter[m.filterMenu.itemFocused]
+
+    dataSource = filterItem.data ?? filterItem.options
+
+    for each filterItemOption in dataSource
+        tag = toString(filterItemOption)
+        if LCase(tag).Instr(m.tagFilter) > -1
+            filteredTags.push(filterItemOption)
+            if filteredTags.count() > MAXTAGCOUNT
+                if isValidAndNotEmpty(m.tagFilter)
+                    m.tooManyTagsError = true
+                    m.tooManyResultsText.visible = true
+                    m.scrollBar.visible = false
+                    hideChecklist()
+
+                    entry = CreateObject("roSGNode", "OptionNode")
+                    entry.title = filterItem.Title
+                    entry.name = filterItem.Name
+                    entry.delimiter = filterItem.Delimiter
+                    m.filterMenu.content.replaceChild(entry, m.filterMenu.itemFocused)
+                    m.filterOptionsMenu.content = m.filterMenu.content.getChild(m.filterMenu.itemFocused)
+                end if
+                return
+            end if
+        end if
+    end for
+
+    if filteredTags.count() = 0
+        m.noTagsError = true
+        m.noResultsText.visible = true
+        m.scrollBar.visible = false
+        hideChecklist()
+        entry = CreateObject("roSGNode", "OptionNode")
+        entry.title = filterItem.Title
+        entry.name = filterItem.Name
+        entry.delimiter = filterItem.Delimiter
+        m.filterMenu.content.replaceChild(entry, m.filterMenu.itemFocused)
+        m.filterOptionsMenu.content = m.filterMenu.content.getChild(m.filterMenu.itemFocused)
+        return
+    end if
+
+    entry = CreateObject("roSGNode", "OptionNode")
+    entry.title = filterItem.Title
+    entry.name = filterItem.Name
+    entry.delimiter = filterItem.Delimiter
+
+    checkedState = []
+
+    for each filterItemOption in filteredTags
+        entryOption = entry.CreateChild("ContentNode")
+        entryOption.title = toString(filterItemOption)
+        if isValidAndNotEmpty(m.selectedOptions)
+            checkedState.push(inArray(m.selectedOptions, toString(filterItemOption)))
+        end if
+    end for
+
+    m.filterMenu.content.replaceChild(entry, m.filterMenu.itemFocused)
+    m.filterOptionsMenu.content = m.filterMenu.content.getChild(m.filterMenu.itemFocused)
+
+    m.top.filteredOptions = filteredTags
+    m.top.filteredOptionsCheckedState = checkedState
+    m.filterOptionsMenu.checkedState = checkedState
+
+    calculateButtonThumbProperties()
+    showChecklist()
+    m.tagSearchButton.focus = false
+    m.filterOptionsMenu.setFocus(true)
+end sub
+
 sub optionsSet()
     ' Filter Tab
     if isValid(m.top.options.filter)
@@ -112,11 +281,37 @@ sub optionsSet()
             entry.delimiter = filterItem.Delimiter
 
             if isValid(filterItem.options)
-                for each filterItemOption in filterItem.options
-                    entryOption = entry.CreateChild("ContentNode")
-                    entryOption.title = toString(filterItemOption)
-                end for
-                entry.checkedState = filterItem.checkedState
+                if isStringEqual(entry.name, "Tags")
+                    filteredTags = []
+                    m.noTagsError = false
+                    for each filterItemOption in filterItem.options
+                        tag = toString(filterItemOption)
+                        if LCase(tag).Instr(m.tagFilter) > -1
+                            filteredTags.push(filterItemOption)
+                            if filteredTags.count() > MAXTAGCOUNT
+                                if isValidAndNotEmpty(m.tagFilter)
+                                    m.tooManyTagsError = true
+                                end if
+                                exit for
+                            end if
+                        end if
+                    end for
+                    if filteredTags.count() <= MAXTAGCOUNT
+                        m.tooManyTagsError = false
+                        for each filterItemOption in filteredTags
+                            entryOption = entry.CreateChild("ContentNode")
+                            entryOption.title = toString(filterItemOption)
+                        end for
+                        calculateButtonThumbProperties()
+                    end if
+                    entry.checkedState = filterItem.checkedState
+                else
+                    for each filterItemOption in filterItem.options
+                        entryOption = entry.CreateChild("ContentNode")
+                        entryOption.title = toString(filterItemOption)
+                    end for
+                    entry.checkedState = filterItem.checkedState
+                end if
             end if
 
             m.filterNames.push(filterItem.Name)
@@ -147,26 +342,67 @@ sub optionsSet()
     group.lastFocus = m.filterMenu
 end sub
 
+sub ShowKeyboard()
+    dialog = createObject("roSGNode", "StandardKeyboardDialog")
+    dialog.title = tr("Search tags")
+    dialog.buttons = [tr("OK"), tr("Cancel")]
+    dialog.text = m.tagFilter
+
+    palette = createObject("roSGNode", "RSGPalette")
+    palette.colors = { DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND }
+    dialog.palette = palette
+
+    m.top.getscene().dialog = dialog
+    m.dialog = dialog
+
+    dialog.observeField("buttonSelected", "onDialogButton")
+end sub
+
+function onDialogButton()
+    d = m.dialog
+    button_text = d.buttons[d.buttonSelected]
+
+    if button_text = tr("OK")
+        m.tagFilter = d.text
+        processTagSearch()
+        m.dialog.close = true
+        return true
+    else if button_text = tr("Cancel")
+        m.dialog.close = true
+        return true
+    else
+        return false
+    end if
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
     ' User pressed OK from inside the filter's options
     if key = KeyCode.OK
         if m.filterOptionsMenu.isInFocusChain()
-            selectedOptions = []
+            filterName = chainlookup(m.filterMenu.content.getChild(m.filterMenu.itemFocused), "Name")
+            if isStringEqual(filterName, "tags")
+                if m.filterOptionsMenu.checkedState.count() > MAXTAGCOUNT then return false
+            end if
+
+            m.selectedOptions = []
             for i = 0 to m.filterOptionsMenu.checkedState.count() - 1
                 if m.filterOptionsMenu.checkedState[i]
-                    selectedValue = toString(m.filterOptionsMenu.content.getChild(i).title)
+                    selectedFilterContent = m.filterOptionsMenu.content.getChild(i)
+                    if not isValidAndNotEmpty(selectedFilterContent) then continue for
+
+                    selectedValue = toString(selectedFilterContent.title)
                     selectedValue = selectedValue.replace("Photo Album", ItemType.PHOTOALBUM)
-                    selectedOptions.push(selectedValue)
+                    m.selectedOptions.push(selectedValue)
                 end if
             end for
 
-            if selectedOptions.Count() > 0
+            if m.selectedOptions.Count() > 0
                 m.filterMenu.checkedItem = m.filterMenu.itemFocused
                 m.selectedFilterIndex = m.filterMenu.itemFocused
                 m.top.filter = m.filterMenu.content.getChild(m.filterMenu.itemFocused).Name
 
                 newFilter = {}
-                newFilter[m.top.filter] = selectedOptions.join(m.filterMenu.content.getChild(m.filterMenu.itemFocused).delimiter)
+                newFilter[m.top.filter] = m.selectedOptions.join(m.filterMenu.content.getChild(m.filterMenu.itemFocused).delimiter)
                 m.top.filterOptions = newFilter
             else
                 m.filterMenu.checkedItem = 0
@@ -188,8 +424,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         ' Handle Filter screen
         if not isFilterMenuDataValid() then return false
+
         ' If filter has no options, select it
         if m.filterMenu.content.getChild(m.filterMenu.itemFocused).getChildCount() = 0
+            if m.tagSearchButton.visible
+                m.tagSearchButton.focus = true
+                m.tagSearchButton.setFocus(true)
+                return true
+            end if
+
             return true
         end if
 
@@ -203,6 +446,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = KeyCode.DOWN
+        if m.tagSearchButton.isInFocusChain()
+            if m.filterOptionsMenu.content.getChildCount() = 0 then return false
+            m.tagSearchButton.focus = false
+            m.filterOptionsMenu.setFocus(true)
+            return true
+        end if
+
         if m.filterMenu.isInFocusChain()
             m.submitButton.focus = true
             m.submitButton.setfocus(true)
@@ -211,6 +461,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = KeyCode.UP
+        if m.filterOptionsMenu.isInFocusChain()
+            m.tagSearchButton.focus = true
+            m.tagSearchButton.setfocus(true)
+            return true
+        end if
+
         if m.submitButton.isInFocusChain()
             m.submitButton.focus = false
             m.filterMenu.setfocus(true)
@@ -226,12 +482,22 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         m.top.visible = false
+        m.tagSearchButton.visible = false
+        m.tagSearchButton.focus = false
         m.submitButton.focus = false
         m.filterMenu.jumpToItem = 0
         return true
     end if
 
     if key = KeyCode.LEFT
+        if m.tagSearchButton.visible
+            m.tagSearchButton.focus = false
+            m.filterMenu.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.filterMenu
+            return true
+        end if
+
         ' User wants to escape filter options
         if m.filterOptionsMenu.isInFocusChain()
             m.filterOptionsMenu.setFocus(false)
@@ -244,22 +510,42 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = KeyCode.OK
         if m.submitButton.isInFocusChain()
+            if not isStringEqual(m.top.filter, "Tags")
+                m.tagFilter = string.EMPTY
+                m.top.filteredOptionsCheckedState = []
+            end if
+
             m.originalOptions = {
                 filterData: m.top.options,
                 filter: m.top.filter,
                 filterOptions: m.top.filterOptions
             }
 
+            m.noTagsError = false
+            m.noResultsText.visible = false
             m.top.visible = false
             m.submitButton.focus = false
             m.filterMenu.jumpToItem = 0
+            m.top.filteredOptionsCheckedState = m.filterOptionsMenu.checkedState
+        end if
+
+        if m.tagSearchButton.isInFocusChain()
+            ShowKeyboard()
         end if
 
         if m.filterMenu.isInFocusChain()
             ' Handle Filter screen
             if not isFilterMenuDataValid() then return false
+
             ' If filter has no options, select it
             if m.filterMenu.content.getChild(m.filterMenu.itemFocused).getChildCount() = 0
+                filterName = chainlookup(m.filterMenu.content.getChild(m.filterMenu.itemFocused), "Name")
+                if isStringEqual(filterName, "tags")
+                    m.tagSearchButton.focus = true
+                    m.tagSearchButton.setfocus(true)
+                    return true
+                end if
+
                 m.filterMenu.checkedItem = m.filterMenu.itemFocused
                 m.selectedFilterIndex = m.filterMenu.itemFocused
                 m.top.filter = m.filterNames[m.selectedFilterIndex]

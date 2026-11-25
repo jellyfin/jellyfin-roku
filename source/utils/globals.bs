@@ -128,7 +128,8 @@ sub SaveDeviceToGlobal()
             videoHeight: videoHeight,
             videoWidth: videoWidth,
             videoRefresh: StrToI(refreshRate),
-            videoBitDepth: bitDepth
+            videoBitDepth: bitDepth,
+            isHDDevice: deviceInfo.GetUIResolution().name = "HD"
         }
     })
 end sub

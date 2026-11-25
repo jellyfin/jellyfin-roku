@@ -53,6 +53,8 @@ sub init()
     m.config = m.top.findNode("configOptions")
     m.config.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.config.focusFootprintBlendColor = ColorPalette.TRANSPARENT
+    ' When the last form field is confirmed, jump focus straight to Submit
+    m.config.observeField("allFieldsSubmitted", "onAllFieldsSubmitted")
 
     username_field = CreateObject("roSGNode", "ConfigData")
     username_field.label = tr("Username")
@@ -201,3 +203,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+' Fired when FormList confirms the last field (Password).
+' Jumps focus directly to Submit, skipping the "Save Credentials" checkbox
+' -- UX decision: the user can still toggle it manually before submitting.
+sub onAllFieldsSubmitted()
+    m.submit.setFocus(true)
+    m.submit.focus = true
+
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.submit
+end sub

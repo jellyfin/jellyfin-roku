@@ -1,0 +1,50 @@
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/DropdownMenuID.bs"
+import "pkg:/source/enums/ExitDirection.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/SearchButtonState.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.totalCount = m.top.findNode("totalCount")
+    m.chips = m.top.findNode("chips")
+end sub
+
+sub setTotalCount(countValue)
+    if not isValid(m.totalCount) then return
+    m.totalCount.text = toString(countValue)
+    m.totalCount.callFunc("show")
+end sub
+
+sub addChip(chipID, title, textValue)
+    if not isStringEqual(title, string.EMPTY)
+        title = `${title}: `
+    end if
+
+    filterChip = m.top.findNode(chipID)
+    if not isValid(filterChip)
+        filterChip = CreateObject("roSGNode", "Chip")
+        filterChip.fontSize = "25"
+        filterChip.height = "50"
+        filterChip.width = "300"
+        filterChip.text = `${title}${textValue}`
+        filterChip.id = chipID
+        filterChip.color = ColorPalette.WHITE
+        filterChip.background = "0xFFFFFF50"
+        m.chips.appendChild(filterChip)
+
+        filterChip.callFunc("show")
+        return
+    end if
+
+    filterChip.text = `${title}${textValue}`
+end sub
+
+sub removeChip(chipID)
+    filterChip = m.top.findNode(chipID)
+    if not isValid(filterChip) then return
+    filterChip.callFunc("remove")
+end sub
+

@@ -2571,6 +2571,186 @@
         <source>Playback Mode</source>
         <translation>Modo de reproducción</translation>
     </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Estaciones de radio</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Pistas con más reproducciones</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Pistas con menos reproducciones</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Reproducir las pistas con más reproducciones de manera aleatoria</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Reproducir las pistas con menos reproducciones de manera aleatoria</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Pulsa Reproducir/Pausa para ir al botón OK</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nombre de la estación</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nombre para identificar a la estación de radio</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Lista de años incluidos en el contenido de la estación</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Campo que ordenará los medios antes de filtrar</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Límite de ítems</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Número máximo de ítems cargados</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Crear estación</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Subtítulo</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Corta descripción de la estación de radio</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Lista de géneros incluidos en el contenido de la estación</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Dirección que ordenará los medios antes de filtrar</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Color de fondo</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Color de fondo para la pantalla principal</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>El servidor no ha encontrado medios que correspondan con los criterios de los filtros para esta estación de radio.</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Ningún medio corresponde a los criterios de la estación de radio</translation>
+    </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>Confirmar salida</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>Mostrar un mensaje de confirmación antes de salir de Jellyfin desde la pantalla de inicio.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>¿Estás seguro de que quieres salir de Jellyfin?</translation>
+    </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Aparece en</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Álbumes (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Aparece en (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 Canción</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>%1 Canciones</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>%1 Álbum</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>%1 Álbumes</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Acreditado en:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>%1 Aparece en el álbum</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>%1 Aparece en los álbumes</translation>
+    </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>Tu búsqueda ha devuelto más de 50 tags. Modifica la búsqueda para reducir el número de tags coincidentes.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Buscar Tags</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>Tu búsqueda no ha devuelto ningún tag.</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>El servidor sigue iniciándose. Vuelve a intentarlo.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>El servidor está temporalmente indisponible. Inténtalo de nuevo.</translation>
+    </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Buscar término</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Empieza con</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>Este dispositivo Roku dejará de recibir actualizaciones para Jellyfin para Roku el 1 de octubre de 2026 debido a los nuevos requerimientos mínimos de Roku OS 15.1. Puedes seguir usando la app instalada, pero no recibirá actualizaciones si no actualizas Roku OS.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Todas las actualizaciones serán bloqueadas si no realizamos este cambio. No tenemos poder de decisión ninguno en la materia. Si esto te afecta, contacta con Roku. Te pedimos por favor que no la tomes con nuestro equipo.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Puedes ocultar este popup desactivando el ajuste &quot;Interfaz de usuario / General / Mostrar popup de versión de Roku OS&quot;.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Aviso de la versión de Roku OS</translation>
+    </message>
 </context>
 <context>
     <name></name>

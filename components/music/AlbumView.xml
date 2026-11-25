@@ -53,7 +53,8 @@
 
           <LayoutGroup id="tableHeading" layoutDirection="horiz" itemSpacings="[20]" translation="[45, 20]">
             <Text id="trackHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="Track" width="80" />
-            <Text id="titleHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="Title" width="1280" />
+            <Rectangle width="32" height="30" color="0x00000000" />
+            <Text id="titleHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="Title" width="1238" />
             <Text id="lengthHeading" font="font:SmallBoldSystemFont" horizAlign="right" vertAlign="center" text="Length" width="120" />
             <Text id="playsHeading" font="font:SmallBoldSystemFont" horizAlign="right" vertAlign="center" text="Plays" width="80" />
           </LayoutGroup>

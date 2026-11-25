@@ -64,7 +64,7 @@ end sub
 ' Move focus onto the rows whenever the dialog becomes visible
 sub onVisibleChange()
     if not m.top.visible then return
-    
+
     m.detailPopup.visible = false
     m.activeCategory = -1
     m.optionsMenu.setFocus(true)

@@ -31,6 +31,7 @@ end sub
 
 sub initPosterImg()
     m.posterImg = m.top.findNode("posterImg")
+    m.posterDisplayMode = m.posterImg.loadDisplayMode
 end sub
 
 sub initName()
@@ -54,7 +55,14 @@ sub showContent()
         m.name.maxWidth = cont.imageWidth
         m.role.maxWidth = cont.imageWidth
         m.posterImg.uri = cont.posterUrl
+        m.posterImg.loadDisplayMode = m.posterDisplayMode
         m.posterImg.width = cont.imageWidth
+
+        ' People without a photo get the person icon, kept square instead of stretched to the poster
+        if not isValidAndNotEmpty(cont.posterUrl) and isStringEqual(cont.LookupCI("type"), ItemType.PERSON)
+            m.posterImg.uri = "pkg:/images/baseline_person_white_48dp.png"
+            m.posterImg.loadDisplayMode = "scaleToFit"
+        end if
 
         if isStringEqual(cont.LookupCI("type"), ItemType.MUSICVIDEO)
             m.posterImg.width = 400

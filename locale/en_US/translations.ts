@@ -1160,6 +1160,46 @@
             <translation>Albums</translation>
         </message>
         <message>
+            <source>Appears On</source>
+            <translation>Appears On</translation>
+        </message>
+        <message>
+            <source>Albums (%1)</source>
+            <translation>Albums (%1)</translation>
+        </message>
+        <message>
+            <source>Appears On (%1)</source>
+            <translation>Appears On (%1)</translation>
+        </message>
+        <message>
+            <source>%1 Song</source>
+            <translation>%1 Song</translation>
+        </message>
+        <message>
+            <source>%1 Songs</source>
+            <translation>%1 Songs</translation>
+        </message>
+        <message>
+            <source>%1 Album</source>
+            <translation>%1 Album</translation>
+        </message>
+        <message>
+            <source>%1 Albums</source>
+            <translation>%1 Albums</translation>
+        </message>
+        <message>
+            <source>Credited for:</source>
+            <translation>Credited for:</translation>
+        </message>
+        <message>
+            <source>%1 Appears On Album</source>
+            <translation>%1 Appears On Album</translation>
+        </message>
+        <message>
+            <source>%1 Appears On Albums</source>
+            <translation>%1 Appears On Albums</translation>
+        </message>
+        <message>
             <source>Autoplay Episode Limit</source>
             <translation>Autoplay Episode Limit</translation>
         </message>
@@ -1904,6 +1944,18 @@
             <translation>Are you sure you want to delete this subtitle?</translation>
         </message>
         <message>
+            <source>Confirm Exit</source>
+            <translation>Confirm Exit</translation>
+        </message>
+        <message>
+            <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+            <translation>Show a confirmation prompt before exiting Jellyfin from the home screen.</translation>
+        </message>
+        <message>
+            <source>Are you sure you want to exit Jellyfin?</source>
+            <translation>Are you sure you want to exit Jellyfin?</translation>
+        </message>
+        <message>
             <source>Yes</source>
             <translation>Yes</translation>
         </message>
@@ -2550,6 +2602,114 @@
         <message>
             <source>Shuffle play your least played tracks</source>
             <translation>Shuffle play your least played tracks</translation>
+        </message>
+        <message>
+            <source>Press Play/Pause to jump to OK button</source>
+            <translation>Press Play/Pause to jump to OK button</translation>
+        </message>
+        <message>
+            <source>Station Name</source>
+            <translation>Station Name</translation>
+        </message>
+        <message>
+            <source>Name to identify radio station</source>
+            <translation>Name to identify radio station</translation>
+        </message>
+        <message>
+            <source>List of years to include in station content</source>
+            <translation>List of years to include in station content</translation>
+        </message>
+        <message>
+            <source>Field to sort media by before cutting off at limit</source>
+            <translation>Field to sort media by before cutting off at limit</translation>
+        </message>
+        <message>
+            <source>Item Limit</source>
+            <translation>Item Limit</translation>
+        </message>
+        <message>
+            <source>Maximum number of items to load</source>
+            <translation>Maximum number of items to load</translation>
+        </message>
+        <message>
+            <source>Create Station</source>
+            <translation>Create Station</translation>
+        </message>
+        <message>
+            <source>Subtitle</source>
+            <translation>Subtitle</translation>
+        </message>
+        <message>
+            <source>A short description of the radio station</source>
+            <translation>A short description of the radio station</translation>
+        </message>
+        <message>
+            <source>List of genres to include in station content</source>
+            <translation>List of genres to include in station content</translation>
+        </message>
+        <message>
+            <source>Direction to sort media before cutting off at limit</source>
+            <translation>Direction to sort media before cutting off at limit</translation>
+        </message>
+        <message>
+            <source>Background Color</source>
+            <translation>Background Color</translation>
+        </message>
+        <message>
+            <source>Background color to use on home screen block</source>
+            <translation>Background color to use on home screen block</translation>
+        </message>
+        <message>
+            <source>The server found no media matching the filter criteria for this radio station.</source>
+            <translation>The server found no media matching the filter criteria for this radio station.</translation>
+        </message>
+        <message>
+            <source>No media matched radio station criteria</source>
+            <translation>No media matched radio station criteria</translation>
+        </message>
+        <message>
+            <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+            <translation>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</translation>
+        </message>
+        <message>
+            <source>Search Tags</source>
+            <translation>Search Tags</translation>
+        </message>
+        <message>
+            <source>Your search returned no tags.</source>
+            <translation>Your search returned no tags.</translation>
+        </message>
+        <message>
+            <source>The server is still starting up. Please try again.</source>
+            <translation>The server is still starting up. Please try again.</translation>
+        </message>
+        <message>
+            <source>The server is temporarily unavailable. Please try again.</source>
+            <translation>The server is temporarily unavailable. Please try again.</translation>
+        </message>
+        <message>
+            <source>Search Term</source>
+            <translation>Search Term</translation>
+        </message>
+        <message>
+            <source>Starts With</source>
+            <translation>Starts With</translation>
+        </message>
+        <message>
+            <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+            <translation>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku's new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</translation>
+        </message>
+        <message>
+            <source>All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us.</source>
+            <translation>All releases will be blocked unless we make this change. We're forced to do this, so if you're affected, contact Roku. Don't yell at us.</translation>
+        </message>
+        <message>
+            <source>You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.</source>
+            <translation>You can hide this popup by disabling the 'User Interface / General / Show Roku OS Version Popup' setting.</translation>
+        </message>
+        <message>
+            <source>Roku OS Version Warning</source>
+            <translation>Roku OS Version Warning</translation>
         </message>
     </context>
 </TS>

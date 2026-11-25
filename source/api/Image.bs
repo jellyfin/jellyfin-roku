@@ -1,44 +1,158 @@
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/constants/ImageSizes.bs"
 import "pkg:/source/enums/ImageType.bs"
+import "pkg:/source/utils/misc.bs"
 
-function ItemImages(id = "" as string, params = {} as object)
-    if not isValidAndNotEmpty(id) then return []
-
-    data = api.items.GetImages(id)
-    if not isValid(data) then return invalid
-
-    results = []
-    for each item in data
-        tmp = CreateObject("roSGNode", "ImageData")
-        tmp.imagetype = item.imagetype
-        tmp.size = item.size
-        tmp.height = item.height
-        tmp.width = item.width
-        tmp.url = ImageURL(id, tmp.imagetype, params)
-        results.push(tmp)
-    end for
-    return results
+' Returns the id and tag of an item's image, or invalid when the server reports none.
+' item is a BaseItemDto or BaseItemPerson. With inherit, falls back to getInheritedImageSource.
+function getItemImageSource(item as object, imgType as string, inherit = true as boolean) as dynamic
+    source = getOwnImageSource(item, imgType)
+    if not isValid(source) and inherit then source = getInheritedImageSource(item, imgType)
+    return source
 end function
 
+' Returns the id and tag of the item's own image, or invalid when it has none
+function getOwnImageSource(item as object, imgType as string) as dynamic
+    if not isValid(item) then return invalid
 
-function PosterImage(id as string, params = {} as object)
-    if not isValidAndNotEmpty(id) then return invalid
+    itemId = item.LookupCI("Id")
 
-    images = ItemImages(id, params)
-    if not isValid(images) then return invalid
-    primary_image = invalid
+    if isStringEqual(imgType, ImageType.BACKDROP)
+        return imageSource(itemId, firstImageTag(item.LookupCI("BackdropImageTags")))
+    end if
 
-    for each image in images
-        if isStringEqual(image.imagetype, ImageType.PRIMARY)
-            primary_image = image
-        else if isStringEqual(image.imagetype, ImageType.LOGO) and primary_image = invalid
-            primary_image = image
-        else if isStringEqual(image.imagetype, ImageType.THUMB) and primary_image = invalid
-            primary_image = image
-        end if
+    source = imageSource(itemId, chainLookup(item, `ImageTags.${imgType}`))
+
+    ' BaseItemPerson (cast lists) has the primary tag at the top level
+    if not isValid(source) and isStringEqual(imgType, ImageType.PRIMARY)
+        source = imageSource(itemId, item.LookupCI("PrimaryImageTag"))
+    end if
+
+    return source
+end function
+
+' Returns the id and tag of the image the item inherits from its series, album, channel or parent, or invalid when it has none
+function getInheritedImageSource(item as object, imgType as string) as dynamic
+    if not isValid(item) then return invalid
+
+    if isStringEqual(imgType, ImageType.PRIMARY)
+        source = imageSource(item.LookupCI("SeriesId"), item.LookupCI("SeriesPrimaryImageTag"))
+        if not isValid(source) then source = imageSource(item.LookupCI("AlbumId"), item.LookupCI("AlbumPrimaryImageTag"))
+        if not isValid(source) then source = imageSource(item.LookupCI("ParentPrimaryImageItemId"), item.LookupCI("ParentPrimaryImageTag"))
+        if not isValid(source) then source = imageSource(item.LookupCI("ChannelId"), item.LookupCI("ChannelPrimaryImageTag"))
+        return source
+    end if
+
+    if isStringEqual(imgType, ImageType.BACKDROP)
+        return imageSource(item.LookupCI("ParentBackdropItemId"), firstImageTag(item.LookupCI("ParentBackdropImageTags")))
+    end if
+
+    ' Read from ParentThumbItemId/ParentThumbImageTag, ParentLogoItemId/ParentLogoImageTag, etc.
+    if inArray([ImageType.THUMB, ImageType.LOGO, ImageType.ART], imgType)
+        return imageSource(item.LookupCI(`Parent${imgType}ItemId`), item.LookupCI(`Parent${imgType}ImageTag`))
+    end if
+
+    return invalid
+end function
+
+function imageSource(id as dynamic, tag as dynamic) as dynamic
+    if not isValidAndNotEmpty(id) or not isValidAndNotEmpty(tag) then return invalid
+    return { id: id, tag: tag }
+end function
+
+function firstImageTag(tags as dynamic) as dynamic
+    if type(tags) <> "roArray" or tags.Count() = 0 then return invalid
+    return tags[0]
+end function
+
+' Returns the fields of a BaseItemDto that ItemImageURL reads, leaving out any the item doesn't have.
+' Use this when copying a trimmed-down item into a node's json so its images still resolve.
+function ItemImageFields(item as object) as object
+    keys = [
+        "ImageTags",
+        "BackdropImageTags",
+        "PrimaryImageTag",
+        "SeriesId",
+        "SeriesPrimaryImageTag",
+        "AlbumId",
+        "AlbumPrimaryImageTag",
+        "ChannelId",
+        "ChannelPrimaryImageTag",
+        "ParentPrimaryImageItemId",
+        "ParentPrimaryImageTag",
+        "ParentBackdropItemId",
+        "ParentBackdropImageTags",
+        "ParentThumbItemId",
+        "ParentThumbImageTag",
+        "ParentLogoItemId",
+        "ParentLogoImageTag",
+        "ParentArtItemId",
+        "ParentArtImageTag"
+    ]
+
+    fields = {}
+    for each key in keys
+        value = item.LookupCI(key)
+        if isValid(value) then fields[key] = value
+    end for
+    return fields
+end function
+
+' Returns the URL for an item's image, or "" when the server reports none. See getItemImageSource.
+function ItemImageURL(item as object, imgType as string, params = {} as object, inherit = true as boolean) as string
+    return imageSourceURL(getItemImageSource(item, imgType, inherit), imgType, params)
+end function
+
+' Returns the URL for the image the item inherits, ignoring its own, or "" when it has none
+function InheritedItemImageURL(item as object, imgType as string, params = {} as object) as string
+    return imageSourceURL(getInheritedImageSource(item, imgType), imgType, params)
+end function
+
+function imageSourceURL(source as dynamic, imgType as string, params as object) as string
+    if not isValid(source) then return ""
+
+    urlParams = {}
+    urlParams.Append(params)
+    urlParams.Tag = source.tag
+
+    url = ImageURL(source.id, imgType, urlParams)
+    if not isValid(url) then return ""
+    return url
+end function
+
+' Returns the URL for the first image type in imgTypes that the item has, or "" when it has none.
+function FirstItemImageURL(item as object, imgTypes as object, params = {} as object, inherit = true as boolean) as string
+    for each imgType in imgTypes
+        url = ItemImageURL(item, imgType, params, inherit)
+        if isValidAndNotEmpty(url) then return url
+    end for
+    return ""
+end function
+
+' Returns an ImageData node for the item's own poster (Primary, then Logo, then Thumb),
+' or invalid when the item has none of them.
+function PosterImage(item as object, params = {} as object) as dynamic
+    for each imgType in [ImageType.PRIMARY, ImageType.LOGO, ImageType.THUMB]
+        url = ItemImageURL(item, imgType, params, false)
+        if isValidAndNotEmpty(url) then return ImageDataNode(imgType, url)
     end for
 
-    return primary_image
+    return invalid
+end function
+
+' Shows the item's own logo in logoPoster, or nameLabel when it has none
+sub ShowLogoOrName(item as object, logoPoster as object, nameLabel as object)
+    logoURL = ItemImageURL(item, ImageType.LOGO, imageSizes.LOGO, false)
+    logoPoster.uri = logoURL
+    logoPoster.visible = isValidAndNotEmpty(logoURL)
+    nameLabel.visible = not logoPoster.visible
+end sub
+
+function ImageDataNode(imgType as string, url as string) as object
+    image = CreateObject("roSGNode", "ImageData")
+    image.imagetype = imgType
+    image.url = url
+    return image
 end function
 
 function ImageURL(id, version = "Primary", params = {})

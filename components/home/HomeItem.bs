@@ -9,6 +9,9 @@ import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
+const ITEM_IMAGE_HEIGHT = 261
+const ITEM_ICON_TOP = 85
+
 sub init()
     findNodes()
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
@@ -88,6 +91,11 @@ sub itemContentChanged()
         }
     end if
 
+    if isValid(m.stationGroup)
+        m.top.removeChild(m.stationGroup)
+        m.stationGroup = invalid
+    end if
+
     itemData.AddReplace("Title", itemData.LookupCI("name"))
 
     setColors()
@@ -101,6 +109,7 @@ sub itemContentChanged()
     if not isValid(m.itemIcon) then initItemIcon()
 
     m.itemPoster.width = itemData.imageWidth
+    m.itemPoster.height = ITEM_IMAGE_HEIGHT
     m.itemPoster.loadDisplayMode = "scaleToZoom"
 
     m.showProgressBarAnimation.control = AnimationControl.STOP
@@ -120,9 +129,19 @@ sub itemContentChanged()
     m.itemText.vertAlign = "bottom"
 
     m.backdrop.width = itemData.imageWidth
+    m.backdrop.height = ITEM_IMAGE_HEIGHT
 
-    if isAllValid([m.itemIcon, itemData.iconUrl])
-        m.itemIcon.uri = itemData.iconUrl
+    if isValid(m.itemIcon)
+        iconX = (itemData.imageWidth - m.itemIcon.width) / 2
+        if iconX < 0 then iconX = 0
+        m.itemIcon.translation = [iconX, ITEM_ICON_TOP]
+        if isValidAndNotEmpty(itemData.iconUrl)
+            m.itemIcon.uri = itemData.iconUrl
+            m.itemIcon.visible = true
+        else
+            m.itemIcon.uri = string.EMPTY
+            m.itemIcon.visible = false
+        end if
     end if
 
     if inArray([ItemType.COLLECTIONFOLDER, ItemType.USERVIEW, ItemType.CHANNEL, ItemType.FOLDER], itemDataType)
@@ -214,20 +233,19 @@ end sub
 
 sub displayCollectionInfo(itemData as object)
     m.itemText.text = itemData.name
-    if isValidAndNotEmpty(itemData.iconUrl)
-        m.itemIcon.uri = itemData.iconUrl
-    end if
 
     if isValidAndNotEmpty(itemData.widePosterURL)
         m.itemPoster.uri = itemData.widePosterURL
-    else
+    else if isValidAndNotEmpty(itemData.posterURL)
         m.itemPoster.uri = itemData.posterURL
+    else
+        m.itemPoster.uri = string.EMPTY
     end if
 end sub
 
 sub displayPhotoAlbumInfo(itemData as object)
     m.itemText.text = itemData.name
-    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
+    m.itemPoster.uri = ItemImageURL(itemData.json, ImageType.PRIMARY)
 
     ' subtext
     if isValid(itemData.json.ChildCount)
@@ -237,7 +255,7 @@ end sub
 
 sub displayPhotoInfo(itemData as object)
     m.itemText.text = itemData.name
-    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
+    m.itemPoster.uri = ItemImageURL(itemData.json, ImageType.PRIMARY)
 
     ' subtext
     if isValidAndNotEmpty(itemData.json)
@@ -258,19 +276,24 @@ end sub
 sub displaySeasonInfo(itemData as object)
     m.itemText.text = itemData.json.SeriesName
     m.itemTextExtra.text = itemData.name
-    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
+    m.itemPoster.uri = ItemImageURL(itemData.json, ImageType.PRIMARY)
 end sub
 
 sub displayTVChannelInfo(itemData as object)
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
-    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
+    m.itemPoster.uri = ItemImageURL(itemData.json, ImageType.PRIMARY)
 end sub
 
 sub displayAudioInfo(itemData as object)
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
-    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
+
+    if isValidAndNotEmpty(itemData.posterURL)
+        m.itemPoster.uri = itemData.posterURL
+    else
+        m.itemPoster.uri = "pkg:/images/icons/album.png"
+    end if
 end sub
 
 sub displayAudioBookInfo(itemData as object)
@@ -280,7 +303,7 @@ sub displayAudioBookInfo(itemData as object)
 
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
-    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
+    m.itemPoster.uri = ItemImageURL(itemData.json, ImageType.PRIMARY)
 end sub
 
 sub displayMusicAlbumInfo(itemData as object)
@@ -290,9 +313,28 @@ sub displayMusicAlbumInfo(itemData as object)
 end sub
 
 sub displayRadioStationInfo(itemData as object)
+    m.stationGroup = createObject("roSGNode", "Group")
+    m.stationGroup.clippingRect = "[0,0,261,261]"
+
+    stationText = m.stationGroup.CreateChild("Text")
+    stationText.color = ColorPalette.DARKGREY
+    stationText.id = "radioStationName"
+    stationText.font = "font:LargeBoldSystemFont"
+    stationText.font.size = 80
+    stationText.ellipsisText = " "
+    stationText.wrap = "true"
+    stationText.width = "275"
+    stationText.height = "290"
+    stationText.translation = "[-10, 0]"
+    stationText.displayPartialLines = "true"
+    stationText.vertAlign = "bottom"
+    stationText.text = itemData.name
+
+    m.top.insertChild(m.stationGroup, 1)
+
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.Subtitle
-    m.itemPoster.uri = itemData.posterURL
+    m.backdrop.color = itemData.json.BackgroundColor
 end sub
 
 sub displayPersonInfo(itemData as object)
@@ -382,8 +424,17 @@ end sub
 sub displayProgramInfo(itemData as object)
     m.itemText.Text = itemData.json.name
     m.itemTextExtra.Text = itemData.json.ChannelName
-    m.itemPoster.uri = itemData.usePoster ? itemData.thumbnailURL : ImageURL(itemData.json.ChannelId)
+    channel = { Id: itemData.json.ChannelId, PrimaryImageTag: itemData.json.ChannelPrimaryImageTag }
+    m.itemPoster.uri = itemData.usePoster ? itemData.thumbnailURL : ItemImageURL(channel, ImageType.PRIMARY, {}, false)
     m.itemPoster.loadDisplayMode = "scaleToFill"
+
+    if isValid(itemData.FHDItemWidth)
+        realWidth = itemData.FHDItemWidth
+        m.itemPoster.width = realWidth
+        m.itemText.maxWidth = realWidth - 8
+        m.itemTextExtra.maxWidth = realWidth - 8
+        m.backdrop.width = realWidth
+    end if
 
     ' Set Episode title if available
     if isValid(itemData.json.EpisodeTitle)
@@ -478,6 +529,13 @@ sub onPosterLoadStatusChanged()
 
             m.itemPoster.uri = artistPrimaryImageURL
             return
+        end if
+
+        if isStringEqual(thisItemType, ItemType.AUDIO) and isValidAndNotEmpty(m.top.itemContent.thumbnailURL)
+            if not isStringEqual(m.itemPoster.uri, m.top.itemContent.thumbnailURL)
+                m.itemPoster.uri = m.top.itemContent.thumbnailURL
+                return
+            end if
         end if
 
         ' If loading the episode poster image failed, try loading the series image

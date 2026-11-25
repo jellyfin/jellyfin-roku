@@ -1,0 +1,23 @@
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/utils/config.bs"
+
+sub setFields()
+    json = m.top.json
+
+    if isChainValid(json, "StartDate")
+        m.top.startDate = json.StartDate
+        startDate = createObject("roDateTime")
+        startDate.FromISO8601String(json.StartDate)
+        m.top.recordingStart = startDate.AsSeconds()
+    end if
+
+    if isChainValid(json, "EndDate")
+        m.top.endDate = json.EndDate
+        endDate = createObject("roDateTime")
+        endDate.FromISO8601String(json.EndDate)
+        m.top.recordingEnd = endDate.AsSeconds()
+        m.top.recordingDuration = endDate.AsSeconds() - m.top.recordingStart
+    end if
+
+end sub

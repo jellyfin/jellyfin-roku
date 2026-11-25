@@ -46,7 +46,7 @@
     </message>
     <message>
         <source>Play</source>
-        <translation>Reproducció</translation>
+        <translation>Reprodueix</translation>
     </message>
     <message>
         <source>Please sign in</source>
@@ -1664,7 +1664,7 @@
     </message>
     <message>
         <source>mins</source>
-        <translation>mins</translation>
+        <translation>minuts</translation>
     </message>
     <message>
         <source>In My List</source>
@@ -2466,6 +2466,186 @@
     <message>
         <source>Unknown Album</source>
         <translation>Àlbum desconegut</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Subtítol</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Color de fons</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Nombre màxim d&apos;elements a carregar</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Límit d&apos;elements</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Cap mitjà encaixa amb els criteris de l&apos;estació de ràdio</translation>
+    </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Estacions de ràdio</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Crea una estació</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Pistes més reproduïdes</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Pistes menys reproduïdes</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Reprodueix les pistes amb més reproduccions de forma aleatòria</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Reprodueix aleatòriament les pistes amb menys reproduccions</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Pitgeu Reprodueix/Pausa per saltar al botó D&apos;acord</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nom de l&apos;estació</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nom per a identificar l&apos;estació de ràdio</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Llista d&apos;anys inclosos en el contingut de l&apos;estació</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Camp per a ordenar els continguts multimèdia abans de filtrar</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Una petita descripció de l&apos;estació de ràdio</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Llista de gèneres a incloure en el contingut de l&apos;estació</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Direcció per a ordenar els mitjans abans de filtrar</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Color de fons per a emprar a la pantalla principal de bloqueig</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>El servidor no ha trobat mitjans que encaixin amb els criteris dels filtres per a aquesta estació de ràdio.</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>La cerca no ha trobat etiquetes.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Etiquetes de cerca</translation>
+    </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>La cerca ha retornat més de 50 etiquetes. Refeu la cerca per reduir el nombre d&apos;etiquetes coincidents.</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Reprodueix des de l&apos;inici</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Reprèn des de</translation>
+    </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>Confirma la sortida</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>Mostra un missatge de confirmació abans de sortir de Jellyfin des de la pantalla d&apos;inici.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>N&apos;esteu segur, que voleu sortir de Jellyfin?</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+        <translation>Roku havia calculat que podia reproduir directament aquest contingut multimèdia, però la durada de la reproducció era incorrecta.</translation>
+    </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Terme de cerca</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Comença per</translation>
+    </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Apareix a</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Àlbums (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Apareix a (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 Cançó</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>%1 Cançons</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>%1 Àlbum</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>%1 Àlbums</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Acreditat per:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>%1 Apareix a l&apos;àlbum</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>%1 Apareix als àlbums</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>El servidor encara s&apos;està iniciant. Si us plau, torneu-ho a intentar.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>El servidor no està disponible temporalment. Si us plau, torneu-ho a intentar.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Avís de la versió del sistema operatiu de Roku</translation>
     </message>
 </context>
 </TS>

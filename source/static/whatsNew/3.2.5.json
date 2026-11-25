@@ -1,0 +1,42 @@
+[
+  {
+    "description": "Hide OSD controls that aren't available",
+    "author": "JimDogX"
+  },
+  {
+    "description": "Optimzie searching",
+    "author": "JimDogX"
+  },
+  {
+    "description": "Clear stale artist presentation state when switching to Music genres",
+    "author": "VX-101"
+  },
+  {
+    "description": "Add favorite indicators to album track lists",
+    "author": "VX-101"
+  },
+  {
+    "description": "Only request images the server has",
+    "author": "crobibero"
+  },
+  {
+    "description": "Allow leaving the video player while it is buffering",
+    "author": "candrews"
+  },
+  {
+    "description": "Use local dates for Live TV 'today' and 'tomorrow'",
+    "author": "candrews"
+  },
+  {
+    "description": "Show the text of userMessage dialogs",
+    "author": "candrews"
+  },
+  {
+    "description": "Force transcode on all rotated videos, not just home videos",
+    "author": "candrews"
+  },
+  {
+    "description": "Keep the screensaver off while a stream without video plays",
+    "author": "candrews"
+  }
+]

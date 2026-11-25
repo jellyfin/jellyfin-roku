@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="CheckboxDialog" extends="StandardMessageDialog" initialFocus="checkboxOptions">
+  <children>
+    <StdDlgContentArea id="contentArea">
+      <CheckList
+        id="checkboxOptions"
+        numRows="6"
+        itemSize="[800, 70]"
+        itemSpacing="[0,10]"
+        checkedIconUri="pkg:/images/icons/checkboxChecked.png"
+        focusedCheckedIconUri="pkg:/images/icons/checkboxChecked.png"
+        uncheckedIconUri="pkg:/images/icons/checkboxUnchecked.png"
+        focusedUncheckedIconUri="pkg:/images/icons/checkboxUnchecked.png" />
+    </StdDlgContentArea>
+  </children>
+  <interface>
+    <field id="contentData" type="assocarray" />
+  </interface>
+</component>

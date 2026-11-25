@@ -1736,7 +1736,7 @@
     </message>
     <message>
         <source>Select Subtitles</source>
-        <translation>اختيار التردمات</translation>
+        <translation>اختيار الترجمات</translation>
     </message>
     <message>
         <source>Select Language</source>
@@ -1768,7 +1768,7 @@
     </message>
     <message>
         <source>AppearsOn</source>
-        <translation>يظهر على</translation>
+        <translation>يظهر قي</translation>
     </message>
     <message>
         <source>Public Profile</source>
@@ -2514,6 +2514,186 @@
     <message>
         <source>Unknown Album</source>
         <translation>ألبوم مجهول</translation>
+    </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>محطات الاذاعة</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>أكثر المسارات تشغيلا</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>أقل المسارات تشغيلا</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>لا يوجد تطابق بين محطة الاذاعة و الوسيطة</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>الخادم لم يعثر على وسيطة تطابق معيار محطة الاذاعة هذه.</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>لون خلفية يستخدم في قسم صفحة البداية</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>لون الخلفية</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>اتجاه ترتيب الوسيطة قبل الانقطاع عند الحد</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>اسم المحطة</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>اسم تعريف محطة الاذاعة</translation>
+    </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>تأكيد الخروج</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>اظهار رسالة التأكيد قبل الخروج من صفحة Jellyfin الرئيسية.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>هل أنت متأكد من رغبتك في الخروج من Jellyfin؟</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>لائحة بالأنواع للتضمين في محتوى المحطة</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>وصف مختصر لمحطة الاذاعة</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>ترجمة</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>تكوين محطة</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>لائحة بالسنوات للتضمين في محتوى المحطة</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>حقل لترتيب الوسيطة قبل الانقطاع عند الحدود</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>حدود العنصر</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>أقصى عدد للعناصر المحملة</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>خلط أكثر المسارات تشغيلا لك</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>خلط أقل المسارات تشغيلا لك</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>اضغط تشغيل\إيقاف مؤقت للقفز إلى زر تم</translation>
+    </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>أعاد بحثك 50 أكثر من وسما. أعد البحث لتقليل عدد الوسوم المطابقة.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>بحث الوسوم</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>بحثك لم يعثر على وسوم.</translation>
+    </message>
+    <message>
+        <source>Search Term</source>
+        <translation>شرط البحث</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>إبدأ مع</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>هذا الـ Roku سيتوقف عن استقبال تحدبثات Jellyfin لـ Roku من اكتوبر 1, 2026 بسبب متطلبات نظام Roku 15.1. يمكنك الاستمرار في استخدام التطبيق المثبت, لكن لن يتم تحديثه إلا عند تحديثك لنظام Roku OS.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>كل الاصدارات سيتم حضرها إلا عندما نقوم بهذا التغيير. نحن مجبرون على فعل هذا, تواصل مع Roku. لا تصرخ علينا.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>بإمكانك اخفاء الرسائل المنبثقة عن طريق ايقاف اعداد &apos;واجهة المستخدم / عام / اظهار رسالة منبثقة بإصدار Roku OS&apos;.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>تحذير إصدار Roku OS</translation>
+    </message>
+    <message>
+        <source>Appears On</source>
+        <translation>يظهر على</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>ألبومات (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 أغنية</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>1% اغاني</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>1% ألبوم</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>1% ألبومات</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>تم اعتماده لـ:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>1% يظهر على الألبوم</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>1% يظهر على الألبومات</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>لا يزال اخا\م قيد التشغيل. يرجى المحاولة مجددا.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>الخادم غير متوفر حاليا. يرجى المحاولة مجددا.</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>يظهر على (1%)</translation>
     </message>
 </context>
 </TS>

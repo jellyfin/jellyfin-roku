@@ -2435,6 +2435,182 @@
         <source>Unknown Album</source>
         <translation>Album Inconnu</translation>
     </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>Confirmer sortie</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>Afficher une fenêtre de confirmation avant de quitter Jellyfin depuis l&apos;écran d&apos;accueil.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>Êtes-vous sûr de vouloir quitter Jellyfin ?</translation>
+    </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Station radio</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Pistes les plus jouées</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Pistes les moins jouées</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Lecture aléatoire des pistes les plus jouées</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Lecture aléatoire des pistes les moins jouées</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Appuyez sur « Lecture/Pause » pour passer au bouton « OK »</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nom de la station</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nom permettant d&apos;identifier la station de radio</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Liste des années à inclure dans le contenu de la station</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Champ selon lequel trier les médias avant de les tronquer à la limite</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Limte d&apos;élément</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Nombre maximum d&apos;éléments à charger</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Créer une station</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Sous-titre</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Description courte de la station radio</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Liste des genres à inclure dans le contenu de la station</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Instruction de trier les supports avant de les couper à la limite</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Couleur d&apos;arrière-plan</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Couleur d&apos;arrière-plan à utiliser pour le bloc d&apos;écran d&apos;accueil</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>Le serveur n&apos;a trouvé aucun média correspondant aux critères de filtrage pour cette station radio.</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Aucun média ne correspond aux critères de cette station radio</translation>
+    </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>Votre recherche a donné plus de 50 résultats. Modifiez votre recherche afin de réduire le nombre de résultats correspondants.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Rechercher par mots-clés</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>Votre recherche n&apos;a donné aucun résultat.</translation>
+    </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Apparaît dans</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Albums (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Apparaît dans (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>%1 Chanson</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>%1 Chansons</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>%1 Album</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>%1 Albums</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Réalisé par :</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>%1 Apparaît dans l&apos;album</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>%1 Apparaît dans les albums</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Le serveur est encore en cours de démarrage. Veuillez réessayer.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Le serveur est temporairement indisponible. Veuillez réessayer.</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Commence Par</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>Cet appareil Roku ne recevra plus de mises à jour de Jellyfin à partir du 1ᵉʳ octobre 2026, en raison de la nouvelle version minimale requise par Roku (OS 15.1). Vous pouvez continuer à utiliser l&apos;application installée, mais elle ne bénéficiera plus d&apos;aucune mise à jour tant que le système d&apos;exploitation de votre Roku ne sera pas mis à niveau.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Toutes les mises à jour seront bloquées si nous ne faisons pas ce changement. Nous sommes contraints d&apos;agir ainsi ; si vous êtes affecté(e)s, veuillez contacter Roku. Merci de ne pas vous emporter contre notre équipe.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Vous pouvez masquer cette pop-up en désactivant le paramètre &quot;Interface utilisateur / Général / Afficher la pop-up de version de l&apos;OS de Roku&quot;.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Avertissement de la version de l&apos;OS de Roku</translation>
+    </message>
 </context>
 <context>
     <name></name>

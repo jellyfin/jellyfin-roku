@@ -269,7 +269,7 @@ namespace session
             displayLive = "true"
             displayRepeat = "false"
             displayScreen = LiveTVScreen.Guide
-            liveTvChannelOrder = LiveTVChannelSortOrder.Number
+            liveTvChannelOrder = "SortName"
             liveTvFavoritesAtTop = "false"
 
             if isValid(customPrefs)
@@ -290,7 +290,11 @@ namespace session
                     displayScreen = userPreferenceDisplayScreen
                 end if
                 if isValidAndNotEmpty(userPreferenceLiveTvChannelOrder)
-                    liveTvChannelOrder = userPreferenceLiveTvChannelOrder
+                    if isStringEqual(userPreferenceLiveTvChannelOrder, LiveTVChannelSortOrder.DATEPLAYED)
+                        liveTvChannelOrder = "DatePlayed"
+                    else
+                        liveTvChannelOrder = "SortName"
+                    end if
                 end if
                 if isValidAndNotEmpty(userPreferenceLiveTvFavoritesAtTop)
                     liveTvFavoritesAtTop = userPreferenceLiveTvFavoritesAtTop
@@ -303,6 +307,10 @@ namespace session
             set_user_setting("display.livetv.landing", displayScreen)
             set_user_setting("display.livetv.sortField", liveTvChannelOrder)
             set_user_setting("ui.guide.favorites.at.top", liveTvFavoritesAtTop)
+
+            ' Always start off ascending when sorted by channel number, descending when sorted by date played
+            print "Setting ascending to " + isStringEqual(liveTvChannelOrder, "SortName").tostr()
+            set_user_setting("display.livetv.sortAscending", (isStringEqual(liveTvChannelOrder, "SortName")).tostr())
         end sub
 
         ' Saves user's web client home sections as Roku user settings.

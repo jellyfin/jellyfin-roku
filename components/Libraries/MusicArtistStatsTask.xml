@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MusicArtistStatsTask" extends="Task">
+  <interface>
+    <field id="artistId" type="string" />
+    <field id="artistStatsFilter" type="string" value="ArtistIds" />
+    <field id="content" type="assocarray" alwaysNotify="true" />
+  </interface>
+</component>

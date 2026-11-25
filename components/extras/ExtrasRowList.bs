@@ -101,7 +101,7 @@ sub loadParts(data as object)
     m.SpecialFeaturesTask.itemId = m.top.parentId
     m.SpecialFeaturesTask.control = TaskControl.RUN
 
-    if isAllValid([m.top.seasonID, m.top.showID])
+    if isValidAndNotEmpty(m.top.seasonID) and isValidAndNotEmpty(m.top.showID)
         m.LoadEpisodesTask.showID = m.top.showID
         m.LoadEpisodesTask.seasonID = m.top.seasonID
         m.LoadEpisodesTask.control = TaskControl.RUN

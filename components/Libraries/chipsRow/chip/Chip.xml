@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="Chip" extends="Group">
+    <children>
+        <Poster id="buttonBackground" uri="pkg:/images/white.9.png" opacity="0" height="0" />
+        <ScrollingText id="buttonText" font="font:SmallSystemFont" horizAlign="center" vertAlign="center" opacity="0" height="0" />
+
+        <Animation id="toggleAnimation" duration="1" repeat="false" easeFunction="linear">
+            <FloatFieldInterpolator id="backgroundFade" key="[0.1, 0.9]" keyValue="[1.00, 0.00]" fieldToInterp="buttonBackground.opacity" />
+            <FloatFieldInterpolator id="textFade" key="[0.1, 0.9]" keyValue="[1.00, 0.00]" fieldToInterp="buttonText.opacity" />
+            <FloatFieldInterpolator id="backgroundHeight" key="[0.0, 1.0]" keyValue="[0, 0]" fieldToInterp="buttonBackground.height" />
+            <FloatFieldInterpolator id="textHeight" key="[0.0, 1.0]" keyValue="[0, 0]" fieldToInterp="buttonText.height" />
+        </Animation>
+    </children>
+    <interface>
+        <function name="show" />
+        <function name="remove" />
+        <field id="background" type="color" value="" />
+        <field id="color" type="color" value="" />
+        <field id="text" type="string" value="" />
+        <field id="height" type="integer" value="" />
+        <field id="width" type="integer" value="" />
+        <field id="fontSize" type="integer" value="0" />
+    </interface>
+</component>

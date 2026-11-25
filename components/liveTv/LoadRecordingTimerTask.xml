@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<component name="LoadRecordingTimerTask" extends="Task">
+  <interface>
+    <field id="timerId" type="string" />
+    <field id="startDate" type="string" />
+    <field id="endDate" type="string" />
+    <field id="recordingStart" type="longInteger" />
+    <field id="recordingEnd" type="longInteger" />
+    <field id="recordingDuration" type="longInteger" />
+    <field id="recordingTimerDetails" type="node" />
+  </interface>
+</component>

@@ -2525,5 +2525,185 @@
         <source>Unknown Album</source>
         <translation>Nieznany album</translation>
     </message>
+    <message>
+        <source>Radio Stations</source>
+        <translation>Stacje radiowe</translation>
+    </message>
+    <message>
+        <source>Most Played Tracks</source>
+        <translation>Najczęściej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Least Played Tracks</source>
+        <translation>Najrzadziej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Shuffle play your most played tracks</source>
+        <translation>Odtwarzaj losowo najczęściej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Shuffle play your least played tracks</source>
+        <translation>Odtwarzaj losowo najrzadziej odtwarzane utwory</translation>
+    </message>
+    <message>
+        <source>Press Play/Pause to jump to OK button</source>
+        <translation>Naciśnij przycisk Odtwórz/Wstrzymaj, aby przejść do przycisku OK</translation>
+    </message>
+    <message>
+        <source>Station Name</source>
+        <translation>Nazwa stacji</translation>
+    </message>
+    <message>
+        <source>Name to identify radio station</source>
+        <translation>Nazwa identyfikująca stację radiową</translation>
+    </message>
+    <message>
+        <source>List of years to include in station content</source>
+        <translation>Lista lat, które należy uwzględnić w treści stacji</translation>
+    </message>
+    <message>
+        <source>Field to sort media by before cutting off at limit</source>
+        <translation>Pole do sortowania multimediów przed odcięciem przy limicie</translation>
+    </message>
+    <message>
+        <source>Item Limit</source>
+        <translation>Limit pozycji</translation>
+    </message>
+    <message>
+        <source>Maximum number of items to load</source>
+        <translation>Maksymalna liczba pozycji do załadowania</translation>
+    </message>
+    <message>
+        <source>Create Station</source>
+        <translation>Utwórz stację</translation>
+    </message>
+    <message>
+        <source>Subtitle</source>
+        <translation>Podtytuł</translation>
+    </message>
+    <message>
+        <source>A short description of the radio station</source>
+        <translation>Krótki opis stacji radiowej</translation>
+    </message>
+    <message>
+        <source>List of genres to include in station content</source>
+        <translation>Lista gatunków, które należy uwzględnić w treści stacji</translation>
+    </message>
+    <message>
+        <source>Direction to sort media before cutting off at limit</source>
+        <translation>Kierunek sortowania multimediów przed odcięciem przy limicie</translation>
+    </message>
+    <message>
+        <source>Background Color</source>
+        <translation>Kolor tła</translation>
+    </message>
+    <message>
+        <source>Background color to use on home screen block</source>
+        <translation>Kolor tła do użycia w bloku ekranu głównego</translation>
+    </message>
+    <message>
+        <source>The server found no media matching the filter criteria for this radio station.</source>
+        <translation>Serwer nie znalazł żadnych multimediów spełniających kryteria filtrowania dla tej stacji radiowej.</translation>
+    </message>
+    <message>
+        <source>No media matched radio station criteria</source>
+        <translation>Żadne multimedia nie spełniały kryteriów stacji radiowej</translation>
+    </message>
+    <message>
+        <source>Confirm Exit</source>
+        <translation>Potwierdź wyjście</translation>
+    </message>
+    <message>
+        <source>Show a confirmation prompt before exiting Jellyfin from the home screen.</source>
+        <translation>Wyświetl monit o potwierdzenie przed wyjściem z Jellyfin z ekranu głównego.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit Jellyfin?</source>
+        <translation>Czy na pewno chcesz opuścić Jellyfin?</translation>
+    </message>
+    <message>
+        <source>Your search returned more than 50 tags. Rework your search to reduce the number of matching tags.</source>
+        <translation>Twoje wyszukiwanie zwróciło ponad 50 tagów. Zmień wyszukiwanie, aby zmniejszyć liczbę pasujących tagów.</translation>
+    </message>
+    <message>
+        <source>Search Tags</source>
+        <translation>Wyszukaj tagi</translation>
+    </message>
+    <message>
+        <source>Your search returned no tags.</source>
+        <translation>Wyszukiwanie nie zwróciło żadnych tagów.</translation>
+    </message>
+    <message>
+        <source>Search Term</source>
+        <translation>Wyszukaj określenie</translation>
+    </message>
+    <message>
+        <source>Starts With</source>
+        <translation>Zaczyna się od</translation>
+    </message>
+    <message>
+        <source>This Roku will stop receiving Jellyfin for Roku updates on October 1, 2026 due to Roku&apos;s new OS 15.1 minimum requirement. You can continue using the installed app, but it will never update unless you update your Roku OS.</source>
+        <translation>To urządzenie Roku przestanie otrzymywać aktualizacje Jellyfin dla Roku 1 października 2026 r. ze względu na nowe minimalne wymagania systemu operacyjnego Roku 15.1. Możesz nadal korzystać z zainstalowanej aplikacji, ale nigdy się nie zaktualizuje, dopóki nie zaktualizujesz systemu operacyjnego Roku.</translation>
+    </message>
+    <message>
+        <source>All releases will be blocked unless we make this change. We&apos;re forced to do this, so if you&apos;re affected, contact Roku. Don&apos;t yell at us.</source>
+        <translation>Wszystkie wydania zostaną zablokowane, chyba że wprowadzimy tę zmianę. Jesteśmy do tego zmuszeni, więc jeśli Cię to dotyczy, skontaktuj się z Roku. Nie krzycz na nas.</translation>
+    </message>
+    <message>
+        <source>You can hide this popup by disabling the &apos;User Interface / General / Show Roku OS Version Popup&apos; setting.</source>
+        <translation>Możesz ukryć to okno, wyłączając ustawienie „Interfejs użytkownika / Ogólne / Pokaż okno z informacją o wersji systemu operacyjnego Roku”.</translation>
+    </message>
+    <message>
+        <source>Roku OS Version Warning</source>
+        <translation>Ostrzeżenie dotyczące wersji systemu operacyjnego Roku</translation>
+    </message>
+    <message>
+        <source>Appears On</source>
+        <translation>Pojawia się na</translation>
+    </message>
+    <message>
+        <source>Albums (%1)</source>
+        <translation>Albumy (%1)</translation>
+    </message>
+    <message>
+        <source>Appears On (%1)</source>
+        <translation>Pojawia się na (%1)</translation>
+    </message>
+    <message>
+        <source>%1 Song</source>
+        <translation>Piosenka %1</translation>
+    </message>
+    <message>
+        <source>%1 Songs</source>
+        <translation>Piosenki %1</translation>
+    </message>
+    <message>
+        <source>%1 Album</source>
+        <translation>Album %1</translation>
+    </message>
+    <message>
+        <source>%1 Albums</source>
+        <translation>Albumy %1</translation>
+    </message>
+    <message>
+        <source>Credited for:</source>
+        <translation>Autor:</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Album</source>
+        <translation>Pojawia się na albumie %1</translation>
+    </message>
+    <message>
+        <source>%1 Appears On Albums</source>
+        <translation>Pojawia się na albumach %1</translation>
+    </message>
+    <message>
+        <source>The server is still starting up. Please try again.</source>
+        <translation>Serwer nadal się uruchamia. Spróbuj ponownie.</translation>
+    </message>
+    <message>
+        <source>The server is temporarily unavailable. Please try again.</source>
+        <translation>Serwer jest tymczasowo niedostępny. Spróbuj ponownie.</translation>
+    </message>
 </context>
 </TS>

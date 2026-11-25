@@ -6,6 +6,7 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.userRow = m.top.findNode("UserRow")
     m.top.optionsAvailable = false
 
     m.unhideUsers = m.top.findNode("unhideUsers")
@@ -65,9 +66,9 @@ end sub
 
 sub itemContentChanged()
     stopLoadingSpinner()
-    m.top.findNode("UserRow").ItemContent = m.top.itemContent
+    m.userRow.ItemContent = m.top.itemContent
     if m.top.itemContent.count() = 0
-        m.top.findNode("UserRow").setFocus(false)
+        m.userRow.setFocus(false)
         m.manualLogin.setFocus(true)
         m.manualLogin.focus = true
     end if
@@ -85,7 +86,7 @@ sub redraw()
         leftBorder = (1920 - ((userCount * itemWidth) + ((userCount - 1) * itemSpacing))) / 2
     end if
 
-    m.top.findNode("UserRow").translation = [leftBorder, topBorder]
+    m.userRow.translation = [leftBorder, topBorder]
 end sub
 
 ' JFScreen hook called when the screen is displayed by the screen manager
@@ -134,20 +135,21 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return false
     end if
 
-    if key = KeyCode.OPTIONS
-        userRow = m.top.findNode("UserRow")
-        userList = userRow.itemContent
-        user = userList[userRow.rowItemFocused[1]]
+    if isStringEqual(key, KeyCode.OPTIONS)
+        if m.userRow.isInFocusChain()
+            userList = m.userRow.itemContent
+            user = userList[m.userRow.rowItemFocused[1]]
 
-        if not isValid(user) then return false
+            if not isValid(user) then return false
 
-        if user.isPublic
-            m.top.hideUser = user
+            if user.isPublic
+                m.top.hideUser = user
+                return true
+            end if
+
+            m.top.forgetUser = user.id
             return true
         end if
-
-        m.top.forgetUser = user.id
-        return true
     end if
 
     if key = KeyCode.BACK
@@ -158,7 +160,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = KeyCode.UP
         if m.manualLogin.hasFocus()
             if m.top.itemContent.count() = 0 then return false
-            m.top.findNode("UserRow").setFocus(true)
+            m.userRow.setFocus(true)
             m.manualLogin.focus = false
             return true
         end if
@@ -174,7 +176,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = KeyCode.DOWN
-        if m.top.findNode("UserRow").isInFocusChain()
+        if m.userRow.isInFocusChain()
             m.manualLogin.setFocus(true)
             m.manualLogin.focus = true
             return true

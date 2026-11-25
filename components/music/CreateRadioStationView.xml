@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="CreateRadioStationView" extends="JFScreen">
+  <children>
+    <LayoutGroup id="toplevel" layoutDirection="vert" translation="[100, 100]" itemSpacings="[30]">
+      <Text id="sortBy" font="font:LargeBoldSystemFont" text="Create Radio Station" />
+
+      <LayoutGroup layoutDirection="horiz" itemSpacings="[200]">
+        <LayoutGroup layoutDirection="vert" itemSpacings="[30]">
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+            <Text id="name" font="font:smallBoldSystemFont" text="Station Name" />
+            <Text id="nameDescription" font="font:smallestSystemFont" text="Name to identify radio station" />
+            <TextButton id="nameButton" iconSide="right" fontSize="35" padding="35" text="" height="75" width="500" />
+          </LayoutGroup>
+
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[10]">
+              <Text id="years" font="font:smallBoldSystemFont" text="Years" />
+              <BusySpinner
+                id="yearsSpinner"
+              />
+            </LayoutGroup>
+            <Text id="yearsDescription" font="font:smallestSystemFont" text="List of years to include in station content" />
+            <TextButton
+              id="yearsButton"
+              disabled="true"
+              iconSide="right"
+              fontSize="35"
+              padding="35"
+              icon="pkg:/images/icons/dropdown-dark.png"
+              focusIcon="pkg:/images/icons/dropdown-light.png"
+              text=""
+              height="75"
+              width="500" />
+          </LayoutGroup>
+
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+            <Text id="sortBy" font="font:smallBoldSystemFont" text="Sort By" />
+            <Text id="sortByDescription" font="font:smallestSystemFont" text="Field to sort media by before cutting off at limit" />
+            <TextButton id="sortByButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="500" />
+          </LayoutGroup>
+
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+            <Text id="limit" font="font:smallBoldSystemFont" text="Item Limit" />
+            <Text id="limitDescription" font="font:smallestSystemFont" text="Maximum number of items to load" />
+            <TextButton id="limitButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="250" />
+          </LayoutGroup>
+
+          <StandardButton
+            id="createStationButton"
+            text="Create Station"
+            height="85"
+            width="250" />
+        </LayoutGroup>
+
+        <LayoutGroup layoutDirection="vert" itemSpacings="[30]">
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+            <Text id="subtitle" font="font:smallBoldSystemFont" text="Subtitle" />
+            <Text id="subtitleDescription" font="font:smallestSystemFont" text="A short description of the radio station" />
+            <TextButton id="subtitleButton" iconSide="right" fontSize="35" padding="35" text="" height="75" width="500" />
+          </LayoutGroup>
+
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[10]">
+              <Text id="genres" font="font:smallBoldSystemFont" text="Genres" />
+              <BusySpinner
+                id="genresSpinner"
+              />
+            </LayoutGroup>
+            <Text id="genresDescription" font="font:smallestSystemFont" text="List of genres to include in station content" />
+            <TextButton
+              id="genresButton"
+              disabled="true"
+              iconSide="right"
+              fontSize="35"
+              padding="35"
+              icon="pkg:/images/icons/dropdown-dark.png"
+              focusIcon="pkg:/images/icons/dropdown-light.png"
+              text=""
+              height="75"
+              width="500" />
+          </LayoutGroup>
+
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+            <Text id="sortOrder" font="font:smallBoldSystemFont" text="Sort Order" />
+            <Text id="sortOrderDescription" font="font:smallestSystemFont" text="Direction to sort media before cutting off at limit" />
+            <TextButton id="sortOrderButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="500" />
+          </LayoutGroup>
+
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+            <Text id="backgroundColor" font="font:smallBoldSystemFont" text="Background Color" />
+            <Text id="backgroundColorDescription" font="font:smallestSystemFont" text="Background color to use on home screen block" />
+            <TextButton id="backgroundColorButton" iconSide="right" fontSize="35" padding="35" text="" height="75" width="75" />
+          </LayoutGroup>
+        </LayoutGroup>
+
+      </LayoutGroup>
+    </LayoutGroup>
+  </children>
+  <interface>
+    <field id="radioStationName" type="string" alwaysNotify="true" onChange="onRadioStationNameChange" />
+    <field id="radioStationSubtitle" type="string" alwaysNotify="true" onChange="onRadioStationSubtitleChange" />
+    <field id="radioStationLimit" type="string" alwaysNotify="true" onChange="onRadioStationLimitChange" />
+    <field id="radioStationSortBy" type="string" alwaysNotify="true" onChange="onRadioStationSortByChange" />
+    <field id="radioStationSortOrder" type="string" alwaysNotify="true" onChange="onRadioStationSortOrderChange" />
+    <field id="radioStationBackgroundColor" value="#FFFFFF" type="string" alwaysNotify="true" onChange="onRadioStationBackgroundColorChange" />
+    <field id="checkboxData" type="assocarray" alwaysNotify="true" onChange="oncheckboxDataChange" />
+    <field id="selectedColor" type="assocarray" alwaysNotify="true" onChange="onSelectedColorChange" />
+  </interface>
+</component>

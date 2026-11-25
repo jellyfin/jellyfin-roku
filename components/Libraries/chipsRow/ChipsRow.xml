@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="ChipsRow" extends="Group">
+  <children>
+    <LayoutGroup id="chips" layoutDirection="horiz" itemSpacings="[15]" horizAlignment="left">
+      <Chip
+        id="totalCount"
+        fontSize="25"
+        height="50"
+        width="200"
+        background="0xFFFFFF20"
+      />
+    </LayoutGroup>
+  </children>
+  <interface>
+    <function name="setTotalCount" />
+    <function name="addChip" />
+    <function name="removeChip" />
+  </interface>
+</component>

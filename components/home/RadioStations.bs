@@ -1,0 +1,41 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
+
+
+function getListOfRadioStations()
+    radioStationList = chainLookupReturn(m.global.session, "user.settings.radioStations", "no value")
+
+    ' If user has a setting value, return it
+    if not isStringEqual(radioStationList, "no value")
+        return ParseJSON(radioStationList)
+    end if
+
+    ' User has no setting value, return defaults
+    defaultRadioStations = [
+        {
+            id: "radio0",
+            backgroundColor: ColorPalette.RED,
+            posterURL: "pkg:/images/icons/mostplayed.png",
+            name: tr("Most Played Tracks"),
+            subtitle: tr("Shuffle play your most played tracks"),
+            sortBy: "PlayCount",
+            sortOrder: "Descending",
+            limit: 200,
+            filter: ""
+        },
+        {
+            id: "radio1",
+            backgroundColor: ColorPalette.LIGHTBLUE,
+            posterURL: "pkg:/images/icons/leastplayed.png",
+            name: tr("Least Played Tracks"),
+            subtitle: tr("Shuffle play your least played tracks"),
+            sortBy: "PlayCount",
+            sortOrder: "Ascending",
+            limit: 200,
+            filter: ""
+        }
+    ]
+
+    ' set_user_setting(`radioStations`, FormatJson(defaultRadioStations))
+    return defaultRadioStations
+end function

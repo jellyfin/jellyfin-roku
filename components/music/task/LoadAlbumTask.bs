@@ -11,9 +11,9 @@ sub loadAlbum()
         "UserId": m.global.session.user.id,
         "parentId": m.top.id,
         "includeitemtypes": "Audio",
+        "enableUserData": true,
         "sortBy": "SortName"
     })
-
     results = []
     row = CreateObject("roSGNode", "ContentNode")
 
@@ -30,13 +30,6 @@ sub loadAlbum()
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicSongData")
         tmp.id = item.LookupCI("id")
-        tmp.title = item.LookupCI("name")
-        tmp.type = item.LookupCI("type")
-        tmp.AlbumId = item.LookupCI("AlbumId")
-        tmp.ArtistItems = item.LookupCI("ArtistItems")
-        tmp.artists = item.LookupCI("artists")
-        tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
-        tmp.trackNumber = item.LookupCI("IndexNumber")
         tmp.playCount = chainLookupReturn(item, "UserData.PlayCount", 0)
         results.push(tmp)
     end for

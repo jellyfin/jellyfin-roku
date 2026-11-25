@@ -60,26 +60,8 @@ sub setPoster()
     if m.top.image <> invalid
         m.top.posterURL = m.top.image.url
     else
-
-        if m.top.json.ImageTags.Primary <> invalid
-
-            imgParams = { "maxHeight": 440, "maxWidth": 295, "Tag": m.top.json.ImageTags.Primary }
-            m.top.posterURL = ImageURL(m.top.json.id, "Primary", imgParams)
-        else if m.top.json.BackdropImageTags <> invalid
-            imgParams = { "maxHeight": 440, "Tag": m.top.json.BackdropImageTags[0] }
-            m.top.posterURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
-        end if
-
-        if isChainValid(m.top.json, "ImageTags.Thumb")
-            imgParams = { "maxHeight": 331, "maxWidth": 464, "Tag": chainLookup(m.top.json, "ImageTags.Thumb") }
-            m.top.landscapePosterURL = ImageURL(m.top.json.id, "Thumb", imgParams)
-        end if
-
-        ' Add Backdrop Image
-        if m.top.json.BackdropImageTags <> invalid
-            imgParams = { "maxHeight": 720, "maxWidth": 1280, "Tag": m.top.json.BackdropImageTags[0] }
-            m.top.backdropURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
-        end if
-
+        m.top.posterURL = FirstItemImageURL(m.top.json, [ImageType.PRIMARY, ImageType.BACKDROP, ImageType.THUMB], imageSizes.GRID_POSTER)
+        m.top.landscapePosterURL = ItemImageURL(m.top.json, ImageType.THUMB, imageSizes.GRID_THUMB, false)
+        m.top.backdropURL = ItemImageURL(m.top.json, ImageType.BACKDROP, imageSizes.BACKDROP, false)
     end if
 end sub

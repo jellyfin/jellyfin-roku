@@ -2,5 +2,8 @@
 <component name="FormList" extends="MarkupList">
   <interface>
     <field id="configItems" type="nodearray" onChange="setData" />
+    <!-- Toggled (not just set to true) to guarantee onChange fires every
+         time, even if the user re-edits the last field again -->
+    <field id="allFieldsSubmitted" type="boolean" alwaysNotify="true" value="false" />
   </interface>
 </component>

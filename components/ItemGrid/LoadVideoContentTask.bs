@@ -81,6 +81,42 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     videotype = LCase(meta.type)
 
+    ' The guide's queued channel is authoritative even if a later metadata
+    ' response uses a different item type or omits its channel fields.
+    queuedItem = m.global.queueManager.callFunc("getCurrentItem")
+    queuedType = LCase(chainLookupReturn(queuedItem, "type", string.EMPTY))
+    channelId = chainLookupReturn(queuedItem, "favoriteChannelId", string.EMPTY)
+    if not isValidAndNotEmpty(channelId) and isStringEqual(queuedType, ItemType.TVCHANNEL)
+        channelId = chainLookupReturn(queuedItem, "id", string.EMPTY)
+    else if not isValidAndNotEmpty(channelId) and isStringEqual(queuedType, ItemType.PROGRAM)
+        channelId = chainLookupReturn(queuedItem, "json.ChannelId", string.EMPTY)
+        if not isValidAndNotEmpty(channelId)
+            channelId = chainLookupReturn(queuedItem, "id", string.EMPTY)
+        end if
+    end if
+
+    ' ChannelData wraps guide Programs too, so prefer their channel ID.
+    sourceType = LCase(chainLookupReturn(meta, "json.Type", string.EMPTY))
+    if not isValidAndNotEmpty(channelId)
+        if isStringEqual(videotype, ItemType.TVCHANNEL) or isStringEqual(sourceType, ItemType.PROGRAM)
+            channelId = chainLookupReturn(meta, "json.ChannelId", string.EMPTY)
+            if not isValidAndNotEmpty(channelId) and not isStringEqual(sourceType, ItemType.PROGRAM)
+                channelId = meta.id
+            end if
+        end if
+    end if
+
+    channel = invalid
+    if isValidAndNotEmpty(channelId)
+        video.favoriteChannelId = channelId
+        if isStringEqual(sourceType, ItemType.TVCHANNEL) and isStringEqual(channelId, meta.id)
+            video.isFavoriteChannel = chainLookupReturn(meta, "json.UserData.IsFavorite", false)
+        else
+            channel = api.liveTV.GetChannelByID(channelId, { userId: m.global.session.user.id })
+            video.isFavoriteChannel = chainLookupReturn(channel, "UserData.IsFavorite", false)
+        end if
+    end if
+
     ' Check for any Live TV streams or Recordings coming from other places other than the TV Guide
     if videotype = "recording" or (isValid(meta.json) and isValid(meta.json.ChannelId))
         if isValid(meta.json.EpisodeTitle)
@@ -98,6 +134,21 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     video.overview = meta.json.overview
     video.people = meta.json.people
+    premiere = meta.json.premieredate
+    if isValidAndNotEmpty(premiere)
+        date = CreateObject("roDateTime")
+        date.FromSeconds(0)
+        ' Parse failures silently do not update the date so set to a known value and check if it changed
+        date.FromISO8601String(premiere)
+        if not date.AsSeconds() = 0 and not isStringEqual(premiere, "1970-01-01T00:00:00.000000Z")
+            if isStringEqual(chainLookupReturn(meta.json, "Type", ItemType.SERIES), ItemType.MOVIE)
+                dateDescriptor = tr("Released")
+            else
+                dateDescriptor = tr("Aired")
+            end if
+            video.premiere = tr(dateDescriptor) + ": " + date.AsDateString("short-month-no-weekday")
+        end if
+    end if
     if not isValid(video.overview) and isValid(meta.json.CurrentProgram)
         ' Live TV is under CurrentProgram.Overview
         video.overview = meta.json.CurrentProgram.overview
@@ -108,7 +159,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     video.content.title = meta.title
     video.showID = meta.showID
 
-    logoLookupID = video.id
     if isStringEqual(videotype, ItemType.TVCHANNEL) and isChainValid(meta, "json.CurrentProgram")
         video.content.contenttype = ItemType.EPISODE
     end if
@@ -131,10 +181,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         video.seasonNumber = meta.json.ParentIndexNumber
         video.episodeNumber = meta.json.IndexNumber
         video.episodeNumberEnd = meta.json.IndexNumberEnd
-
-        if isValid(meta.showID)
-            logoLookupID = meta.showID
-        end if
     end if
 
     video.mediaSegments = {}
@@ -185,19 +231,19 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
-    if isValid(meta.json.extratype)
-        if LCase(meta.json.extratype) = "trailer"
-            if isValidAndNotEmpty(meta.json.parentlogoitemid)
-                logoLookupID = meta.json.parentlogoitemid
-                video.extraType = "trailer"
-            end if
-        end if
-    end if
+    isTrailer = isStringEqual(meta.json.LookupCI("ExtraType"), "trailer")
+    if isTrailer then video.extraType = "trailer"
 
-    logoSource = isStringEqual(videotype, ItemType.TVCHANNEL) ? ImageType.PRIMARY : ImageType.LOGO ' TV Channel logos are stored under '/primary' instead of '/logo'
-    logoImageExists = api.items.HeadImageURLByName(logoLookupID, logoSource)
-    if logoImageExists
-        video.logoImage = api.items.GetImageURL(logoLookupID, logoSource, 0, { "format": "Png", "maxHeight": 65, "maxWidth": 300, "quality": "90" })
+    if isStringEqual(sourceType, ItemType.PROGRAM)
+        ' Guide programs show their channel's logo, which is stored under '/primary'
+        video.logoImage = ItemImageURL(channel, ImageType.PRIMARY, imageSizes.PLAYER_LOGO, false)
+    else if isStringEqual(videotype, ItemType.TVCHANNEL)
+        ' TV Channel logos are stored under '/primary' instead of '/logo'
+        video.logoImage = ItemImageURL(meta.json, ImageType.PRIMARY, imageSizes.PLAYER_LOGO, false)
+    else
+        ' Only episodes and trailers fall back to the series or parent logo
+        inheritLogo = isStringEqual(videotype, ItemType.EPISODE) or isStringEqual(videotype, ItemType.SERIES) or isTrailer
+        video.logoImage = ItemImageURL(meta.json, ImageType.LOGO, imageSizes.PLAYER_LOGO, inheritLogo)
     end if
 
     additionalParts = api.videos.GetAdditionalParts(video.id)
@@ -241,6 +287,20 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     if not isValid(mediaSourceId) then mediaSourceId = video.id
     if meta.live then mediaSourceId = ""
 
+    ' Roku ignores rotation metadata, even in fMP4 where the server would copy rotated video,
+    ' so make the server re-encode the video upright
+    if not meta.live and isValidAndNotEmpty(meta.json.MediaStreams)
+        for each stream in meta.json.MediaStreams
+            if isStringEqual(chainLookupReturn(stream, "Type", string.EMPTY), "video")
+                if chainLookupReturn(stream, "rotation", 0) <> 0
+                    m.top.mustTranscode = true
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(stream, "Codec", string.EMPTY))
+                end if
+                exit for
+            end if
+        end for
+    end if
+
     m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
     if not isValid(m.playbackInfo)
         video.errorMsg = "Error loading playback info"
@@ -250,9 +310,13 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     ' If forceTranscode setting is enabled, but we haven't set the transcode codec yet, set it now and update Playback Info
     if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
-        setTranscodeCodec(video, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
-    else if meta.live and isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscodeLiveTV`", PlaybackMethod.PLAYNORMALLY))
-        setTranscodeCodec(video, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+        setTranscodeCodec(video, PlaybackMethod.FORCETRANSCODEDISABLEREMUX, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+    else if meta.live
+        forceTranscode = chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscodeLiveTV`", PlaybackMethod.PLAYNORMALLY)
+
+        if not isStringEqual(forceTranscode, PlaybackMethod.PLAYNORMALLY)
+            setTranscodeCodec(video, forceTranscode, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition)
+        end if
     end if
 
     addSubtitlesToVideo(video, meta)
@@ -272,7 +336,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     if meta.live
         video.content.live = true
-        video.content.StreamFormat = "hls"
     end if
 
     video.container = getContainerType(meta)
@@ -360,12 +423,12 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     video.content = authRequest(video.content)
 end sub
 
-sub setTranscodeCodec(video as object, mediaSourceId as dynamic, audio_stream_idx as integer, subtitle_idx as integer, playbackPosition as longinteger)
+sub setTranscodeCodec(video as object, forceTranscode as string, mediaSourceId as dynamic, audio_stream_idx as integer, subtitle_idx as integer, playbackPosition as longinteger)
     if not isStringEqual(m.global.queueManager.callFunc("getTranscodeCodec"), string.EMPTY) then return
 
     for i = 0 to m.playbackInfo.MediaSources[0].MediaStreams.Count() - 1
         if m.playbackInfo.MediaSources[0].MediaStreams[i].Type = "Video"
-            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec ?? string.EMPTY)
+            m.global.queueManager.callFunc("setForceTranscode", forceTranscode, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec ?? string.EMPTY)
             exit for
         end if
     end for
@@ -551,6 +614,7 @@ sub addNextEpisodesToQueue(showID, additionalPartsCount as integer, queueLimit a
 
     if isValid(data) and data.Items.Count() > 1
         for i = 1 to data.Items.Count() - 1
+            data.Items[i].startingPoint = 0
             m.global.queueManager.callFunc("push", data.Items[i])
         end for
     end if

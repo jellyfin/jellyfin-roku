@@ -1,5 +1,6 @@
 import "pkg:/components/manager/ViewCreator.bs"
 import "pkg:/source/enums/CollectionType.bs"
+import "pkg:/source/enums/FavoriteStatus.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
@@ -60,7 +61,6 @@ sub onQuickPlayEvent(msg)
 
     if isStringEqual(selectedItemType, ItemType.RADIOSTATION)
         CreateRadioStation(itemNode)
-        m.global.queueManager.callFunc("playQueue")
         return
     end if
 
@@ -809,6 +809,7 @@ sub onSelectedItemEvent(msg)
         else if selectedItemType = "person"
             CreatePersonView(selectedItem)
         else if selectedItemType = "tvchannel" or selectedItemType = "video" or selectedItemType = "program"
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
             ' User selected a Live TV channel / program
             ' Show Channel Loading spinner
             dialog = createObject("roSGNode", "ProgressDialog")
@@ -959,21 +960,27 @@ sub onPlaySeriesFromStartEvent(msg)
     series = msg.getRoSGNode()
 
     if not isChainValid(series, "itemContent.id") then return
-    if not isChainValid(series, "seasonData.items") then return
-    if not isValidAndNotEmpty(series.seasonData.items) then return
+
+    seasonData = api.shows.GetSeasons(series.itemContent.id, {
+        userId: m.global.session.user.id,
+        enableImages: false
+    })
+
+    if not isChainValid(seasonData, "items") then return
+    if not isValidAndNotEmpty(seasonData.items) then return
 
     ' Fall back to playing specials if that's all that is available
     firstSeasonIndex = 0
 
     ' Loop through the season data and find the first season with a season number greater than 0
-    for i = 0 to series.seasonData.items.count() - 1
-        if series.seasonData.items[i].json.IndexNumber > 0
+    for i = 0 to seasonData.items.count() - 1
+        if chainLookupReturn(seasonData.items[i], "IndexNumber", 0) > 0
             firstSeasonIndex = i
             exit for
         end if
     end for
 
-    firstSeasonData = series.seasonData.items[firstSeasonIndex]
+    firstSeasonData = seasonData.items[firstSeasonIndex]
 
     if not isValidAndNotEmpty(firstSeasonData.LookupCI("id")) then return
 
@@ -1023,6 +1030,10 @@ sub onPlaySeasonFromStartEvent(msg)
     end if
 
     m.global.queueManager.callFunc("clear")
+    for each item in listOfEpisodes.items
+        item.startingPoint = 0
+    end for
+
     m.global.queueManager.callFunc("set", listOfEpisodes.items)
     m.global.queueManager.callFunc("playQueue")
 end sub
@@ -1670,6 +1681,13 @@ sub onDataReturnedEvent(msg)
     selectedPopupAction = chainLookup(popupNode, "returndata.indexselected")
     selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
 
+    if isStringEqual(selectedPopupID, "confirmexit")
+        if selectedPopupAction = 1
+            m.scene.exit = true
+        end if
+        return
+    end if
+
     if isStringEqual(selectedPopupID, "newPlaylist")
         newPlaylistName = chainLookup(popupNode, "returndata.text")
 
@@ -1719,6 +1737,28 @@ sub onDataReturnedEvent(msg)
         if not isValid(activeScene) then return
 
         activeScene.searchTerm = searchTerm
+        return
+    end if
+
+    if isStringEqual(selectedPopupID, "nameButton")
+        radioStationName = chainLookup(popupNode, "returndata.text")
+        if not isValid(radioStationName) then return
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        activeScene.radioStationName = radioStationName
+        return
+    end if
+
+    if isStringEqual(selectedPopupID, "subtitleButton")
+        radioStationSubtitle = chainLookup(popupNode, "returndata.text")
+        if not isValid(radioStationSubtitle) then return
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        activeScene.radioStationSubtitle = radioStationSubtitle
         return
     end if
 
@@ -1842,6 +1882,23 @@ sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
     end if
 end sub
 
+sub updateAlbumTrackFavoriteState(itemID as string, isFavorite as boolean)
+    activeScene = m.global.sceneManager.callFunc("getActiveScene")
+    if not isValid(activeScene) or not isStringEqual(activeScene.subtype(), "AlbumView") then return
+
+    songList = activeScene.findNode("songList")
+    if not isValid(songList) or not isValid(songList.content) then return
+
+    for each song in songList.content.getChildren(-1, 0)
+        songID = chainLookupReturn(song, "id", String.EMPTY)
+        if isStringEqual(songID, itemID)
+            song.favorite = isFavorite
+            song.favoriteStatus = isFavorite ? FavoriteStatus.FAVORITE : FavoriteStatus.NOT_FAVORITE
+            return
+        end if
+    end for
+end sub
+
 sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, params as object)
     if isStringEqual(selectedPopupButton, tr("Play Track"))
         quickplay.audio({
@@ -1929,11 +1986,13 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
 
     if isStringEqual(selectedPopupButton, tr("Add To Favorites"))
         MainAction.addItemToFavorites(itemID)
+        updateAlbumTrackFavoriteState(itemID, true)
         return
     end if
 
     if isStringEqual(selectedPopupButton, tr("Remove From Favorites"))
         MainAction.removeItemFromFavorites(itemID)
+        updateAlbumTrackFavoriteState(itemID, false)
         return
     end if
 
@@ -1991,18 +2050,24 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
     end if
 
     ' Mark item as played
-    if isStringEqual(selectedPopupButton, tr("Mark As Played"))
-        MainAction.setPlayed(itemID, true)
+    if isStringEqual(selectedPopupButton, tr("Delete Radio Station"))
+        radioStationList = chainLookupReturn(m.global.session, "user.settings.radioStations", "[]")
+        radioStationList = ParseJSON(radioStationList)
+
+        updatedRadioStationList = []
+
+        for each radioStation in radioStationList
+            if not isStringEqual(radioStation.LookupCI("id"), params.LookupCI("id"))
+                radioStation.id = `radio${updatedRadioStationList.count()}`
+                updatedRadioStationList.push(radioStation)
+            end if
+        end for
+        set_user_setting(`radioStations`, FormatJson(updatedRadioStationList))
 
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group)
             if isStringEqual(group.subtype(), "home")
                 group.callFunc("refresh")
-                return
-            end if
-
-            if isStringEqual(group.subtype(), "TVSeasonDetails")
-                group.refreshSeasonDetailsData = not group.refreshSeasonDetailsData
                 return
             end if
         end if
@@ -2026,6 +2091,18 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
                 return
             end if
         end if
+
+        return
+    end if
+
+    ' Add item to playlist
+    if isStringEqual(selectedPopupButton, tr("Add To Playlist"))
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        MainAction.onPlaylistButtonClicked({
+            itemContent: {
+                id: itemID
+            }
+        })
 
         return
     end if
