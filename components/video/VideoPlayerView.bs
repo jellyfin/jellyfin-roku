@@ -30,10 +30,12 @@ sub init()
     m.spinnerPercentTimer.observeField("fire", "onPercentTick")
 
     m.top.observeField("availableAudioTracks", "onAvailableAudioTracksChanged")
+    m.top.observeField("availableSubtitleTracks", "onAvailableSubtitleTracksChanged")
 
     m.attemptDirectPlaySetting = chainLookupReturn(m.global.session, "user.settings.attemptDirectPlay", false)
 
     m.subtitleOffset = 0
+    m.pendingSubtitle = invalid
 
     m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
@@ -1000,18 +1002,15 @@ sub onVideoContentLoaded()
         m.top.subtitleTrack = ""
     end if
 
-    if isValid(selectedSubtitle)
-        availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
-        if availableSubtitleTrackIndex <> SubtitleSelection.NONE
-            if not selectedSubtitle.IsEncoded
-                if selectedSubtitle.IsForced
-                    ' If IsForced, make sure to remember the Roku global setting so we can set it back when the video is done playing.
-                    m.originalClosedCaptionState = m.top.globalCaptionMode
-                end if
-                m.top.globalCaptionMode = "On"
-                m.top.subtitleTrack = m.top.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
-            end if
-        end if
+    ' availableSubtitleTracks is populated asynchronously. If it's not populated yet,
+    ' applyPendingSubtitleTrack will do nothing on this call and we have to wait for the observer to
+    ' be triggered. If it is already populated, then its observer has already fired and the manual
+    ' call here is necessary.
+    if isValid(selectedSubtitle) and not selectedSubtitle.IsEncoded
+        m.pendingSubtitle = selectedSubtitle
+        applyPendingSubtitleTrack()
+    else
+        m.pendingSubtitle = invalid
     end if
 
     ' Check if video content selected a subtitle
@@ -1485,6 +1484,10 @@ end sub
 '
 ' When Video Player state changes
 sub onState(msg)
+    ' Roku only holds off the screensaver for video it is showing, so a stream without
+    ' video (e.g. a radio station on a Live TV channel) would get the screensaver
+    m.top.disableScreenSaver = isStringEqual(m.top.state, MediaPlaybackState.PLAYING)
+
     if isValid(m.captionTask)
         m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     end if
@@ -1844,6 +1847,9 @@ end function
 ' @param {string} tracknameToFind - TrackName for subtitle we're looking to match
 ' @return {integer} indicating Roku's index for requested subtitle track. Returns SubtitleSelection.NONE if not found
 function availSubtitleTrackIdx(tracknameToFind as string) as integer
+    ' Giving an empty substring to Instr will always return position 1
+    if not isValidAndNotEmpty(tracknameToFind) then return SubtitleSelection.NONE
+
     idx = 0
     for each availTrack in m.top.availableSubtitleTracks
         ' The TrackName must contain the URL we supplied originally, though
@@ -1856,6 +1862,29 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
     end for
     return SubtitleSelection.NONE
 end function
+
+sub onAvailableSubtitleTracksChanged()
+    applyPendingSubtitleTrack()
+end sub
+
+' Tries to apply m.pendingSubtitle to the Video node if the target subtitle can be located in the
+' availableSubtitleTracks list. If it can't, no-op.
+sub applyPendingSubtitleTrack()
+    if not isValid(m.pendingSubtitle) then return
+    if not isValidAndNotEmpty(m.top.availableSubtitleTracks) then return
+
+    availableSubtitleTrackIndex = availSubtitleTrackIdx(m.pendingSubtitle.Track.TrackName)
+    if availableSubtitleTrackIndex = SubtitleSelection.NONE then return
+
+    if m.pendingSubtitle.IsForced and not isValid(m.originalClosedCaptionState)
+        ' If IsForced, make sure to remember the Roku global setting so we can set it back when the video is done playing.
+        m.originalClosedCaptionState = m.top.globalCaptionMode
+    end if
+
+    m.top.globalCaptionMode = "On"
+    m.top.subtitleTrack = m.top.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
+    m.pendingSubtitle = invalid
+end sub
 
 sub skipCurrentSegment()
     seekPosition = m.currentSegmentEndTicks / 10000000#
@@ -2242,6 +2271,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
+        ' The stream may still be loading. Stop it, so it doesn't start playing after the player closes.
+        m.LoadMetaDataTask.unobserveField("content")
+        m.LoadMetaDataTask.control = TaskControl.STOP
+
         m.PreloadTrickplayImagesTask.method = "REMOVE"
         m.PreloadTrickplayImagesTask.control = TaskControl.RUN
 
@@ -2536,8 +2569,13 @@ sub startSpinnerWithPercent(percentVal = 0 as integer)
     setSpinnerPercent(percentVal)
     m.spinnerPercentLabel.translation = [m.spinner.translation[0] + m.spinner.poster.bitmapWidth / 2 - m.spinnerPercentLabel.width / 2, m.spinner.translation[1] + m.spinner.poster.bitmapHeight / 2 - m.spinnerPercentLabel.height / 2]
     m.spinnerPercentLabel.visible = true
-    startLoadingSpinner(true)
+    startLoadingSpinner(false)
     m.spinner.visible = true
+
+    ' Keep the remote working while loading or buffering, so the user can press Back to leave the player.
+    ' Playback is started with the remote disabled (startLoadingSpinner), and that lasts until playback starts.
+    scene = m.top.getScene()
+    if isValid(scene) and scene.disableRemote then scene.disableRemote = false
 end sub
 
 ' setSpinnerPercent: Updates the text label that displays the current buffering percentage on the buffering spinner.

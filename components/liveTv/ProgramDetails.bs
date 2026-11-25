@@ -272,30 +272,44 @@ sub onPosterLoadStatusChanged()
 end sub
 
 '
-' Get relative date name for a date (yesterday, today, tomorrow, or otherwise weekday name )
-function getRelativeDayName(date) as string
-
+' getRelativeDayName: Returns "today", "yesterday" or "tomorrow" for a date, or otherwise its weekday name.
+' Compares calendar dates in the device's time zone, so it matches the local time shown alongside it.
+'
+' @param {object} date - the date as an roDateTime in UTC, as parsed from the server
+' @return {string}
+function getRelativeDayName(date as object) as string
     now = createObject("roDateTime")
+    now.ToLocalTime()
 
-    ' Check for Today
-    if now.AsDateString("short-date-dashes") = date.AsDateString("short-date-dashes")
-        return "today"
+    localDate = createObject("roDateTime")
+    localDate.FromSeconds(date.AsSeconds())
+    localDate.ToLocalTime()
+
+    dayDifference = getDayNumber(localDate) - getDayNumber(now)
+
+    if dayDifference = 0 then return "today"
+    if dayDifference = -1 then return "yesterday"
+    if dayDifference = 1 then return "tomorrow"
+
+    return localDate.GetWeekday()
+end function
+
+' getDayNumber: Returns a number for the calendar date of an roDateTime, which goes up by one each day.
+' It is calculated from the year, month and day, so days that daylight saving time makes 23 or 25 hours long still count as one.
+'
+' @param {object} date - roDateTime
+' @return {integer}
+function getDayNumber(date as object) as integer
+    year = date.GetYear()
+    month = date.GetMonth()
+
+    ' Count the year from March, so February's leap day is the last day of the year
+    if month <= 2
+        year = year - 1
+        month = month + 12
     end if
 
-    ' Check for Yesterday
-    todayMidnight = now.AsSeconds() - (now.AsSeconds() mod 86400)
-    dateMidnight = date.AsSeconds() - (date.AsSeconds() mod 86400)
-
-    if todayMidnight - dateMidnight = 86400
-        return "yesterday"
-    end if
-
-    if dateMidnight - todayMidnight = 86400
-        return "tomorrow"
-    end if
-
-    return date.GetWeekday()
-
+    return 365 * year + int(year / 4) - int(year / 100) + int(year / 400) + int((153 * (month - 3) + 2) / 5) + date.GetDayOfMonth()
 end function
 
 '
