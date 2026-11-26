@@ -39,6 +39,10 @@ sub init()
 
     m.tvExtrasTask = createObject("roSGNode", "TVExtrasTask")
     m.tvExtrasTask.observeField("results", "onExtrasDataLoaded")
+    m.tvExtrasTask.observeField("state", "onExtrasTaskStateChange")
+
+    ' True when the user pressed Extras before TVExtrasTask finished loading
+    m.isExtrasTogglePending = false
 
     m.buttonGrp = m.top.findNode("buttons")
     m.buttonCount = m.buttonGrp.getChildCount()
@@ -150,6 +154,37 @@ end sub
 sub onExtrasDataLoaded()
     m.top.extrasObjects = m.tvExtrasTask.results
     setExtraButtonVisibility()
+end sub
+
+' Completes an Extras press made while the extras were still loading.
+' Watches the task's state rather than its results so the spinner is always
+' cleared, even if the request fails and results never change.
+sub onExtrasTaskStateChange()
+    if not isStringEqual(m.tvExtrasTask.state, "stop") then return
+    if not m.isExtrasTogglePending then return
+
+    m.isExtrasTogglePending = false
+    stopLoadingSpinner()
+
+    if not isValid(m.extras) then return
+    if not m.extras.hasFocus() then return
+
+    toggleExtras()
+end sub
+
+' Switches the list between episodes and extras
+sub toggleExtras()
+    if isStringEqual(m.extras.text.trim(), tr("Extras"))
+        if not isChainValid(m.top.extrasObjects, "items") then return
+
+        m.extras.text = tr("Episodes")
+        m.top.objects = m.top.extrasObjects
+    else
+        m.extras.text = tr("Extras")
+        m.top.objects = m.top.episodeObjects
+    end if
+
+    checkGridItemCount()
 end sub
 
 sub setSeasonLoading()
@@ -592,16 +627,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
             if isValid(m.extras)
                 if m.extras.hasFocus()
-                    if isStringEqual(m.extras.text.trim(), tr("Extras"))
-                        m.extras.text = tr("Episodes")
-                        m.top.objects = m.top.extrasObjects
-                    else
-                        m.extras.text = tr("Extras")
-                        m.top.objects = m.top.episodeObjects
+                    ' Extras are still loading: remember the press and finish it in onExtrasTaskStateChange()
+                    if isStringEqual(m.extras.text.trim(), tr("Extras")) and not isChainValid(m.top.extrasObjects, "items")
+                        if isStringEqual(m.tvExtrasTask.state, "run")
+                            m.isExtrasTogglePending = true
+                            startLoadingSpinner()
+                        end if
+                        return true
                     end if
 
-                    checkGridItemCount()
-
+                    toggleExtras()
                     return true
                 end if
             end if
