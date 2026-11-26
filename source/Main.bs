@@ -360,6 +360,11 @@ sub setBackgroundImage()
     end if
 
     m.scene.callFunc("setBackgroundImage", selectedBackgroundImage)
+    ' Keep Backdrop in sync with the resolved background URI used by BaseScene.
+    backdrop = m.scene.findNode("backdrop")
+    if isValid(backdrop)
+        backdrop.callFunc("setDefaultBackdrop", selectedBackgroundImage)
+    end if
 end sub
 
 sub setOverhangColors()
