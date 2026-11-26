@@ -20,6 +20,10 @@
     "author": "crobibero"
   },
   {
+    "description": "Resume deep linked videos from the saved position",
+    "author": "candrews"
+  },
+  {
     "description": "Report music pauses, seeks and stops to the server",
     "author": "candrews"
   },
