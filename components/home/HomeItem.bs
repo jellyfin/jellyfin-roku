@@ -5,7 +5,7 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/SeriesStatus.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -139,7 +139,7 @@ sub itemContentChanged()
             m.itemIcon.uri = itemData.iconUrl
             m.itemIcon.visible = true
         else
-            m.itemIcon.uri = string.EMPTY
+            m.itemIcon.uri = Strings.EMPTY
             m.itemIcon.visible = false
         end if
     end if
@@ -239,7 +239,7 @@ sub displayCollectionInfo(itemData as object)
     else if isValidAndNotEmpty(itemData.posterURL)
         m.itemPoster.uri = itemData.posterURL
     else
-        m.itemPoster.uri = string.EMPTY
+        m.itemPoster.uri = Strings.EMPTY
     end if
 end sub
 
@@ -513,7 +513,7 @@ end sub
 'Hide backdrop and icon when poster loaded
 sub onPosterLoadStatusChanged()
     if m.itemPoster.loadStatus = PosterLoadStatus.FAILED
-        thisItemType = chainLookupReturn(m.top.itemContent, "json.type", string.EMPTY)
+        thisItemType = chainLookupReturn(m.top.itemContent, "json.type", Strings.EMPTY)
 
         ' If loading the album poster image failed, try loading the artist image
         if isStringEqual(thisItemType, ItemType.MUSICALBUM)
@@ -573,7 +573,7 @@ sub onPosterLoadStatusChanged()
         return
     end if
 
-    if m.itemPoster.loadStatus = PosterLoadStatus.READY and m.itemPoster.uri <> string.EMPTY
+    if m.itemPoster.loadStatus = PosterLoadStatus.READY and m.itemPoster.uri <> Strings.EMPTY
         m.backdrop.visible = false
         m.itemIcon.visible = false
     else

@@ -1,6 +1,6 @@
 import "pkg:/components/manager/ViewCreator.bs"
 import "pkg:/source/enums/ItemType.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 
 sub Main (args as dynamic) as void
     ' The main function that runs when the application is launched.
@@ -345,7 +345,7 @@ sub setBackgroundColor()
 end sub
 
 sub setBackgroundImage()
-    selectedBackgroundImage = chainLookupReturn(m.global.session, "user.settings.imageBackground", string.EMPTY)
+    selectedBackgroundImage = chainLookupReturn(m.global.session, "user.settings.imageBackground", Strings.EMPTY)
 
     if isStringEqual(selectedBackgroundImage, "splash")
         selectedBackgroundImage = api.branding.GetSplashScreen({

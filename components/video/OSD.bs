@@ -511,7 +511,7 @@ end sub
 '
 ' @param {string} key - the key that was pressed
 ' @param {boolean} press - whether the key was pressed down (true) or released (false)
-' @return {boolen} - returns true if the key event was handled, false if it should be passed through
+' @return {boolean} - returns true if the key event was handled, false if it should be passed through
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 

@@ -1,6 +1,6 @@
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
@@ -127,7 +127,7 @@ sub onSelectAudioPressed()
             "Type": "audioselection"
         }
 
-        if isStringEqual(preferredAudioTrackName, string.EMPTY)
+        if isStringEqual(preferredAudioTrackName, Strings.EMPTY)
             if m.view.audioIndex = item.Index
                 audioStreamItem.selected = true
             end if
@@ -389,7 +389,7 @@ sub onStateChange()
 
                 ' Stop VoiceInputTask when playback ends
                 if isValid(m.voiceInputTask)
-                    m.voiceInputTask.nowPlayingData = { title: string.EMPTY, contentType: string.EMPTY } ' clear before stopping
+                    m.voiceInputTask.nowPlayingData = { title: Strings.EMPTY, contentType: Strings.EMPTY } ' clear before stopping
                     m.voiceInputTask.control = TaskControl.STOP
                 end if
 
@@ -424,7 +424,7 @@ sub onStateChange()
             return
         end if
 
-        episodeToShowAtFinish = string.EMPTY
+        episodeToShowAtFinish = Strings.EMPTY
         gotoNextEpisodeAfterCurrentEnds = chainLookupReturn(m.global.session, "user.settings.`playback.showNextUpAfterFinish`", false)
         if gotoNextEpisodeAfterCurrentEnds
             episodeToShowAtFinish = m.global.queueManager.callFunc("getEpisodeToShowAtFinish")
@@ -439,7 +439,7 @@ sub onStateChange()
 
         ' Stop VoiceInputTask when playback ends
         if isValid(m.voiceInputTask)
-            m.voiceInputTask.nowPlayingData = { title: string.EMPTY, contentType: string.EMPTY } ' clear before stopping
+            m.voiceInputTask.nowPlayingData = { title: Strings.EMPTY, contentType: Strings.EMPTY } ' clear before stopping
             m.voiceInputTask.control = TaskControl.STOP
         end if
 
@@ -448,7 +448,7 @@ sub onStateChange()
         m.global.audioPlayer.loopMode = ""
     else if LCase(m.view.state) = "stopped"
         if isValid(m.voiceInputTask)
-            m.voiceInputTask.nowPlayingData = { title: string.EMPTY, contentType: string.EMPTY } ' clear before stopping
+            m.voiceInputTask.nowPlayingData = { title: Strings.EMPTY, contentType: Strings.EMPTY } ' clear before stopping
             m.voiceInputTask.control = TaskControl.STOP
         end if
     end if
@@ -469,7 +469,7 @@ sub stillWatchingTimerComplete()
 
     ' Stop VoiceInputTask when playback ends
     if isValid(m.voiceInputTask)
-        m.voiceInputTask.nowPlayingData = { title: string.EMPTY, contentType: string.EMPTY } ' clear before stopping
+        m.voiceInputTask.nowPlayingData = { title: Strings.EMPTY, contentType: Strings.EMPTY } ' clear before stopping
         m.voiceInputTask.control = TaskControl.STOP
     end if
     m.global.sceneManager.callFunc("popScene")

@@ -114,7 +114,7 @@ sub itemContentChanged()
             indexNumber = `${itemData.json.indexNumber}-${itemData.json.indexNumberEnd}. `
         end if
     else
-        indexNumber = string.EMPTY
+        indexNumber = Strings.EMPTY
     end if
 
     m.title.text = indexNumber + itemData.title

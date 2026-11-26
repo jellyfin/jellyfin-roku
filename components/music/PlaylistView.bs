@@ -251,7 +251,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
             if isStringEqual(key, KeyCode.DOWN)
                 if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "down"
-                    m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = string.EMPTY
+                    m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = Strings.EMPTY
                     selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
                     selectedButton.focus = false
                     m.playlist.setFocus(true)

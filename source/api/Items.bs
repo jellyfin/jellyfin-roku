@@ -19,7 +19,7 @@ end function
 
 function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, subtitleTrackIndex = SubtitleSelection.NOTSET as integer, startTimeTicks = 0 as longinteger, options = {} as object)
 
-    transcodeCodec = string.EMPTY
+    transcodeCodec = Strings.EMPTY
 
     if isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
         transcodeCodec = m.global.queueManager.callFunc("getTranscodeCodec")

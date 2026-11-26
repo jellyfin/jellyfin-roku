@@ -2,7 +2,7 @@ import "pkg:/components/manager/ViewCreator.bs"
 import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/ResumePopupAction.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/utils/misc.bs"
 
 namespace MainAction
@@ -34,7 +34,7 @@ namespace MainAction
             }]
         }
 
-        selectedPart = chainLookup(activeScene, "selectedPart.id") ?? string.EMPTY
+        selectedPart = chainLookup(activeScene, "selectedPart.id") ?? Strings.EMPTY
 
         i = 2
         for each part in chainLookup(activeScene, "additionalParts.parts.Items")
@@ -42,7 +42,7 @@ namespace MainAction
             part.Track = {}
             part.Track.description = `Part ${i}`
 
-            if selectedPart <> string.EMPTY
+            if selectedPart <> Strings.EMPTY
                 if isStringEqual(part.id, selectedPart)
                     part.selected = true
                 end if
@@ -273,7 +273,7 @@ namespace MainAction
                 return
             end if
             if isStringEqual(group.subtype(), "albumView")
-                pageItemID = chainLookupReturn(group, "pageContent.id", String.EMPTY)
+                pageItemID = chainLookupReturn(group, "pageContent.id", Strings.EMPTY)
                 if isStringEqual(pageItemID, itemID)
                     group.IsFavorite = true
                 end if
@@ -291,7 +291,7 @@ namespace MainAction
                 return
             end if
             if isStringEqual(group.subtype(), "albumView")
-                pageItemID = chainLookupReturn(group, "pageContent.id", String.EMPTY)
+                pageItemID = chainLookupReturn(group, "pageContent.id", Strings.EMPTY)
                 if isStringEqual(pageItemID, itemID)
                     group.IsFavorite = false
                 end if

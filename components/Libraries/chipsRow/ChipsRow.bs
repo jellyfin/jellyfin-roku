@@ -19,7 +19,7 @@ sub setTotalCount(countValue)
 end sub
 
 sub addChip(chipID, title, textValue)
-    if not isStringEqual(title, string.EMPTY)
+    if not isStringEqual(title, Strings.EMPTY)
         title = `${title}: `
     end if
 

@@ -6,7 +6,7 @@ import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -86,22 +86,22 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     ' The guide's queued channel is authoritative even if a later metadata
     ' response uses a different item type or omits its channel fields.
     queuedItem = m.global.queueManager.callFunc("getCurrentItem")
-    queuedType = LCase(chainLookupReturn(queuedItem, "type", string.EMPTY))
-    channelId = chainLookupReturn(queuedItem, "favoriteChannelId", string.EMPTY)
+    queuedType = LCase(chainLookupReturn(queuedItem, "type", Strings.EMPTY))
+    channelId = chainLookupReturn(queuedItem, "favoriteChannelId", Strings.EMPTY)
     if not isValidAndNotEmpty(channelId) and isStringEqual(queuedType, ItemType.TVCHANNEL)
-        channelId = chainLookupReturn(queuedItem, "id", string.EMPTY)
+        channelId = chainLookupReturn(queuedItem, "id", Strings.EMPTY)
     else if not isValidAndNotEmpty(channelId) and isStringEqual(queuedType, ItemType.PROGRAM)
-        channelId = chainLookupReturn(queuedItem, "json.ChannelId", string.EMPTY)
+        channelId = chainLookupReturn(queuedItem, "json.ChannelId", Strings.EMPTY)
         if not isValidAndNotEmpty(channelId)
-            channelId = chainLookupReturn(queuedItem, "id", string.EMPTY)
+            channelId = chainLookupReturn(queuedItem, "id", Strings.EMPTY)
         end if
     end if
 
     ' ChannelData wraps guide Programs too, so prefer their channel ID.
-    sourceType = LCase(chainLookupReturn(meta, "json.Type", string.EMPTY))
+    sourceType = LCase(chainLookupReturn(meta, "json.Type", Strings.EMPTY))
     if not isValidAndNotEmpty(channelId)
         if isStringEqual(videotype, ItemType.TVCHANNEL) or isStringEqual(sourceType, ItemType.PROGRAM)
-            channelId = chainLookupReturn(meta, "json.ChannelId", string.EMPTY)
+            channelId = chainLookupReturn(meta, "json.ChannelId", Strings.EMPTY)
             if not isValidAndNotEmpty(channelId) and not isStringEqual(sourceType, ItemType.PROGRAM)
                 channelId = meta.id
             end if
@@ -293,10 +293,10 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     ' so make the server re-encode the video upright
     if not meta.live and isValidAndNotEmpty(meta.json.MediaStreams)
         for each stream in meta.json.MediaStreams
-            if isStringEqual(chainLookupReturn(stream, "Type", string.EMPTY), "video")
+            if isStringEqual(chainLookupReturn(stream, "Type", Strings.EMPTY), "video")
                 if chainLookupReturn(stream, "rotation", 0) <> 0
                     m.top.mustTranscode = true
-                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(stream, "Codec", string.EMPTY))
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(stream, "Codec", Strings.EMPTY))
                 end if
                 exit for
             end if
@@ -426,11 +426,11 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 end sub
 
 sub setTranscodeCodec(video as object, forceTranscode as string, mediaSourceId as dynamic, audio_stream_idx as integer, subtitle_idx as integer, playbackPosition as longinteger)
-    if not isStringEqual(m.global.queueManager.callFunc("getTranscodeCodec"), string.EMPTY) then return
+    if not isStringEqual(m.global.queueManager.callFunc("getTranscodeCodec"), Strings.EMPTY) then return
 
     for i = 0 to m.playbackInfo.MediaSources[0].MediaStreams.Count() - 1
         if m.playbackInfo.MediaSources[0].MediaStreams[i].Type = "Video"
-            m.global.queueManager.callFunc("setForceTranscode", forceTranscode, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec ?? string.EMPTY)
+            m.global.queueManager.callFunc("setForceTranscode", forceTranscode, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec ?? Strings.EMPTY)
             exit for
         end if
     end for
@@ -487,7 +487,7 @@ sub addAudioStreamsToVideo(video)
     audioStreamCount = 1
     for i = 0 to mediaStreams.Count() - 1
         if LCase(mediaStreams[i].Type) = "audio"
-            mediaStreams[i].addreplace("RokuTrackName", `#uniq:${mediaStreams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`)
+            mediaStreams[i].addreplace("RokuTrackName", `#uniq:${mediaStreams[i].LookupCI("Title") ?? Strings.EMPTY}(${audioStreamCount})`)
             audioStreams.push(mediaStreams[i])
             audioStreamCount++
         end if

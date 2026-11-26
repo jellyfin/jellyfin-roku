@@ -6,7 +6,7 @@ import "pkg:/source/enums/ImageLayout.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
-import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/Strings.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
@@ -65,7 +65,7 @@ sub init()
     m.newBackdrop.observeField("loadStatus", "newBGLoaded")
 
     'Background Image Queued for loading
-    m.queuedBGUri = string.EMPTY
+    m.queuedBGUri = Strings.EMPTY
 
     'Item sort - maybe load defaults from user prefs?
     m.sortField = "SortName"
@@ -178,7 +178,7 @@ sub loadInitialItems()
         sortAscendingStr = isStringEqual(chainLookupReturn(m.top.parentItem, "json.SortOrder", "Ascending"), "Ascending")
         m.filter = "Favorites"
         m.filterOptions = "{}"
-        m.view = string.EMPTY
+        m.view = Strings.EMPTY
     else if isStringEqual(m.top.parentItem.collectionType, "music")
         m.view = m.global.session.user.settings["display.music.view"]
         m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
@@ -217,20 +217,20 @@ sub loadInitialItems()
     end if
 
     if favoriteViewAll
-        m.loadItemsTask.itemId = string.EMPTY
-        m.loadItemsTask.itemType = string.EMPTY
+        m.loadItemsTask.itemId = Strings.EMPTY
+        m.loadItemsTask.itemType = Strings.EMPTY
         m.loadItemsTask.recursive = true
-        m.loadItemsTask.studioIds = string.EMPTY
-        m.loadItemsTask.genreIds = string.EMPTY
+        m.loadItemsTask.studioIds = Strings.EMPTY
+        m.loadItemsTask.genreIds = Strings.EMPTY
         m.loadItemsTask.metadata = {
             favoriteViewAll: true,
-            includeItemTypes: chainLookupReturn(m.top.parentItem, "json.IncludeItemTypes", string.EMPTY),
-            queryType: chainLookupReturn(m.top.parentItem, "json.QueryType", string.EMPTY)
+            includeItemTypes: chainLookupReturn(m.top.parentItem, "json.IncludeItemTypes", Strings.EMPTY),
+            queryType: chainLookupReturn(m.top.parentItem, "json.QueryType", Strings.EMPTY)
         }
 
         if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
-            m.loadItemsTask.nameStartsWith = string.EMPTY
-            m.top.alphaSelected = string.EMPTY
+            m.loadItemsTask.nameStartsWith = Strings.EMPTY
+            m.top.alphaSelected = Strings.EMPTY
         else
             m.loadItemsTask.nameStartsWith = m.top.alphaSelected
         end if
@@ -254,23 +254,23 @@ sub loadInitialItems()
     if isStringEqual(m.top.parentItem.json.type, "Studio")
         m.loadItemsTask.studioIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
-        m.loadItemsTask.genreIds = string.EMPTY
+        m.loadItemsTask.genreIds = Strings.EMPTY
         ' Set Genre Id
     else if isStringEqual(m.top.parentItem.json.type, "Genre")
         m.loadItemsTask.genreIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
-        m.loadItemsTask.studioIds = string.EMPTY
+        m.loadItemsTask.studioIds = Strings.EMPTY
     else if (isStringEqual(m.view, "Shows") or isStringEqual(m.options.view, "Shows")) or (isStringEqual(m.view, "Movies") or isStringEqual(m.options.view, "Movies"))
-        m.loadItemsTask.studioIds = string.EMPTY
-        m.loadItemsTask.genreIds = string.EMPTY
+        m.loadItemsTask.studioIds = Strings.EMPTY
+        m.loadItemsTask.genreIds = Strings.EMPTY
     else
         m.loadItemsTask.itemId = m.top.parentItem.Id
     end if
 
     ' if we already searched for this alpha text than reset filter
     if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
-        m.loadItemsTask.nameStartsWith = string.EMPTY
-        m.top.alphaSelected = string.EMPTY
+        m.loadItemsTask.nameStartsWith = Strings.EMPTY
+        m.top.alphaSelected = Strings.EMPTY
     else
         m.loadItemsTask.nameStartsWith = m.top.alphaSelected
     end if
@@ -304,7 +304,7 @@ sub loadInitialItems()
             m.loadItemsTask.itemType = "MusicAlbum"
         end if
     else if isStringEqual(m.top.parentItem.collectionType, "CollectionFolder") or isStringEqual(m.top.parentItem.type, "CollectionFolder") or isStringEqual(m.top.parentItem.collectionType, "boxsets") or isStringEqual(m.top.parentItem.Type, "Boxset") or isStringEqual(m.top.parentItem.Type, "Boxsets") or isStringEqual(m.top.parentItem.Type, "Folder")
-        if not isStringEqual(m.voiceBox.text, string.EMPTY)
+        if not isStringEqual(m.voiceBox.text, Strings.EMPTY)
             m.loadItemsTask.recursive = true
         else
             ' non recursive for collections (folders, boxsets, photo albums, etc)
@@ -343,10 +343,10 @@ sub loadInitialItems()
         m.loadItemsTask.StudioIds = m.top.parentItem.Id
         m.loadItemsTask.view = "Genres"
     else if not isStringEqual(m.top.parentItem.type, "Folder") and (isStringEqual(m.options.view, "Shows") or isStringEqual(m.view, "Shows"))
-        m.loadItemsTask.studioIds = string.EMPTY
+        m.loadItemsTask.studioIds = Strings.EMPTY
         m.loadItemsTask.view = "Shows"
     else if not isStringEqual(m.top.parentItem.typ, "Folder") and (isStringEqual(m.options.view, "Movies") or isStringEqual(m.view, "Movies"))
-        m.loadItemsTask.studioIds = string.EMPTY
+        m.loadItemsTask.studioIds = Strings.EMPTY
         m.loadItemsTask.view = "Movies"
     end if
 
@@ -359,7 +359,7 @@ sub loadInitialItems()
     m.getFiltersTask.params = {
         userid: m.global.session.user.id,
         parentid: m.top.parentItem.Id,
-        IncludeItemTypes: isStringEqual(getCollectionType(), "tvshows") ? "Series" : string.EMPTY
+        IncludeItemTypes: isStringEqual(getCollectionType(), "tvshows") ? "Series" : Strings.EMPTY
     }
     m.getFiltersTask.control = TaskControl.RUN
 end sub
@@ -792,9 +792,9 @@ sub swapDone()
         m.newBackdrop.opacity = 0
 
         'If there is another one to load
-        if not isStringEqual(m.newBackdrop.uri, m.queuedBGUri) and not isStringEqual(m.queuedBGUri, string.EMPTY)
+        if not isStringEqual(m.newBackdrop.uri, m.queuedBGUri) and not isStringEqual(m.queuedBGUri, Strings.EMPTY)
             SetBackground(m.queuedBGUri)
-            m.queuedBGUri = string.EMPTY
+            m.queuedBGUri = Strings.EMPTY
         end if
     end if
 end sub
@@ -815,31 +815,31 @@ sub onItemSelected()
 end sub
 
 sub alphaSelectedChanged()
-    if not isStringEqual(m.top.alphaSelected, string.EMPTY)
+    if not isStringEqual(m.top.alphaSelected, Strings.EMPTY)
         m.loadItemsTask.control = TaskControl.STOP
         m.loadedRows = 0
         m.loadedItems = 0
         m.data = CreateObject("roSGNode", "ContentNode")
         m.itemGrid.content = m.data
-        m.loadItemsTask.searchTerm = string.EMPTY
-        m.VoiceBox.text = string.EMPTY
+        m.loadItemsTask.searchTerm = Strings.EMPTY
+        m.VoiceBox.text = Strings.EMPTY
 
         loadInitialItems()
     end if
 end sub
 
 sub onvoiceFilter()
-    if m.VoiceBox.text = string.EMPTY then return
+    if m.VoiceBox.text = Strings.EMPTY then return
 
-    if isStringEqual(m.voiceBox.text, "reset search") then m.voiceBox.text = string.EMPTY
-    if isStringEqual(m.voiceBox.text, "clear search") then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text, "reset search") then m.voiceBox.text = Strings.EMPTY
+    if isStringEqual(m.voiceBox.text, "clear search") then m.voiceBox.text = Strings.EMPTY
 
     m.loadedRows = 0
     m.loadedItems = 0
     m.data = CreateObject("roSGNode", "ContentNode")
     m.itemGrid.content = m.data
-    m.top.alphaSelected = string.EMPTY
-    m.loadItemsTask.NameStartsWith = string.EMPTY
+    m.top.alphaSelected = Strings.EMPTY
+    m.loadItemsTask.NameStartsWith = Strings.EMPTY
 
     ' If user searched for a letter, selected it from the alpha menu
     if m.voiceBox.text.len() = 1

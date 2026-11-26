@@ -65,7 +65,7 @@ function parseVTT(lines)
             finalText = undesirableTags.replaceAll(trimmed, "")
 
             ' We reached a blank line
-            if isStringEqual(finalText, string.EMPTY)
+            if isStringEqual(finalText, Strings.EMPTY)
                 entry.AddReplace("text", currentLine)
                 entries.push(entry)
                 ' This is a false positive in bslint due to
