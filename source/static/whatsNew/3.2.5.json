@@ -24,6 +24,10 @@
     "author": "candrews"
   },
   {
+    "description": "Report music pauses, seeks and stops to the server",
+    "author": "candrews"
+  },
+  {
     "description": "Allow leaving the video player while it is buffering",
     "author": "candrews"
   },
@@ -41,6 +45,10 @@
   },
   {
     "description": "Keep the screensaver off while a stream without video plays",
+    "author": "candrews"
+  },
+  {
+    "description": "Fix a crash when a deep link names an item that can't be played",
     "author": "candrews"
   }
 ]
