@@ -309,10 +309,20 @@ end function
 
 ' Sets the forceTranscode property
 sub setForceTranscode(forceTranscode = PlaybackMethod.PLAYNORMALLY as string, videoCodec = string.EMPTY as string)
-    m.forceTranscode = forceTranscode
-
     if isStringEqual(forceTranscode, PlaybackMethod.PLAYNORMALLY) then videoCodec = string.EMPTY
     if isStringEqual(forceTranscode, PlaybackMethod.FORCETRANSCODEALLOWREMUX) then videoCodec = string.EMPTY
+
+    ' Every details screen asks for normal playback when it opens, which is nearly always what we
+    ' already have, and building and posting the device profile takes ~100 ms on the render thread.
+    ' The profile only depends on these two values and the user's settings, and every other place
+    ' that posts it builds it from the same state, so the server already has this one.
+    alreadyPlayingNormally = isStringEqual(m.forceTranscode, PlaybackMethod.PLAYNORMALLY) and m.transcodeCodec = string.EMPTY
+    if alreadyPlayingNormally and isStringEqual(forceTranscode, PlaybackMethod.PLAYNORMALLY)
+        setTranscodeReason(string.EMPTY)
+        return
+    end if
+
+    m.forceTranscode = forceTranscode
     m.transcodeCodec = videoCodec
 
     setTranscodeReason(string.EMPTY)
