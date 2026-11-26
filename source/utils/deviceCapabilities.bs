@@ -200,6 +200,12 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     di = CreateObject("roDeviceInfo")
 
     transcodingContainers = ["mp4", "ts"]
+    ' Roku plays only the first track of an fMP4 (CMAF) stream that muxes audio and video, so only
+    ' offer mp4 when the server can put the audio in a separate rendition.
+    ' https://developer.roku.com/dev/docs/media
+    ' https://github.com/jellyfin/jellyfin/issues/18663 (12.999 is a placeholder version)
+    supportsSeparateAudioRendition = serverVersionMeetsMinimumRequirements(m.global.session.server.version, [12, 999, 0])
+    if not supportsSeparateAudioRendition then transcodingContainers = ["ts"]
     ' use strings to preserve order
     mp4AudioCodecs = "AC3"
     mp4VideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
@@ -348,7 +354,8 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
         for each codec in audioCodecs
             if di.CanDecodeAudio({ Codec: codec, Container: container }).result
                 if container = "mp4"
-                    mp4AudioCodecs = mp4AudioCodecs + "," + codec
+                    ' alac, flac, opus and truehd don't play in a separate fMP4 audio rendition on Roku
+                    if inArray(["aac", "mp3", "ac3", "eac3", "dts"], codec) then mp4AudioCodecs = mp4AudioCodecs + "," + codec
                 else if container = "ts"
                     tsAudioCodecs = tsAudioCodecs + "," + codec
                 end if
@@ -414,7 +421,8 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
         "MaxAudioChannels": maxAudioChannels,
         "MinSegments": 1,
         "SegmentLength": 6,
-        "BreakOnNonKeyFrames": false
+        "BreakOnNonKeyFrames": false,
+        "SeparateAudioRendition": true
     }
 
     ' apply max res to transcoding profile
@@ -430,7 +438,7 @@ function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     end if
 
     transcodingProfiles.push(tsArray)
-    transcodingProfiles.push(mp4Array)
+    if supportsSeparateAudioRendition then transcodingProfiles.push(mp4Array)
 
     return transcodingProfiles
 end function
