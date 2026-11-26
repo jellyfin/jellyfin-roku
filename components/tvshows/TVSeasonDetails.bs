@@ -420,13 +420,25 @@ sub onDisplayResumeButtonChange()
     end if
 end sub
 
+' Called after the season data is refreshed (e.g. returning from playback).
+' Displays the stored list that matches the Extras button's label and keeps the user's place in it.
 sub updateObjects()
-    if not isValid(m.extras) then return
+    ' The button reads "Episodes" while extras are displayed
+    showingExtras = isValid(m.extras) and isStringEqual(m.extras.text.trim(), tr("Episodes"))
 
-    if isStringEqual(m.extras.text.trim(), tr("Extras"))
-        m.top.episodeObjects = m.top.objects
+    if showingExtras
+        newObjects = m.top.extrasObjects
     else
-        m.top.extrasObjects = m.top.objects
+        newObjects = m.top.episodeObjects
+    end if
+
+    if not isChainValid(newObjects, "items") then return
+
+    focusedIndex = m.rows.itemFocused
+    m.top.objects = newObjects
+
+    if focusedIndex >= 0
+        m.rows.jumpToItem = focusedIndex
     end if
 end sub
 

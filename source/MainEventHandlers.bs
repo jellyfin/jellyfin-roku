@@ -644,16 +644,13 @@ sub onRefreshSeasonDetailsDataEvent()
             end if
             currentScene.displayResumeButton = displayResumeButton
 
-            episodeList = currentScene.findNode("picker")
-            focusedItem = 0
-            if isValid(episodeList)
-                focusedItem = chainLookupReturn(episodeList, "itemFocused", 0)
+            ' Refresh the stored episode list, then let the scene display whichever list
+            ' (episodes or extras) the user was viewing before playback
+            episodes = TVEpisodes(seriesID, seasonID)
+            if isValid(episodes)
+                currentScene.episodeObjects = episodes
             end if
-            currentScene.objects = TVEpisodes(seriesID, seasonID)
-            currentScene.episodeObjects = currentScene.objects
-            if isValid(episodeList)
-                episodeList.jumpToItem = focusedItem
-            end if
+            currentScene.callFunc("updateObjects")
         end if
     end if
 
@@ -681,7 +678,6 @@ sub onRefreshSeasonDetailsDataEvent()
 
         seasonMetaData = ItemMetaData(currentScene.seasonData.id)
         if isValid(seasonMetaData) then currentScene.seasonData.json = seasonMetaData.json
-        currentScene.callFunc("updateObjects")
         currentScene.callFunc("updateSeason")
     end if
 
