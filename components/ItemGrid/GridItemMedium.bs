@@ -70,7 +70,7 @@ sub onWidthChanged()
     m.posterText.width = m.top.width
     m.title.maxWidth = m.top.width
     m.itemTextExtra.maxWidth = m.top.width
-    m.playedIndicator.translation = [m.top.width - m.playedIndicator.width, 22]
+    m.playedIndicator.translation = [m.top.width - m.playedIndicator.width, 14]
     m.itemIconBackground.translation = [m.top.width - m.itemIconBackground.width, m.itemIconBackground.translation[1]]
 end sub
 
