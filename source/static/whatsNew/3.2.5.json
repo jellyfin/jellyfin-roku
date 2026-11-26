@@ -42,5 +42,9 @@
   {
     "description": "Keep the screensaver off while a stream without video plays",
     "author": "candrews"
+  },
+  {
+    "description": "Fix a crash when a deep link names an item that can't be played",
+    "author": "candrews"
   }
 ]
