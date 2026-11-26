@@ -33,7 +33,7 @@ function loadFavoriteViewAllItems(params as object) as dynamic
 
     params.Delete("parentid")
     params.Delete("IncludeItemTypes")
-    params.UserId = m.global.session.user.id
+    params.UserId = m.session.user.id
     params.recursive = true
     params.Filters = "IsFavorite"
     params.IsFavorite = true
@@ -165,7 +165,24 @@ sub init()
     m.top.limit = chainLookupReturn(m.global.session, "user.settings.`ui.library.loadItemsLimit`", 60)
 end sub
 
+' Creates a content node, or a child of parent, that builds its image URLs with this run's copy of
+' the server URL, see cacheRequestGlobals
+function createItemNode(subtype as string, parent = invalid as dynamic) as object
+    if parent = invalid
+        node = CreateObject("roSGNode", subtype)
+    else
+        node = parent.createChild(subtype)
+    end if
+
+    if node.hasField("serverURL") then node.serverURL = m.cachedServerURL
+    return node
+end function
+
 sub loadItems()
+    ' Reading m.global from a Task waits for the render thread, so read what the loaders need once
+    m.session = m.global.session
+    cacheRequestGlobals()
+
     results = []
 
     sort_field = m.top.sortField
@@ -263,37 +280,37 @@ sub loadItems()
         data = loadFavoriteViewAllItems(params)
     else if m.top.ItemType = "LiveTV"
         url = "LiveTv/Channels"
-        params.append({ UserId: m.global.session.user.id })
+        params.append({ UserId: m.session.user.id })
     else if m.top.view = "Networks"
         url = "Studios"
-        params.append({ UserId: m.global.session.user.id })
+        params.append({ UserId: m.session.user.id })
     else if isStringEqual(m.top.view, "Genres")
         url = "Genres"
-        params.append({ UserId: m.global.session.user.id, includeItemTypes: m.top.itemType })
+        params.append({ UserId: m.session.user.id, includeItemTypes: m.top.itemType })
     else if m.top.ItemType = "MusicArtist"
         url = "Artists"
         params.append({
-            UserId: m.global.session.user.id,
+            UserId: m.session.user.id,
             Fields: "Genres"
         })
         params.IncludeItemTypes = "MusicAlbum,Audio"
     else if m.top.ItemType = "AlbumArtists"
         url = "Artists/AlbumArtists"
         params.append({
-            UserId: m.global.session.user.id,
+            UserId: m.session.user.id,
             Fields: "Genres"
         })
         params.IncludeItemTypes = "MusicAlbum,Audio"
     else if m.top.ItemType = "MusicAlbum"
         url = "Items"
-        params.append({ ImageTypeLimit: 1, UserId: m.global.session.user.id })
+        params.append({ ImageTypeLimit: 1, UserId: m.session.user.id })
         ' Request Primary artwork (album cover) and Backdrop as fallback
         params.append({ EnableImageTypes: "Primary,Backdrop" })
         ' Remove heavy fields that bloat the JSON response
         ' Overview (long text) and RecursiveItemCount (not used in grid)
         params.delete("Fields")
     else if m.top.ItemType = "audiobooks"
-        params.append({ mediaTypes: "Audio", UserId: m.global.session.user.id })
+        params.append({ mediaTypes: "Audio", UserId: m.session.user.id })
         params.append({ Filters: "IsNotFolder" })
         params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Logo" })
         url = "Items"
@@ -303,7 +320,7 @@ sub loadItems()
         params.append({ ImageTypeLimit: 1 })
         params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Logo" })
     else if isStringEqual(m.top.ItemType, "mylist")
-        data = api.GetUserViews({ "userId": m.global.session.user.id })
+        data = api.GetUserViews({ "userId": m.session.user.id })
         if not isChainValid(data, "Items") then return
 
         myListPlaylist = invalid
@@ -311,7 +328,7 @@ sub loadItems()
         for each item in data.LookupCI("items")
             if isStringEqual(item.LookupCI("CollectionType"), "playlists")
                 myListPlaylist = api.items.Get({
-                    "userid": m.global.session.user.id,
+                    "userid": m.session.user.id,
                     "includeItemTypes": "Playlist",
                     "nameStartsWith": "|My List|",
                     "parentId": item.LookupCI("id")
@@ -329,7 +346,7 @@ sub loadItems()
         url = "/items/"
 
         params.append({
-            UserId: m.global.session.user.id,
+            UserId: m.session.user.id,
             ImageTypeLimit: 1,
             EnableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}, ${ImageType.LOGO}`,
             Limit: 50,
@@ -338,7 +355,7 @@ sub loadItems()
         })
     else
         params.append({
-            UserId: m.global.session.user.id
+            UserId: m.session.user.id
         })
         url = "Items"
     end if
@@ -385,7 +402,7 @@ sub loadItems()
             tmp = invalid
             if m.top.ItemType = "audiobooks"
                 if item.Type = "AudioBook"
-                    tmp = CreateObject("roSGNode", "MusicSongData")
+                    tmp = createItemNode("MusicSongData")
                     tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280 })
                     tmp.type = "audiobook"
                     tmp.json = item
@@ -393,27 +410,27 @@ sub loadItems()
                 end if
             else
                 if item.Type = "Movie" or item.Type = "MusicVideo"
-                    tmp = CreateObject("roSGNode", "MovieData")
+                    tmp = createItemNode("MovieData")
                 else if item.Type = "Series"
-                    tmp = CreateObject("roSGNode", "SeriesData")
+                    tmp = createItemNode("SeriesData")
                 else if item.Type = "BoxSet" or item.Type = "ManualPlaylistsFolder"
-                    tmp = CreateObject("roSGNode", "CollectionData")
+                    tmp = createItemNode("CollectionData")
                 else if item.Type = "TvChannel"
-                    tmp = CreateObject("roSGNode", "ChannelData")
+                    tmp = createItemNode("ChannelData")
                 else if item.Type = "Folder" or item.Type = "ChannelFolderItem" or item.Type = "CollectionFolder"
-                    tmp = CreateObject("roSGNode", "FolderData")
+                    tmp = createItemNode("FolderData")
                 else if item.Type = "Video" or item.Type = "Recording"
-                    tmp = CreateObject("roSGNode", "VideoData")
+                    tmp = createItemNode("VideoData")
                 else if item.Type = "Photo"
-                    tmp = CreateObject("roSGNode", "PhotoData")
+                    tmp = createItemNode("PhotoData")
                 else if item.type = "PhotoAlbum"
-                    tmp = CreateObject("roSGNode", "FolderData")
+                    tmp = createItemNode("FolderData")
                 else if item.type = "Playlist"
-                    tmp = CreateObject("roSGNode", "PlaylistData")
+                    tmp = createItemNode("PlaylistData")
                     tmp.type = "Playlist"
                     tmp.image = PosterImage(item, imageSizes.MUSIC_COVER)
                 else if item.type = "Episode"
-                    tmp = CreateObject("roSGNode", "TVEpisode")
+                    tmp = createItemNode("TVEpisode")
                     tmp.title = item.name
 
                     seasonName = ` - ${item.LookupCI("SeasonName")}`
@@ -428,7 +445,7 @@ sub loadItems()
                         tmp.type = "Episode"
                     end if
                 else if LCase(item.Type) = "recording"
-                    tmp = CreateObject("roSGNode", "RecordingData")
+                    tmp = createItemNode("RecordingData")
                 else if item.Type = "Genre"
                     itemLimit = m.top.numberOfColumns ?? 7
 
@@ -436,7 +453,7 @@ sub loadItems()
                     tmp.title = item.name
 
                     genreData = api.items.Get({
-                        UserId: m.global.session.user.id,
+                        UserId: m.session.user.id,
                         SortBy: "Random",
                         SortOrder: "Ascending",
                         IncludeItemTypes: m.top.itemType,
@@ -452,7 +469,7 @@ sub loadItems()
 
                     if genreData.Items.Count() > (itemLimit - 2)
                         ' Add View All item to the start of the row
-                        row = tmp.createChild("FolderData")
+                        row = createItemNode("FolderData", tmp)
 
                         row.libraryID = m.top.genreIds
                         row.parentFolder = m.top.itemId
@@ -479,9 +496,9 @@ sub loadItems()
 
                     for each genreItem in genreData.Items
                         if LCase(m.top.itemType) = "movie"
-                            row = tmp.createChild("MovieData")
+                            row = createItemNode("MovieData", tmp)
                         else
-                            row = tmp.createChild("SeriesData")
+                            row = createItemNode("SeriesData", tmp)
                         end if
 
                         genreItemImage = api.items.GetImageURL(genreItem.id)
@@ -499,21 +516,21 @@ sub loadItems()
                     end for
 
                 else if item.Type = "Studio"
-                    tmp = CreateObject("roSGNode", "FolderData")
+                    tmp = createItemNode("FolderData")
                 else if item.Type = "MusicAlbum"
-                    tmp = CreateObject("roSGNode", "MusicAlbumData")
+                    tmp = createItemNode("MusicAlbumData")
                     tmp.type = "MusicAlbum"
                     tmp.posterURL = ItemImageURL(item, ImageType.PRIMARY, {}, false)
                 else if item.Type = "MusicArtist"
-                    tmp = CreateObject("roSGNode", "MusicArtistData")
+                    tmp = createItemNode("MusicArtistData")
                 else if isStringEqual(item.Type, ItemType.PERSON)
-                    tmp = CreateObject("roSGNode", "PersonData")
+                    tmp = createItemNode("PersonData")
                 else if item.Type = "Audio"
-                    tmp = CreateObject("roSGNode", "MusicSongData")
+                    tmp = createItemNode("MusicSongData")
                     tmp.type = "Audio"
                     tmp.image = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280 })
                 else if item.Type = "MusicGenre"
-                    tmp = CreateObject("roSGNode", "FolderData")
+                    tmp = createItemNode("FolderData")
                     tmp.title = item.name
                     tmp.parentFolder = m.top.itemId
                     tmp.json = item

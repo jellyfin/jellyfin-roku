@@ -18,27 +18,30 @@ end sub
 sub onDataChange()
     m.top.color = ColorPalette.TRANSPARENT
 
+    ' Read the session once: each read of m.global.session copies all of it
+    userSettings = chainLookupReturn(m.global.session, "user.settings", {})
+
     if isValid(m.checkmark)
-        m.checkmark.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkIcon", ColorPalette.WHITE)
+        m.checkmark.color = userSettings.colorPlayedCheckmarkIcon ?? ColorPalette.WHITE
         m.checkmark.visible = false
     end if
 
     if isValid(m.unplayedNumber)
-        m.unplayedNumber.color = chainLookupReturn(m.global.session, "user.settings.colorUnplayedCountTextColor", ColorPalette.WHITE)
+        m.unplayedNumber.color = userSettings.colorUnplayedCountTextColor ?? ColorPalette.WHITE
         m.unplayedNumber.visible = false
     end if
 
     if not isValidAndNotEmpty(m.top.data) then return
 
     if chainLookupReturn(m.top.data, "unplayedCount", 0) > 0
-        disableUnwatchedEpisodeCount = chainLookupReturn(m.global.session, "user.settings.`ui.tvshows.disableUnwatchedEpisodeCount`", false)
+        disableUnwatchedEpisodeCount = userSettings.LookupCI("ui.tvshows.disableUnwatchedEpisodeCount") ?? false
         if disableUnwatchedEpisodeCount then return
 
         unplayedCount = m.top.data.unplayedCount.ToStr()
         unplayedCountLength = len(unplayedCount)
 
 
-        m.top.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkBackground", ColorPalette.TRIADBLUE)
+        m.top.color = userSettings.colorPlayedCheckmarkBackground ?? ColorPalette.TRIADBLUE
 
         if isValid(m.unplayedNumber)
             m.unplayedNumber.font.size = unplayedCountLength = 4 ? 25 : 30
@@ -51,7 +54,7 @@ sub onDataChange()
     if not chainLookupReturn(m.top.data, "showWatchedCheckmark", true) then return
 
     if chainLookupReturn(m.top.data, "played", false)
-        m.top.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkBackground", ColorPalette.TRIADBLUE)
+        m.top.color = userSettings.colorPlayedCheckmarkBackground ?? ColorPalette.TRIADBLUE
         if isValid(m.checkmark)
             m.checkmark.visible = true
         end if

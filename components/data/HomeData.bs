@@ -6,6 +6,9 @@ import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/utils/config.bs"
 
 sub setData()
+    ' Off the render thread, each image URL would otherwise read m.global.serverURL, see cacheRequestGlobals
+    m.cachedServerURL = m.top.serverURL
+
     ' We keep json around just as a reference,
     ' but ideally everything should be going through one of the interfaces
     datum = m.top.json

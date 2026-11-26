@@ -61,24 +61,29 @@ sub itemContentChanged()
 
     if not isValid(itemData) then return
 
+    ' Reading m.global.session or itemData.json copies all of it, which adds up while a grid scrolls, so read each once
+    userSettings = chainLookupReturn(m.global.session, "user.settings", {})
+    json = itemData.json
+    libraryID = chainLookupReturn(json, "passedData.libraryID", invalid)
+
     showWatchedCheckmark = true
 
-    if isChainValid(itemData, "json.passedData.libraryID")
-        showWatchedCheckmark = chainLookupReturn(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-showWatchedCheckmark`, true)
+    if isValid(libraryID)
+        showWatchedCheckmark = userSettings.LookupCI(`${libraryID}-showWatchedCheckmark`) ?? true
     end if
 
     m.playedIndicator.data = {
         showWatchedCheckmark: showWatchedCheckmark,
-        played: chainLookupReturn(itemData, "json.UserData.Played", false),
-        unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
+        played: chainLookupReturn(json, "UserData.Played", false),
+        unplayedCount: chainLookupReturn(json, "UserData.UnplayedItemCount", 0)
     }
 
     ' Don't redraw poster if we have no new URL
-    newPosterURL = getPosterURL(itemData)
+    newPosterURL = getPosterURL(itemData, userSettings, libraryID)
     if isValidAndNotEmpty(newPosterURL)
         if not isStringEqual(m.itemPoster.uri, newPosterURL)
             ' Don't redraw poster if it's the same URL as the current poster
-            m.itemPoster.uri = getPosterURL(itemData)
+            m.itemPoster.uri = newPosterURL
         end if
     end if
 
@@ -89,7 +94,7 @@ sub itemContentChanged()
     end if
 
     m.title.text = m.posterText.text
-    m.itemTextExtra.text = chainLookupReturn(itemData, "json.Productionyear", "")
+    m.itemTextExtra.text = chainLookupReturn(json, "Productionyear", "")
 
     ' Don't show the same text for both the title and subtitle
     if isStringEqual(m.itemTextExtra.text, m.title.text)
@@ -103,16 +108,16 @@ sub itemContentChanged()
     end if
 end sub
 
-function getPosterURL(itemData) as string
+function getPosterURL(itemData as object, userSettings as object, libraryID as dynamic) as string
 
     posterURL = itemData.PosterUrl
 
-    posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+    posterOrientation = userSettings.libraryPosterOrientation ?? ImageLayout.DEFAULT
 
     ' If user has not set a library level setting, check the user level setting
-    if isChainValid(itemData, "json.passedData.libraryID")
-        if isChainValid(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-useLandscapeImages`)
-            useLandscapeImages = chainLookupReturn(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-useLandscapeImages`, false)
+    if isValid(libraryID)
+        useLandscapeImages = userSettings.LookupCI(`${libraryID}-useLandscapeImages`)
+        if isValid(useLandscapeImages)
             posterOrientation = useLandscapeImages ? ImageLayout.LANDSCAPE : ImageLayout.DEFAULT
         end if
     end if
