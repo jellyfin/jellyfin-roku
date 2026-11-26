@@ -567,24 +567,100 @@ function createFavoriteHomeItems(data as object, favoriteRow as object, sortFiel
     return results
 end function
 
+' Loads the favorites for every row that lists item types, in as few requests as it can: it asks for
+' all of their types at once, sorted the way the rows are, and splits the items by type. Filtering a
+' sorted list keeps its order, so each row gets what its own request would have returned. When the
+' server has more favorites than one request returns, a row that already got more items than it
+' shows is still complete, so the next request leaves those types out.
+' Returns an AA of rowKey to items, without the rows it couldn't load completely.
+function loadFavoriteItemsByRow(favoriteRows as object, sortField as string, sortOrder as string) as object
+    itemsByRow = {}
+    remainingRows = []
+    for each favoriteRow in favoriteRows
+        if isValidAndNotEmpty(favoriteRow.LookupCI("includeItemTypes")) then remainingRows.push(favoriteRow)
+    end for
+
+    while remainingRows.Count() > 0
+        itemTypes = []
+        rowKeyByType = {}
+        foundItems = {}
+        for each favoriteRow in remainingRows
+            itemTypes.push(favoriteRow.includeItemTypes)
+            for each typeName in favoriteRow.includeItemTypes.Split(",")
+                rowKeyByType[LCase(typeName)] = favoriteRow.rowKey
+            end for
+            foundItems[favoriteRow.rowKey] = []
+        end for
+
+        params = getFavoriteQueryParams(sortField, sortOrder)
+        params.Limit = FAVORITES_COMBINED_LIMIT
+        params.IncludeItemTypes = itemTypes.join(",")
+        data = api.items.Get(params)
+        if not isChainValid(data, "Items") then return itemsByRow
+
+        for each item in data.Items
+            rowKey = rowKeyByType[LCase(item.LookupCI("Type") ?? string.EMPTY)]
+            if isValid(rowKey) then foundItems[rowKey].push(item)
+        end for
+
+        ' Everything came back, so every remaining row is complete
+        if data.Items.Count() < FAVORITES_COMBINED_LIMIT
+            itemsByRow.Append(foundItems)
+            return itemsByRow
+        end if
+
+        stillRemaining = []
+        for each favoriteRow in remainingRows
+            if foundItems[favoriteRow.rowKey].Count() > getFavoriteHomeRowLimit()
+                itemsByRow[favoriteRow.rowKey] = foundItems[favoriteRow.rowKey]
+            else
+                stillRemaining.push(favoriteRow)
+            end if
+        end for
+
+        ' No row filled up, so asking again wouldn't get further. Leave the rest to their own requests.
+        if stillRemaining.Count() = remainingRows.Count() then return itemsByRow
+        remainingRows = stillRemaining
+    end while
+
+    return itemsByRow
+end function
+
+' How many favorite items loadFavoriteItemsByRow asks for in one request
+const FAVORITES_COMBINED_LIMIT = 100
+
 function loadFavorites() as object
     results = []
 
     sortField = chainLookupReturn(m.global.session, "user.settings.`ui.home.favoritesSortField`", "SortName")
     sortOrder = chainLookupReturn(m.global.session, "user.settings.`ui.home.favoritesSortOrder`", "Ascending")
+    favoriteRows = getFavoriteRowDefinitions()
 
-    for each favoriteRow in getFavoriteRowDefinitions()
+    ' People and artists have their own endpoints, so request them while the other rows load
+    personsRequest = startJsonRequest(APIRequest("/persons", getFavoriteQueryParams(sortField, sortOrder)))
+
+    artistsParams = getFavoriteQueryParams(sortField, sortOrder)
+    artistsParams.IncludeItemTypes = `${ItemType.MUSICALBUM},${ItemType.AUDIO}`
+    artistsRequest = startJsonRequest(APIRequest("/artists", artistsParams))
+
+    itemsByRow = loadFavoriteItemsByRow(favoriteRows, sortField, sortOrder)
+
+    for each favoriteRow in favoriteRows
         queryType = favoriteRow.LookupCI("queryType") ?? string.EMPTY
-        params = getFavoriteQueryParams(sortField, sortOrder)
 
         if isStringEqual(queryType, ItemType.PERSON)
-            data = api.persons.Get(params)
+            data = waitForJson(personsRequest)
         else if isStringEqual(queryType, ItemType.MUSICARTIST)
-            params.IncludeItemTypes = `${ItemType.MUSICALBUM},${ItemType.AUDIO}`
-            data = api.artists.Get(params)
+            data = waitForJson(artistsRequest)
         else
-            params.IncludeItemTypes = favoriteRow.LookupCI("includeItemTypes")
-            data = api.items.Get(params)
+            rowItems = itemsByRow[favoriteRow.rowKey]
+            if isValid(rowItems)
+                data = { Items: rowItems }
+            else
+                params = getFavoriteQueryParams(sortField, sortOrder)
+                params.IncludeItemTypes = favoriteRow.LookupCI("includeItemTypes")
+                data = api.items.Get(params)
+            end if
         end if
 
         items = createFavoriteHomeItems(data, favoriteRow, sortField, sortOrder)

@@ -122,6 +122,30 @@ function getJsonResponse(req) as object
     return { code: 0, body: invalid }
 end function
 
+' Starts a GET request without waiting for it, so several can run at once.
+' Pass the result to waitForJson to get the response.
+function startJsonRequest(req as dynamic) as object
+    pending = { req: req, port: CreateObject("roMessagePort"), started: false }
+    if not isValid(req) then return pending
+
+    req.setMessagePort(pending.port)
+    pending.started = req.AsyncGetToString()
+    return pending
+end function
+
+' Waits for a request from startJsonRequest and returns its parsed body,
+' or invalid when it failed or was empty, like getJson
+function waitForJson(pending as object) as dynamic
+    if not pending.started then return invalid
+
+    msg = wait(30000, pending.port)
+    if type(msg) <> "roUrlEvent" then return invalid
+
+    data = msg.GetString()
+    if data = "" then return invalid
+    return ParseJson(data)
+end function
+
 function postVoid(req, data = "" as string) as boolean
     req.setMessagePort(CreateObject("roMessagePort"))
     req.AddHeader("Content-Type", "application/json")
