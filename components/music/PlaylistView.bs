@@ -45,6 +45,8 @@ sub setupButtons()
     if isValid(m.resume)
         m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     end if
+    ' Kept so the Resume button can be added back after it was removed
+    m.resumeButton = m.resume
 
     m.play = m.top.findNode("play")
     m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -157,7 +159,58 @@ sub removeResumeButton()
     onButtonSelectedChange()
 end sub
 
+' addResumeButton: Adds the Resume button back in front of the other buttons, keeping the same button selected
 sub addResumeButton()
+    if isValid(m.resume) or not isValid(m.resumeButton) then return
+
+    ' It may still look selected from before it was removed
+    m.resumeButton.focus = false
+    m.buttonGrp.insertChild(m.resumeButton, 0)
+    m.resume = m.resumeButton
+    m.buttonCount = m.buttonGrp.getChildCount()
+
+    ' The other buttons moved one place to the right
+    if m.previouslySelectedButtonIndex > -1 then m.previouslySelectedButtonIndex++
+    m.top.unobserveFieldScoped("selectedButtonIndex")
+    m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
+    m.top.observeFieldScoped("selectedButtonIndex", "onButtonSelectedChange")
+end sub
+
+' updateResumeButton: Removes the Resume button once every item has been played (for example from another
+' client), or adds it back when an item is unplayed or partly played again, without moving focus away from the list
+sub updateResumeButton()
+    if shouldShowResume(m.top.listData)
+        addResumeButton()
+        return
+    end if
+
+    if not isValid(m.resume) then return
+
+    if m.buttonGrp.isInFocusChain()
+        removeResumeButton()
+        return
+    end if
+
+    ' Keep the same button selected; the others move one place to the left. If Resume itself was selected, Play
+    ' (now first) is.
+    resumeWasSelected = m.top.selectedButtonIndex = 0
+    m.resume.focus = false
+    m.buttonGrp.removeChild(m.resume)
+    m.resume = invalid
+    m.buttonCount = m.buttonGrp.getChildCount()
+
+    if m.previouslySelectedButtonIndex > 0
+        m.previouslySelectedButtonIndex--
+    else
+        m.previouslySelectedButtonIndex = -1
+    end if
+
+    m.top.unobserveFieldScoped("selectedButtonIndex")
+    if not resumeWasSelected then m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+    m.top.observeFieldScoped("selectedButtonIndex", "onButtonSelectedChange")
+
+    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+    if isValid(selectedButton) then selectedButton.focus = true
 end sub
 
 function shouldShowResume(playlistData) as boolean
@@ -218,6 +271,15 @@ function getFirstUnplayedItem(playlistData) as integer
     end for
 
     return 0
+end function
+
+' handleBack: Leaves the full screen song list. Returns false otherwise, so the screen is closed.
+function handleBack() as boolean
+    if not m.playlist.hasFocus() then return false
+
+    exitEpisodeListFullScreen()
+    onButtonSelectedChange()
+    return true
 end function
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -292,13 +354,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if not press then return false
 
-    if m.playlist.hasFocus()
-        if isStringEqual(key, KeyCode.BACK)
-            exitEpisodeListFullScreen()
-            onButtonSelectedChange()
-            return true
-        end if
-    end if
+    if isStringEqual(key, KeyCode.BACK) and handleBack() then return true
 
     if key = "options"
         selectedItem = m.playlist.content.getChild(m.playlist.itemFocused)

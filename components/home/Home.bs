@@ -18,6 +18,15 @@ sub init()
 
     m.favoritesOptionText = tr("Add To Favorites")
 
+    ' Reloads requested by remote control (see requestRefresh)
+    m.refreshPending = false
+    m.libraryReloadPending = false
+    m.remoteRefreshScheduled = false
+    m.lastRemoteRefresh = 0
+    m.remoteRefreshTimer = CreateObject("roSGNode", "Timer")
+    m.remoteRefreshTimer.repeat = false
+    m.remoteRefreshTimer.observeField("fire", "onRemoteRefreshTimer")
+
     m.loadItemsTask1 = createObject("roSGNode", "LoadItemsTask")
     m.loadItemsTask1.observeField("content", "onMyListLoaded")
     m.loadItemsTask1.itemsToLoad = "isInMyList"
@@ -60,8 +69,48 @@ sub loadLibraries()
     m.homeRows.callFunc("loadLibraries")
 end sub
 
+' requestRefresh: Reloads the rows, and with reloadLibraries also the list of libraries, after remote control
+' reported changes made elsewhere ({ reloadLibraries, minSeconds }). Waits until minSeconds have passed since the
+' last such reload, so a burst of changes reloads once. While another screen is showing, nothing is reloaded until
+' this screen is shown again, which reloads it.
+sub requestRefresh(request as object)
+    if request.reloadLibraries = true then m.libraryReloadPending = true
+    m.refreshPending = true
+    if not m.top.isShown or m.remoteRefreshScheduled then return
+
+    elapsed = CreateObject("roDateTime").AsSeconds() - m.lastRemoteRefresh
+    if elapsed >= request.minSeconds
+        doRemoteRefresh()
+        return
+    end if
+
+    m.remoteRefreshScheduled = true
+    m.remoteRefreshTimer.duration = request.minSeconds - elapsed
+    m.remoteRefreshTimer.control = "start"
+end sub
+
+sub onRemoteRefreshTimer()
+    m.remoteRefreshScheduled = false
+    if m.top.isShown then doRemoteRefresh()
+end sub
+
+' doRemoteRefresh: Does the reload requestRefresh asked for, unless showing the screen already did it
+sub doRemoteRefresh()
+    if not m.refreshPending then return
+    m.refreshPending = false
+    m.lastRemoteRefresh = CreateObject("roDateTime").AsSeconds()
+
+    if m.libraryReloadPending
+        m.libraryReloadPending = false
+        loadLibraries()
+    else
+        refresh()
+    end if
+end sub
+
 ' JFScreen hook called when the screen is displayed by the screen manager
 sub OnScreenShown()
+    m.top.isShown = true
     m.homeRows.rowLabelColor = chainLookupReturn(m.global.session, "user.settings.colorHomeRowHeaders", ColorPalette.WHITE)
 
     scene = m.top.getScene()
@@ -91,7 +140,12 @@ sub OnScreenShown()
     end if
 
     if not m.isFirstRun
-        if m.homeRows.callFunc("isFocusOnFavoriteRow")
+        m.refreshPending = false
+        ' Libraries or permissions changed (reported by remote control) while this screen wasn't showing
+        if m.libraryReloadPending
+            m.libraryReloadPending = false
+            loadLibraries()
+        else if m.homeRows.callFunc("isFocusOnFavoriteRow")
             m.homeRows.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
             m.homeRows.callFunc("reloadFavorites")
         else
@@ -111,6 +165,7 @@ end sub
 
 ' JFScreen hook called when the screen is hidden by the screen manager
 sub OnScreenHidden()
+    m.top.isShown = false
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
     if isValid(overhang)
@@ -149,13 +204,24 @@ sub toggleButtonsVisibility(runInReverse = false as boolean)
     end if
 end sub
 
+' getFocusedItem: Returns the focused home row item, or invalid. The rows may be being rebuilt (for example after
+' the user's libraries changed), so the focused row may not exist.
+function getFocusedItem() as dynamic
+    rowItemFocused = m.homeRows.rowItemFocused
+    if not isValid(rowItemFocused) or rowItemFocused.count() < 2 then return invalid
+
+    focusedRow = m.homeRows.content.getChild(rowItemFocused[0])
+    if not isValid(focusedRow) then return invalid
+    return focusedRow.getChild(rowItemFocused[1])
+end function
+
 sub onMyListLoaded()
     isInMyListData = m.loadItemsTask1.content
     m.loadItemsTask1.content = []
 
     if not isValidAndNotEmpty(isInMyListData) then return
 
-    focusedItem = m.homeRows.content.getChild(m.homeRows.rowItemFocused[0]).getChild(m.homeRows.rowItemFocused[1])
+    focusedItem = getFocusedItem()
     if not isValid(focusedItem) then return
 
     dialogData = []
@@ -337,7 +403,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if isStringEqual(key, KeyCode.OPTIONS)
         if m.homeRows.hasFocus()
-            focusedItem = m.homeRows.content.getChild(m.homeRows.rowItemFocused[0]).getChild(m.homeRows.rowItemFocused[1])
+            focusedItem = getFocusedItem()
             if not isValidAndNotEmpty(focusedItem) then return false
             if chainLookupReturn(focusedItem, "json.FavoriteViewAll", false) then return true
 
@@ -382,7 +448,9 @@ sub onMetaDataLoaded()
 
     m.favoritesOptionText = chainLookupReturn(data, "json.UserData.IsFavorite", false) ? tr("Remove From Favorites") : tr("Add To Favorites")
 
-    focusedItem = m.homeRows.content.getChild(m.homeRows.rowItemFocused[0]).getChild(m.homeRows.rowItemFocused[1])
+    focusedItem = getFocusedItem()
+
+    if not isValid(focusedItem) then return
 
     m.loadItemsTask1.itemId = focusedItem.LookupCI("id")
     m.loadItemsTask1.control = TaskControl.RUN

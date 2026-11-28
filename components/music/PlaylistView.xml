@@ -89,6 +89,7 @@
     </Animation>
   </children>
   <interface>
+    <function name="updateResumeButton" />
     <field id="refreshPlaylistData" type="bool" alwaysNotify="true" />
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="listData" type="node" alias="playlist.PlaylistData" />

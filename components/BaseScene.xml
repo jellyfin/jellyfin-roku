@@ -6,6 +6,7 @@
     <JFOverhang id="overhang" />
     <AudioMiniPlayer id="audioMiniPlayer" translation="[0, 935]" />
     <Spinner id="spinner" translation="[897, 477]" visible="false" />
+    <RemoteMessageToast id="remoteMessageToast" translation="[1184, 40]" />
   </children>
   <interface>
     <function name="setBackgroundImage" />

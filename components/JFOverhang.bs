@@ -56,6 +56,10 @@ end sub
 
 sub onVisibleChange()
     if m.top.disableMoveAnimation
+        ' A slide started just before (for example when remote control GoHome passes through several screens at
+        ' once) would otherwise finish afterwards and move the overhang again
+        m.slideUpAnimation.control = "stop"
+        m.slideDownAnimation.control = "stop"
         m.top.translation = [54, 0]
         return
     end if

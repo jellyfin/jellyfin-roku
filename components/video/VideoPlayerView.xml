@@ -30,9 +30,14 @@
     <field id="audioIndex" type="integer" />
     <field id="allowCaptions" type="boolean" value="false" />
     <field id="voiceCommand" type="assocarray" alwaysNotify="true" />
+    <!-- Subtitle stream index requested by a remote control client (-1 = none) -->
+    <field id="remoteSubtitleStreamIndex" type="integer" alwaysNotify="true" />
+    <!-- Audio stream index requested by a remote control client -->
+    <field id="remoteAudioStreamIndex" type="integer" alwaysNotify="true" />
     <!-- True when a skippable segment (intro, recap, etc.) is currently active -->
     <field id="hasActiveSegment" type="boolean" value="false" />
     <field id="nowPlayingMetadata" type="assocarray" alwaysNotify="true" />
+    <function name="closePlayer" />
   </interface>
 
   <children>

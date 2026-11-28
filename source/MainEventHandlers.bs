@@ -609,9 +609,14 @@ sub onLibrarySelection(selectedItem)
 end sub
 
 sub onRefreshPlaylistDataEvent()
-    startLoadingSpinner()
     currentScene = m.global.sceneManager.callFunc("getActiveScene")
+
+    ' The playlist screen may have been closed before this event was handled (for example by a remote GoHome)
+    if not isValid(currentScene) or not currentScene.isSubType("PlaylistView") then return
     playlistID = chainLookup(currentScene, "pageContent.id")
+    if not isValidAndNotEmpty(playlistID) then return
+
+    startLoadingSpinner()
     currentScene.listData = PlaylistItemList(playlistID)
 end sub
 

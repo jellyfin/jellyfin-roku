@@ -49,5 +49,8 @@
     <field id="quickPlayNode" alias="homeRows.quickPlayNode" />
     <function name="refresh" />
     <function name="loadLibraries" />
+    <function name="requestRefresh" />
+    <!-- Whether this screen is showing (remote control checks the user's settings again each time it is shown) -->
+    <field id="isShown" type="boolean" value="false" />
   </interface>
 </component>

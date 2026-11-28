@@ -1,6 +1,13 @@
 sub init()
 end sub
 
+' handleBack: Handles the Back button (also used for a remote control Back). Returns true if the screen handled it
+' itself, for example by closing a panel or itself; otherwise the screen is closed for it. Screens with their own
+' Back behavior override this.
+function handleBack() as boolean
+    return false
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 

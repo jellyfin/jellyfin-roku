@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    RemoteMessageToast: Shows a remote control message (DisplayMessage with a TimeoutMs) in a corner of the screen
+    without taking focus, so playback and navigation carry on. It hides itself when the timeout ends.
+-->
+<component name="RemoteMessageToast" extends="Group">
+  <children>
+    <Rectangle id="background" width="640" color="#101010" opacity="0.9" />
+    <LayoutGroup id="lines" translation="[24, 20]" itemSpacings="[8]">
+      <Text id="header" font="font:SmallBoldSystemFont" width="592" wrap="true" maxLines="2" />
+      <Text id="text" font="font:SmallestSystemFont" width="592" wrap="true" maxLines="4" />
+    </LayoutGroup>
+    <Timer id="hideTimer" repeat="false" />
+  </children>
+  <interface>
+    <!-- { header, text, timeoutMs }: each message replaces the one shown -->
+    <field id="message" type="assocarray" alwaysNotify="true" onChange="onMessageChanged" />
+    <function name="hide" />
+  </interface>
+</component>

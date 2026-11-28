@@ -50,5 +50,9 @@
   {
     "description": "Fix a crash when a deep link names an item that can't be played",
     "author": "candrews"
+  },
+  {
+    "description": "Add Jellyfin Websocket remote control protocol support",
+    "author": "candrews"
   }
 ]
