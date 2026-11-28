@@ -2,6 +2,7 @@
 <component name="JFGroup" extends="Group">
   <interface>
     <field id="backPressed" type="boolean" alwaysNotify="true" />
+    <function name="handleBack" />
     <field id="lastFocus" type="node" />
     <field id="overhangTitle" type="string" />
     <field id="optionsAvailable" value="true" type="boolean" />

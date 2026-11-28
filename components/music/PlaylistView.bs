@@ -220,6 +220,15 @@ function getFirstUnplayedItem(playlistData) as integer
     return 0
 end function
 
+' handleBack: Leaves the full screen song list. Returns false otherwise, so the screen is closed.
+function handleBack() as boolean
+    if not m.playlist.hasFocus() then return false
+
+    exitEpisodeListFullScreen()
+    onButtonSelectedChange()
+    return true
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if isValid(m.buttonGrp)
         if m.buttonGrp.isInFocusChain()
@@ -292,13 +301,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if not press then return false
 
-    if m.playlist.hasFocus()
-        if isStringEqual(key, KeyCode.BACK)
-            exitEpisodeListFullScreen()
-            onButtonSelectedChange()
-            return true
-        end if
-    end if
+    if isStringEqual(key, KeyCode.BACK) and handleBack() then return true
 
     if key = "options"
         selectedItem = m.playlist.content.getChild(m.playlist.itemFocused)

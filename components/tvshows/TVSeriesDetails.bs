@@ -417,6 +417,26 @@ sub exitEpisodeListFullScreen()
     m.seasons.clippingRect = m.defaultClippingRect
 end sub
 
+' handleBack: Leaves the full screen season list or the extras. Returns false otherwise, so the screen is closed.
+function handleBack() as boolean
+    if m.seasons.isInFocusChain()
+        exitEpisodeListFullScreen()
+        onButtonSelectedChange()
+        return true
+    end if
+
+    if m.top.findNode("extrasGrid").isInFocusChain()
+        m.top.findNode("VertSlider").reverse = true
+        m.top.findNode("extrasFader").reverse = true
+        m.top.findNode("pplAnime").control = "start"
+        m.extrasSlider.visible = false
+        onButtonSelectedChange()
+        return true
+    end if
+
+    return false
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
     seasonRow = m.top.findNode("seasons")
     extrasSection = m.top.findNode("extrasGrid")
@@ -513,6 +533,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if not press then return false
 
+    if isStringEqual(key, KeyCode.BACK) then return handleBack()
+
     if m.overview.hasFocus()
         if key = KeyCode.OK
             createFullDscrDlg()
@@ -528,15 +550,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    if seasonRow.isInFocusChain()
-        if isStringEqual(key, KeyCode.BACK)
-            exitEpisodeListFullScreen()
-            onButtonSelectedChange()
-            return true
-        end if
-
-        return false
-    end if
+    if seasonRow.isInFocusChain() then return false
 
     if m.overview.isInFocusChain()
         if isStringEqual(key, KeyCode.DOWN)
@@ -546,15 +560,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if extrasSection.isInFocusChain()
-        if isStringEqual(key, KeyCode.BACK)
-            m.top.findNode("VertSlider").reverse = true
-            m.top.findNode("extrasFader").reverse = true
-            m.top.findNode("pplAnime").control = "start"
-            m.extrasSlider.visible = false
-            onButtonSelectedChange()
-            return true
-        end if
-
         if isStringEqual(key, KeyCode.UP)
             if extrasSection.itemFocused = 0
                 m.top.findNode("VertSlider").reverse = true

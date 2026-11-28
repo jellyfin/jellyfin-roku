@@ -534,6 +534,15 @@ sub checkGridItemCount()
     m.buttonGrp.blockDown = itemCount = 0
 end sub
 
+' handleBack: Leaves the full screen episode list. Returns false otherwise, so the screen is closed.
+function handleBack() as boolean
+    if not m.rows.isInFocusChain() then return false
+
+    exitEpisodeListFullScreen()
+    onButtonSelectedChange()
+    return true
+end function
+
 ' Handle navigation input from the remote and act on it
 function onKeyEvent(key as string, press as boolean) as boolean
 
@@ -675,11 +684,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 end if
             end if
 
-            if isStringEqual(key, KeyCode.BACK)
-                exitEpisodeListFullScreen()
-                onButtonSelectedChange()
-                return true
-            end if
+            if isStringEqual(key, KeyCode.BACK) then return handleBack()
 
             if isStringEqual(key, KeyCode.UP)
                 exitEpisodeListFullScreen()

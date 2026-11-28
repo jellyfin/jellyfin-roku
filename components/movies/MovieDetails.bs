@@ -940,6 +940,31 @@ sub onButtonItemUnfocused()
     end if
 end sub
 
+' handleBack: Closes the options panel, or returns from the extras to the buttons. Returns false otherwise, so the
+' screen is closed.
+function handleBack() as boolean
+    if m.options.visible = true
+        m.options.visible = false
+        videoOptionsClosed()
+        audioOptionsClosed()
+        return true
+    end if
+
+    if m.extrasGrid.isInFocusChain()
+        m.top.lastFocus = m.buttonGrp
+        m.top.findNode("VertSlider").reverse = true
+        m.top.findNode("extrasFader").reverse = true
+        m.top.findNode("pplAnime").control = AnimationControl.START
+        m.buttonGrp.setFocus(true)
+        m.buttonGrp.content.getChild(m.buttonGrp.content.getChildCount() - 1).focus = true
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.buttonGrp
+        return true
+    end if
+
+    return false
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = KeyCode.UP and m.extrasGrid.isInFocusChain()
@@ -1029,28 +1054,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if key = KeyCode.BACK
-        if m.options.visible = true
-            m.options.visible = false
-            videoOptionsClosed()
-            audioOptionsClosed()
-            return true
-        end if
-
-        if m.extrasGrid.isInFocusChain()
-            m.top.lastFocus = m.buttonGrp
-            m.top.findNode("VertSlider").reverse = true
-            m.top.findNode("extrasFader").reverse = true
-            m.top.findNode("pplAnime").control = AnimationControl.START
-            m.buttonGrp.setFocus(true)
-            m.buttonGrp.content.getChild(m.buttonGrp.content.getChildCount() - 1).focus = true
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.buttonGrp
-            return true
-        end if
-
-        return false
-    end if
+    if key = KeyCode.BACK then return handleBack()
 
     if key = KeyCode.PLAY and m.extrasGrid.hasFocus()
         if isValid(m.extrasGrid.focusedItem)

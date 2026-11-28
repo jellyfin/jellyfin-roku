@@ -969,6 +969,19 @@ function getItemFocused()
     return invalid
 end function
 
+' handleBack: Closes the options panel, or closes the library and stops loading items
+function handleBack() as boolean
+    if m.options.visible
+        m.options.visible = false
+        optionsClosed()
+    else
+        m.global.sceneManager.callfunc("popScene")
+        m.loadItemsTask.control = TaskControl.STOP
+    end if
+
+    return true
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
@@ -1017,17 +1030,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if isStringEqual(key, KeyCode.BACK)
-        if m.options.visible
-            m.options.visible = false
-            optionsClosed()
-        else
-            m.global.sceneManager.callfunc("popScene")
-            m.loadItemsTask.control = TaskControl.STOP
-        end if
-
-        return true
-    end if
+    if isStringEqual(key, KeyCode.BACK) then return handleBack()
 
     if isStringEqual(key, KeyCode.OK)
         markupGrid = m.top.findNode("itemGrid")

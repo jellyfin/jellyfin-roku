@@ -375,6 +375,22 @@ function onDialogButton()
     end if
 end function
 
+' handleBack: Closes the dialog without applying changes that weren't submitted (also used for a remote control Back)
+function handleBack() as boolean
+    if isValidAndNotEmpty(m.originalOptions)
+        m.top.filter = m.originalOptions.LookupCI("filter")
+        m.top.filterOptions = m.originalOptions.LookupCI("filterOptions")
+        m.top.options = m.originalOptions.LookupCI("filterData")
+    end if
+
+    m.top.visible = false
+    m.tagSearchButton.visible = false
+    m.tagSearchButton.focus = false
+    m.submitButton.focus = false
+    m.filterMenu.jumpToItem = 0
+    return true
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
     ' User pressed OK from inside the filter's options
     if key = KeyCode.OK
@@ -474,20 +490,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    if key = KeyCode.Back
-        if isValidAndNotEmpty(m.originalOptions)
-            m.top.filter = m.originalOptions.LookupCI("filter")
-            m.top.filterOptions = m.originalOptions.LookupCI("filterOptions")
-            m.top.options = m.originalOptions.LookupCI("filterData")
-        end if
-
-        m.top.visible = false
-        m.tagSearchButton.visible = false
-        m.tagSearchButton.focus = false
-        m.submitButton.focus = false
-        m.filterMenu.jumpToItem = 0
-        return true
-    end if
+    if key = KeyCode.Back then return handleBack()
 
     if key = KeyCode.LEFT
         if m.tagSearchButton.visible

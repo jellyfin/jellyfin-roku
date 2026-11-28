@@ -1672,6 +1672,26 @@ sub onLibrarySettingsSelected()
     m.global.sceneManager.callFunc("librarySettingDialog", tr("Library Settings"))
 end sub
 
+' handleBack: Scrolls the grid back to the first item, or closes the library and releases its resources
+function handleBack() as boolean
+    ' The filter dialog handles Back itself while it is open
+    if m.options.visible then return m.options.callFunc("handleBack")
+
+    ' If user pressed back whole scrolled down the grid, reset to item 1
+    if m.itemGrid.isinFocusChain() or m.genreList.isinFocusChain()
+        gridComponent = m.itemGrid.isinFocusChain() ? m.itemGrid : m.genreList
+
+        if gridComponent.itemFocused > 0
+            gridComponent.jumpToItem = 0
+            return true
+        end if
+    end if
+
+    reclaimResources()
+    m.global.sceneManager.callfunc("popScene")
+    return true
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
@@ -1739,25 +1759,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    if isStringEqual(key, KeyCode.BACK)
-        ' If user pressed back whole scrolled down the grid, reset to item 1
-        if m.itemGrid.isinFocusChain() or m.genreList.isinFocusChain()
-            gridComponent = m.itemGrid.isinFocusChain() ? m.itemGrid : m.genreList
-
-            if gridComponent.itemFocused = 0
-                reclaimResources()
-                m.global.sceneManager.callfunc("popScene")
-                return true
-            end if
-
-            gridComponent.jumpToItem = 0
-            return true
-        end if
-
-        reclaimResources()
-        m.global.sceneManager.callfunc("popScene")
-        return true
-    end if
+    if isStringEqual(key, KeyCode.BACK) then return handleBack()
 
     if isStringEqual(key, KeyCode.PLAY)
         itemToPlay = getItemFocused()

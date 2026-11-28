@@ -636,27 +636,30 @@ sub dispose()
     m.channelHasPlaceholder = {}
 end sub
 
-function onKeyEvent(key as string, press as boolean) as boolean
-    if not press then return false
-
+' handleBack: Returns from the program details to the guide, or closes the guide's screen
+function handleBack() as boolean
     detailsGrp = m.top.findNode("detailsPane")
     gridGrp = m.top.findNode("scheduleGrid")
 
-    if isStringEqual(key, KeyCode.BACK)
-        if detailsGrp.isInFocusChain()
-            focusProgramDetails(false)
-            detailsGrp.setFocus(false)
-            gridGrp.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = gridGrp
-            return true
-        end if
-
-        dispose()
-
-        m.global.sceneManager.callFunc("popScene")
+    if detailsGrp.isInFocusChain()
+        focusProgramDetails(false)
+        detailsGrp.setFocus(false)
+        gridGrp.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = gridGrp
         return true
     end if
+
+    dispose()
+
+    m.global.sceneManager.callFunc("popScene")
+    return true
+end function
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if isStringEqual(key, KeyCode.BACK) then return handleBack()
 
     return false
 end function

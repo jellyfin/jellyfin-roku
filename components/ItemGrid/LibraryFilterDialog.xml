@@ -98,6 +98,7 @@
 
   </children>
   <interface>
+    <function name="handleBack" />
     <field id="options" type="assocarray" onChange="optionsSet" />
     <field id="filteredOptions" type="array" />
     <field id="filteredOptionsCheckedState" type="array" />

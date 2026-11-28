@@ -461,17 +461,29 @@ sub checkMagicKeyPressSequence(key as string)
     LoadMenu({ children: m.configTree })
 end sub
 
+' handleBack: Goes up one menu level, or from a setting back to its menu. Returns false at the top level, so the
+' settings screen is closed.
+function handleBack() as boolean
+    if m.settingsMenu.focusedChild <> invalid and m.userLocation.Count() > 1
+        LoadMenu({})
+        return true
+    end if
+
+    if isFormInFocus()
+        m.settingsMenu.setFocus(true)
+        return true
+    end if
+
+    return false
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     checkMagicKeyPressSequence(key)
 
-    if (key = "back" or key = "left") and m.settingsMenu.focusedChild <> invalid and m.userLocation.Count() > 1
-        LoadMenu({})
-        return true
-    else if (key = "back" or key = "left") and isFormInFocus()
-        m.settingsMenu.setFocus(true)
-        return true
+    if key = "back" or key = "left"
+        if handleBack() then return true
     end if
 
     if key = "options"
