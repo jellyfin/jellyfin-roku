@@ -9,5 +9,7 @@
     <interface>
         <!-- Command received from the server: { type: MessageType, data: Data } -->
         <field id="remoteCommand" type="assocarray" alwaysNotify="true" />
+        <!-- The home screen: the signed in user's settings are checked again each time it is shown. Set before RUN. -->
+        <field id="homeScreen" type="node" />
     </interface>
 </component>

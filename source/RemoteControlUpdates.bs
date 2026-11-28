@@ -1,0 +1,408 @@
+import "pkg:/source/enums/ImageType.bs"
+import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/utils/misc.bs"
+
+' Keeps the active screen up to date when the Jellyfin server reports, over the session WebSocket, that
+' watched, favorite or resume data changed (UserDataChanged) or that media was added or removed (LibraryChanged).
+
+' Most items whose parents are looked up when deciding whether a change affects a TV series or season screen
+const REMOTE_PARENT_LOOKUP_LIMIT = 100
+
+' Fewest seconds between home screen reloads caused by LibraryChanged, so a library scan doesn't keep reloading it
+const REMOTE_HOME_LIBRARY_RELOAD_SECONDS = 30
+' Fewest seconds between home screen reloads caused by UserDataChanged, for clients that change many items in a row
+const REMOTE_HOME_USER_DATA_RELOAD_SECONDS = 5
+
+namespace remoteControl
+
+    ' userDataChanged: Updates the active screen after watched, favorite or resume data changes
+    ' (Data.UserDataList). Changes to items in this device's play queue come from its own playback
+    ' and are ignored, so playing music doesn't refresh the screen on every track.
+    '
+    ' The server also sends this device's own changes back to it. Screens are updated in place with the same
+    ' values then, which changes nothing, and the movie details screen is only reloaded when it shows something else.
+    '
+    sub userDataChanged(data as dynamic)
+        changes = remoteControl.getUserDataChanges(data)
+        if changes.count() = 0 then return
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        if activeScene.isSubType("Home")
+            remoteControl.refreshHome(false, REMOTE_HOME_USER_DATA_RELOAD_SECONDS)
+        else if activeScene.isSubType("MovieDetails")
+            movieId = chainLookup(activeScene, "itemContent.id")
+            if isValid(movieId) and changes.DoesExist(movieId) and remoteControl.userDataDiffers(chainLookup(activeScene, "itemContent.json.UserData"), changes[movieId])
+                itemData = ItemMetaData(movieId)
+                if isValid(itemData) then activeScene.itemContent = itemData
+            end if
+        else if activeScene.isSubType("TVSeriesDetails")
+            remoteControl.updateSeriesUserData(activeScene, changes)
+        else if activeScene.isSubType("TVSeasonDetails")
+            remoteControl.updateSeasonUserData(activeScene, changes)
+        else if activeScene.isSubType("PlaylistView")
+            remoteControl.updatePlaylistUserData(activeScene, changes)
+        else if activeScene.isSubType("AlbumView")
+            remoteControl.updateAlbumUserData(activeScene, changes)
+        else if activeScene.isSubType("PersonDetails")
+            personId = chainLookup(activeScene, "itemContent.id")
+            if isValid(personId) and changes.DoesExist(personId)
+                activeScene.itemContent.favorite = chainLookupReturn(changes[personId], "IsFavorite", false)
+            end if
+        else if activeScene.isSubType("LiveTVLibraryView")
+            remoteControl.updateChannelFavorites(activeScene, changes)
+        else if activeScene.isSubType("VisualLibraryScene") or activeScene.isSubType("OtherLibrary") or activeScene.isSubType("searchResults") or activeScene.isSubType("AudioBookLibraryView")
+            remoteControl.updateGrids(activeScene, changes)
+        end if
+    end sub
+
+    ' userUpdated: Applies a UserUpdated message (Data is the user) for the signed in user: the user's settings
+    ' (Configuration, such as language preferences and the libraries hidden from the home screen) and permissions
+    ' (Policy). The home screen reloads when either changed. Returns true when the user was disabled, so the app
+    ' must sign out. The user name isn't updated, because the device name sent to the server is derived from it.
+    ' RemoteControlTask also passes the user here when it checks the settings again (see checkUser), since the server
+    ' sends no message when only the settings change.
+    '
+    function userUpdated(data as dynamic) as boolean
+        sessionUser = m.global.session.user
+        if not isStringEqual(chainLookup(data, "Id"), sessionUser.id) then return false
+
+        if chainLookupReturn(data, "Policy.IsDisabled", false) = true then return true
+
+        changed = false
+
+        configuration = chainLookup(data, "Configuration")
+        if type(configuration) = "roAssociativeArray"
+            ' Keep the display preference that LoadUserPreferences stored in Configuration
+            useEpisodeImages = chainLookup(sessionUser, "Configuration.useEpisodeImagesInNextUpAndResume")
+            if isValid(useEpisodeImages) then configuration.AddReplace("useEpisodeImagesInNextUpAndResume", useEpisodeImages)
+
+            if FormatJson(configuration) <> FormatJson(sessionUser.Configuration)
+                session.user.Update("Configuration", configuration)
+                changed = true
+            end if
+        end if
+
+        policy = chainLookup(data, "Policy")
+        if type(policy) = "roAssociativeArray" and FormatJson(policy) <> FormatJson(sessionUser.Policy)
+            session.user.Update("Policy", policy)
+            LoadUserAbilities()
+            changed = true
+        end if
+
+        ' Reload the libraries too: the user's access to them or their order may have changed
+        if changed then remoteControl.refreshHome(true, 0)
+
+        return false
+    end function
+
+    ' getUserDataChanges: Returns the changed user data from a UserDataChanged message, keyed by item ID.
+    ' Items in the play queue are left out while something plays, since their changes come from this device's
+    ' own playback. The server lists such an item's parent folders (its season, its library) in the same
+    ' message; when one of these items is left out, folder entries (the ones with an UnplayedItemCount) are left
+    ' out with it, while other items are kept.
+    '
+    function getUserDataChanges(data as dynamic) as object
+        changes = {}
+
+        changeList = chainLookup(data, "UserDataList")
+        if not isValidAndNotEmpty(changeList) or type(changeList) <> "roArray" then return changes
+
+        ignoredIds = {}
+        ' The queue keeps its items after music finishes, so only ignore them while something is playing
+        if remoteControl.isAudioActive() or isValid(remoteControl.getActiveVideoPlayer())
+            for each item in m.global.queueManager.callFunc("getQueue")
+                queuedId = chainLookup(item, "id")
+                if isValidAndNotEmpty(queuedId) then ignoredIds[queuedId] = true
+            end for
+        end if
+
+        hasIgnoredItem = false
+        for each change in changeList
+            if ignoredIds.DoesExist(chainLookupReturn(change, "ItemId", string.EMPTY))
+                hasIgnoredItem = true
+                exit for
+            end if
+        end for
+
+        for each change in changeList
+            changedId = chainLookup(change, "ItemId")
+            if not isValidAndNotEmpty(changedId) or ignoredIds.DoesExist(changedId) then continue for
+            if hasIgnoredItem and isValid(chainLookup(change, "UnplayedItemCount")) then continue for
+            changes[changedId] = change
+        end for
+
+        return changes
+    end function
+
+    ' userDataDiffers: Returns whether changed user data differs from the user data shown (played state, favorite
+    ' state or resume position)
+    '
+    function userDataDiffers(shown as dynamic, change as object) as boolean
+        if type(shown) <> "roAssociativeArray" then return true
+        for each field in ["Played", "IsFavorite", "PlaybackPositionTicks"]
+            if FormatJson(shown.LookupCI(field)) <> FormatJson(change.LookupCI(field)) then return true
+        end for
+        return false
+    end function
+
+    ' applyUserData: Replaces the user data in a data node's json with the changed user data, if the node's
+    ' item changed. Reassigning json makes the node recompute its watched and favorite fields, and the
+    ' grid or list item showing it redraws.
+    '
+    function applyUserData(node as dynamic, changes as object) as boolean
+        if not isValid(node) or not node.hasField("json") then return false
+
+        json = node.json
+        if type(json) <> "roAssociativeArray" then return false
+
+        itemId = json.LookupCI("Id")
+        if not isValidAndNotEmpty(itemId) or not changes.DoesExist(itemId) then return false
+
+        ' The server sends the item's complete user data
+        userData = {}
+        userData.Append(changes[itemId])
+        userData.Delete("ItemId")
+        json.UserData = userData
+
+        ' Some data nodes (seasons) clear posterURL when json is set, unless an image node is set
+        posterURL = invalid
+        if node.hasField("posterURL") then posterURL = node.posterURL
+
+        node.json = json
+
+        if isValidAndNotEmpty(posterURL) and not isValidAndNotEmpty(node.posterURL) then node.posterURL = posterURL
+        return true
+    end function
+
+    ' updateContentTree: Applies changed user data to every matching node in a content tree (grid items,
+    ' or the rows and items of a row list)
+    '
+    function updateContentTree(content as dynamic, changes as object) as boolean
+        if not isValid(content) then return false
+
+        updated = false
+        for each child in content.getChildren(-1, 0)
+            if remoteControl.applyUserData(child, changes) then updated = true
+            if child.getChildCount() > 0
+                if remoteControl.updateContentTree(child, changes) then updated = true
+            end if
+        end for
+
+        return updated
+    end function
+
+    ' updateGrids: Applies changed user data to the content of every grid and list on a screen
+    '
+    sub updateGrids(node as object, changes as object)
+        for each child in node.getChildren(-1, 0)
+            if child.hasField("itemComponentName") and child.hasField("content")
+                remoteControl.updateContentTree(child.content, changes)
+            else
+                remoteControl.updateGrids(child, changes)
+            end if
+        end for
+    end sub
+
+    ' updateSeriesUserData: Updates a TV series details screen when the series, one of its seasons or one of its
+    ' episodes changed: the series' played indicator, the seasons' unplayed counts and the Resume button
+    '
+    sub updateSeriesUserData(scene as object, changes as object)
+        seriesId = chainLookup(scene, "itemContent.id")
+        if not isValidAndNotEmpty(seriesId) then return
+
+        seasonIds = remoteControl.getChildIds(scene.seasonData)
+        if not remoteControl.affectsParent(changes.Keys(), seriesId, seasonIds, "SeriesId") then return
+
+        seriesData = ItemMetaData(seriesId)
+        if isValid(seriesData) then scene.itemContent = seriesData
+
+        ' Same request as the screen made (ShowScenes.bs: CreateSeriesDetailsGroup), so the seasons keep their images
+        apiSeasonData = api.shows.GetSeasons(seriesId, {
+            userId: m.global.session.user.id,
+            enableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
+            imageTypeLimit: 1,
+            enableTotalRecordCount: false
+        })
+        if isChainValid(apiSeasonData, "Items")
+            seasonsById = {}
+            for each season in apiSeasonData.Items
+                seasonId = season.LookupCI("Id")
+                if isValidAndNotEmpty(seasonId) then seasonsById[seasonId] = season
+            end for
+
+            for each seasonNode in scene.seasonData.getChildren(-1, 0)
+                season = seasonsById[seasonNode.id]
+                if not isValid(season) then continue for
+                posterURL = seasonNode.posterURL
+                seasonNode.json = season
+                seasonNode.posterURL = posterURL
+            end for
+        end if
+
+        displayResumeButton = hasResummableEpisode(seriesId)
+        if not displayResumeButton
+            displayResumeButton = hasNextUpEpisode(seriesId)
+        end if
+        if scene.displayResumeButton <> displayResumeButton then scene.displayResumeButton = displayResumeButton
+    end sub
+
+    ' updateSeasonUserData: Updates a TV season details screen when the season or one of its episodes changed:
+    ' the episodes' played state and progress, the season's played indicator and the Resume button
+    '
+    sub updateSeasonUserData(scene as object, changes as object)
+        seasonId = chainLookup(scene, "seasonData.id")
+        if not isValidAndNotEmpty(seasonId) then return
+
+        episodeNodes = remoteControl.getSeasonEpisodeNodes(scene)
+        episodeIds = []
+        for each episode in episodeNodes
+            episodeIds.push(episode.id)
+        end for
+
+        ' Season episodes that aren't shown (for example filtered out) still change the season's counts
+        if not remoteControl.affectsParent(changes.Keys(), seasonId, episodeIds, "SeasonId") then return
+
+        for each episode in episodeNodes
+            remoteControl.applyUserData(episode, changes)
+        end for
+
+        remoteControl.refreshSeasonInfo(scene, seasonId)
+    end sub
+
+    ' getSeasonEpisodeNodes: Returns the episode nodes of a TV season details screen, whether the episodes or
+    ' the extras are shown
+    '
+    function getSeasonEpisodeNodes(scene as object) as object
+        episodes = chainLookupReturn(scene, "episodeObjects.Items", invalid)
+        if type(episodes) = "roArray" then return episodes
+
+        episodes = []
+        picker = scene.findNode("picker")
+        if isValid(picker) and isValid(picker.content)
+            episodes = picker.content.getChildren(-1, 0)
+        end if
+        return episodes
+    end function
+
+    ' refreshSeasonInfo: Reloads a TV season details screen's season data (played indicator, episode count)
+    ' and its Resume button
+    '
+    sub refreshSeasonInfo(scene as object, seasonId as string)
+        seasonData = ItemMetaData(seasonId)
+        if isChainValid(seasonData, "json")
+            scene.seasonData.json = seasonData.json
+            scene.callFunc("updateSeasonInfo")
+        end if
+
+        displayResumeButton = hasResummableEpisode(seasonId)
+        if not displayResumeButton
+            displayResumeButton = hasUnplayedEpisode(seasonId)
+        end if
+        if scene.displayResumeButton <> displayResumeButton then scene.displayResumeButton = displayResumeButton
+    end sub
+
+    ' updatePlaylistUserData: Updates the played state and resume position of the changed playlist items
+    '
+    sub updatePlaylistUserData(scene as object, changes as object)
+        listData = scene.listData
+        if not isValid(listData) then return
+
+        updated = false
+        for each playlistItem in listData.getChildren(-1, 0)
+            change = changes[playlistItem.id]
+            if not isValid(change) then continue for
+            playlistItem.played = chainLookupReturn(change, "Played", false)
+            playlistItem.startingPoint = chainLookupReturn(change, "PlaybackPositionTicks", 0)
+            updated = true
+        end for
+
+        if updated then scene.callFunc("updateResumeButton")
+    end sub
+
+    ' updateAlbumUserData: Updates the favorite state of the album and of its changed songs
+    '
+    sub updateAlbumUserData(scene as object, changes as object)
+        albumId = chainLookup(scene, "pageContent.id")
+        if isValid(albumId) and changes.DoesExist(albumId)
+            scene.isFavorite = chainLookupReturn(changes[albumId], "IsFavorite", false)
+        end if
+
+        for each itemId in changes
+            if not isStringEqual(itemId, albumId)
+                updateAlbumTrackFavoriteState(itemId, chainLookupReturn(changes[itemId], "IsFavorite", false))
+            end if
+        end for
+    end sub
+
+    ' updateChannelFavorites: Updates the favorite state of changed Live TV channels
+    '
+    sub updateChannelFavorites(scene as object, changes as object)
+        items = remoteControl.getItems(changes.Keys())
+        for each item in items
+            if not isStringEqual(item.LookupCI("Type"), ItemType.TVCHANNEL) then continue for
+            channelId = item.LookupCI("Id")
+            scene.callFunc("updateChannelFavorite", {
+                channelId: channelId,
+                isFavorite: chainLookupReturn(changes[channelId], "IsFavorite", false)
+            })
+        end for
+    end sub
+
+    ' libraryChanged: Updates the home screen after media was added to or removed from the library
+    ' (Data.ItemsAdded, ItemsRemoved, FoldersAddedTo, FoldersRemovedFrom): its Recently Added and Next Up rows, and
+    ' its list of libraries. Messages that only report updated metadata (ItemsUpdated) are ignored, since the
+    ' server sends them for every metadata refresh. Other screens show the new media when they are next opened.
+    '
+    sub libraryChanged(data as dynamic)
+        for each field in ["ItemsAdded", "ItemsRemoved", "FoldersAddedTo", "FoldersRemovedFrom"]
+            if isValidAndNotEmpty(chainLookup(data, field))
+                remoteControl.refreshHome(true, REMOTE_HOME_LIBRARY_RELOAD_SECONDS)
+                return
+            end if
+        end for
+    end sub
+
+    ' refreshHome: Asks the home screen to reload its rows, and with reloadLibraries also its list of libraries.
+    ' The home screen waits until minSeconds have passed since its last such reload, and until it is shown.
+    '
+    sub refreshHome(reloadLibraries as boolean, minSeconds as integer)
+        if not isValid(m.remoteHomeScreen) then return
+        m.remoteHomeScreen.callFunc("requestRefresh", { reloadLibraries: reloadLibraries, minSeconds: minSeconds })
+    end sub
+
+    ' affectsParent: Returns whether any of the changed item IDs is the parent itself, one of its shown children
+    ' (childIds), or, looked up from the server, an item whose parentField (SeriesId or SeasonId) is parentId.
+    ' Past REMOTE_PARENT_LOOKUP_LIMIT items, the change is assumed to affect the parent.
+    '
+    function affectsParent(changedIds as object, parentId as string, childIds as object, parentField as string) as boolean
+        if changedIds.count() = 0 then return false
+
+        for each changedId in changedIds
+            if isStringEqual(changedId, parentId) or inArray(childIds, changedId) then return true
+        end for
+
+        if changedIds.count() > REMOTE_PARENT_LOOKUP_LIMIT then return true
+
+        for each item in remoteControl.getItems(changedIds)
+            if isStringEqual(item.LookupCI(parentField), parentId) then return true
+        end for
+
+        return false
+    end function
+
+    ' getChildIds: Returns the IDs of a content node's children
+    '
+    function getChildIds(content as dynamic) as object
+        ids = []
+        if not isValid(content) then return ids
+
+        for each child in content.getChildren(-1, 0)
+            if isValidAndNotEmpty(child.id) then ids.push(child.id)
+        end for
+        return ids
+    end function
+
+end namespace

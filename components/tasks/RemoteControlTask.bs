@@ -22,8 +22,11 @@ const WS_EVENT_CLOSED = 2
 const WS_EVENT_ERROR = 3
 const WS_EVENT_TEXT_RECEIVED = 5
 
+' Fewest seconds between checks of the signed in user's settings (see checkUser)
+const USER_CHECK_MIN_SECONDS = 10
+
 ' Server message types that are forwarded to the main thread
-const FORWARDED_MESSAGE_TYPES = "|play|playstate|generalcommand|"
+const FORWARDED_MESSAGE_TYPES = "|play|playstate|generalcommand|userdatachanged|librarychanged|userupdated|userdeleted|"
 
 sub init()
     m.top.functionName = "runLoop"
@@ -36,6 +39,7 @@ sub runLoop()
     m.top.observeField("control", m.port)
     m.shouldStop = false
     m.socket = invalid
+    if isValid(m.top.homeScreen) then m.top.homeScreen.observeField("isShown", m.port)
 
     reconnectSeconds = INITIAL_RECONNECT_SECONDS
     hasConnected = false
@@ -44,7 +48,11 @@ sub runLoop()
             ' After a reconnect (for example, after a server restart) the server may have a new session for this
             ' device that doesn't know its supported commands yet. The first connection doesn't need this: the
             ' app posts its capabilities when the home screen first loads.
-            if hasConnected then postCapabilities()
+            if hasConnected
+                postCapabilities()
+                ' Settings may have changed while disconnected
+                checkUser()
+            end if
             hasConnected = true
 
             connectedTime = CreateObject("roTimespan")
@@ -187,6 +195,8 @@ sub listen()
             return
         end if
 
+        if isHomeShownEvent(msg) then checkUser()
+
         if isSocketEvent(msg)
             eventType = msg.GetType()
             if eventType = WS_EVENT_TEXT_RECEIVED
@@ -200,6 +210,33 @@ sub listen()
             end if
         end if
     end while
+end sub
+
+' isHomeShownEvent: Returns true if the message reports that the home screen was shown
+'
+function isHomeShownEvent(msg as dynamic) as boolean
+    if type(msg) <> "roSGNodeEvent" then return false
+    return isStringEqual(msg.getField(), "isShown") and msg.getData() = true
+end function
+
+' checkUser: Fetches the signed in user and passes it on like a UserUpdated message, so changed settings apply.
+' The server sends UserUpdated only when the user is renamed or their permissions change, not when their settings
+' (such as audio and subtitle languages or the libraries hidden from the home screen) change, so they are checked
+' again when the home screen is shown (at most every USER_CHECK_MIN_SECONDS) and after reconnecting.
+'
+sub checkUser()
+    if isValid(m.lastUserCheck) and m.lastUserCheck.TotalSeconds() < USER_CHECK_MIN_SECONDS then return
+    m.lastUserCheck = CreateObject("roTimespan")
+    m.lastUserCheck.Mark()
+
+    userId = chainLookup(m.global, "session.user.id")
+    if not isValidAndNotEmpty(userId) then return
+    req = APIRequest(`/Users/${userId}`)
+    if not isValid(req) then return
+
+    user = getJson(req)
+    if type(user) <> "roAssociativeArray" then return
+    m.top.remoteCommand = { type: "UserUpdated", data: user }
 end sub
 
 ' isSocketEvent: Returns true if the passed message is an event for the current WebSocket

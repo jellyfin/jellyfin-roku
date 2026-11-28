@@ -153,6 +153,11 @@ sub onExtrasDataLoaded()
 end sub
 
 sub setSeasonLoading()
+    ' Changing a field of the season node (such as its json after a remote user data change) also triggers this;
+    ' only a new season loads the screen
+    if isValid(m.loadedSeasonData) and m.loadedSeasonData.isSameNode(m.top.seasonData) then return
+    m.loadedSeasonData = m.top.seasonData
+
     startLoadingSpinner()
 end sub
 
@@ -172,10 +177,7 @@ sub setExtraButtonVisibility()
 end sub
 
 sub updateSeason()
-    m.playedIndicator.data = {
-        played: chainLookupReturn(m.top.seasonData.json, "UserData.Played", false),
-        unplayedCount: chainLookupReturn(m.top.seasonData.json, "UserData.UnplayedItemCount", 0)
-    }
+    updatePlayedIndicator()
 
     m.tvExtrasTask.seasonID = m.top.seasonData.json.Id
     m.tvExtrasTask.control = TaskControl.RUN
@@ -187,6 +189,24 @@ sub updateSeason()
 
     stopLoadingSpinner()
     m.loadStatus = ViewLoadStatus.LOADED
+end sub
+
+' updatePlayedIndicator: Shows the season's played checkmark or unplayed episode count
+sub updatePlayedIndicator()
+    m.playedIndicator.data = {
+        played: chainLookupReturn(m.top.seasonData.json, "UserData.Played", false),
+        unplayedCount: chainLookupReturn(m.top.seasonData.json, "UserData.UnplayedItemCount", 0)
+    }
+end sub
+
+' updateSeasonInfo: Updates the played indicator and episode count after seasonData.json changed,
+' without reloading extras or the rest of the screen
+sub updateSeasonInfo()
+    updatePlayedIndicator()
+
+    if isChainValid(m.top.seasonData.json, "RecursiveItemCount")
+        setFieldText("numberofepisodes", stri(m.top.seasonData.json.RecursiveItemCount) + " episodes")
+    end if
 end sub
 
 sub populateOnScreenText()

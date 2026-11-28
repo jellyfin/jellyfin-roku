@@ -124,6 +124,7 @@
     <field id="playSeasonFromStart" type="bool" />
     <field id="shufflePlay" type="bool" />
     <function name="updateSeason" />
+    <function name="updateSeasonInfo" />
     <function name="updateObjects" />
     <function name="getFocusedItem" />
     <function name="redrawItems" />

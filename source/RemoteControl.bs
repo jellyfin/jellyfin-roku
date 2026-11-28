@@ -22,8 +22,10 @@ namespace remoteControl
 
     ' connect: Starts (or restarts) the server WebSocket for the logged in user
     '
-    sub connect()
+    ' @param {object} homeScreen - the home screen, which remote control asks to reload when the server reports changes
+    sub connect(homeScreen = invalid as dynamic)
         remoteControl.disconnect()
+        m.remoteHomeScreen = homeScreen
 
         ' Cleared for each sign-in; RemoteControlTask sets it if it can't use the server's WebSocket
         if m.global.hasField("remoteControlUnavailable")
@@ -35,6 +37,7 @@ namespace remoteControl
         if not isRemoteControlSupported() then return
 
         m.remoteControlTask = CreateObject("roSGNode", "RemoteControlTask")
+        m.remoteControlTask.homeScreen = homeScreen
         m.remoteControlTask.observeField("remoteCommand", m.port)
         m.remoteControlTask.control = TaskControl.RUN
     end sub
@@ -44,6 +47,7 @@ namespace remoteControl
     sub disconnect()
         ' Nothing from the previous session should outlive it (for example after signing out)
         remoteControl.closeMessage()
+        m.remoteHomeScreen = invalid
         ' Cleared before the next sign-in posts its capabilities (the home screen posts them before connect runs)
         if m.global.hasField("remoteControlUnavailable") then m.global.remoteControlUnavailable = false
         if not isValid(m.remoteControlTask) then return
@@ -52,11 +56,12 @@ namespace remoteControl
         m.remoteControlTask = invalid
     end sub
 
-    ' onCommandEvent: Dispatches a command received from the server
+    ' onCommandEvent: Dispatches a command received from the server. Returns true when the server deleted or
+    ' disabled the signed in user, so the caller must sign out.
     '
-    sub onCommandEvent(msg as object)
+    function onCommandEvent(msg as object) as boolean
         command = msg.getData()
-        if not isChainValid(command, "type") then return
+        if not isChainValid(command, "type") then return false
 
         print "Remote control command: " command.type
 
@@ -66,8 +71,18 @@ namespace remoteControl
             remoteControl.playstate(command.data)
         else if isStringEqual(command.type, "GeneralCommand")
             remoteControl.generalCommand(command.data)
+        else if isStringEqual(command.type, "UserDataChanged")
+            remoteControl.userDataChanged(command.data)
+        else if isStringEqual(command.type, "LibraryChanged")
+            remoteControl.libraryChanged(command.data)
+        else if isStringEqual(command.type, "UserUpdated")
+            return remoteControl.userUpdated(command.data)
+        else if isStringEqual(command.type, "UserDeleted")
+            return isStringEqual(command.data, m.global.session.user.id)
         end if
-    end sub
+
+        return false
+    end function
 
     ' play: Handles a Play message.
     ' The server has already expanded folders into playable items, and converted

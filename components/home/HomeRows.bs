@@ -55,6 +55,10 @@ sub init()
 end sub
 
 sub loadLibraries()
+    ' onLibrariesLoaded stops observing after each load, so observe again to allow reloading the libraries
+    ' (for example, after the user's permissions change)
+    m.LoadLibrariesTask.unobserveField("content")
+    m.LoadLibrariesTask.observeField("content", "onLibrariesLoaded")
     m.LoadLibrariesTask.control = "RUN"
 end sub
 
@@ -153,8 +157,30 @@ sub onLibrariesLoaded()
     m.LoadLibrariesTask.unobserveField("content")
     m.LoadLibrariesTask.content = []
 
+    ' When the libraries were reloaded and changed (access granted or removed, a library added or deleted, or a
+    ' library hidden from My Media or Latest), rebuild all rows: rows per library ("Recently Added in ...") are
+    ' otherwise only added, at the end, and never removed
+    librarySignature = getLibrarySignature()
+    if isValid(m.librarySignature) and m.librarySignature <> librarySignature and isValid(m.top.content)
+        m.top.content.removeChildrenIndex(m.top.content.getChildCount(), 0)
+    end if
+    m.librarySignature = librarySignature
+
     processUserSections()
 end sub
+
+' getLibrarySignature: Returns a string that changes when the libraries shown on the home screen change
+function getLibrarySignature() as string
+    ids = []
+    if isValid(m.libraryData)
+        for each library in m.libraryData
+            ids.push(chainLookupReturn(library, "id", string.EMPTY))
+        end for
+    end if
+
+    configuration = chainLookupReturn(m.global.session, "user.configuration", {})
+    return ids.join(",") + "|" + FormatJson(configuration.LookupCI("MyMediaExcludes") ?? []) + "|" + FormatJson(configuration.LookupCI("LatestItemsExcludes") ?? [])
+end function
 
 ' getOriginalSectionIndex: Gets the index of a section from user settings and adds count of currently known latest media sections
 '
@@ -1254,7 +1280,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
         cancelFavoriteFocusForNavigation(key)
 
         if isStringEqual(key, KeyCode.PLAY)
-            itemToPlay = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
+            ' The rows may be being rebuilt (for example after the user's libraries changed), so the row may be gone
+            itemToPlay = invalid
+            focusedRow = m.top.content.getChild(m.top.rowItemFocused[0])
+            if isValid(focusedRow) then itemToPlay = focusedRow.getChild(m.top.rowItemFocused[1])
             ' The synthetic View All tile has no playable server item
             if isValid(itemToPlay) and not chainLookupReturn(itemToPlay, "json.FavoriteViewAll", false)
                 m.top.quickPlayNode = itemToPlay

@@ -66,8 +66,9 @@ sub Main (args as dynamic) as void
     stopLoadingSpinner()
     sceneManager.callFunc("pushScene", group)
 
-    ' Connect to the server WebSocket so this session can be remote controlled
-    remoteControl.connect()
+    ' Connect to the server WebSocket so this session can be remote controlled. Remote control also asks the home
+    ' screen to reload when the server reports changes.
+    remoteControl.connect(group)
 
     m.scene.observeField("exit", m.port)
 
@@ -214,7 +215,15 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "dataReturned")
             onDataReturnedEvent(msg)
         else if isNodeEvent(msg, "remoteCommand")
-            remoteControl.onCommandEvent(msg)
+            if remoteControl.onCommandEvent(msg)
+                ' The server deleted or disabled this user, so its access token no longer works. Stop any playback
+                ' first: signing out only stops music, and a video could be playing.
+                remoteControl.stopActivePlayback()
+                SignOut()
+                setUserColors()
+                sceneManager.callFunc("clearScenes")
+                goto app_start
+            end if
         else
             print "Unhandled " type(msg)
             print msg
