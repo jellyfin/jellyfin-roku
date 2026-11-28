@@ -133,7 +133,7 @@ sub loadInitialItems()
 
     ' Read view/sort/filter settings
     ' Translate between app and server nomenclature
-    viewSetting = m.global.session.user.settings["display.livetv.landing"]
+    viewSetting = getLandingView()
     if viewSetting = "guide"
         m.view = "tvGuide"
     else
@@ -173,7 +173,7 @@ sub loadInitialItems()
     ' For LiveTV, we want to "Fit" the item images, not zoom
     m.top.imageDisplayMode = "scaleToFit"
 
-    if m.global.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
+    if getLandingView() = "guide" and m.options.view <> "livetv"
         showTvGuide()
     end if
 
@@ -307,7 +307,7 @@ sub ItemDataLoaded(msg)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.alphaMenu
     else
-        if not isStringEqual(m.global.session.user.settings["display.livetv.landing"], "guide") or isStringEqual(m.options.view, "livetv")
+        if not isStringEqual(getLandingView(), "guide") or isStringEqual(m.options.view, "livetv")
             m.itemGrid.setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.itemGrid
@@ -331,7 +331,7 @@ sub ItemDataLoaded(msg)
         m.emptyText.visible = true
     end if
 
-    if not isStringEqual(m.global.session.user.settings["display.livetv.landing"], "guide") or isStringEqual(m.options.view, "livetv")
+    if not isStringEqual(getLandingView(), "guide") or isStringEqual(m.options.view, "livetv")
         stopLoadingSpinner()
     end if
 end sub
@@ -421,12 +421,21 @@ sub onvoiceFilter()
     loadInitialItems()
 end sub
 
+' getLandingView: Returns the view to open ("guide" or "channels"), honoring startInGuide
+'
+function getLandingView() as dynamic
+    if m.top.startInGuide then return "guide"
+    return m.global.session.user.settings["display.livetv.landing"]
+end function
+
 'Check if options updated and any reloading required
 sub optionsClosed()
     reload = false
 
     ' Check if view option changed
     if not isStringEqual(m.options.view, m.view)
+        ' The user picked a view, so stop overriding their landing setting
+        m.top.startInGuide = false
         if isStringEqual(m.options.view, "tvGuide")
             m.view = "tvGuide"
             set_user_setting("display.livetv.landing", "guide")

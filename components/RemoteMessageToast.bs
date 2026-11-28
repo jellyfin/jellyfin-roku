@@ -1,0 +1,34 @@
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.top.visible = false
+    m.background = m.top.findNode("background")
+    m.lines = m.top.findNode("lines")
+    m.header = m.top.findNode("header")
+    m.text = m.top.findNode("text")
+    m.hideTimer = m.top.findNode("hideTimer")
+    m.hideTimer.observeField("fire", "hide")
+end sub
+
+' onMessageChanged: Shows the new message for its timeoutMs
+sub onMessageChanged()
+    message = m.top.message
+    m.header.text = chainLookupReturn(message, "header", string.EMPTY)
+    m.text.text = chainLookupReturn(message, "text", string.EMPTY)
+    ' Hidden labels take no space in the layout
+    m.header.visible = isValidAndNotEmpty(m.header.text)
+    m.text.visible = isValidAndNotEmpty(m.text.text)
+    m.background.height = m.lines.boundingRect().height + 40
+
+    m.hideTimer.control = "stop"
+    m.hideTimer.duration = chainLookupReturn(message, "timeoutMs", 5000) / 1000
+    m.hideTimer.control = "start"
+    m.top.visible = true
+end sub
+
+' hide: Hides the message before its timeout ends (for example when remote control disconnects)
+sub hide()
+    m.hideTimer.control = "stop"
+    m.top.visible = false
+end sub

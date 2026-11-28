@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    RemoteControlTask: Maintains the Jellyfin server WebSocket connection (/socket) for this session.
+    Uses roWebSocket, so both http (ws://) and https (wss://) servers are supported.
+    The server only delivers remote control commands (Play, Playstate, GeneralCommand) to sessions
+    with an active WebSocket. Received commands are forwarded through the remoteCommand field.
+-->
+<component name="RemoteControlTask" extends="Task">
+    <interface>
+        <!-- Command received from the server: { type: MessageType, data: Data } -->
+        <field id="remoteCommand" type="assocarray" alwaysNotify="true" />
+    </interface>
+</component>
